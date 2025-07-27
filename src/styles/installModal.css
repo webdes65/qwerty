@@ -1,0 +1,41 @@
+#installModal {
+  direction: ltr;
+  display: none;
+  position: fixed;
+  top: 1%;
+  left: 50%;
+  z-index: 1000;
+}
+
+#modalOverlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+@keyframes install-slide-down {
+  from {
+    transform: translateY(-100%) translateX(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+}
+
+@keyframes install-slide-up {
+  from {
+    transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%) translateX(-50%);
+    opacity: 0;
+  }
+}

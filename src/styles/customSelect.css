@@ -1,0 +1,16 @@
+.customSelect .ant-select-selector {
+  border-width: 2px !important;
+  border-color: #e5e7eb !important;
+  box-shadow: none !important;
+  background-color: aquab !important;
+  font-family: Quicksand, sans !important;
+  font-weight: 500 !important;
+}
+
+.ant-select-selection-placeholder {
+  color: #9ca3af !important;
+}
+
+.customSelect .ant-select-arrow {
+  visibility: hidden;
+}

@@ -1,0 +1,17 @@
+/* .react-joyride__beacon {
+  left: 6.5rem;
+  top: -1.25rem;
+} */
+
+.react-joyride__beacon > span[style*="joyride-beacon-inner"] {
+  background-color: #ff0000 !important;
+}
+
+.react-joyride__beacon > span[style*="joyride-beacon-outer"] {
+  background-color: rgba(255, 0, 0, 0.2) !important;
+  border-color: #ff0000 !important;
+}
+
+button[data-test-id="button-close"] {
+  display: none !important;
+}
