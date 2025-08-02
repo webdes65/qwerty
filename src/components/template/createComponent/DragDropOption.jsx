@@ -303,7 +303,6 @@ const DragDropOption = ({
           </div>
         </>
       )}
-
       <CreatePointModal
         isOpenModalCreatePoint={isOpenModalCreatePoint}
         setIsOpenModalCreatePoint={setIsOpenModalCreatePoint}

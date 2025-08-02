@@ -11,7 +11,7 @@ import { IoLogoDropbox } from "react-icons/io5";
 import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
 
 const AugmentedRealities = () => {
-
+  
   const [isModalOpenAR, setIsModalOpenAR] = useState(false);
   const [isModalOpenAddProject, setIsModalOpenOpenAddProject] = useState(false);
 
