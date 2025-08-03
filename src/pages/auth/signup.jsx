@@ -8,6 +8,7 @@ import { request } from "../../services/apiService";
 import Cookies from "universal-cookie";
 import { Button } from "antd";
 import { toast } from "react-toastify";
+import logo from "/assets/images/logo.webp";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -115,7 +116,7 @@ const Signup = () => {
       <div className="w-1/2 h-auto flex flex-col items-center justify-center gap-7 rounded-xl py-14 bg-white shadow max-lg:w-8/12 max-md:w-10/12 max-sm:w-full">
         <div className="flex flex-col justify-center items-center gap-2">
           <div className="w-20 h-20">
-            <img alt="logo" src="/logo.png" className="w-full h-full" />
+            <img alt="logo" src={logo} className="w-full h-full" />
           </div>
           <h1
             className="text-xl font-semibold uppercase text-transparent bg-clip-text max-md:text-base"

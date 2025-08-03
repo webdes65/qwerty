@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 import { useMutation } from "react-query";
 import { request } from "../../services/apiService";
+import logo from "/assets/images/logo.webp";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ const Login = () => {
       <div className="w-1/2 h-auto flex flex-col items-center justify-center shadow bg-white rounded-xl gap-7 py-14 max-lg:w-8/12 max-md:w-10/12 max-sm:w-full">
         <div className="flex flex-col justify-center items-center gap-2">
           <div className="w-20 h-20">
-            <img alt="logo" src="/logo.png" className="w-full h-full" />
+            <img alt="logo" src={logo} className="w-full h-full" />
           </div>
 
           <h1
