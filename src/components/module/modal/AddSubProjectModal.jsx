@@ -1,10 +1,10 @@
-import { Button, Modal, Select, Spin } from "antd";
-import { Formik, Form } from "formik";
-import CustomField from "../../../components/module/CustomField";
 import { useEffect, useState } from "react";
-import { request } from "../../../services/apiService";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import { Button, Modal, Select, Spin } from "antd";
+import { Formik, Form } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 
 const AddSubProjectModal = ({
   isModalOpenAddSub,
@@ -24,7 +24,7 @@ const AddSubProjectModal = ({
     request({
       method: "GET",
       url: "/api/augmented-realities",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const AddSubProjectModal = ({
       }),
     {
       enabled: !!arId,
-    }
+    },
   );
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const AddSubProjectModal = ({
     request({
       method: "GET",
       url: "/api/forms",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const AddSubProjectModal = ({
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const handleSelectChange = (arItemId, value) => {

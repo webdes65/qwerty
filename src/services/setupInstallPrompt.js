@@ -1,4 +1,4 @@
-import { CURRENT_VERSION } from "../version";
+import { CURRENT_VERSION } from "@version";
 
 export function setupInstallPrompt() {
   let deferredPrompt;

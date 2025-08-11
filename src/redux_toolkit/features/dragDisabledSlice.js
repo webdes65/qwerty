@@ -14,4 +14,3 @@ const dragDisabledSlice = createSlice({
 
 export const { setDragDisabled } = dragDisabledSlice.actions;
 export default dragDisabledSlice.reducer;
-

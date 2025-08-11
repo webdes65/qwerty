@@ -1,11 +1,11 @@
-import { request } from "../../../services/apiService";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { Button } from "antd";
-import CityCard from "../../../components/module/card/CityCard";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import AddCityModal from "../../../components/module/modal/AddCityModal";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
+import CityCard from "@components/module/card/CityCard";
+import AddCityModal from "@components/module/modal/AddCityModal";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import { request } from "@services/apiService.js";
 
 const Citys = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +14,7 @@ const Citys = () => {
     request({
       method: "GET",
       url: "/api/cities",
-    })
+    }),
   );
 
   if (error) {

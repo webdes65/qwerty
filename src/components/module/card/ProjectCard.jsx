@@ -1,10 +1,10 @@
-import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
-import { request } from "../../../services/apiService";
 import { useMutation, useQueryClient } from "react-query";
-import { DeleteOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
+import { request } from "@services/apiService.js";
 
 const ProjectCard = ({ index }) => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const ProjectCard = ({ index }) => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   const handleRemove = (id) => {

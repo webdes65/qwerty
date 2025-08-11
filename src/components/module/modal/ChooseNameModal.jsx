@@ -7,7 +7,6 @@ const ChooseNameModal = ({
   setName,
   title,
 }) => {
-  
   const initialValues = {
     name: "",
   };

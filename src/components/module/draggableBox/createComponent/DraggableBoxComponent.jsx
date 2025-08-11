@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { TiDelete } from "react-icons/ti";
-import { useState } from "react";
-import EditComponentModal from "../../modal/EditComponentModal";
-import { setComponents } from "../../../../redux_toolkit/features/componentsSlice";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import EditComponentModal from "@module/modal/EditComponentModal";
 import {
   IoMdSettings,
   IoIosArrowBack,
@@ -30,10 +30,10 @@ const DraggableBoxComponent = ({
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
 
   const showBtnDeleteComponent = useSelector(
-    (state) => state.showBtnDeleteComponent
+    (state) => state.showBtnDeleteComponent,
   );
   const editEnabledComponent = useSelector(
-    (state) => state.editEnabledComponent
+    (state) => state.editEnabledComponent,
   );
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -47,8 +47,8 @@ const DraggableBoxComponent = ({
   const backgroundStyle = isBlinking
     ? { backgroundColor: "#3b82f6" }
     : item.bgImg
-    ? { backgroundImage: `url(${item.bgImg})`, backgroundSize: "cover" }
-    : { backgroundColor: item.bg };
+      ? { backgroundImage: `url(${item.bgImg})`, backgroundSize: "cover" }
+      : { backgroundColor: item.bg };
 
   const moveUp = (e) => {
     e.stopPropagation();
@@ -56,7 +56,7 @@ const DraggableBoxComponent = ({
       const updatedPositions = components.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, y: item.position.y - 1 } }
-          : item
+          : item,
       );
 
       dispatch(setComponents(updatedPositions));
@@ -70,7 +70,7 @@ const DraggableBoxComponent = ({
       const updatedPositions = components.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, y: item.position.y + 1 } }
-          : item
+          : item,
       );
 
       dispatch(setComponents(updatedPositions));
@@ -83,7 +83,7 @@ const DraggableBoxComponent = ({
       const updatedPositions = components.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, x: item.position.x - 1 } }
-          : item
+          : item,
       );
 
       dispatch(setComponents(updatedPositions));
@@ -96,12 +96,12 @@ const DraggableBoxComponent = ({
       const updatedPositions = components.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, x: item.position.x + 1 } }
-          : item
+          : item,
       );
 
       dispatch(setComponents(updatedPositions));
     });
-  }
+  };
 
   const isNew = item.position?.x === 0 && item.position?.y === 0;
   const offset = isNew ? index * 20 : 0;
@@ -144,7 +144,7 @@ const DraggableBoxComponent = ({
           onClick={(e) => {
             e.stopPropagation();
             const updatedComponents = components.filter(
-              (index) => index.id !== item.id
+              (index) => index.id !== item.id,
             );
             dispatch(setComponents(updatedComponents));
           }}

@@ -1,10 +1,10 @@
-import { Button, DatePicker, Modal, Select } from "antd";
-import { Formik, Form, ErrorMessage } from "formik";
-import CustomField from "../../../components/module/CustomField";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
 import { toast } from "react-toastify";
+import { Button, DatePicker, Modal, Select } from "antd";
+import { Formik, Form, ErrorMessage } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 
 const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
   const [submitPending, setSubmitPending] = useState(false);
@@ -32,7 +32,6 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     (data) => request({ method: "POST", url: "/api/users", data }),
     {
       onSuccess: (data) => {
-        console.log(data)
         toast.success(data.data.message);
         setIsModalOpen(false);
         queryClient.invalidateQueries("fetchUsers");
@@ -52,7 +51,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const genderOptions = [
@@ -71,7 +70,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     request({
       method: "GET",
       url: "/api/users/languages",
-    })
+    }),
   );
 
   const optionsLanguages = dataLngs?.data
@@ -85,7 +84,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     request({
       method: "GET",
       url: "/api/users/timezones",
-    })
+    }),
   );
 
   const timezonesOptions =
@@ -98,7 +97,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     request({
       method: "GET",
       url: "/api/roles",
-    })
+    }),
   );
 
   const roleOptions =
@@ -114,7 +113,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
       errors.push("Username is required");
     } else if (!/^(?![_.])([a-zA-Z0-9._]{1,30})(?<![_.])$/.test(values.name)) {
       errors.push(
-        "Invalid username. Only letters, numbers, dots, and underscores are allowed."
+        "Invalid username. Only letters, numbers, dots, and underscores are allowed.",
       );
     }
 
@@ -162,7 +161,6 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
           if (!validateWithToast(values)) return;
 
           setSubmitPending(true);
-          console.log(values);
           await mutation.mutateAsync(values);
 
           setFieldValue("names", "");

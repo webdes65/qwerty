@@ -1,8 +1,8 @@
-import { Select, Spin } from "antd";
-import { Field } from "formik";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { request } from "../../../../services/apiService";
+import { Select, Spin } from "antd";
+import { Field } from "formik";
+import { request } from "@services/apiService.js";
 
 const ButtonSection = ({
   values,
@@ -25,7 +25,7 @@ const ButtonSection = ({
     request({
       method: "GET",
       url: "/api/forms",
-    })
+    }),
   );
 
   useEffect(() => {

@@ -41,7 +41,7 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
   }));
 
   const rgbaMatch = boxInfo.bgColor.match(
-    /^rgba?\((\d+), (\d+), (\d+), (\d?\.?\d+)\)$/
+    /^rgba?\((\d+), (\d+), (\d+), (\d?\.?\d+)\)$/,
   );
 
   let newBackgroundColor = boxInfo.bgColor;

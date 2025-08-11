@@ -1,10 +1,10 @@
-import { Button } from "antd";
-import { format } from "date-fns";
-import { DeleteOutlined } from "@ant-design/icons";
-import { useMutation, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
+import { Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import { format } from "date-fns";
+import { request } from "@services/apiService.js";
 
 const GraphCard = ({ data }) => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const GraphCard = ({ data }) => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   const handleRemove = (id) => {

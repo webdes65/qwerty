@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import echo from "../config/echo";
+import echo from "@config/echo";
 
 const useEchoChart = (
   setRegisters,
   allowedIds = [],
   isLiveUpdate,
-  realtimeService
+  realtimeService,
 ) => {
   useEffect(() => {
     if (realtimeService !== "echo") return;

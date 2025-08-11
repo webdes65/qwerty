@@ -1,9 +1,9 @@
-import { Button } from "antd";
-import { request } from "../../../services/apiService";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
+import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
-import { toast } from "react-toastify";
+import { request } from "@services/apiService.js";
 
 const CityCard = ({ city }) => {
   const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ const CityCard = ({ city }) => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   // const handleEdit = () => {

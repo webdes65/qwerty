@@ -1,11 +1,11 @@
-import { Button, Modal, Select } from "antd";
-import { Formik, Form, ErrorMessage } from "formik";
-import CustomField from "../../../components/module/CustomField";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
-import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import { Button, Modal, Select } from "antd";
+import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Formik, Form, ErrorMessage } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 
 const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
   const queryClient = useQueryClient();
@@ -13,7 +13,7 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
   const [patterns, setPatterns] = useState([]);
 
   const { data } = useQuery(["GetConnections"], () =>
-    request({ method: "GET", url: "/api/GetConnections" })
+    request({ method: "GET", url: "/api/GetConnections" }),
   );
 
   const connectionOptions = data?.data?.map((item) => ({
@@ -68,7 +68,7 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const onSubmit = async (values) => {
@@ -112,8 +112,8 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
   const updatePatternType = (id, value) => {
     setPatterns(
       patterns.map((pattern) =>
-        pattern.id === id ? { ...pattern, type: value } : pattern
-      )
+        pattern.id === id ? { ...pattern, type: value } : pattern,
+      ),
     );
   };
 
@@ -222,7 +222,6 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
                           className="customSelect ant-select-selector w-full h-[3rem] font-Quicksand font-medium"
                           options={yesNoOptions}
                           // onChange={(value) =>
-                          //   console.log(
                           //     `Use Board ID for pattern ${pattern.id}:`,
                           //     value
                           //   )

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import echo from "../config/echo";
+import echo from "@config/echo";
 
 const useEchoNotif = (userId, realtimeService) => {
   useEffect(() => {

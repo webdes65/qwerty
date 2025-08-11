@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import EditItemModal from "../../module/modal/EditItemModal";
+import EditItemModal from "@module/modal/EditItemModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setItems } from "../../../redux_toolkit/features/itemsSlice";
-import EditLine from "../../module/modal/EditLine";
-import DropBox from "./DrapBox";
-import DraggablePoint from "../../module/draggableBox/createComponent/DraggablePoint";
-import DraggableBoxItem from "../../module/draggableBox/createForm/DraggableBoxItem";
-import DraggableBoxComponent from "../../module/draggableBox/createForm/DraggableBoxComponent";
+import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import EditLine from "@module/modal/EditLine";
+import DraggablePoint from "@module/draggableBox/createComponent/DraggablePoint";
+import DraggableBoxItem from "@module/draggableBox/createForm/DraggableBoxItem";
+import DraggableBoxComponent from "@module/draggableBox/createForm/DraggableBoxComponent";
+import DropBox from "@template/createForm/DrapBox";
 
 const DragDrop = ({
   boxInfo,
@@ -57,7 +57,7 @@ const DragDrop = ({
     dispatch((dispatch, getState) => {
       const { items } = getState();
       const updatedItems = items.map((item, i) =>
-        i === index ? { ...item, title: newTitle } : item
+        i === index ? { ...item, title: newTitle } : item,
       );
       dispatch(setItems(updatedItems));
     });
@@ -68,7 +68,7 @@ const DragDrop = ({
       const { items } = getState();
 
       const updatedPositions = items.map((item, i) =>
-        i === index ? { ...item, position: newPosition } : item
+        i === index ? { ...item, position: newPosition } : item,
       );
 
       dispatch(setItems(updatedPositions));
@@ -82,7 +82,7 @@ const DragDrop = ({
       const parser = new DOMParser();
       const doc = parser.parseFromString(
         updatedComList[index].content,
-        "text/html"
+        "text/html",
       );
 
       const prevPosition = updatedComList[index].position;
@@ -93,7 +93,7 @@ const DragDrop = ({
         const pointId = pointElement.getAttribute("data-id");
 
         const line = xRef.current.find((line) =>
-          line.some((item) => item.type === "point" && item.id === pointId)
+          line.some((item) => item.type === "point" && item.id === pointId),
         );
 
         const pointData = line
@@ -188,8 +188,6 @@ const DragDrop = ({
     setIsOpenEditLineModal(true);
   };
 
-  // console.log(items)
-
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="dragdrop-container relative h-full w-full flex flex-col gap-10 justify-center items-center">
@@ -246,7 +244,6 @@ const DragDrop = ({
               typeDisplay={item.typeDisplay}
               infoReqBtn={item.infoReqBtn}
               selectDevice={item.selectDevice}
-              
               activeItemId={activeItemId}
               setActiveItemId={setActiveItemId}
               setTopZIndex={setTopZIndex}
@@ -375,7 +372,7 @@ const DragDrop = ({
           setIsOpenEditModal={() => setIsOpenEditModal(false)}
           onSave={(updatedItem) => {
             const updatedItems = items.map((item, i) =>
-              i === selectedItem.index ? updatedItem : item
+              i === selectedItem.index ? updatedItem : item,
             );
             dispatch(setItems(updatedItems));
             setIsOpenEditModal(false);

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useNavigate } from "react-router-dom";
-import useEchoRegister from "../../../../hooks/useEchoRegister";
-import axios from "axios";
-import Cookies from "universal-cookie";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   IoMdSettings,
@@ -12,13 +10,15 @@ import {
   IoIosArrowDown,
   IoIosArrowUp,
 } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import { setItems } from "../../../../redux_toolkit/features/itemsSlice";
 import { TiDelete } from "react-icons/ti";
 import { BsArrowsMove } from "react-icons/bs";
-import FormDisplay from "../../modal/FormDisplay";
-import useMQTT from "../../../../hooks/useMQTT";
-import { generateCypherKey } from "../../../../utils/generateCypherKey";
+import { setItems } from "@redux_toolkit/features/itemsSlice";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import { generateCypherKey } from "@utils/generateCypherKey.js";
+import useEchoRegister from "@hooks/useEchoRegister";
+import useMQTT from "@hooks/useMQTT";
+import FormDisplay from "@module/modal/FormDisplay";
 
 const ItemType = {
   BOX: "box",
@@ -148,7 +148,7 @@ const DraggableBoxItem = ({
         isDragging: monitor.isDragging(),
       }),
     }),
-    [itemAbility.dragDisabled, id]
+    [itemAbility.dragDisabled, id],
   );
 
   useEffect(() => {
@@ -410,7 +410,7 @@ const DraggableBoxItem = ({
 
   const handleClick = async () => {
     const storedRegisters = JSON.parse(
-      localStorage.getItem("loadEchoRegisters")
+      localStorage.getItem("loadEchoRegisters"),
     );
 
     if (path !== "") {
@@ -429,7 +429,7 @@ const DraggableBoxItem = ({
       if (infoReqBtn.singleIncrease === true) {
         if (Array.isArray(storedRegisters)) {
           const foundItem = storedRegisters.find(
-            (item) => item.id === infoReqBtn.register_id
+            (item) => item.id === infoReqBtn.register_id,
           );
 
           if (foundItem) {
@@ -452,7 +452,7 @@ const DraggableBoxItem = ({
 
       if (infoReqBtn.singleReduction === true) {
         const foundItem = storedRegisters.find(
-          (item) => item.id === infoReqBtn.register_id
+          (item) => item.id === infoReqBtn.register_id,
         );
 
         if (foundItem) {
@@ -488,7 +488,7 @@ const DraggableBoxItem = ({
               "Content-Type": "application/json",
               cypherKey,
             },
-          }
+          },
         );
 
         if (response.status === 200) {
@@ -534,7 +534,7 @@ const DraggableBoxItem = ({
               "Content-Type": "application/json",
               cypherKey,
             },
-          }
+          },
         );
 
         if (response.status === 200) {
@@ -543,7 +543,9 @@ const DraggableBoxItem = ({
           const registers = JSON.parse(localStorage.getItem("registers")) || [];
 
           const updatedRegisters = registers.map((item) =>
-            item.id === id ? { ...item, title: response.data.data.value } : item
+            item.id === id
+              ? { ...item, title: response.data.data.value }
+              : item,
           );
 
           localStorage.setItem("registers", JSON.stringify(updatedRegisters));
@@ -568,7 +570,7 @@ const DraggableBoxItem = ({
       const updatedPositions = items.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, y: item.position.y - 1 } }
-          : item
+          : item,
       );
 
       dispatch(setItems(updatedPositions));
@@ -584,7 +586,7 @@ const DraggableBoxItem = ({
       const updatedPositions = items.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, y: item.position.y + 1 } }
-          : item
+          : item,
       );
 
       dispatch(setItems(updatedPositions));
@@ -600,7 +602,7 @@ const DraggableBoxItem = ({
       const updatedPositions = items.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, x: item.position.x - 1 } }
-          : item
+          : item,
       );
 
       dispatch(setItems(updatedPositions));
@@ -616,7 +618,7 @@ const DraggableBoxItem = ({
       const updatedPositions = items.map((item, i) =>
         i === index
           ? { ...item, position: { ...item.position, x: item.position.x + 1 } }
-          : item
+          : item,
       );
 
       dispatch(setItems(updatedPositions));
@@ -713,7 +715,7 @@ const DraggableBoxItem = ({
                     newTitle > endRange
                   ) {
                     toast.error(
-                      `Value must be between ${startRange} and ${endRange}`
+                      `Value must be between ${startRange} and ${endRange}`,
                     );
                     return;
                   }

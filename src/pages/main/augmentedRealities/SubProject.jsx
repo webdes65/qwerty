@@ -1,12 +1,12 @@
-import { Button } from "antd";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import AddSubProjectModal from "../../../components/module/modal/AddSubProjectModal";
 import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
-import SubprojectCard from "../../../components/module/card/SubprojectCard";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
+import { useParams } from "react-router-dom";
+import { Button } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import AddSubProjectModal from "@components/module/modal/AddSubProjectModal";
+import SubprojectCard from "@components/module/card/SubprojectCard";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import { request } from "@services/apiService.js";
 
 const SubProject = () => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ const SubProject = () => {
     request({
       method: "GET",
       url: `/api/projects/${id}/subs`,
-    })
+    }),
   );
 
   return (

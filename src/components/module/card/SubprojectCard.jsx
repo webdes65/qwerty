@@ -1,13 +1,13 @@
-import { Button } from "antd";
-import { request } from "../../../services/apiService";
-import { useMutation, useQueryClient } from "react-query";
-import { DeleteOutlined } from "@ant-design/icons";
-import { toast } from "react-toastify";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import axios from "axios";
-import Cookies from "universal-cookie";
+import { Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
-import { generateCypherKey } from "../../../utils/generateCypherKey";
+import Cookies from "universal-cookie";
+import { request } from "@services/apiService.js";
+import { generateCypherKey } from "@utils/generateCypherKey.js";
 
 const SubprojectCard = ({ data, idProject }) => {
   const queryClient = useQueryClient();
@@ -27,7 +27,7 @@ const SubprojectCard = ({ data, idProject }) => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   const [subProjectId, setSubProjectId] = useState(data.uuid);

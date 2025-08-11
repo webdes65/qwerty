@@ -1,9 +1,8 @@
-import { useEffect } from "react";
-import { IoIosAdd } from "react-icons/io";
-import { request } from "../../services/apiService";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useState } from "react";
+import { IoIosAdd } from "react-icons/io";
 import { Select, Spin } from "antd";
+import { request } from "@services/apiService.js";
 
 const FieldComparison = ({ betData, setBetData }) => {
   const [optionsCategories, setOptionsCategories] = useState([]);
@@ -14,7 +13,7 @@ const FieldComparison = ({ betData, setBetData }) => {
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const FieldComparison = ({ betData, setBetData }) => {
       }),
     {
       enabled: !!categoriesData,
-    }
+    },
   );
 
   useEffect(() => {
@@ -74,7 +73,7 @@ const FieldComparison = ({ betData, setBetData }) => {
     setBetData((prevState) => ({
       ...prevState,
       betList: betData.betList.map((field, i) =>
-        i === index ? { ...field, [key]: newValue } : field
+        i === index ? { ...field, [key]: newValue } : field,
       ),
     }));
   };

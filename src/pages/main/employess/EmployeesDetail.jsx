@@ -1,5 +1,5 @@
-import { format } from "date-fns";
 import { useLocation } from "react-router-dom";
+import { format } from "date-fns";
 
 const EmployeesDetail = () => {
   const location = useLocation();

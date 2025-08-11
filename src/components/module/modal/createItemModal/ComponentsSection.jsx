@@ -1,8 +1,8 @@
-import { Button, Spin } from "antd";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { request } from "../../../../services/apiService";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Button, Spin } from "antd";
+import { request } from "@services/apiService.js";
 
 const ComponentsSection = ({
   values,
@@ -20,7 +20,7 @@ const ComponentsSection = ({
     request({
       method: "GET",
       url: "/api/components",
-    })
+    }),
   );
 
   const removeComponent = (id) => {
@@ -42,7 +42,7 @@ const ComponentsSection = ({
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   const modifyContent = (content) => {
@@ -89,7 +89,7 @@ const ComponentsSection = ({
           <div className="flex flex-row justify-center items-center flex-wrap pb-5">
             {dataComponents?.data?.map((index) => {
               const modifiedContent = modifyBackground(
-                modifyContent(index.content)
+                modifyContent(index.content),
               );
               return (
                 <div key={index.uuid} className="w-full p-1">

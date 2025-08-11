@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Button, Modal, Select, Spin } from "antd";
 import { Formik, Form, Field } from "formik";
-import { useEffect, useState } from "react";
-import CustomField from "../CustomField";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
-import { toast } from "react-toastify";
+import CustomField from "@module/CustomField";
+import { request } from "@services/apiService.js";
 
 const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
   const [submitPending, setSubmitPending] = useState(false);
@@ -33,8 +33,8 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
       new Array(maxRows)
         .fill(null)
         .map(() =>
-          new Array(maxColumns).fill({ device: null, register: [], count: 0 })
-        )
+          new Array(maxColumns).fill({ device: null, register: [], count: 0 }),
+        ),
     );
   };
 
@@ -46,7 +46,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
     // isLoading: isLoadingDevices,
     // error: devicesError,
   } = useQuery(["getDevices"], () =>
-    request({ method: "GET", url: "/api/devices" })
+    request({ method: "GET", url: "/api/devices" }),
   );
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
       }),
     {
       enabled: !!selectedDeviceId,
-    }
+    },
   );
 
   useEffect(() => {
@@ -155,7 +155,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   return (
@@ -186,7 +186,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                   onChange={(e) => {
                     e.target.value = Math.min(
                       3,
-                      Math.max(0, parseInt(e.target.value || 0, 10))
+                      Math.max(0, parseInt(e.target.value || 0, 10)),
                     );
                     handleChange(e);
                     generateGrid(values.rows, e.target.value);
@@ -200,7 +200,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                   onChange={(e) => {
                     e.target.value = Math.min(
                       3,
-                      Math.max(0, parseInt(e.target.value || 0, 10))
+                      Math.max(0, parseInt(e.target.value || 0, 10)),
                     );
                     handleChange(e);
                     generateGrid(e.target.value, values.columns);
@@ -258,7 +258,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                               handleCountChange(
                                 rowIndex,
                                 colIndex,
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             className="w-full border-2 border-gray-200 outline-none py-1 px-3 rounded-md font-medium placeholder:text-[#aeb7be]"

@@ -1,10 +1,10 @@
-import { Button, Modal, Select } from "antd";
-import { Formik, Form, ErrorMessage } from "formik";
-import CustomField from "../../../components/module/CustomField";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
 import { toast } from "react-toastify";
+import { Button, Modal, Select } from "antd";
+import { Formik, Form, ErrorMessage } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 
 const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
   const queryClient = useQueryClient();
@@ -17,7 +17,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
     request({
       method: "GET",
       url: "/api/projects/types",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
     request({
       method: "GET",
       url: "/api/cities",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
     request({
       method: "GET",
       url: "/api/devices",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   return (

@@ -1,5 +1,7 @@
-import { Button, Modal } from "antd";
+import { useRef } from "react";
+import { LuDownload } from "react-icons/lu";
 import { Line } from "react-chartjs-2";
+import { Button, Modal } from "antd";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +12,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useRef } from "react";
-import { LuDownload } from "react-icons/lu";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
 // import zoomPlugin from "chartjs-plugin-zoom";
@@ -24,7 +24,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-//   zoomPlugin
+  //   zoomPlugin
 );
 
 const ChartModal = ({
@@ -37,7 +37,7 @@ const ChartModal = ({
 
   const chartData = {
     labels: dataChart.map((item) =>
-      format(new Date(item.created_at), "yyyy-MM-dd HH:mm:ss")
+      format(new Date(item.created_at), "yyyy-MM-dd HH:mm:ss"),
     ),
     datasets: [
       {
@@ -113,20 +113,20 @@ const ChartModal = ({
               legend: {
                 display: false,
               },
-            //   zoom: {
-            //     pan: {
-            //       enabled: true,
-            //       mode: "xy",
-            //       threshold: 10,
-            //     },
-            //     zoom: {
-            //       enabled: true,
-            //       mode: "xy",
-            //       speed: 0.1,
-            //       sensitivity: 3,
-            //       threshold: 2,
-            //     },
-            //   },
+              //   zoom: {
+              //     pan: {
+              //       enabled: true,
+              //       mode: "xy",
+              //       threshold: 10,
+              //     },
+              //     zoom: {
+              //       enabled: true,
+              //       mode: "xy",
+              //       speed: 0.1,
+              //       sensitivity: 3,
+              //       threshold: 2,
+              //     },
+              //   },
             },
 
             scales: {
@@ -149,10 +149,10 @@ const ChartModal = ({
                   },
                 },
               },
-            //   onHover: (event, chartElement) => {
-            //     // جلوگیری از تاثیر اسکرول بر روی مدال
-            //     event.native.preventDefault();
-            //   },
+              //   onHover: (event, chartElement) => {
+              //     // جلوگیری از تاثیر اسکرول بر روی مدال
+              //     event.native.preventDefault();
+              //   },
             },
           }}
         />

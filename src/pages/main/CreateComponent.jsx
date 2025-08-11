@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import DragDrop from "../../components/template/createComponent/DragDrop";
-import DragDropOption from "../../components/template/createComponent/DragDropOption";
+import DragDrop from "@components/template/createComponent/DragDrop";
+import DragDropOption from "@components/template/createComponent/DragDropOption";
 
 const CreateComponent = () => {
   const dropBoxRef = useRef(null);

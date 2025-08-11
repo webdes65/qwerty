@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import CreatePointModal from "../../module/modal/CreatePointModal";
-import { Button, Switch } from "antd";
-import CreateBoardMoal from "../../module/modal/CreateBoardMoal";
-import UploadImgsModal from "../../module/modal/UploadImgsModal";
-import { request } from "../../../services/apiService";
-import { useMutation, useQuery } from "react-query";
-import { setShowBtnDeleteComponent } from "../../../redux_toolkit/features/showBtnDeleteComponentSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { setEditEnabledComponent } from "../../../redux_toolkit/features/editEnabledComponentSlice";
-import ChooseNameModal from "../../module/modal/ChooseNameModal";
 import { toast } from "react-toastify";
-import { setComponents } from "../../../redux_toolkit/features/componentsSlice";
+import { useMutation, useQuery } from "react-query";
 import Joyride from "react-joyride";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowBtnDeleteComponent } from "@redux_toolkit/features/showBtnDeleteComponentSlice.js";
+import { setEditEnabledComponent } from "@redux_toolkit/features/editEnabledComponentSlice.js";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import { Button, Switch } from "antd";
+import CreateBoardMoal from "@module/modal/CreateBoardMoal";
+import UploadImgsModal from "@module/modal/UploadImgsModal";
+import CreatePointModal from "@module/modal/CreatePointModal";
+import ChooseNameModal from "@module/modal/ChooseNameModal";
+import { request } from "@services/apiService.js";
 
 const DragDropOption = ({
   dropBoxRef,
@@ -27,11 +27,11 @@ const DragDropOption = ({
   const components = useSelector((state) => state.components);
 
   const showBtnDeleteComponent = useSelector(
-    (state) => state.showBtnDeleteComponent
+    (state) => state.showBtnDeleteComponent,
   );
 
   const editEnabledComponent = useSelector(
-    (state) => state.editEnabledComponent
+    (state) => state.editEnabledComponent,
   );
 
   const [isOpenModalCreatePoint, setIsOpenModalCreatePoint] = useState(false);
@@ -54,7 +54,7 @@ const DragDropOption = ({
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const DragDropOption = ({
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   useEffect(() => {

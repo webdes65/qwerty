@@ -1,11 +1,11 @@
-import { Button } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { request } from "../../../services/apiService";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useState } from "react";
 import { format } from "date-fns";
+import { request } from "@services/apiService.js";
 
 const FormCard = ({ form }) => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const FormCard = ({ form }) => {
       onSettled: () => {
         setSubmitLoading(false);
       },
-    }
+    },
   );
 
   const handleRemove = (id) => {

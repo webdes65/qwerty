@@ -1,11 +1,11 @@
-import { Button, Modal, Select, Slider, Spin } from "antd";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import { setComponents } from "../../../redux_toolkit/features/componentsSlice";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
+import { useDispatch, useSelector } from "react-redux";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import { Button, Modal, Select, Slider, Spin } from "antd";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { v4 as uuidv4 } from "uuid";
+import { request } from "@services/apiService.js";
 
 const CreateBoardMoal = ({
   isOpenModalCreateBoard,
@@ -22,7 +22,7 @@ const CreateBoardMoal = ({
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const CreateBoardMoal = ({
       request({
         method: "GET",
         url: `/api/files?category=${selectedCategorie}`,
-      })
+      }),
   );
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setItems } from "../redux_toolkit/features/itemsSlice";
+import { setItems } from "@redux_toolkit/features/itemsSlice";
 
 const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
 
         localStorage.setItem(
           "registers",
-          JSON.stringify(parsedObjects.registers)
+          JSON.stringify(parsedObjects.registers),
         );
         dispatch(setItems(parsedObjects.registers));
         setBtnDisplayStatus(false);

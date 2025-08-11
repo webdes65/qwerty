@@ -1,16 +1,16 @@
-import { Formik, Form } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CustomField from "../../components/module/CustomField";
 import "react-toastify/dist/ReactToastify.css";
 import { useMutation } from "react-query";
-import { request } from "../../services/apiService";
-import Cookies from "universal-cookie";
-import { Button } from "antd";
 import { toast } from "react-toastify";
+import { Button } from "antd";
+import Cookies from "universal-cookie";
+import { Formik, Form } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 import logo from "/assets/images/logo.webp";
 
-const Signup = () => {
+const Register = () => {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const [submitPending, setSubmitPending] = useState(false);
@@ -52,7 +52,7 @@ const Signup = () => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const initialValues = {
@@ -124,7 +124,7 @@ const Signup = () => {
               backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
             }}
           >
-            Monitoring Control Panel - Signup
+            Monitoring Control Panel - Register
           </h1>
         </div>
         <Formik
@@ -165,7 +165,7 @@ const Signup = () => {
                   borderRadius: "0.375rem",
                 }}
               >
-                Signup
+                Register
               </Button>
             </div>
           </Form>
@@ -175,4 +175,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;

@@ -1,11 +1,11 @@
-import { Button, Select } from "antd";
-import { Formik, Form, Field } from "formik";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
-import { request } from "../../../services/apiService";
 import MaskedInput from "react-maskedinput";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import { Button, Select } from "antd";
+import { Formik, Form, Field } from "formik";
+import { request } from "@services/apiService.js";
 
 const EditEmployess = () => {
   const location = useLocation();
@@ -37,7 +37,7 @@ const EditEmployess = () => {
 
   const onSubmit = (values) => {
     setUpdateLoading(true);
-    console.log(values)
+    console.log(values);
     updateForm.mutate(values);
   };
 
@@ -55,7 +55,7 @@ const EditEmployess = () => {
       onSettled: () => {
         setUpdateLoading(false);
       },
-    }
+    },
   );
 
   const optionsLanguages = [
@@ -75,7 +75,7 @@ const EditEmployess = () => {
     request({
       method: "GET",
       url: "/api/users/timezones",
-    })
+    }),
   );
 
   const timezonesOptions =

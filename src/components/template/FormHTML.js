@@ -263,8 +263,6 @@ const FormHTML = (container) => {
                   ? parsedData.registers
                   : [];
 
-                // console.log(window.registersData)
-
               const buttonRegisters = window.registersData.filter(
               (item) => item.type === "button"
               );
@@ -545,8 +543,6 @@ const FormHTML = (container) => {
                   .map((item) => item.temp)
                   .filter((temp) => temp !== "");
 
-                // console.log(registersId);
-
                 if (registersId.length > 0) {
                   const updateElementData = (data) => {
                     if (data.type === "float") {
@@ -576,7 +572,6 @@ const FormHTML = (container) => {
                     } else if (data.type === "bool") {
                       const elements =
                         document.querySelectorAll("[data-idregister]");
-                      // console.log(elements);
 
                       elements.forEach((element) => {
                         const idRegister = element.getAttribute("data-idregister");
@@ -774,7 +769,6 @@ const FormHTML = (container) => {
                   });
 
                 echo.connector.pusher.connection.bind("connected", function () {
-                  console.log("Echo connected");
                   loadingOverlay.style.display = "none";
                   dropBox.style.display = "flex";
                 });
@@ -783,7 +777,6 @@ const FormHTML = (container) => {
                   echo
                     .private(\`register.\${id}\`)
                     .listen("RegisterEvent", (data) => {
-                      // console.log(data);
                       updateElementData(data);
                       updateRegisterData({ id: id, value: data.value });
                     });
@@ -801,28 +794,20 @@ const FormHTML = (container) => {
                 // });
 
                 client.on("connect", () => {
-                  console.log("MQTT connected");
                   loadingOverlay.style.display = "none";
                   dropBox.style.display = "flex";
 
                   registersId.forEach((id) => {
                     const topic = \`registers/\${id}\`;
-                    // console.log("Subscribing to:", topic);
                     client.subscribe(topic);
                   });
                 });
 
                 client.on("message", (topic, message) => {
-                  // console.log("MQTT message received:");
-                  // console.log("Topic:", topic);
-                  // console.log("Raw Message:", message.toString());
 
                   try {
                     const data = JSON.parse(message.toString());
                     const id = topic.split("/")[1];
-
-                    // console.log("Parsed Data:", data);
-                    // console.log("Extracted ID:", id);
 
                     updateElementData(data);
                     updateRegisterData({ id, value: data.value });

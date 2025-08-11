@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import echo from "../config/echo";
+import echo from "@config/echo";
 
 const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
   useEffect(() => {
@@ -25,7 +25,7 @@ const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
 
             if (existingTemp.value !== data.value) {
               const updatedTemps = prevTemps.filter(
-                (temp) => temp.id !== data.id
+                (temp) => temp.id !== data.id,
               );
               return [
                 ...updatedTemps,
@@ -52,7 +52,7 @@ const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
     return () => {
       echo.leave("secure-broadcast-channel");
     };
-  }, [setRegisters, allowedIds , realtimeService]);
+  }, [setRegisters, allowedIds, realtimeService]);
 };
 
 export default useEchoRegister;

@@ -1,15 +1,15 @@
-import { Drawer } from "antd";
-import { useNavigate } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
-import { RiDragMove2Line } from "react-icons/ri";
-import { TbDoorExit } from "react-icons/tb";
-import Cookies from "universal-cookie";
-import { useQueryClient } from "react-query";
-import { FaChartColumn } from "react-icons/fa6";
-import { PiUsersThreeFill } from "react-icons/pi";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Joyride from "react-joyride";
+import { useQueryClient } from "react-query";
+import { FaHome } from "react-icons/fa";
+import { TbDoorExit } from "react-icons/tb";
+import { FaChartColumn } from "react-icons/fa6";
+import { RiDragMove2Line } from "react-icons/ri";
+import { PiUsersThreeFill } from "react-icons/pi";
 import { IoSettingsSharp } from "react-icons/io5";
+import { Drawer } from "antd";
+import Cookies from "universal-cookie";
 
 const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const navigate = useNavigate();

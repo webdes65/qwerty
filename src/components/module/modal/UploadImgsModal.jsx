@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
-import { Button, Select, Modal } from "antd";
-import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
-import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
-import { request } from "../../../services/apiService";
-import { generateCypherKey } from "../../../utils/generateCypherKey";
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+import { Button, Select, Modal } from "antd";
+import Cookies from "universal-cookie";
+import { request } from "@services/apiService.js";
+import { generateCypherKey } from "@utils/generateCypherKey.js";
 
 const UploadImgsModal = ({
   isOpenUploadImgsModal,
@@ -66,7 +66,7 @@ const UploadImgsModal = ({
       onSettled: () => {
         setSubmitLoadingImgs(false);
       },
-    }
+    },
   );
 
   const handleUploadClick = () => {
@@ -96,7 +96,7 @@ const UploadImgsModal = ({
       onSettled: () => {
         setLoadingCreateCategory(false);
       },
-    }
+    },
   );
 
   const handleCreateCategory = () => {

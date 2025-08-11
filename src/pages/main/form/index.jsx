@@ -1,16 +1,15 @@
 import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
-import FormCard from "../../../components/module/card/FormCard";
 import { IoLogoDropbox } from "react-icons/io5";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import FormCard from "@components/module/card/FormCard";
+import { request } from "@services/apiService.js";
 
 const Forms = () => {
-
   const { data, isLoading } = useQuery(["GetForms"], () =>
     request({
       method: "GET",
       url: "/api/forms",
-    })
+    }),
   );
 
   const forms = data?.data || [];

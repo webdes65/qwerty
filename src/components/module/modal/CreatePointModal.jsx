@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import { Button, Modal, Select, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { setComponents } from "../../../redux_toolkit/features/componentsSlice";
-import { useEffect, useState } from "react";
 
 const CreatePointModal = ({
   isOpenModalCreatePoint,
@@ -16,7 +16,7 @@ const CreatePointModal = ({
 
   useEffect(() => {
     const filteredBoards = components.filter(
-      (component) => component.type === "board"
+      (component) => component.type === "board",
     );
     setBoardComponents(filteredBoards);
   }, [components]);

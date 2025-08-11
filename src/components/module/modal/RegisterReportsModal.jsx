@@ -1,9 +1,9 @@
-import { DatePicker, Modal, Button, Pagination } from "antd";
 import { useState, useEffect } from "react";
 import { useMutation } from "react-query";
-import { request } from "../../../services/apiService";
+import { DatePicker, Modal, Button, Pagination } from "antd";
 import { format } from "date-fns";
-import ChartModal from "./ChartModal";
+import { request } from "@services/apiService.js";
+import ChartModal from "@module/modal/ChartModal";
 
 const RegisterReportsModal = ({
   isModalOpen,
@@ -35,7 +35,11 @@ const RegisterReportsModal = ({
 
   const mutation = useMutation(
     (data) =>
-      request({ method: "POST", url: `/api/registers/${registerId}/logs`, data }),
+      request({
+        method: "POST",
+        url: `/api/registers/${registerId}/logs`,
+        data,
+      }),
     {
       onSuccess: (data) => {
         setCurrentPage(data.data.current_page);
@@ -48,7 +52,7 @@ const RegisterReportsModal = ({
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const [submitPendingFetchChartData, setSubmitPendingFetchChartData] =
@@ -70,10 +74,13 @@ const RegisterReportsModal = ({
 
   const fetchChartData = useMutation(
     (data) =>
-      request({ method: "POST", url: `/api/registers/${registerId}/logs`, data }),
+      request({
+        method: "POST",
+        url: `/api/registers/${registerId}/logs`,
+        data,
+      }),
     {
       onSuccess: (data) => {
-        // console.log(data.data.data);
         setDataChart(data.data.data);
         setIsChartModalOpen(true);
       },
@@ -83,7 +90,7 @@ const RegisterReportsModal = ({
       onSettled: () => {
         setSubmitPendingFetchChartData(false);
       },
-    }
+    },
   );
 
   useEffect(() => {
@@ -162,7 +169,7 @@ const RegisterReportsModal = ({
                     {report.updated_at
                       ? format(
                           new Date(report.updated_at),
-                          "yyyy/MM/dd HH:mm:ss"
+                          "yyyy/MM/dd HH:mm:ss",
                         )
                       : "N/A"}
                   </p>

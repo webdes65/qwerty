@@ -1,7 +1,7 @@
-import { Button } from "antd";
-import { Formik, Form, Field } from "formik";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Button } from "antd";
+import { Formik, Form, Field } from "formik";
 
 const EditDevice = () => {
   const location = useLocation();
@@ -54,7 +54,6 @@ const EditDevice = () => {
                 </Button>
                 {isEditable && (
                   <Button
-                  
                     onClick={handleSubmit}
                     className="font-Poppins py-3 px-6 text-[1rem] font-medium border-2 border-gray-200"
                   >

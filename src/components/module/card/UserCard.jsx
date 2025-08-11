@@ -1,10 +1,10 @@
+import { toast } from "react-toastify";
+import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
-import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
-import { request } from "../../../services/apiService";
-import { useNavigate } from "react-router-dom";
+import { request } from "@services/apiService.js";
 
 const UserCard = (data) => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const UserCard = (data) => {
       onError: (error) => {
         console.error("Error deleting device:", error);
       },
-    }
+    },
   );
 
   const handleRemove = (id) => {

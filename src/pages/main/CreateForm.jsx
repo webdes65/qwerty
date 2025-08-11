@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import DragDrop from "../../components/template/createForm/DragDrop";
-import DragDropOption from "../../components/template/createForm/DragDropOption";
 import { useLocation } from "react-router-dom";
-import Spinner from "../../components/template/Spinner";
 import { useQuery } from "react-query";
-import { request } from "../../services/apiService";
-import useFormData from "../../hooks/useFormEditor";
+import DragDropOption from "@components/template/createForm/DragDropOption";
+import DragDrop from "@components/template/createForm/DragDrop";
+import Spinner from "@components/template/Spinner";
+import { request } from "@services/apiService.js";
+import useFormData from "@hooks/useFormEditor";
 
 const CreateForm = () => {
   const location = useLocation();
@@ -59,7 +59,7 @@ const CreateForm = () => {
         method: "GET",
         url: "/api/forms",
       }),
-    { enabled: !!id && !!name }
+    { enabled: !!id && !!name },
   );
 
   useFormData(data, id, setBoxInfo, setBtnDisplayStatus);

@@ -1,12 +1,12 @@
-import Modal from "react-modal";
-import { Formik, Form, Field } from "formik";
-import { Select, Slider, Spin } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { setItems } from "../../../redux_toolkit/features/itemsSlice";
-import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
 import { useEffect, useState } from "react";
-import Spinner from "../../template/Spinner";
+import Modal from "react-modal";
+import { useQuery } from "react-query";
+import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { Select, Slider, Spin } from "antd";
+import { Formik, Form, Field } from "formik";
+import { request } from "@services/apiService.js";
+import Spinner from "@template/Spinner";
 
 Modal.setAppElement("#root");
 
@@ -26,7 +26,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     request({
       method: "GET",
       url: `/api/files?category=${selectedCategorie}`,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     const updatedItems = items.map((i) =>
       i.position.x === item.position.x && i.position.y === item.position.y
         ? { ...i, ...values }
-        : i
+        : i,
     );
     dispatch(setItems(updatedItems));
     localStorage.setItem("registers", JSON.stringify(updatedItems));
@@ -249,7 +249,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                         options={optionsDecimalPlaces}
                         defaultValue={optionsDecimalPlaces.find(
                           (option) =>
-                            option.value === String(values.decimalPlaces)
+                            option.value === String(values.decimalPlaces),
                         )}
                         onChange={(value) =>
                           setFieldValue("decimalPlaces", value)

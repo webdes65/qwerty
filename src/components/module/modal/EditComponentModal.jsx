@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "react-query";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import { Modal, Select, Slider, Spin } from "antd";
 import { Field, Formik, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { setComponents } from "../../../redux_toolkit/features/componentsSlice";
-import { useEffect, useState } from "react";
-import { request } from "../../../services/apiService";
-import { useQuery } from "react-query";
+import { request } from "@services/apiService.js";
 
 const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
       request({
         method: "GET",
         url: `/api/files?category=${selectedCategorie}`,
-      })
+      }),
   );
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
         onSubmit={(values) => {
           const updatedComponents = [...components];
           const index = updatedComponents.findIndex(
-            (index) => index.id === item.id
+            (index) => index.id === item.id,
           );
 
           if (index !== -1) {

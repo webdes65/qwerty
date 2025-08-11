@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import MobileDrawer from "../template/MobileDrawer";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "react-query";
+import { setRealtimeService } from "@redux_toolkit/features/realtimeServiceSlice.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Sidebar from "../template/Sidebar";
-import MobileMenu from "../template/MobileMenu";
-import Header from "../template/Header";
-import { useDispatch, useSelector } from "react-redux";
-import useEchoNotif from "../../hooks/useEchoNotif";
-import useMQTT from "../../hooks/useMQTT";
-import { setupInstallPrompt } from "../../services/setupInstallPrompt";
-import { useQuery } from "react-query";
-import { request } from "../../services/apiService";
-import { setRealtimeService } from "../../redux_toolkit/features/realtimeServiceSlice";
-import Spinner from "../template/Spinner";
 import { MdError } from "react-icons/md";
-import InstallModal from "../module/modal/InstallModal";
-import useAuthCheck from "../../hooks/useAuthCheck";
+import MobileDrawer from "@template/MobileDrawer";
+import Sidebar from "@template/Sidebar";
+import MobileMenu from "@template/MobileMenu";
+import Header from "@template/Header";
+import Spinner from "@template/Spinner";
+import InstallModal from "@module/modal/InstallModal";
+import useEchoNotif from "@hooks/useEchoNotif";
+import useAuthCheck from "@hooks/useAuthCheck";
+import useMQTT from "@hooks/useMQTT";
+import { setupInstallPrompt } from "@services/setupInstallPrompt.js";
+import { request } from "@services/apiService.js";
 // import { useMutation } from "react-query";
 // import annyang from "annyang";
-// import ChoiceLngModal from "../module/modal/ChoiceLngModal";
+// import ChoiceLngModal from "@module/modal/ChoiceLngModal";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
   const { data, isLoading, isError } = useQuery(
     ["user-service", userId],
     () => request({ method: "GET", url: `/api/users/${userId}/service` }),
-    { enabled: !!userId }
+    { enabled: !!userId },
   );
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Layout = ({ children }) => {
   }, [data, dispatch]);
 
   const hideLayout =
-    location.pathname === "/login" || location.pathname === "/signup";
+    location.pathname === "/login" || location.pathname === "/register";
 
   // Echo notification channel listening
 
@@ -116,7 +116,6 @@ const Layout = ({ children }) => {
 
   //   const commands = {
   //     "*text": (text) => {
-  //       console.log(text);
   //       mutation.mutate({ text: text });
   //     },
   //   };
@@ -132,7 +131,6 @@ const Layout = ({ children }) => {
   //   (data) => request({ method: "POST", url: "voice/trace", data }),
   //   {
   //     onSuccess: (data) => {
-  //       console.log(data);
   //     },
   //     onError: (error) => {
   //       console.error(error);

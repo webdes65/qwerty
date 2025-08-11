@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { Button } from "antd";
 import { format } from "date-fns";
-import { useState } from "react";
-import RegisterReportsModal from "../modal/RegisterReportsModal";
+import RegisterReportsModal from "@module/modal/RegisterReportsModal";
 
 const RegisterCard = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

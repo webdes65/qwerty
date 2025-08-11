@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { request } from "../../../services/apiService";
 import { Spin } from "antd";
-import RegisterCard from "../../../components/module/card/RegisterCard";
+import RegisterCard from "@components/module/card/RegisterCard";
+import { request } from "@services/apiService.js";
 
 const Registers = () => {
   const { deviceId } = useParams();
@@ -13,7 +13,7 @@ const Registers = () => {
       request({
         method: "GET",
         url: `/api/devices/${deviceId}/registers`,
-      })
+      }),
   );
 
   if (loadingRegisters) {

@@ -1,17 +1,18 @@
-import { Button } from "antd";
-import { request } from "../../../services/apiService";
-import { useMutation, useQueryClient } from "react-query";
-import { DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
+import { Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
+import { request } from "@services/apiService.js";
 
 const AugmentedRealitiesCard = ({ index }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation(
-    (id) => request({ method: "DELETE", url: `/api/augmented-realities/${id}` }),
+    (id) =>
+      request({ method: "DELETE", url: `/api/augmented-realities/${id}` }),
     {
       onSuccess: (res) => {
         toast.success(res.message);
@@ -20,7 +21,7 @@ const AugmentedRealitiesCard = ({ index }) => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   const handleRemove = (id) => {

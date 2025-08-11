@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Line } from "react-chartjs-2";
+import { useSelector } from "react-redux";
+import { LuDownload } from "react-icons/lu";
 import { Button, Switch } from "antd";
-import useEchoChart from "../../hooks/useEchoChart";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,9 +13,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { LuDownload } from "react-icons/lu";
-import { useSelector } from "react-redux";
-import useMQTT from "../../hooks/useMQTT";
+import useEchoChart from "@hooks/useEchoChart";
+import useMQTT from "@hooks/useMQTT";
 // import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -24,7 +24,7 @@ ChartJS.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
   // zoomPlugin
 );
 
@@ -131,7 +131,7 @@ const TemperatureChart = ({ data }) => {
         const register = minuteDataMap[minute];
 
         const dataset = updatedDatasets.find(
-          (dataset) => dataset.label === register.label
+          (dataset) => dataset.label === register.label,
         );
 
         if (dataset) {
@@ -167,8 +167,6 @@ const TemperatureChart = ({ data }) => {
 
   const handleLiveUpdateChange = (checked) => {
     setIsLiveUpdate(checked);
-
-    // console.log(chartDatasets);
 
     if (checked) {
       setAllowedIds(chartDatasets.map((index) => index.id));

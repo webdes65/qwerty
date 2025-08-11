@@ -1,7 +1,7 @@
-import { Button } from "antd";
-import { Formik, Form, Field } from "formik";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Button } from "antd";
+import { Formik, Form, Field } from "formik";
 
 const EditDevice = () => {
   const location = useLocation();

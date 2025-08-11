@@ -1,16 +1,15 @@
-import { Modal } from "antd";
-import { Formik, Form, Field } from "formik";
-import { setItems } from "../../../../redux_toolkit/features/itemsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Select, Spin } from "antd";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { request } from "../../../../services/apiService";
 import { useQuery } from "react-query";
-import FieldComparison from "../../../template/FieldComparison";
-import TextInputSection from "./TextInputSection";
-import ButtonSection from "./ButtonSection";
-import ComponentsSection from "./ComponentsSection";
+import { useDispatch, useSelector } from "react-redux";
+import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import { Modal, Select, Spin } from "antd";
+import { Formik, Form, Field } from "formik";
+import { v4 as uuidv4 } from "uuid";
+import TextInputSection from "@module/modal/createItemModal/TextInputSection";
+import ButtonSection from "@module/modal/createItemModal/ButtonSection";
+import ComponentsSection from "@module/modal/createItemModal/ComponentsSection";
+import FieldComparison from "@template/FieldComparison";
+import { request } from "@services/apiService.js";
 
 const { Option } = Select;
 
@@ -35,7 +34,7 @@ const CreateItemModal = ({
     request({
       method: "GET",
       url: "/api/devices",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -62,7 +61,7 @@ const CreateItemModal = ({
       }),
     {
       enabled: !!selectedDeviceId,
-    }
+    },
   );
 
   useEffect(() => {
@@ -107,7 +106,7 @@ const CreateItemModal = ({
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -134,7 +133,7 @@ const CreateItemModal = ({
       }),
     {
       enabled: !!selectedCategorie,
-    }
+    },
   );
 
   useEffect(() => {
@@ -295,7 +294,7 @@ const CreateItemModal = ({
                         />
                         {type.charAt(0).toUpperCase() + type.slice(1)}
                       </label>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -483,7 +482,7 @@ const CreateItemModal = ({
                             onChange={(e) =>
                               setFieldValue(
                                 "backgroundColorBooleanTrue",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
@@ -497,7 +496,7 @@ const CreateItemModal = ({
                             onChange={(e) =>
                               setFieldValue(
                                 "backgroundColorBooleanFalse",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
@@ -517,7 +516,7 @@ const CreateItemModal = ({
                             onChange={(e) =>
                               setFieldValue(
                                 "backgroundColorBinaryZero",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
@@ -531,7 +530,7 @@ const CreateItemModal = ({
                             onChange={(e) =>
                               setFieldValue(
                                 "backgroundColorBinaryOne",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
@@ -572,7 +571,7 @@ const CreateItemModal = ({
                                 onClick={() =>
                                   setFieldValue(
                                     "backgroundImageBooleanTrue",
-                                    ""
+                                    "",
                                   )
                                 }
                                 className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -591,7 +590,7 @@ const CreateItemModal = ({
                                   onClick={() =>
                                     setFieldValue(
                                       "backgroundImageBooleanTrue",
-                                      img.path
+                                      img.path,
                                     )
                                   }
                                   className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -629,7 +628,7 @@ const CreateItemModal = ({
                                 onClick={() =>
                                   setFieldValue(
                                     "backgroundImageBooleanFalse",
-                                    ""
+                                    "",
                                   )
                                 }
                                 className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -648,7 +647,7 @@ const CreateItemModal = ({
                                   onClick={() =>
                                     setFieldValue(
                                       "backgroundImageBooleanFalse",
-                                      img.path
+                                      img.path,
                                     )
                                   }
                                   className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -702,7 +701,7 @@ const CreateItemModal = ({
                                   onClick={() =>
                                     setFieldValue(
                                       "backgroundImageBinaryZero",
-                                      img.path
+                                      img.path,
                                     )
                                   }
                                   className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -756,7 +755,7 @@ const CreateItemModal = ({
                                   onClick={() =>
                                     setFieldValue(
                                       "backgroundImageBinaryOne",
-                                      img.path
+                                      img.path,
                                     )
                                   }
                                   className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -862,7 +861,7 @@ const CreateItemModal = ({
                     onChange={() =>
                       setFieldValue(
                         "permissionDisplayData",
-                        !values.permissionDisplayData
+                        !values.permissionDisplayData,
                       )
                     }
                     className="w-4 h-4"

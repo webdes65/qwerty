@@ -1,12 +1,12 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useMutation, useQueryClient } from "react-query";
 import { Button, Modal, Progress, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { Formik, Form, ErrorMessage } from "formik";
-import CustomField from "../../../components/module/CustomField";
-import { useState } from "react";
-import generateMindFile from "../../../utils/generateMindFile";
-import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
+import CustomField from "@components/module/CustomField";
+import generateMindFile from "@utils/generateMindFile";
+import { request } from "@services/apiService.js";
 
 const { Dragger } = Upload;
 
@@ -56,7 +56,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   return (
@@ -78,7 +78,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
               values.files,
               (progress) => {
                 setProgress(progress);
-              }
+              },
             );
 
             if (mindFile) {
@@ -112,7 +112,6 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
               multiple
               beforeUpload={() => false}
               onChange={(info) => {
-                // console.log(info.fileList)
                 const files = info.fileList.map((file) => file.originFileObj);
                 setFieldValue("files", files);
                 setFileList(info.fileList);

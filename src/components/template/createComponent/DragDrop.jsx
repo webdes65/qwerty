@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
-import DraggableBoxComponent from "../../module/draggableBox/createComponent/DraggableBoxComponent";
-import { setComponents } from "../../../redux_toolkit/features/componentsSlice";
 import { toast } from "react-toastify";
-import EditLine from "../../module/modal/EditLine";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import DraggableBoxComponent from "@module/draggableBox/createComponent/DraggableBoxComponent";
+import EditLine from "@module/modal/EditLine";
 import { v4 as uuidv4 } from "uuid";
 
 const ItemType = {
@@ -90,7 +90,7 @@ const DragDrop = ({
       }, 3000);
 
       const isPointAlreadyAdded = lines.some((line) =>
-        line.some((item) => item.id === point.id)
+        line.some((item) => item.id === point.id),
       );
 
       if (isPointAlreadyAdded) {
@@ -141,7 +141,7 @@ const DragDrop = ({
       const oldPosition = boardItem ? boardItem.position : null;
 
       let updatedComponents = components.map((item, i) =>
-        i === index ? { ...item, position: newPosition } : item
+        i === index ? { ...item, position: newPosition } : item,
       );
 
       const updatedItem = updatedComponents[index];
@@ -154,7 +154,7 @@ const DragDrop = ({
         const deltaY = newBoardPosition.y - oldPosition.y;
 
         const relatedPoints = components.filter(
-          (point) => point.type === "point" && point.boardId === updatedItem.id
+          (point) => point.type === "point" && point.boardId === updatedItem.id,
         );
 
         const updatedPoints = relatedPoints.map((point) => ({

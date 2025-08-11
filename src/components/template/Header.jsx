@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Spin as Hamburger } from "hamburger-react";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import logo from "/assets/images/logo.webp"
+import logo from "/assets/images/logo.webp";
 
 const Header = ({
   onOpenDrawer,
@@ -20,7 +20,8 @@ const Header = ({
     pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "home";
 
   const formattedLastSegment = (() => {
-    const isEditForm = lastSegment.toLowerCase() === "createform" && location.state?.id;
+    const isEditForm =
+      lastSegment.toLowerCase() === "createform" && location.state?.id;
 
     const specialCases = {
       createform: "Create Form",

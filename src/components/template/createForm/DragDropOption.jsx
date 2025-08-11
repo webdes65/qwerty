@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { Button, Select, Slider, Spin, Switch } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { setItems } from "../../../redux_toolkit/features/itemsSlice";
-import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
-import UploadImgsModal from "../../module/modal/UploadImgsModal";
-import FormHTML from "../../template/FormHTML";
-import CreatePointModalInRegisEditor from "../../module/modal/CreatePointModalInRegisEditor";
-import { hexToRgba, rgbaToHex } from "../../../utils/colorConverters";
-import ChooseNameModal from "../../module/modal/ChooseNameModal";
+import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import CreateItemModal from "../../module/modal/createItemModal/CreateItemModal";
 import Joyride from "react-joyride";
-import UpdateFormNameModal from "../../module/modal/UpdateFormNameModal";
+import { Button, Select, Slider, Spin, Switch } from "antd";
+import { request } from "@services/apiService.js";
+import UploadImgsModal from "@module/modal/UploadImgsModal";
+import CreatePointModalInRegisEditor from "@module/modal/CreatePointModalInRegisEditor";
+import ChooseNameModal from "@module/modal/ChooseNameModal";
+import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
+import UpdateFormNameModal from "@module/modal/UpdateFormNameModal";
+import FormHTML from "@template/FormHTML";
+import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
 
 const DragDropOption = ({
   boxInfo,
@@ -61,7 +61,7 @@ const DragDropOption = ({
     request({
       method: "GET",
       url: "/api/categories",
-    })
+    }),
   );
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const DragDropOption = ({
     request({
       method: "GET",
       url: `/api/files?category=${selectedCategorie}`,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -127,7 +127,6 @@ const DragDropOption = ({
               data: { content },
             })
               // .then((res) => {
-              //   console.log(res);
               // })
               .catch((err) => {
                 console.log(err);
@@ -159,7 +158,7 @@ const DragDropOption = ({
       onSettled: () => {
         setSubmitLoading(false);
       },
-    }
+    },
   );
 
   // For Submit Form
@@ -231,7 +230,7 @@ const DragDropOption = ({
       onSettled: () => {
         setSubmitLoading(false);
       },
-    }
+    },
   );
 
   const handleUpdate = async () => {

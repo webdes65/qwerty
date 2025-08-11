@@ -1,8 +1,7 @@
-import { format } from "date-fns";
 import { useLocation } from "react-router-dom";
+import { format } from "date-fns";
 
 const DeviceDetail = () => {
-
   const location = useLocation();
   const { device } = location.state || {};
 

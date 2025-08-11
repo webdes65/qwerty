@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { generateCypherKey } from "../utils/generateCypherKey";
+import { generateCypherKey } from "@utils/generateCypherKey";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,

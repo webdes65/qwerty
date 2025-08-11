@@ -19,32 +19,28 @@ const generateMindFile = async (images, onProgress) => {
     return new Promise((resolve, reject) => {
       const fileToLoad = file.originFileObj || file;
       if (!(fileToLoad instanceof File)) {
-        reject(new Error('Invalid file type.'));
+        reject(new Error("Invalid file type."));
         return;
       }
-  
+
       const img = new Image();
       img.onload = () => resolve(img);
       img.onerror = reject;
       img.src = URL.createObjectURL(fileToLoad);
     });
   };
-  
 
   const loadedImages = [];
   for (let i = 0; i < images.length; i++) {
     loadedImages.push(await loadImage(images[i]));
   }
 
-  await compiler.compileImageTargets(
-    loadedImages,
-    (progress) => {
-      const roundedProgress = Math.round(progress);
-      if (onProgress) {
-        onProgress(roundedProgress);
-      }
+  await compiler.compileImageTargets(loadedImages, (progress) => {
+    const roundedProgress = Math.round(progress);
+    if (onProgress) {
+      onProgress(roundedProgress);
     }
-  );
+  });
 
   const exportedBuffer = await compiler.exportData();
   const mindFile = new Blob([exportedBuffer], {

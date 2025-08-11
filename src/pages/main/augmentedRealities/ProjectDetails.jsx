@@ -20,15 +20,17 @@ const ProjectDetails = () => {
       </div>
       <div className="flex flex-col justify-center items-start gap-2">
         <p className="text-[0.90rem] text-gray-500">Description :</p>
-        <p className="break-words whitespace-normal">
-          {data.description}
-        </p>
+        <p className="break-words whitespace-normal">{data.description}</p>
       </div>
       <div className="flex flex-col justify-center items-start gap-2 w-auto">
         <p className="text-[0.90rem] text-gray-500">Devices : </p>
         <div className="flex flex-row justify-center items-center gap-2 bg-gray-200 w-full p-2 rounded-lg">
           {data.devices.map((index) => {
-            return <p key={index.uuid} className="bg-gray-300 rounded-md p-2">{index.name}</p>;
+            return (
+              <p key={index.uuid} className="bg-gray-300 rounded-md p-2">
+                {index.name}
+              </p>
+            );
           })}
         </div>
       </div>

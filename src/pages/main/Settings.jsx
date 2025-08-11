@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setRealtimeService } from "../../redux_toolkit/features/realtimeServiceSlice";
 import { useMutation } from "react-query";
-import { request } from "../../services/apiService";
+import { setRealtimeService } from "@redux_toolkit/features/realtimeServiceSlice.js";
+import { request } from "@services/apiService.js";
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const Settings = () => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 
   return (

@@ -1,16 +1,16 @@
-import { Button, Modal, Select } from "antd";
-import { Formik, Form } from "formik";
-import CustomField from "../../../components/module/CustomField";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "../../../services/apiService";
 import { toast } from "react-toastify";
+import { Button, Modal, Select } from "antd";
+import { Formik, Form } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 
 const AddCityModal = ({ isModalOpen, setIsModalOpen }) => {
   const [submitPending, setSubmitPending] = useState(false);
 
   const { data } = useQuery(["fetchCountries"], () =>
-    request({ method: "GET", url: "/api/GetCountries" })
+    request({ method: "GET", url: "/api/GetCountries" }),
   );
 
   const countryOptions =
@@ -40,7 +40,7 @@ const AddCityModal = ({ isModalOpen, setIsModalOpen }) => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const initialValues = {

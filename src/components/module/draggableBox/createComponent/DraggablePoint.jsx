@@ -1,11 +1,11 @@
+import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
 import { TiDelete } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { IoMdSettings } from "react-icons/io";
-import { useState } from "react";
-import EditPointModalInRegisEditor from "../../modal/EditPointModalInRegisEditor";
+import EditPointModalInRegisEditor from "@module/modal/EditPointModalInRegisEditor";
+import { v4 as uuidv4 } from "uuid";
 
 const ItemType = {
   POINT: "point",
@@ -35,7 +35,7 @@ const DraggablePoint = ({
   const handleDoubleClick = (point) => {
     if (point.type === "point") {
       const isPointAlreadyAdded = lines.some((line) =>
-        line.some((item) => item.id === point.id)
+        line.some((item) => item.id === point.id),
       );
 
       if (isPointAlreadyAdded) {

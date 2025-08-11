@@ -1,5 +1,5 @@
-import { CURRENT_VERSION } from "../../../version";
-import "../../../styles/installModal.css";
+import { CURRENT_VERSION } from "@version";
+import "@styles/installModal.css";
 
 const InstallModal = () => {
   return (

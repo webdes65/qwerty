@@ -1,11 +1,11 @@
-import { CURRENT_VERSION } from "../version";
+import { CURRENT_VERSION } from "@version";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
     window.location.hostname === "[::1]" ||
     window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+    ),
 );
 
 export function register(config) {
@@ -25,7 +25,7 @@ export function register(config) {
 
         navigator.serviceWorker.ready.then(() => {
           console.log(
-            "This web app has cached essential resources using a service worker."
+            "This web app has cached essential resources using a service worker.",
           );
         });
       } else {
@@ -46,7 +46,7 @@ function registerValidSW(swUrl) {
 
       if (!installedVersion) {
         console.log(
-          "SW - No version of the app was found, so the app is not installed."
+          "SW - No version of the app was found, so the app is not installed.",
         );
         return;
       }
@@ -58,7 +58,7 @@ function registerValidSW(swUrl) {
 
       if (installedVersion !== currentVersion) {
         console.log(
-          "SW - A new version is available and The installed version is outdated."
+          "SW - A new version is available and The installed version is outdated.",
         );
 
         // update the Worker Service
@@ -66,7 +66,7 @@ function registerValidSW(swUrl) {
         registration.update().then(() => {
           localStorage.setItem("app_version", currentVersion);
           console.log(
-            "SW - The old cache has been cleared and the new cache has been created."
+            "SW - The old cache has been cleared and the new cache has been created.",
           );
 
           // activate the Worker Service
@@ -110,7 +110,7 @@ function checkValidServiceWorker(swUrl, config) {
     })
     .catch(() => {
       console.log(
-        "No internet connection found. App is running in offline mode."
+        "No internet connection found. App is running in offline mode.",
       );
     });
 }

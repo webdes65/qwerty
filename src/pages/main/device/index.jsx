@@ -1,21 +1,20 @@
-import { request } from "../../../services/apiService";
-import { useQuery } from "react-query";
-import DeviceCard from "../../../components/module/card/DeviceCard";
-import { Button } from "antd";
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import AddDeviceModal from "../../../components/module/modal/AddDeviceModal";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
+import { request } from "@services/apiService.js";
+import DeviceCard from "@components/module/card/DeviceCard";
+import AddDeviceModal from "@components/module/modal/AddDeviceModal";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 
 const Devices = () => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, error } = useQuery(["fetchDevices"], () =>
     request({
       method: "GET",
       url: "/api/devices",
-    })
+    }),
   );
 
   if (error) {

@@ -1,17 +1,16 @@
-import { Button } from "antd";
 import { useState } from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import AddAugmentedRealitiesModal from "../../../components/module/modal/AddAugmentedRealitiesModal";
 import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
-import AugmentedRealitiesCard from "../../../components/module/card/AugmentedRealitiesCard";
-import AddProject from "../../../components/module/modal/AddProject";
-import ProjectCard from "../../../components/module/card/ProjectCard";
 import { IoLogoDropbox } from "react-icons/io5";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
+import { Button } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import AddAugmentedRealitiesModal from "@components/module/modal/AddAugmentedRealitiesModal";
+import AugmentedRealitiesCard from "@components/module/card/AugmentedRealitiesCard";
+import AddProject from "@components/module/modal/AddProject";
+import ProjectCard from "@components/module/card/ProjectCard";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import { request } from "@services/apiService.js";
 
 const AugmentedRealities = () => {
-  
   const [isModalOpenAR, setIsModalOpenAR] = useState(false);
   const [isModalOpenAddProject, setIsModalOpenOpenAddProject] = useState(false);
 
@@ -23,7 +22,7 @@ const AugmentedRealities = () => {
     request({
       method: "GET",
       url: "/api/augmented-realities",
-    })
+    }),
   );
 
   const {
@@ -34,7 +33,7 @@ const AugmentedRealities = () => {
     request({
       method: "GET",
       url: "/api/projects",
-    })
+    }),
   );
 
   if (errAR) {

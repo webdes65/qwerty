@@ -72,7 +72,6 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
   };
 
   const handleSubmit = async () => {
-    console.log(reqs);
     localStorage.setItem("chooseReq", JSON.stringify(reqs));
 
     // try {
@@ -90,7 +89,6 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
     //       response = await axios.post(path, data);
     //     }
 
-    //     console.log(`${req.title}:`, response.data);
     //   }
     // } catch (error) {
     //   console.error("Error:", error);
@@ -145,7 +143,7 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
                             reqIndex,
                             keyValueIndex,
                             "key",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                         placeholder="Key"
@@ -159,7 +157,7 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
                             reqIndex,
                             keyValueIndex,
                             "value",
-                            e.target.value
+                            e.target.value,
                           )
                         }
                         placeholder="Value"
@@ -186,7 +184,7 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
                           reqIndex,
                           responseIndex,
                           "responseTitle",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                       placeholder="Response Title"
@@ -199,7 +197,7 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
                           reqIndex,
                           responseIndex,
                           "responseType",
-                          value
+                          value,
                         )
                       }
                       className="w-full"

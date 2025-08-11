@@ -87,7 +87,7 @@ const DraggableBoxComponent = ({
 
         setLines((prevLines) => {
           const isPointAlreadyInLine = prevLines.some((line) =>
-            line.some((item) => item.id === pointData.id)
+            line.some((item) => item.id === pointData.id),
           );
 
           if (isPointAlreadyInLine) {
@@ -131,7 +131,7 @@ const DraggableBoxComponent = ({
 
   const handleDelete = (id) => {
     const updatedList = componentsList.filter(
-      (component) => component.id !== id
+      (component) => component.id !== id,
     );
     setComponentsList(updatedList);
   };

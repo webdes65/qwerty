@@ -1,5 +1,5 @@
-import { Modal } from "antd";
 import { useState } from "react";
+import { Modal } from "antd";
 
 const ChoiceLngModal = ({
   isModalOpen,

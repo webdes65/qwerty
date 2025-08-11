@@ -1,11 +1,11 @@
+import { useState } from "react";
 import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import UserCard from "../../../components/module/card/UserCard";
-import { useState } from "react";
-import AddUserModal from "../../../components/module/modal/AddUserModal";
+import AddUserModal from "@components/module/modal/AddUserModal";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import UserCard from "@components/module/card/UserCard";
+import { request } from "@services/apiService.js";
 
 const Employees = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +14,7 @@ const Employees = () => {
     request({
       method: "GET",
       url: "/api/users",
-    })
+    }),
   );
 
   if (error) {

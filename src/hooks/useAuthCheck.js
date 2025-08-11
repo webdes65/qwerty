@@ -11,12 +11,12 @@ const useAuthCheck = () => {
   // useEffect(() => {
   //   const path = location.pathname;
 
-  //   if (token && (path === "/login" || path === "/signup" || path === "/register")) {
+  //   if (token && (path === "/login" || path === "/register" || path === "/register")) {
   //     navigate("/");
   //   }
 
-  //   if (!token && path !== "/login" && path !== "/signup" && path !== "/register") {
-  //     navigate("/signup");
+  //   if (!token && path !== "/login" && path !== "/register" && path !== "/register") {
+  //     navigate("/register");
   //   }
   // }, [location.pathname]);
 
@@ -25,7 +25,7 @@ const useAuthCheck = () => {
 
     if (
       token &&
-      (path === "/login" || path === "/signup" || path === "/register")
+      (path === "/login" || path === "/register" || path === "/register")
     ) {
       navigate("/");
     }
@@ -33,10 +33,10 @@ const useAuthCheck = () => {
     if (
       !token &&
       path !== "/login" &&
-      path !== "/signup" &&
+      path !== "/register" &&
       path !== "/register"
     ) {
-      navigate("/signup");
+      navigate("/register");
     }
   }, [location.pathname, token, navigate]);
 };

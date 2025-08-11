@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { itemsHome } from "../../data/Items";
+import { itemsHome } from "@data/Items.js";
 
 const Home = () => {
   const navigate = useNavigate();

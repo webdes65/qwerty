@@ -16,7 +16,6 @@ const TextInputSection = ({
   const { isLoading, error } = deviceStatus;
   const { isLoadingRegisters, registersError } = registersStatus;
 
-
   return (
     <>
       {values.type === "text input" && (
@@ -26,9 +25,7 @@ const TextInputSection = ({
               <Spin />
             </div>
           ) : error ? (
-            <p className="text-center text-red-500">
-              Error: {error.message}
-            </p>
+            <p className="text-center text-red-500">Error: {error.message}</p>
           ) : (
             <Select
               className="customSelect ant-select-selector font-medium w-full placeholder:!font-bold"

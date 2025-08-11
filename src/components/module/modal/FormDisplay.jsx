@@ -1,7 +1,7 @@
-import { Modal, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
+import { Modal, Spin } from "antd";
+import { request } from "@services/apiService.js";
 
 function FormDisplay({
   showModalFormDisplay,
@@ -16,7 +16,7 @@ function FormDisplay({
         method: "GET",
         url: "/api/forms",
       }),
-    { enabled: !!idForm }
+    { enabled: !!idForm },
   );
 
   useEffect(() => {

@@ -1,13 +1,13 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
-import CustomField from "../../components/module/CustomField";
-import { Button } from "antd";
-import { toast } from "react-toastify";
-import Cookies from "universal-cookie";
 import { useMutation } from "react-query";
-import { request } from "../../services/apiService";
+import { toast } from "react-toastify";
+import { Button } from "antd";
+import Cookies from "universal-cookie";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import CustomField from "@components/module/CustomField";
+import { request } from "@services/apiService.js";
 import logo from "/assets/images/logo.webp";
 
 const Login = () => {
@@ -43,7 +43,7 @@ const Login = () => {
       onSettled: () => {
         setSubmitPending(false);
       },
-    }
+    },
   );
 
   const initialValues = {
@@ -132,7 +132,9 @@ const Login = () => {
             />
 
             <div className="w-full h-auto flex flex-row justify-between items-center text-[0.90rem] p-2 max-md:text-[0.80rem]">
-              <button onClick={() => navigate("/signup")}>{"Signup"}</button>
+              <button onClick={() => navigate("/register")}>
+                {"Register"}
+              </button>
               <button type="button" onClick={() => navigate("/forgetpassword")}>
                 {"Forgot password"}
               </button>

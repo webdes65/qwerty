@@ -1,12 +1,12 @@
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { IoLogoDropbox } from "react-icons/io5";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import AddGraphModal from "../../../components/module/modal/AddGraphModal";
-import { useQuery } from "react-query";
-import { request } from "../../../services/apiService";
-import ARProjectSubprojectSkeleton from "../../../components/module/card/ARProjectSubprojectSkeleton";
-import GraphCard from "../../../components/module/card/GraphCard";
-import { IoLogoDropbox } from "react-icons/io5";
+import AddGraphModal from "@components/module/modal/AddGraphModal";
+import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import GraphCard from "@components/module/card/GraphCard";
+import { request } from "@services/apiService.js";
 
 const Graphs = () => {
   const [isOpenAddGraphModal, setIsOpenAddGraphModal] = useState(false);
@@ -15,7 +15,7 @@ const Graphs = () => {
     request({
       method: "GET",
       url: "/api/templates",
-    })
+    }),
   );
 
   if (error) {

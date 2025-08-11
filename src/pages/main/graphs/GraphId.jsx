@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
-import { request } from "../../../services/apiService";
-import { useQuery } from "react-query";
 import { useState, useEffect } from "react";
-import Graph from "../../../components/module/Graph";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 import { Spin } from "antd";
+import Graph from "@components/module/Graph";
+import { request } from "@services/apiService.js";
 
 const GraphId = () => {
   const { id } = useParams();
@@ -15,7 +15,7 @@ const GraphId = () => {
       request({
         method: "GET",
         url: `/api/templates/${id}`,
-      })
+      }),
   );
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const GraphId = () => {
           title: register.title,
           color: register.border_color,
           logs: register.logs,
-        }))
+        })),
       );
       setProcessedData(formattedData);
     }

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import itemsReducer from "./features/itemsSlice";
-import dragDisabledReducer from "./features/dragDisabledSlice";
-import componentsReducer from "./features/componentsSlice";
-import showBtnDeleteComponentReducer from "./features/showBtnDeleteComponentSlice";
-import editEnabledComponentReducer from "./features/editEnabledComponentSlice";
-import realtimeServiceSliceReducer from "./features/realtimeServiceSlice";
+import itemsReducer from "@redux_toolkit/features/itemsSlice";
+import dragDisabledReducer from "@redux_toolkit/features/dragDisabledSlice";
+import componentsReducer from "@redux_toolkit/features/componentsSlice";
+import showBtnDeleteComponentReducer from "@redux_toolkit/features/showBtnDeleteComponentSlice";
+import editEnabledComponentReducer from "@redux_toolkit/features/editEnabledComponentSlice";
+import realtimeServiceSliceReducer from "@redux_toolkit/features/realtimeServiceSlice";
 
 const store = configureStore({
   reducer: {
