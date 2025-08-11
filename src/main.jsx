@@ -6,7 +6,10 @@ import "./styles/joyride.css";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { register, registerServiceWorker } from "./services/serviceWorkerRegistration";
+import {
+  register,
+  registerServiceWorker,
+} from "./services/serviceWorkerRegistration";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +19,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
-  </Router>
+  </Router>,
 );
 
 // registerServiceWorker();

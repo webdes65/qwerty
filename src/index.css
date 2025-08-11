@@ -30,7 +30,8 @@
   @font-face {
     font-family: "Quicksand";
     font-weight: 400; /* font-normal */
-    src: url("/font/Outfit-Regular.ttf") format("ttf"),
+    src:
+      url("/font/Outfit-Regular.ttf") format("ttf"),
       url("/font/Outfit-Regular.woff") format("woff");
     font-display: swap;
   }
@@ -38,7 +39,8 @@
   @font-face {
     font-family: "Quicksand";
     font-weight: 600; /* font-semibold */
-    src: url("/font/Outfit-SemiBold.ttf") format("ttf"),
+    src:
+      url("/font/Outfit-SemiBold.ttf") format("ttf"),
       url("/font/Outfit-SemiBold.woff") format("woff");
     font-display: swap;
   }

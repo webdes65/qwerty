@@ -22,6 +22,7 @@
     "laravel-echo": "^1.17.0",
     "mind-ar": "^1.2.5",
     "mqtt": "^5.11.1",
+    "prettier": "^3.6.2",
     "pusher-js": "^8.4.0-rc2",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.3.0",
@@ -48,6 +49,9 @@
   },
   "scripts": {
     "dev": "vite",
+    "format": "prettier --write .",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -70,8 +74,12 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "@vitejs/plugin-react": "^4.6.0",
     "autoprefixer": "^10.4.21",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
     "tailwindcss": "^3.4.14",
     "vite": "^7.0.4"
   }

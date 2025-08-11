@@ -24,7 +24,7 @@ self.addEventListener("install", (event) => {
       })
       .catch((error) => {
         console.error("SW - Error cache the original app resources.", error);
-      })
+      }),
   );
 });
 
