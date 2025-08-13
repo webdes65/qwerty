@@ -26,6 +26,7 @@ import EditEmployess from "@pages/main/employess/EditEmployess";
 import CreateComponent from "@pages/main/CreateComponent";
 import Settings from "@pages/main/Settings";
 import NotFound from "@pages/404";
+import ForgetPassword from "@pages/auth/ForgetPassword.jsx";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/createform" element={<CreateForm />} />
           <Route path="/devices" element={<Devices />} />
           <Route path="/devices/deviceDetail" element={<DeviceDetail />} />
