@@ -119,7 +119,7 @@ const Register = () => {
             <img alt="logo" src={logo} className="w-full h-full" />
           </div>
           <h1
-            className="text-xl font-semibold uppercase text-transparent bg-clip-text max-md:text-base"
+            className="text-xl font-semibold uppercase text-transparent bg-clip-text max-md:text-base text-center p-2.5"
             style={{
               backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
             }}
