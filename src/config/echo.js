@@ -12,9 +12,10 @@ const echo = new Echo({
   cluster: import.meta.env.VITE_PUSHER_CLUSTER,
   wsHost: import.meta.env.VITE_ECHO_HOST,
   wsPort: 443,
-  wssPort: 443,
+  // wssPort: 443,
   forceTLS: true,
-  enabledTransports: ["ws", "wss"],
+  // enabledTransports: ["ws", "ws"],
+  enabledTransports: "ws",
   authEndpoint: import.meta.env.VITE_ECHO_AUTH_ENDPOINT,
   auth: {
     headers: {
