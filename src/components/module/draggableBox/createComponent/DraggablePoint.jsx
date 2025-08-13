@@ -14,7 +14,6 @@ const ItemType = {
 const DraggablePoint = ({
   index,
   point,
-  onDrop,
   lines,
   setLines,
   points,

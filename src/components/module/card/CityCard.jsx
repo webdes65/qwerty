@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const CityCard = ({ city }) => {
   const queryClient = useQueryClient();
@@ -29,13 +29,7 @@ const CityCard = ({ city }) => {
     deleteMutation.mutate(id);
   };
 
-  const formattedCreatedAt = city.created_at
-    ? format(new Date(city.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = city.updated_at
-    ? format(new Date(city.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(city);
 
   return (
     <div className="w-4/12 h-auto p-1 font-bold cursor-default max-xl:w-1/2 max-lg:w-full max-md:w-1/2 max-sm:w-full">

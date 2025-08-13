@@ -1,18 +1,12 @@
 import { useState } from "react";
 import { Button } from "antd";
-import { format } from "date-fns";
 import RegisterReportsModal from "@module/modal/RegisterReportsModal";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const RegisterCard = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const formattedCreatedAt = data.created_at
-    ? format(new Date(data.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = data.updated_at
-    ? format(new Date(data.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(data);
 
   return (
     <div className="w-4/12 h-auto p-1 font-bold cursor-pointer max-xl:w-1/2 max-lg:w-full max-md:w-1/2 max-sm:w-full">

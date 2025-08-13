@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const DeviceCard = ({ device }) => {
   const navigate = useNavigate();
@@ -31,13 +31,7 @@ const DeviceCard = ({ device }) => {
     navigate("/devices/editdevice", { state: { device } });
   };
 
-  const formattedCreatedAt = device.created_at
-    ? format(new Date(device.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = device.updated_at
-    ? format(new Date(device.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(device);
 
   return (
     <div

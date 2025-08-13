@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const AugmentedRealitiesCard = ({ index }) => {
   const navigate = useNavigate();
@@ -28,13 +28,7 @@ const AugmentedRealitiesCard = ({ index }) => {
     deleteMutation.mutate(id);
   };
 
-  const formattedCreatedAt = index.created_at
-    ? format(new Date(index.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = index.updated_at
-    ? format(new Date(index.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(index);
 
   return (
     <div
