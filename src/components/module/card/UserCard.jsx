@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const UserCard = (data) => {
   const navigate = useNavigate();
@@ -31,13 +31,9 @@ const UserCard = (data) => {
     navigate("/employees/editEmployess", { state: { data } });
   };
 
-  const formattedCreatedAt = data.data.created_at
-    ? format(new Date(data.data.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = data.data.updated_at
-    ? format(new Date(data.data.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(
+    data.data,
+  );
 
   return (
     <div

@@ -3,20 +3,14 @@ import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const GraphCard = ({ data }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const formattedCreatedAt = data.created_at
-    ? format(new Date(data.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = data.updated_at
-    ? format(new Date(data.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(data);
 
   const deleteMutation = useMutation(
     (id) => request({ method: "DELETE", url: `/api/templates/${id}` }),

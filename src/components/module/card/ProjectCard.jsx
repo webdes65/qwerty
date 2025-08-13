@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const ProjectCard = ({ index }) => {
   const navigate = useNavigate();
@@ -27,13 +27,7 @@ const ProjectCard = ({ index }) => {
     deleteMutation.mutate(id);
   };
 
-  const formattedCreatedAt = index.created_at
-    ? format(new Date(index.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = index.updated_at
-    ? format(new Date(index.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(index);
 
   return (
     <div
