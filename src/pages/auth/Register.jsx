@@ -41,8 +41,8 @@ const Register = () => {
 
         if (errors) {
           for (const key in errors) {
-            if (errors.hasOwnProperty(key)) {
-              errors[key].forEach((message, index) => {
+            if (Object.prototype.hasOwnProperty.call(errors, key)) {
+              errors[key].forEach((message) => {
                 toast.error(message);
               });
             }

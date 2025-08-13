@@ -16,6 +16,7 @@ export const request = async ({
   data = null,
   contentType = null,
 }) => {
+  // eslint-disable-next-line no-useless-catch
   try {
     const isAuthRequest = url === "/api/login" || url === "/api/register";
 

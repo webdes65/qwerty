@@ -14,10 +14,8 @@ const DraggableBoxComponent = ({
   index,
   componentsList,
   setComponentsList,
-  lines,
   setLines,
   points,
-  setPoints,
 }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemType.BOX_COM,
