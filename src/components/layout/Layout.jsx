@@ -48,7 +48,9 @@ const Layout = ({ children }) => {
   }, [data, dispatch]);
 
   const hideLayout =
-    location.pathname === "/login" || location.pathname === "/register";
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/forgetPassword";
 
   // Echo notification channel listening
 
