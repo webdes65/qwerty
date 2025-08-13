@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import Cookies from "universal-cookie";
 import { request } from "@services/apiService.js";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const SubprojectCard = ({ data, idProject }) => {
   const queryClient = useQueryClient();
@@ -30,7 +30,6 @@ const SubprojectCard = ({ data, idProject }) => {
     },
   );
 
-  const [subProjectId, setSubProjectId] = useState(data.uuid);
   const [scanLoading, setScanLoading] = useState(false);
 
   const handleRemove = (id) => {
@@ -38,7 +37,7 @@ const SubprojectCard = ({ data, idProject }) => {
   };
 
   const handleScan = async () => {
-    if (!data?.token || !data?.uuid || !subProjectId) {
+    if (!data?.token || !data?.uuid) {
       toast.error("Token یا User ID موجود نیست!");
       return;
     }
@@ -54,10 +53,10 @@ const SubprojectCard = ({ data, idProject }) => {
 
     const cypherKey = await generateCypherKey();
 
-    // const baseURL = `${process.env.REACT_APP_BASE_URL}/projects/${idProject}/subs/${subProjectId}/ScanAPI`;
+    // const baseURL = `${process.env.REACT_APP_BASE_URL}/projects/${idProject}/subs/${data.uuid}/ScanAPI`;
 
-    // const baseURL = `http://192.168.100.135:8000/SubProjects/${subProjectId}/ScanAPI`;
-    const baseURL = `https://bms.behinstart.ir/SubProjects/${subProjectId}/ScanAPI`;
+    // const baseURL = `http://192.168.100.135:8000/SubProjects/${data.uuid}/ScanAPI`;
+    const baseURL = `https://bms.behinstart.ir/SubProjects/${data.uuid}/ScanAPI`;
 
     setScanLoading(true);
 
@@ -82,13 +81,7 @@ const SubprojectCard = ({ data, idProject }) => {
       });
   };
 
-  const formattedCreatedAt = data.created_at
-    ? format(new Date(data.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = data.updated_at
-    ? format(new Date(data.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(data);
 
   return (
     <div className="w-4/12 h-auto p-1 font-bold cursor-pointer max-xl:w-1/2 max-lg:w-full max-md:w-1/2 max-sm:w-full">

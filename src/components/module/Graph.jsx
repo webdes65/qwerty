@@ -336,7 +336,7 @@ const TemperatureChart = ({ data }) => {
                 ticks: {
                   maxRotation: 90,
                   minRotation: 90,
-                  callback: function (value, index, ticks) {
+                  callback: function (value) {
                     const label = this.getLabelForValue(value);
                     const time = label.split(" ")[1];
                     return time;

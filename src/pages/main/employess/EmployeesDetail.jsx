@@ -1,17 +1,13 @@
 import { useLocation } from "react-router-dom";
-import { format } from "date-fns";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const EmployeesDetail = () => {
   const location = useLocation();
   const { data } = location.state || {};
 
-  const formattedCreatedAt = data.data.created_at
-    ? format(new Date(data.data.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = data.data.updated_at
-    ? format(new Date(data.data.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(
+    data.data,
+  );
 
   return (
     <div className="flex flex-col justify-start items-start gap-2 shadow rounded-lg bg-white p-5 cursor-default font-bold">

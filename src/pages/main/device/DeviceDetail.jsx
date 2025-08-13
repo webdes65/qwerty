@@ -1,17 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { format } from "date-fns";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const DeviceDetail = () => {
   const location = useLocation();
   const { device } = location.state || {};
 
-  const formattedCreatedAt = device.created_at
-    ? format(new Date(device.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = device.updated_at
-    ? format(new Date(device.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(device);
 
   return (
     <div className="flex flex-col justify-start items-start gap-2 shadow rounded-lg bg-white p-5 cursor-default font-bold">

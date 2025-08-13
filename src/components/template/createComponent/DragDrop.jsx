@@ -225,7 +225,7 @@ const DragDrop = ({
             />
           ))}
 
-          {lines.map(([point1, point2, lineInfo], index) => {
+          {lines.map(([point1, point2, lineInfo]) => {
             if (!point1 || !point2 || !point1.position || !point2.position)
               return null;
 

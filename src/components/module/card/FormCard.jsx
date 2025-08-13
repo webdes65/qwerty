@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { format } from "date-fns";
 import { request } from "@services/apiService.js";
+import { formatTimestamps } from "@utils/formatDate.js";
 
 const FormCard = ({ form }) => {
   const navigate = useNavigate();
@@ -36,13 +36,7 @@ const FormCard = ({ form }) => {
   const name = form.name;
   const id = form.uuid;
 
-  const formattedCreatedAt = form.created_at
-    ? format(new Date(form.created_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
-
-  const formattedUpdatedAt = form.updated_at
-    ? format(new Date(form.updated_at), "yyyy/MM/dd HH:mm:ss")
-    : "N/A";
+  const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(form);
 
   return (
     <div

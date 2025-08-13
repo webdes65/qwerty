@@ -19,7 +19,6 @@ const ItemType = {
 const DraggableBoxComponent = ({
   index,
   item,
-  onDrop,
   onDoubleClick,
   isBlinking,
   itemAbility,

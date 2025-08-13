@@ -27,7 +27,6 @@ const ItemType = {
 const DraggableBoxItem = ({
   position,
   index,
-  onDrop,
   title,
   width,
   height,
