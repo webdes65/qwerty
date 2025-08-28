@@ -42,6 +42,11 @@ const UploadImgsModal = ({
     }
   };
 
+  const processedOptions = optionsCategories.map((option, index) => ({
+    ...option,
+    value: option.value || option.label || index,
+  }));
+
   const submitImgs = useMutation(
     async (data) => {
       const cypherKey = await generateCypherKey();
@@ -59,6 +64,7 @@ const UploadImgsModal = ({
       onSuccess: (response) => {
         toast.success(response.data.message);
         setIsOpenUploadImgsModal(false);
+        setSelectedCategory(null);
       },
       onError: (error) => {
         console.error("Upload error:", error);
@@ -115,10 +121,22 @@ const UploadImgsModal = ({
     setLoadingCreateCategory(true);
   };
 
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+  };
+
+  const handleModalClose = () => {
+    setIsOpenUploadImgsModal(false);
+    setSelectedCategory(null);
+    setIsCreatingCategory(false);
+    setCategoryTitle("");
+    setCategoryDescription("");
+  };
+
   return (
     <Modal
       open={isOpenUploadImgsModal}
-      onCancel={() => setIsOpenUploadImgsModal(false)}
+      onCancel={handleModalClose}
       footer={null}
       title="Upload Images"
       className="font-Poppins"
@@ -126,9 +144,15 @@ const UploadImgsModal = ({
       <div className="h-auto w-full flex flex-col justify-center items-center gap-5 p-10 px-20 bg-white rounded-md max-sm:w-full max-sm:px-10">
         <Select
           className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
-          options={optionsCategories}
-          onChange={(value) => setSelectedCategory(value)}
+          options={processedOptions}
+          value={selectedCategory}
+          onChange={handleCategoryChange}
           placeholder="Categories"
+          allowClear
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
         />
 
         <input

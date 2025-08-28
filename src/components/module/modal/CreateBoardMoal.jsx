@@ -45,6 +45,11 @@ const CreateBoardMoal = ({
       }),
   );
 
+  const processedOptions = optionsCategories.map((option, index) => ({
+    ...option,
+    value: option.value || option.label || index,
+  }));
+
   useEffect(() => {
     if (imgsData) {
       setImgs(imgsData.data);
@@ -182,7 +187,7 @@ const CreateBoardMoal = ({
                   .localeCompare((optionB?.label ?? "").toLowerCase())
               }
               value={selectedCategorie}
-              options={optionsCategories}
+              options={processedOptions}
               onChange={(value) => setSelectedCategorie(value)}
             />
             <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
