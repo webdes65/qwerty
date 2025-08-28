@@ -108,7 +108,11 @@ const Sidebar = () => {
           onClick={() => navigate("/")}
         >
           <div className="w-12 h-12 max-md:hidden">
-            <img alt="logo" src="/logo.png" className="w-full h-full" />
+            <img
+              alt="logo"
+              src="/public/assets/images/logo.webp"
+              className="w-full h-full"
+            />
           </div>
           <h1
             className="font-bold text-[1.75rem] p-2 max-md:hidden text-transparent bg-clip-text"
