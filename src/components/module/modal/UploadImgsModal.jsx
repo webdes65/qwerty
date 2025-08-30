@@ -42,9 +42,9 @@ const UploadImgsModal = ({
     }
   };
 
-  const processedOptions = optionsCategories.map((option, index) => ({
+  const processedOptions = optionsCategories.map((option) => ({
     ...option,
-    value: option.value || option.label || index,
+    value: option.value,
   }));
 
   const submitImgs = useMutation(

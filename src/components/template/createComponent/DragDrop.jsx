@@ -90,7 +90,7 @@ const DragDrop = ({
       }, 3000);
 
       const isPointAlreadyAdded = lines.some((line) =>
-        line.some((item) => item.id === point.id),
+        line.some((item) => item.uuid === point.uuid),
       );
 
       if (isPointAlreadyAdded) {
