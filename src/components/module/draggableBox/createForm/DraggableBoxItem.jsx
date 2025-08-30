@@ -403,14 +403,12 @@ const DraggableBoxItem = ({
 
   useEffect(() => {
     if (registers.length > 0) {
-      localStorage.setItem("loadEchoRegisters", JSON.stringify(registers));
+      localStorage.setItem("registers", JSON.stringify(registers));
     }
   }, [registers]);
 
   const handleClick = async () => {
-    const storedRegisters = JSON.parse(
-      localStorage.getItem("loadEchoRegisters"),
-    );
+    const storedRegisters = JSON.parse(localStorage.getItem("registers"));
 
     if (path !== "") {
       window.open(path, "_blank");
@@ -470,7 +468,7 @@ const DraggableBoxItem = ({
       }
 
       const data = {
-        device_id: infoReqBtn.device_Id,
+        device_uuid: infoReqBtn.device_Id,
         title: infoReqBtn.title,
         value: isNaN(Number(updatedValue)) ? 0 : Number(updatedValue),
       };
@@ -516,7 +514,7 @@ const DraggableBoxItem = ({
         return;
 
       const data = {
-        device_id: infoReqBtn.device_Id,
+        device_uuid: infoReqBtn.device_Id,
         title: infoReqBtn.title,
         value: title,
       };

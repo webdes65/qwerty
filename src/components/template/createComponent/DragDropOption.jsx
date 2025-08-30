@@ -61,7 +61,7 @@ const DragDropOption = ({
     if (categoriesData) {
       const newOptions = categoriesData.data.map((item) => ({
         label: item.title,
-        value: item.id,
+        value: item.uuid,
       }));
       setOptionsCategories(newOptions);
     }
