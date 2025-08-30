@@ -356,7 +356,7 @@ const FormHTML = (container) => {
                       }
 
                       const requestData = {
-                        device_id: buttonData.infoReqBtn.device_Id,
+                        device_uuid: buttonData.infoReqBtn.device_Id,
                         title: buttonData.infoReqBtn.title,
                         value: currentValue,
                       };
@@ -483,7 +483,7 @@ const FormHTML = (container) => {
                         }
 
                         const data = {
-                          device_id: textInputData.infoReqBtn.device_Id,
+                          device_uuid: textInputData.infoReqBtn.device_Id,
                           title: textInputData.infoReqBtn.title,
                           value: inputValue,
                         };

@@ -87,7 +87,7 @@ const CreateItemModal = ({
   const [infoReqBtn, setInfoReqBtn] = useState({
     value: "",
     title: "",
-    device_Id: selectedDeviceId,
+    device_uuid: selectedDeviceId,
     register_id: "",
     startRange: "",
     endRange: "",
@@ -98,7 +98,7 @@ const CreateItemModal = ({
   useEffect(() => {
     setInfoReqBtn((prev) => ({
       ...prev,
-      device_Id: selectedDeviceId,
+      device_uuid: selectedDeviceId,
     }));
   }, [selectedDeviceId]);
 
