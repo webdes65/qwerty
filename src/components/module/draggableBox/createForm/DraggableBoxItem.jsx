@@ -702,7 +702,7 @@ const DraggableBoxItem = ({
                 const inputValue = e.target.value;
                 setNewTitle(inputValue);
               }}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   const startRange = Number(infoReqBtn.startRange);
                   const endRange = Number(infoReqBtn.endRange);
