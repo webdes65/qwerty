@@ -1,4 +1,5 @@
 const FormHTML = (container) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -127,6 +128,8 @@ const FormHTML = (container) => {
         </div>
         <script type="module">
 
+      const BASE_URL = "${BASE_URL}";
+      console.log("BASE_URL in HTML:", BASE_URL);
       const API_ENDPOINTS = {
         MQTT_URL: "ws://192.168.100.135:1882",
         USER_NAME: "BehinStart",
@@ -248,7 +251,7 @@ const FormHTML = (container) => {
             window.registersData = null;
             const cypherKey = await getToken();
 
-            fetch(\`https://api.bms.behinstart.ir/api/forms/\${idForm}\`, {
+            fetch(\`\${BASE_URL}/forms/\${idForm}\`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -284,7 +287,7 @@ const FormHTML = (container) => {
 
                       if (buttonData.idForm) {
                       const cypherKey = await getToken();
-                      fetch("https://api.bms.behinstart.ir/api/forms", {
+                      fetch("${BASE_URL}/forms", {
                         method: "GET",
                         headers: {
                           "Content-Type": "application/json",
@@ -362,7 +365,7 @@ const FormHTML = (container) => {
                       };
                       const cypherKey = await getToken();
                       fetch(
-                        \`https://api.bms.behinstart.ir/api/registers/ \${buttonData.infoReqBtn.register_id} \`,
+                        \`${BASE_URL}/registers/ \${buttonData.infoReqBtn.register_id} \`,
                         {
                           method: "PATCH",
                           headers: {
@@ -490,7 +493,7 @@ const FormHTML = (container) => {
                         const cypherKey = await getToken();
                         try {
                           const response = await fetch(
-                            \`https://api.bms.behinstart.ir/api/registers/ \${textInputData.infoReqBtn.register_id}\`,
+                            \`${BASE_URL}/registers/ \${textInputData.infoReqBtn.register_id}\`,
                             {
                               method: "PATCH",
                               headers: {
@@ -757,10 +760,11 @@ const FormHTML = (container) => {
                     cluster: "mt1",
                     wsHost: "bms.behinstart.ir",
                     wsPort: 443,
-                    wssPort: 443,
+                    // wssPort: 443,
                     forceTLS: true,
-                    enabledTransports: ["ws", "wss"],
-                    authEndpoint: "https://api.bms.behinstart.ir/broadcasting/auth",
+                    // enabledTransports: ["ws", "wss"],
+                    enabledTransports: "ws",
+                    authEndpoint: "http://192.168.100.121:8085/broadcasting/auth",
                     auth: {
                       headers: {
                         Authorization: \`Bearer \${token}\`,
@@ -783,7 +787,11 @@ const FormHTML = (container) => {
                 });
               } else if (typeservice === "mqtt") {
 
-                const client = mqtt.connect("wss://mqtt.metariom.com/ws", {
+                /*const client = mqtt.connect("wss://mqtt.metariom.com/ws", {
+                  username: "BehinStart",
+                  password: "Aa@123456",
+                });*/
+                const client = mqtt.connect("ws://192.168.100.121:1882/ws", {
                   username: "BehinStart",
                   password: "Aa@123456",
                 });
