@@ -690,7 +690,7 @@ const DragDropOption = ({
               <Spin />
             ) : imgsError ? (
               <div>{imgsError}</div>
-            ) : (
+            ) : imgs.length === 0 ? (
               <div className="w-full flex flex-row flex-wrap justify-center items-center gap-2">
                 <div
                   onClick={() =>
@@ -709,6 +709,9 @@ const DragDropOption = ({
                     No Image
                   </span>
                 </div>
+              </div>
+            ) : (
+              <div className="w-full flex flex-row flex-wrap justify-center items-center gap-2">
                 {imgs.map((img, index) => (
                   <div
                     key={index}

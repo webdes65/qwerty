@@ -45,9 +45,9 @@ const CreateBoardMoal = ({
       }),
   );
 
-  const processedOptions = optionsCategories.map((option, index) => ({
+  const processedOptions = optionsCategories.map((option) => ({
     ...option,
-    value: option.value || option.label || index,
+    value: option.value,
   }));
 
   useEffect(() => {
@@ -193,25 +193,28 @@ const CreateBoardMoal = ({
             <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
               {isLoadingImgs ? (
                 <Spin />
-              ) : (
+              ) : imgs.length === 0 ? (
                 <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
                   <div
                     onClick={() => setFieldValue("bgImg", "")}
-                    className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
+                    className={`w-20 h-20 rounded-lg cursor-default border-2 ${
                       values.bgImg === ""
                         ? "border-blue-500 shadow-xl"
                         : "border-transparent"
-                    } flex items-center justify-center bg-gray-200 shadow p-1`}
+                    } flex items-center justify-center bg-gray-200 shadow`}
                   >
                     <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-300 font-bold text-[0.70rem] rounded-md">
                       No Image
                     </span>
                   </div>
+                </div>
+              ) : (
+                <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
                   {imgs.map((img, index) => (
                     <div
                       key={index}
                       onClick={() => setFieldValue("bgImg", img.path)}
-                      className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
+                      className={`w-20 h-20 rounded-lg text-center content-center cursor-default border-2 ${
                         values.bgImg === img.path
                           ? "border-blue-500 shadow-xl"
                           : "border-transparent"
@@ -220,7 +223,7 @@ const CreateBoardMoal = ({
                       <img
                         src={img.path}
                         alt={index}
-                        className="w-full h-full object-cover rounded-lg p-1"
+                        className="w-full h-full text-center content-center object-cover rounded-lg p-1"
                       />
                     </div>
                   ))}
