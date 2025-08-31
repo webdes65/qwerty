@@ -20,6 +20,7 @@ const ButtonSection = ({
   const { isLoading, error } = deviceStatus;
   const [dispalyTypeButton, setDispalyTypeButton] = useState("externallink");
   const [optionsForm, setOptionsForm] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { data: dataForms } = useQuery(["GetFormData"], () =>
     request({
@@ -28,11 +29,20 @@ const ButtonSection = ({
     }),
   );
 
+  const processedOptions = optionsForm.map((option) => ({
+    ...option,
+    value: option.value,
+  }));
+
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+  };
+
   useEffect(() => {
     if (dataForms) {
       const ids = dataForms.data.map((item) => ({
         label: item.name,
-        value: item.id,
+        value: item.uuid,
       }));
       setOptionsForm(ids);
     }
@@ -85,11 +95,25 @@ const ButtonSection = ({
           )}
           {optionsForm && dataForms && dispalyTypeButton === "chooseform" && (
             <>
-              <Select
+              {/*<Select
                 className="customSelect w-full font-Quicksand"
                 placeholder="Choose form"
                 options={optionsForm}
                 onChange={(value) => setFieldValue("idForm", value)}
+              />*/}
+              <Select
+                className="customSelect w-full font-Quicksand"
+                options={processedOptions}
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                placeholder="Choose form"
+                allowClear
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
               />
               {values.idForm && (
                 <Select
