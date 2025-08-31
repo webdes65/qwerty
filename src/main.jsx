@@ -1,11 +1,11 @@
 import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import App from "./App";
 import "./index.css";
 import "./styles/customSelect.css";
 import "./styles/toggleListen.css";
 import "./styles/joyride.css";
-import App from "./App";
-import { BrowserRouter as Router } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
 /*import {register, registerServiceWorker,} from "./services/serviceWorkerRegistration";*/
 
 const queryClient = new QueryClient();
