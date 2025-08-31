@@ -167,7 +167,7 @@ const Layout = ({ children }) => {
       <InstallModal />
     </>
   ) : (
-    <div className="h-screen flex bg-[#F2F3F5]">
+    <div className="h-[100vh] flex bg-[#F2F3F5]">
       <Sidebar />
       <div className="h-full w-full flex flex-col gap-2 flex-1 p-3">
         <Header
