@@ -17,7 +17,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
 import useEchoRegister from "@hooks/useEchoRegister";
-import useMQTT from "@hooks/useMQTT";
+import useMQTTSubscription from "@hooks/UseMqttSubscription.js";
 import FormDisplay from "@module/modal/FormDisplay";
 
 const ItemType = {
@@ -85,6 +85,8 @@ const DraggableBoxItem = ({
   const [showModalFormDisplay, setShowModalFormDisplay] = useState(false);
   const [showOnlyController, setShowOnlyController] = useState(false);
 
+  console.log("info", info);
+
   const allowedIds = idRegister ? idRegister : null;
 
   const realtimeService = useSelector((state) => state.realtimeService);
@@ -94,45 +96,22 @@ const DraggableBoxItem = ({
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
 
-  const { messages } = useMQTT(mqttTopics, realtimeService);
+  console.log("allowedIds", allowedIds);
 
-  useEffect(() => {
-    if (messages.length > 0) {
-      const latestMessage = messages[messages.length - 1];
-      const data = JSON.parse(latestMessage.payload);
-
-      setRegisters((prevTemps) => {
-        const existingTemp = prevTemps.find((temp) => temp.id === data.id);
-
-        if (!existingTemp) {
-          return [
-            ...prevTemps,
-            {
-              id: data.id,
-              label: data.label,
-              value: data.value,
-              type: data.type,
-            },
-          ];
-        }
-
-        if (existingTemp.value !== data.value) {
-          const updatedTemps = prevTemps.filter((temp) => temp.id !== data.id);
-          return [
-            ...updatedTemps,
-            {
-              id: data.id,
-              label: data.label,
-              value: data.value,
-              type: data.type,
-            },
-          ];
-        }
-
-        return prevTemps;
-      });
-    }
-  }, [messages]);
+  const { messages: notificationMessages } = useMQTTSubscription(
+    mqttTopics,
+    (message) => {
+      try {
+        const payload = JSON.parse(message.payload);
+        setInfo(payload.value);
+        console.log("payload", payload);
+        console.log("message", message);
+      } catch (e) {
+        console.error("MQTT parse error:", e);
+      }
+    },
+    realtimeService === "mqtt",
+  );
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
