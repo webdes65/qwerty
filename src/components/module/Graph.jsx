@@ -14,7 +14,7 @@ import {
   Legend,
 } from "chart.js";
 import useEchoChart from "@hooks/useEchoChart";
-import useMQTT from "@hooks/useMQTT";
+import useMQTTSubscription from "@hooks/UseMqttSubscription.js";
 // import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -75,7 +75,7 @@ const TemperatureChart = ({ data }) => {
         const filteredData = Object.values(groupedByMinute).map(Number);
 
         return {
-          id: item.id,
+          uuid: item.uuid,
           label: item.title,
           data: filteredData,
           borderWidth: 3,
@@ -92,7 +92,7 @@ const TemperatureChart = ({ data }) => {
       }
 
       return {
-        id: item.id,
+        uuid: item.uuid,
         label: item.title,
         data: [],
 
@@ -169,7 +169,7 @@ const TemperatureChart = ({ data }) => {
     setIsLiveUpdate(checked);
 
     if (checked) {
-      setAllowedIds(chartDatasets.map((index) => index.id));
+      setAllowedIds(chartDatasets.map((dataset) => dataset.uuid));
     } else {
       setAllowedIds([]);
     }
@@ -184,15 +184,33 @@ const TemperatureChart = ({ data }) => {
       ? allowedIds.map((id) => `registers/${id}`)
       : [];
 
-  const { messages } = useMQTT(mqttTopics, realtimeService, isLiveUpdate);
+  console.log("allowedIds", allowedIds);
 
-  useEffect(() => {
-    if (messages.length > 0) {
-      const latestMessage = messages[messages.length - 1];
-      const parsedPayload = JSON.parse(latestMessage.payload);
-      setRegisters((registers) => [...registers, parsedPayload]);
-    }
-  }, [messages]);
+  const { messages: notificationMessages } = useMQTTSubscription(
+    mqttTopics,
+    (message) => {
+      try {
+        const parsedPayload = JSON.parse(message.payload);
+
+        setRegisters((prevRegisters) => {
+          const existingIndex = prevRegisters.findIndex(
+            (register) => register.uuid === parsedPayload.uuid,
+          );
+
+          if (existingIndex !== -1) {
+            const updatedRegisters = [...prevRegisters];
+            updatedRegisters[existingIndex] = parsedPayload;
+            return updatedRegisters;
+          } else {
+            return [...prevRegisters, parsedPayload];
+          }
+        });
+      } catch (error) {
+        console.error("Error parsing register MQTT payload:", error);
+      }
+    },
+    isLiveUpdate && realtimeService === "mqtt",
+  );
 
   const handleExport = () => {
     const chart = chartRef.current;
