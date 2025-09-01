@@ -1,5 +1,7 @@
 const FormHTML = (container) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
+  const ECHO_URL = import.meta.env.VITE_ECHO_AUTH_ENDPOINT;
+  const BROKER_URL = import.meta.env.VITE_BROKER_URL;
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -129,7 +131,8 @@ const FormHTML = (container) => {
         <script type="module">
 
       const BASE_URL = "${BASE_URL}";
-      console.log("BASE_URL in HTML:", BASE_URL);
+      const ECHO_URL = "${ECHO_URL}";
+      const BROKER_URL = "${BROKER_URL}";
       const API_ENDPOINTS = {
         MQTT_URL: "ws://192.168.100.135:1882",
         USER_NAME: "BehinStart",
@@ -217,6 +220,85 @@ const FormHTML = (container) => {
 
         return token;
       }
+
+          // Function to fetch register values from API
+          async function fetchRegisterValues(token, registerIds) {
+            try {
+              const cypherKey = await getToken();
+              const promises = registerIds.map(async (registerId) => {
+                try {
+                  const response = await fetch(\`\${BASE_URL}/registers/\${registerId}\`, {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: \`Bearer \${token}\`,
+                      cypherKey: cypherKey,
+                    },
+                  });
+
+                  if (!response.ok) {
+                    throw new Error(\`Failed to fetch register \${registerId}\`);
+                  }
+
+                  const data = await response.json();
+                  return {
+                    registerId: registerId,
+                    value: data.data?.value || null,
+                    type: data.data?.type || null
+                  };
+                } catch (error) {
+                  console.error(\`Error fetching register \${registerId}:\`, error);
+                  return {
+                    registerId: registerId,
+                    value: null,
+                    type: null
+                  };
+                }
+              });
+
+              const results = await Promise.all(promises);
+              return results;
+            } catch (error) {
+              console.error('Error fetching register values:', error);
+              return [];
+            }
+          }
+
+          // Function to update label values
+          function updateLabelValues(registerValues) {
+            registerValues.forEach(({ registerId, value, type }) => {
+              if (value === null) return;
+
+              // Find elements that should display this register's value
+              const elements = document.querySelectorAll(\`[data-idregister="\${registerId}"]\`);
+              
+              elements.forEach((element) => {
+                const elementId = element.id;
+                const registerData = window.registersData?.find(
+                  (item) => item.id === elementId && item.type === "label"
+                );
+
+                if (registerData) {
+                  const span = element.querySelector("span");
+                  if (span) {
+                    // Format the value based on type and register configuration
+                    let formattedValue = value;
+                    
+                    if (type === "float" && registerData.decimalPlaces !== undefined) {
+                      formattedValue = parseFloat(value).toFixed(registerData.decimalPlaces);
+                    } else if (type === "int") {
+                      formattedValue = value.toString();
+                    } else if (type === "bool") {
+                      formattedValue = value ? "true" : "false";
+                    }
+
+                    span.innerText = formattedValue;
+                  }
+                }
+              });
+            });
+          }
+
           function openModal(contentElement) {
           const modal = document.getElementById("myModal");
           const modalBody = document.getElementById("modalBody");
@@ -260,11 +342,22 @@ const FormHTML = (container) => {
               },
             })
               .then((response) => response.json())
-              .then((data) => {
+              .then(async (data) => {
                 const parsedData = JSON.parse(data.data.objects);
                 window.registersData = Array.isArray(parsedData.registers)
                   ? parsedData.registers
                   : [];
+
+              // Fetch initial values for labels
+              const labelRegisters = window.registersData.filter(
+                (item) => item.type === "label" && item.temp
+              );
+              
+              if (labelRegisters.length > 0) {
+                const labelRegisterIds = labelRegisters.map(item => item.temp);
+                const registerValues = await fetchRegisterValues(token, labelRegisterIds);
+                updateLabelValues(registerValues);
+              }
 
               const buttonRegisters = window.registersData.filter(
               (item) => item.type === "button"
@@ -360,12 +453,12 @@ const FormHTML = (container) => {
 
                       const requestData = {
                         device_uuid: buttonData.infoReqBtn.device_Id,
-                        title: buttonData.infoReqBtn.title,
+                        // title: buttonData.infoReqBtn.title,
                         value: currentValue,
                       };
                       const cypherKey = await getToken();
                       fetch(
-                        \`${BASE_URL}/registers/ \${buttonData.infoReqBtn.register_id} \`,
+                        \`${BASE_URL}/registers/\${buttonData.infoReqBtn.register_id} \`,
                         {
                           method: "PATCH",
                           headers: {
@@ -377,7 +470,7 @@ const FormHTML = (container) => {
                         }
                       )
                         .then((response) => response.json())
-                        .then((data) => {
+                        .then(async (data) => {
                           Toastify({
                             text: data.message,
                             duration: 3000,
@@ -388,6 +481,15 @@ const FormHTML = (container) => {
                             background: "#3b82f6",
                             },
                           }).showToast();
+
+                          // Update local label values after successful button action
+                          const labelRegisters = window.registersData.filter(
+                            (item) => item.type === "label" && item.temp === buttonData.infoReqBtn.register_id
+                          );
+                          if (labelRegisters.length > 0) {
+                            const registerValues = await fetchRegisterValues(token, [buttonData.infoReqBtn.register_id]);
+                            updateLabelValues(registerValues);
+                          }
 
                         })
                         .catch((error) => {
@@ -487,13 +589,13 @@ const FormHTML = (container) => {
 
                         const data = {
                           device_uuid: textInputData.infoReqBtn.device_Id,
-                          title: textInputData.infoReqBtn.title,
+                          // title: textInputData.infoReqBtn.title,
                           value: inputValue,
                         };
                         const cypherKey = await getToken();
                         try {
                           const response = await fetch(
-                            \`${BASE_URL}/registers/ \${textInputData.infoReqBtn.register_id}\`,
+                            \`${BASE_URL}/registers/\${textInputData.infoReqBtn.register_id}\`,
                             {
                               method: "PATCH",
                               headers: {
@@ -521,6 +623,15 @@ const FormHTML = (container) => {
                             background: "#3b82f6",
                             },
                           }).showToast();
+
+                          // Update local label values after successful text input
+                          const labelRegisters = window.registersData.filter(
+                            (item) => item.type === "label" && item.temp === textInputData.infoReqBtn.register_id
+                          );
+                          if (labelRegisters.length > 0) {
+                            const registerValues = await fetchRegisterValues(token, [textInputData.infoReqBtn.register_id]);
+                            updateLabelValues(registerValues);
+                          }
 
                         } catch (error) {
                           console.error(error);
@@ -764,7 +875,7 @@ const FormHTML = (container) => {
                     forceTLS: true,
                     // enabledTransports: ["ws", "wss"],
                     enabledTransports: "ws",
-                    authEndpoint: "http://192.168.100.121:8085/broadcasting/auth",
+                    authEndpoint: ECHO_URL,
                     auth: {
                       headers: {
                         Authorization: \`Bearer \${token}\`,
@@ -791,7 +902,7 @@ const FormHTML = (container) => {
                   username: "BehinStart",
                   password: "Aa@123456",
                 });*/
-                const client = mqtt.connect("ws://192.168.100.121:1882/ws", {
+                const client = mqtt.connect(BROKER_URL, {
                   username: "BehinStart",
                   password: "Aa@123456",
                 });
