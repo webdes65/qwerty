@@ -1,5 +1,7 @@
 const FormHTML = (container) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
+  const ECHO_URL = import.meta.env.VITE_ECHO_AUTH_ENDPOINT;
+  const BROKER_URL = import.meta.env.VITE_BROKER_URL;
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -129,6 +131,8 @@ const FormHTML = (container) => {
         <script type="module">
 
       const BASE_URL = "${BASE_URL}";
+      const ECHO_URL = "${ECHO_URL}";
+      const BROKER_URL = "${BROKER_URL}";
       const API_ENDPOINTS = {
         MQTT_URL: "ws://192.168.100.135:1882",
         USER_NAME: "BehinStart",
@@ -871,7 +875,7 @@ const FormHTML = (container) => {
                     forceTLS: true,
                     // enabledTransports: ["ws", "wss"],
                     enabledTransports: "ws",
-                    authEndpoint: "http://192.168.100.121:8085/broadcasting/auth",
+                    authEndpoint: ECHO_URL,
                     auth: {
                       headers: {
                         Authorization: \`Bearer \${token}\`,
@@ -898,7 +902,7 @@ const FormHTML = (container) => {
                   username: "BehinStart",
                   password: "Aa@123456",
                 });*/
-                const client = mqtt.connect("ws://192.168.100.121:1882/ws", {
+                const client = mqtt.connect(BROKER_URL, {
                   username: "BehinStart",
                   password: "Aa@123456",
                 });
