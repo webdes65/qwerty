@@ -27,7 +27,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
         const children = group?.children
           ? Object.keys(group.children).map((childKey) => ({
               label: group.children[childKey],
-              value: childKey,
+              value: key + "_" + childKey,
             }))
           : [];
         return {
