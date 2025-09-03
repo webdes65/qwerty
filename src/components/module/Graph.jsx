@@ -75,7 +75,7 @@ const TemperatureChart = ({ data }) => {
         const filteredData = Object.values(groupedByMinute).map(Number);
 
         return {
-          uuid: item.uuid,
+          id: item.id,
           label: item.title,
           data: filteredData,
           borderWidth: 3,
@@ -92,7 +92,7 @@ const TemperatureChart = ({ data }) => {
       }
 
       return {
-        uuid: item.uuid,
+        id: item.id,
         label: item.title,
         data: [],
 
@@ -169,7 +169,7 @@ const TemperatureChart = ({ data }) => {
     setIsLiveUpdate(checked);
 
     if (checked) {
-      setAllowedIds(chartDatasets.map((dataset) => dataset.uuid));
+      setAllowedIds(chartDatasets.map((dataset) => dataset.id));
     } else {
       setAllowedIds([]);
     }
@@ -184,7 +184,7 @@ const TemperatureChart = ({ data }) => {
       ? allowedIds.map((id) => `registers/${id}`)
       : [];
 
-  console.log("allowedIds", allowedIds);
+  // console.log("allowedIds", allowedIds);
 
   const { messages: notificationMessages } = useMQTTSubscription(
     mqttTopics,
