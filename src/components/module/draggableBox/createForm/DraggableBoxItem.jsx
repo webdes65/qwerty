@@ -87,7 +87,7 @@ const DraggableBoxItem = ({
 
   console.log("info", info);
 
-  const allowedIds = idRegister ? idRegister : null;
+  const allowedIds = idRegister ?? null;
 
   const realtimeService = useSelector((state) => state.realtimeService);
 
