@@ -1,23 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Button } from "antd";
+import { useMutation, useQueryClient } from "react-query";
+import { Button, message } from "antd";
 import { Formik, Form, Field } from "formik";
+import { request } from "@services/apiService.js";
 
 const EditDevice = () => {
   const location = useLocation();
   const { device } = location.state || {};
+  const [id, setId] = useState(device.uuid);
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setId(device.uuid);
+  }, [device]);
 
   const initialValues = {
-    name: device?.name || "Empty",
-    brand: device?.brand || "Empty",
-    model: device?.model || "Empty",
-    description: device?.description || "Empty",
+    name: device?.name ?? "Empty",
+    brand: device?.brand ?? "Empty",
+    model: device?.model ?? "Empty",
+    description: device?.description ?? "Empty",
   };
 
   const [isEditable, setIsEditable] = useState(false);
 
+  const updateDeviceMutation = useMutation(
+    (values) =>
+      request({
+        method: "PATCH",
+        url: `/api/devices/${id}`,
+        data: values,
+      }),
+    {
+      onSuccess: () => {
+        message.success("Device updated successfully!");
+        setIsEditable(false);
+        queryClient.invalidateQueries(["device", id]);
+      },
+      onError: (error) => {
+        message.error("Failed to update device!");
+        console.error("Update error:", error);
+      },
+    },
+  );
+
   const onSubmit = (values) => {
-    console.log(values);
+    console.log("Submitting values:", values);
+    updateDeviceMutation.mutate(values);
   };
 
   return (
@@ -71,6 +101,7 @@ const EditDevice = () => {
                   type="primary"
                   onClick={() => setIsEditable(!isEditable)}
                   className="w-1/2 font-Poppins font-bold !p-4"
+                  disabled={updateDeviceMutation.isLoading}
                 >
                   {isEditable ? "Cancel" : "Edit"}
                 </Button>
@@ -78,6 +109,7 @@ const EditDevice = () => {
                   <Button
                     onClick={handleSubmit}
                     className="w-1/2 font-Poppins border-2 border-gray-200 font-bold !p-4"
+                    loading={updateDeviceMutation.isLoading}
                   >
                     Save
                   </Button>
