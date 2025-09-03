@@ -102,7 +102,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
 
   const roleOptions =
     dataRole?.data?.map((index) => ({
-      value: index.id,
+      value: index.uuid,
       label: index.name,
     })) || [];
 

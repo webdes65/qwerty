@@ -30,6 +30,22 @@ const Sidebar = () => {
     navigate(route);
   };
 
+  const handleLogout = () => {
+    cookies.remove("bms_access_token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_name");
+    localStorage.removeItem("registers");
+    localStorage.removeItem("createComponents-guide-shown");
+    localStorage.removeItem("createForm-guide-shown");
+    localStorage.removeItem("sidebar-guide-shown");
+    localStorage.removeItem("mobileDrawer-guide-shown");
+    localStorage.removeItem("realtime_service");
+    localStorage.removeItem("app_version");
+    localStorage.removeItem("sidebar-guide-shown");
+    queryClient.clear();
+    navigate("/login");
+  };
+
   const isActive = (route) => {
     if (route === "/SubProject/:id") {
       return location.pathname.startsWith("/SubProject/");
@@ -240,20 +256,7 @@ const Sidebar = () => {
       </ul>
       <button
         className="flex flex-row justify-center items-center gap-2 text-red-500 font-bold p-2"
-        onClick={() => {
-          cookies.remove("bms_access_token");
-          localStorage.removeItem("user_id");
-          localStorage.removeItem("user_name");
-          localStorage.removeItem("registers");
-          localStorage.removeItem("createComponents-guide-shown");
-          localStorage.removeItem("createForm-guide-shown");
-          localStorage.removeItem("sidebar-guide-shown");
-          localStorage.removeItem("mobileDrawer-guide-shown");
-          localStorage.removeItem("realtime_service");
-          localStorage.removeItem("app_version");
-          queryClient.clear();
-          navigate("/login");
-        }}
+        onClick={handleLogout}
       >
         <TbDoorExit className="text-red-500 text-[25px]" />
         Logout

@@ -55,8 +55,10 @@ const SubprojectCard = ({ data, idProject }) => {
 
     // const baseURL = `${process.env.REACT_APP_BASE_URL}/projects/${idProject}/subs/${data.uuid}/ScanAPI`;
 
+    const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
+
     // const baseURL = `http://192.168.100.135:8000/SubProjects/${data.uuid}/ScanAPI`;
-    const baseURL = `https://bms.behinstart.ir/SubProjects/${data.uuid}/ScanAPI`;
+    const baseURL = `${BASE_URL}/subs/${data.uuid}/scan`;
 
     setScanLoading(true);
 
