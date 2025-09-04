@@ -77,19 +77,23 @@ const UserCard = (data) => {
             <EditOutlined style={{ fontSize: "18px" }} />
             Edit
           </Button>
-          <Button
-            className="w-full font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500 max-sm:!px-3"
-            color="danger"
-            variant="solid"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleRemove(data.data.uuid);
-            }}
-            loading={deleteMutation.isLoading}
-          >
-            <DeleteOutlined style={{ fontSize: "18px" }} />
-            Remove
-          </Button>
+          {data.data.self === false ? (
+            <Button
+              className="w-full font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500 max-sm:!px-3"
+              color="danger"
+              variant="solid"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemove(data.data.uuid);
+              }}
+              loading={deleteMutation.isLoading}
+            >
+              <DeleteOutlined style={{ fontSize: "18px" }} />
+              Remove
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
