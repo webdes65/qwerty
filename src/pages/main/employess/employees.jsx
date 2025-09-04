@@ -10,12 +10,17 @@ import { request } from "@services/apiService.js";
 const Employees = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, error } = useQuery(["fetchUsers"], () =>
+  const { data, isLoading, error, refetch } = useQuery(["fetchUsers"], () =>
     request({
       method: "GET",
       url: "/api/users",
     }),
   );
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    refetch();
+  };
 
   if (error) {
     return <div>{error.message}</div>;
@@ -52,7 +57,7 @@ const Employees = () => {
       {isModalOpen && (
         <AddUserModal
           isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsModalOpen={handleModalClose}
         />
       )}
     </div>
