@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -19,6 +20,7 @@ import { generateCypherKey } from "@utils/generateCypherKey.js";
 import useEchoRegister from "@hooks/useEchoRegister";
 import useMQTTSubscription from "@hooks/UseMqttSubscription.js";
 import FormDisplay from "@module/modal/FormDisplay";
+import { request } from "@services/apiService.js";
 
 const ItemType = {
   BOX: "box",
@@ -128,6 +130,15 @@ const DraggableBoxItem = ({
     }),
     [itemAbility.dragDisabled, id],
   );
+
+  const { data: imgsData } = useQuery(["fetchImgsCategory"], () =>
+    request({
+      method: "GET",
+      url: `/api/files`,
+    }),
+  );
+
+  console.log("images", imgsData?.data);
 
   useEffect(() => {
     displayInfo();
@@ -386,8 +397,33 @@ const DraggableBoxItem = ({
     }
   }, [registers]);
 
+  const [randomColor, setRandomColor] = useState("");
+
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   const handleClick = async () => {
     const storedRegisters = JSON.parse(localStorage.getItem("registers"));
+
+    const newColor = getRandomColor();
+
+    if (Math.random() > 0.5) {
+      setRandomColor(newColor);
+      setBgImg("");
+    } else {
+      if (imgsData?.data?.length > 0) {
+        const randomImage =
+          imgsData.data[Math.floor(Math.random() * imgsData.data.length)];
+        setBgImg(randomImage.path);
+      }
+      setRandomColor("");
+    }
 
     if (path !== "") {
       window.open(path, "_blank");
@@ -626,7 +662,7 @@ const DraggableBoxItem = ({
           isNew ? `translate(${offset}px, ${offset}px)` : ""
         }`,
         transition: "transform 0.3s ease",
-        backgroundColor: bgColor,
+        backgroundColor: randomColor || bgColor,
         backgroundImage: bgImg ? `url(${bgImg})` : "none",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
