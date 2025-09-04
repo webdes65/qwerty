@@ -33,8 +33,19 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     {
       onSuccess: (data) => {
         toast.success(data.data.message);
-        setIsModalOpen(false);
+        console.log("data", data);
+
         queryClient.invalidateQueries("fetchUsers");
+
+        // queryClient.setQueryData("fetchUsers", (oldData) => {
+        //   if (!oldData) return oldData;
+        //   return {
+        //     ...oldData,
+        //     data: [...oldData.data, data.data.user]
+        //   };
+        // });
+
+        setIsModalOpen(false);
       },
       onError: (error) => {
         const errors = error.response?.data?.errors;
@@ -57,7 +68,6 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
   const genderOptions = [
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
-    { value: "Gregorian", label: "Gregorian" },
   ];
 
   const optionsCalendar = [
@@ -66,7 +76,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     { value: "Gregorian", label: "Gregorian" },
   ];
 
-  const { data: dataLngs } = useQuery(["aa"], () =>
+  const { data: dataLngs } = useQuery(["fetchLanguages"], () =>
     request({
       method: "GET",
       url: "/api/users/languages",
@@ -157,26 +167,16 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     >
       <Formik
         initialValues={initialValues}
-        onSubmit={async (values, { setFieldValue }) => {
+        onSubmit={async (values, { resetForm }) => {
           if (!validateWithToast(values)) return;
 
           setSubmitPending(true);
-          await mutation.mutateAsync(values);
-
-          setFieldValue("names", "");
-          setFieldValue("password", "");
-          setFieldValue("password_confirmation", "");
-          setFieldValue("first_name", "");
-          setFieldValue("last_name", "");
-          setFieldValue("gender", "");
-          setFieldValue("birthday", "");
-          setFieldValue("phone_number", "");
-          setFieldValue("email", "");
-          setFieldValue("language", "");
-          setFieldValue("calendar", "");
-          setFieldValue("timezone", "");
-          setFieldValue("address", "");
-          setFieldValue("roles", "");
+          try {
+            await mutation.mutateAsync(values);
+            resetForm();
+          } catch (error) {
+            // خطا در mutation handle شده
+          }
         }}
       >
         {({ setFieldValue }) => (
@@ -340,4 +340,5 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     </Modal>
   );
 };
+
 export default AddUserModal;
