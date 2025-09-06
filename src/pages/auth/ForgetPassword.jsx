@@ -1,33 +1,34 @@
 import { useState } from "react";
+import {useMutation} from "react-query";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 import { Button } from "antd";
 import { Form, Formik } from "formik";
+import Cookies from "universal-cookie";
 import CustomField from "@components/module/CustomField";
 import logo from "/assets/images/logo.webp";
+import { request } from "@services/apiService.js";
 
 const ForgetPassword = () => {
-  /* const navigate = useNavigate();
-    const cookies = new Cookies();*/
-  const [submitPending, setSubmitPending] = useState(false);
+   const navigate = useNavigate();
+   const cookies = new Cookies();
+   const [submitPending, setSubmitPending] = useState(false);
 
-  /* const mutation = useMutation(
-        (data) => request({ method: "POST", url: "/api/forgetPassword", data }),
+   const mutation = useMutation(
+        (data) => request({ method: "POST", url: "/api/forget", data }),
         {
-            onSuccess: (data) => {
-                toast.success(`Welcome ${data.data.profile.first_name}`);
-                localStorage.setItem("user_id", data.data.profile.user_uuid);
-                localStorage.setItem("user_name", data.data.user.name);
+            onSuccess: () => {
+                toast.success('Sent link to your email successfully!');
 
-                const token = data.access_token;
-
-                let expirationDate = new Date();
+                /*let expirationDate = new Date();
                 expirationDate.setDate(expirationDate.getDate() + 6);
                 cookies.set("bms_access_token", token, {
                     expires: expirationDate,
-                });
+                });*/
 
-                setTimeout(() => {
+               /* setTimeout(() => {
                     navigate("/");
-                }, 5000);
+                }, 5000);*/
             },
             onError: (error) => {
                 console.log(error);
@@ -37,7 +38,7 @@ const ForgetPassword = () => {
                 setSubmitPending(false);
             },
         },
-    );*/
+    );
 
   const initialValues = {
     email: "",
@@ -55,9 +56,9 @@ const ForgetPassword = () => {
     return errors;
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (values) => {
     setSubmitPending(true);
-    // mutation.mutate(values);
+    mutation.mutate(values);
   };
 
   return (
@@ -87,6 +88,16 @@ const ForgetPassword = () => {
         >
           <Form className="w-10/12 flex flex-col justify-center items-start gap-2">
             <CustomField id={"email"} name={"email"} placeholder={"Email"} />
+
+            <div className="w-full h-auto flex items-center text-[0.90rem] p-2 max-md:text-[0.80rem]">
+               <button onClick={(e) => {
+                   e.stopPropagation();
+                   navigate("/login");
+               }}
+               >
+                   Go back
+               </button>
+            </div>
 
             <div className="w-full h-auto flex flex-row justify-center items-center pt-5">
               <Button
