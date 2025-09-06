@@ -8,10 +8,13 @@ import Cookies from "universal-cookie";
 import { request } from "@services/apiService.js";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
 import { formatTimestamps } from "@utils/formatDate.js";
+import DeleteModal from "@module/modal/DeleteModal.jsx";
 
 const SubprojectCard = ({ data, idProject }) => {
   const queryClient = useQueryClient();
   const cookies = new Cookies();
+  const [scanLoading, setScanLoading] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const deleteMutation = useMutation(
     (id) =>
@@ -29,8 +32,6 @@ const SubprojectCard = ({ data, idProject }) => {
       },
     },
   );
-
-  const [scanLoading, setScanLoading] = useState(false);
 
   const handleRemove = (id) => {
     deleteMutation.mutate(id);
@@ -115,14 +116,23 @@ const SubprojectCard = ({ data, idProject }) => {
             className="w-1/2 font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500"
             color="danger"
             variant="solid"
-            onClick={() => handleRemove(data.uuid)}
-            loading={deleteMutation.isLoading}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsDeleteModalOpen(true);
+            }}
           >
             <DeleteOutlined style={{ fontSize: "18px" }} />
             Remove
           </Button>
         </div>
       </div>
+      <DeleteModal
+        title="Are you sure you want to delete this item?"
+        isOpenModal={isDeleteModalOpen}
+        setIsOpenModal={setIsDeleteModalOpen}
+        onDelete={() => handleRemove(data.uuid)}
+        loading={deleteMutation.isLoading}
+      />
     </div>
   );
 };
