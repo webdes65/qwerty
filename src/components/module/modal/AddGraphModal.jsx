@@ -80,8 +80,9 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
   useEffect(() => {
     if (registersData) {
       const newOptions = registersData.data.map((item) => ({
-        label: `${item.title} (${item.uuid})`,
+        label: item.title,
         value: item.uuid,
+        title: `${item.title} (${item.uuid})`,
       }));
       setOptionsRegisters(newOptions);
     }
@@ -165,7 +166,15 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
       open={isOpenAddGraphModal}
       onCancel={() => setIsOpenAddGraphModal(false)}
       footer={null}
-      width={600}
+      width={900}
+      style={{ top: 20 }}
+      styles={{
+        body: {
+          maxHeight: "75vh",
+          overflowY: "auto",
+          padding: "20px",
+        },
+      }}
     >
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ values, handleChange }) => (
@@ -208,45 +217,88 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                   className="p-2 border-2 border-gray-200 rounded-lg w-full outline-none"
                 />
               </div>
-              <div className="w-full mt-4 grid gap-2">
+              <div className="w-full mt-4 space-y-3">
                 {grid.map((row, rowIndex) => (
                   <div
                     key={rowIndex}
-                    className="w-full flex flex-row justify-around items-center gap-2"
+                    className="w-full grid gap-3"
+                    style={{
+                      gridTemplateColumns: `repeat(${row.length}, 1fr)`,
+                      minHeight: "fit-content",
+                    }}
                   >
                     {row.map((_, colIndex) => (
                       <div
                         key={colIndex}
-                        className="w-1/2 h-auto border-2 border-gray-200 rounded-md"
+                        className="min-w-0 border-2 border-gray-200 rounded-md bg-gray-50"
                       >
-                        <div className="w-full h-full p-2 flex flex-col justify-between items-center gap-2">
+                        <div className="p-3 space-y-3">
                           <Select
-                            className="customSelect w-full font-Quicksand font-bold"
+                            className="w-full"
                             options={optionsDevices}
                             value={
                               gridValues[rowIndex][colIndex]?.device || null
                             }
-                            placeholder="Devices"
+                            placeholder="Select Device"
                             onChange={(value) => {
                               setSelectedDeviceId(value);
                               handleDeviceChange(rowIndex, colIndex, value);
                             }}
+                            showSearch
+                            optionFilterProp="label"
                           />
+
                           {isLoadingRegisters ? (
-                            <Spin className="w-full h-full" />
+                            <Spin className="w-full h-10 flex items-center justify-center" />
                           ) : (
                             <Select
-                              mode="multiple"
-                              maxTagCount={1}
-                              className="customSelect ant-select-selector w-full font-Quicksand font-bold"
+                              maxTagCount={2}
+                              maxTagTextLength={15}
+                              className="w-full"
                               options={optionsRegisters}
-                              placeholder="Registers"
+                              placeholder="Select Registers"
                               value={
                                 gridValues[rowIndex][colIndex]?.register || []
                               }
                               onChange={(value) =>
                                 handleRegisterChange(rowIndex, colIndex, value)
                               }
+                              showSearch
+                              optionFilterProp="label"
+                              style={{ minHeight: "32px" }}
+                              styles={{
+                                popup: {
+                                  root: {
+                                    maxWidth: 350,
+                                  },
+                                },
+                              }}
+                              tagRender={(props) => {
+                                const { label, closable, onClose } = props;
+                                const truncatedLabel =
+                                  label.length > 15
+                                    ? `${label.substring(0, 15)}...`
+                                    : label;
+
+                                return (
+                                  <span
+                                    className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md mr-1 mb-1 max-w-24"
+                                    title={label}
+                                  >
+                                    <span className="truncate">
+                                      {truncatedLabel}
+                                    </span>
+                                    {closable && (
+                                      <button
+                                        className="ml-1 text-blue-600 hover:text-blue-800"
+                                        onClick={onClose}
+                                      >
+                                        ×
+                                      </button>
+                                    )}
+                                  </span>
+                                );
+                              }}
                             />
                           )}
 
@@ -261,7 +313,8 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                                 e.target.value,
                               )
                             }
-                            className="w-full border-2 border-gray-200 outline-none py-1 px-3 rounded-md font-medium placeholder:text-[#aeb7be]"
+                            className="w-full border-2 border-gray-200 outline-none py-2 px-3 rounded-md font-medium placeholder:text-gray-400 focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                            min="0"
                           />
                         </div>
                       </div>
