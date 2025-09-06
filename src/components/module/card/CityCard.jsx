@@ -69,7 +69,7 @@ const CityCard = ({ city }) => {
             color="danger"
             variant="solid"
             onClick={(e) => {
-              e.preventDefault();
+              e.stopPropagation();
               setIsDeleteModalOpen(true);
             }}
           >
