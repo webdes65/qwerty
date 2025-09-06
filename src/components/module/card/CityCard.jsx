@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
+import DeleteModal from "@module/modal/DeleteModal.jsx";
 
 const CityCard = ({ city }) => {
   const queryClient = useQueryClient();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const deleteMutation = useMutation(
     (id) => request({ method: "DELETE", url: `/api/cities/${id}` }),
@@ -65,14 +68,23 @@ const CityCard = ({ city }) => {
             className="w-full font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500"
             color="danger"
             variant="solid"
-            onClick={() => handleRemove(city.uuid)}
-            loading={deleteMutation.isLoading}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsDeleteModalOpen(true);
+            }}
           >
             <DeleteOutlined style={{ fontSize: "18px" }} />
             Remove
           </Button>
         </div>
       </div>
+      <DeleteModal
+        title="Are you sure you want to delete this item?"
+        isOpenModal={isDeleteModalOpen}
+        setIsOpenModal={setIsDeleteModalOpen}
+        onDelete={() => handleRemove(city.uuid)}
+        loading={deleteMutation.isLoading}
+      />
     </div>
   );
 };
