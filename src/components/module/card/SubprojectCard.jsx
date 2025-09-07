@@ -59,7 +59,8 @@ const SubprojectCard = ({ data, idProject }) => {
     const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
     // const baseURL = `http://192.168.100.135:8000/SubProjects/${data.uuid}/ScanAPI`;
-    const baseURL = `${BASE_URL}/subs/${data.uuid}/scan`;
+    // const baseURL = `${BASE_URL}/subs/${data.uuid}/scan`;
+    const baseURL = `${BASE_URL}/projects/${idProject}/subs/${data.uuid}/scan`;
 
     setScanLoading(true);
 
