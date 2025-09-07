@@ -132,17 +132,21 @@ const Login = () => {
             />
 
             <div className="w-full h-auto flex flex-row justify-between items-center text-[0.90rem] p-2 max-md:text-[0.80rem]">
-              <button type="button" onClick={(e) => {
-                e.stopPropagation();
-                navigate("/register");
-              }}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/register");
+                }}
               >
                 {"Register"}
               </button>
-              <button type="button" onClick={(e) => {
-                e.stopPropagation();
-                navigate("/forgetPassword");
-              }}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/forgetPassword");
+                }}
               >
                 {"Forgot password"}
               </button>
