@@ -34,11 +34,11 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
   };
 
   const mutation = useMutation(
-    (data) => {
+    (formData) => {
       return request({
         method: "POST",
         url: "/api/augmented-realities",
-        data,
+        data: formData,
         contentType: "multipart/form-data",
       });
     },
@@ -49,6 +49,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
         setIsModalOpenAR(false);
         setProgress(0);
         setFileList([]);
+        // console.log('data', data);
       },
       onError: (error) => {
         toast.error(error.message);
@@ -58,6 +59,8 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
       },
     },
   );
+
+  // console.log('fileList', fileList);
 
   return (
     <Modal
@@ -82,17 +85,39 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
             );
 
             if (mindFile) {
-              const updatedValues = {
-                ...values,
-                mindFile,
-              };
+              // Create FormData to handle file uploads
+              const formData = new FormData();
 
-              mutation.mutate(updatedValues);
+              // Add text fields
+              formData.append("name", values.name);
+              formData.append("description", values.description);
+
+              // Add the generated mind file
+              formData.append("mindFile", mindFile, "mindfile.mind");
+
+              // Add original uploaded files
+              values.files.forEach((file, index) => {
+                // Use the original file object
+                const actualFile = file.originFileObj || file;
+                formData.append("files[]", actualFile, actualFile.name);
+                // console.log(`Adding file ${index}:`, actualFile.name, actualFile.size, actualFile.type);
+              });
+
+              // Log FormData contents for debugging
+              /*console.log('FormData contents:');
+                  for (let pair of formData.entries()) {
+                    console.log(pair[0], pair[1]);
+                  }*/
+
+              // console.log('formData', formData)
+
+              mutation.mutate(formData);
             } else {
               toast.error("Failed to generate mind file.");
             }
           } catch (error) {
             console.error(error);
+            toast.error("An error occurred while processing files.");
           } finally {
             setSubmitPending(false);
           }
@@ -112,7 +137,9 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
               multiple
               beforeUpload={() => false}
               onChange={(info) => {
-                const files = info.fileList.map((file) => file.originFileObj);
+                const files = info.fileList.map(
+                  (file) => file.originFileObj || file,
+                );
                 setFieldValue("files", files);
                 setFileList(info.fileList);
               }}
