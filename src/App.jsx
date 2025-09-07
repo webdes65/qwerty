@@ -8,7 +8,7 @@ import CreateForm from "@pages/main/CreateForm";
 import Devices from "@pages/main/device/index";
 import Registers from "@pages/main/device/Registers";
 import EditDevice from "@pages/main/device/EditDevice";
-import Citys from "@pages/main/city/index";
+import Cities from "@pages/main/city/index";
 import EditCity from "@pages/main/city/EditCity";
 import Forms from "@pages/main/form/index";
 import FormDetail from "@pages/main/form/FormDetail";
@@ -40,8 +40,8 @@ const App = () => {
         <Route path="/devices/deviceDetail" element={<DeviceDetail />} />
         <Route path="/devices/editdevice" element={<EditDevice />} />
         <Route path="/devices/:deviceId/registers" element={<Registers />} />
-        <Route path="/citys" element={<Citys />} />
-        <Route path="/citys/editcity" element={<EditCity />} />
+        <Route path="/cities" element={<Cities />} />
+        <Route path="/cities/editcity" element={<EditCity />} />
         <Route path="/forms" element={<Forms />} />
         <Route path="/forms/formDetail" element={<FormDetail />} />
         <Route path="/augmentedRealities" element={<AugmentedRealities />} />

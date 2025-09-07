@@ -2,7 +2,7 @@ export const itemsHome = [
   {
     label: "Cities",
     icon: "/icons/gifs/houses.gif",
-    url: "/citys",
+    url: "/cities",
   },
   {
     label: "Devices",
