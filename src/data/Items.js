@@ -1,43 +1,43 @@
 export const itemsHome = [
   {
     label: "Cities",
-    icon: "/icons/gifs/houses.gif",
+    icon: "/assets/images/gifs/houses.gif",
     url: "/cities",
   },
   {
     label: "Devices",
-    icon: "/icons/gifs/computer.gif",
+    icon: "/assets/images/gifs/computer.gif",
     url: "/devices",
   },
 
   {
     label: "C.C",
-    icon: "/icons/gifs/menu.gif",
+    icon: "/assets/images/gifs/menu.gif",
     url: "/createcomponent",
   },
   {
     label: "C.F",
-    icon: "/icons/gifs/writing.gif",
+    icon: "/assets/images/gifs/writing.gif",
     url: "/createform",
   },
   {
     label: "Employees",
-    icon: "/icons/gifs/integration.gif",
+    icon: "/assets/images/gifs/integration.gif",
     url: "employees",
   },
   {
     label: "Graphs",
-    icon: "/icons/gifs/growth.gif",
+    icon: "/assets/images/gifs/growth.gif",
     url: "/graphs",
   },
   {
     label: "AR",
-    icon: "/icons/gifs/3d.gif",
+    icon: "/assets/images/gifs/3d.gif",
     url: "/augmentedRealities",
   },
   {
     label: "Forms",
-    icon: "/icons/gifs/form.gif",
+    icon: "/assets/images/gifs/form.gif",
     url: "/forms",
   },
 ];
