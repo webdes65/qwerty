@@ -7,7 +7,7 @@ import AddCityModal from "@components/module/modal/AddCityModal";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import { request } from "@services/apiService.js";
 
-const Citys = () => {
+const Cities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isLoading, error } = useQuery(["fetchCities"], () =>
@@ -60,4 +60,4 @@ const Citys = () => {
   );
 };
 
-export default Citys;
+export default Cities;

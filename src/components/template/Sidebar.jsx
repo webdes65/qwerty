@@ -228,12 +228,12 @@ const Sidebar = () => {
         </li>
         <li
           className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-            isActive("/citys") ? "bg-gray-700" : ""
+            isActive("/cities") ? "bg-gray-700" : ""
           }`}
-          onClick={() => handleNavigation("/citys")}
+          onClick={() => handleNavigation("/cities")}
         >
           <BiBuildings className="text-[1.70rem]" />
-          Citys
+          Cities
         </li>
         <li
           className={`w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded  ${
