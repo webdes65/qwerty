@@ -14,7 +14,7 @@ import {
   Legend,
 } from "chart.js";
 import useEchoChart from "@hooks/useEchoChart";
-import useMQTTSubscription from "@hooks/UseMqttSubscription.js";
+import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 // import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -186,7 +186,7 @@ const TemperatureChart = ({ data }) => {
 
   // console.log("allowedIds", allowedIds);
 
-  const { messages: notificationMessages } = useMQTTSubscription(
+  const { messages: notificationMessages } = UseMqttSubscription(
     mqttTopics,
     (message) => {
       try {
