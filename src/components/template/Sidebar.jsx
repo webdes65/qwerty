@@ -126,7 +126,7 @@ const Sidebar = () => {
           <div className="w-12 h-12 max-md:hidden">
             <img
               alt="logo"
-              src="/public/assets/images/logo.webp"
+              src="/assets/images/logo.webp"
               className="w-full h-full"
             />
           </div>
