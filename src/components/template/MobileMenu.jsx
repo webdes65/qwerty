@@ -34,7 +34,11 @@ const MobileMenu = () =>
                 location.pathname === "/" ? "bg-gray-200" : " "
               }`}
             >
-              <img src="/icons/icons/home.png" alt="icon" className="w-8 h-8" />
+              <img
+                src="/assets/icons/sidebarIcons/home.png"
+                alt="icon"
+                className="w-8 h-8"
+              />
             </button>
           </div>
           <div className="w-1/2 h-full flex flex-row justify-center items-center">
@@ -45,7 +49,7 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/icons/icons/pencil.png"
+                src="/assets/icons/sidebarIcons/pencil.png"
                 alt="icon"
                 className="w-8 h-8"
               />
@@ -92,7 +96,7 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/icons/icons/computer.png"
+                src="/assets/icons/sidebarIcons/computer.png"
                 alt="icon"
                 className="w-8 h-8"
               />
@@ -106,7 +110,7 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/icons/icons/growth.png"
+                src="/assets/icons/sidebarIcons/growth.png"
                 alt="icon"
                 className="w-8 h-8"
               />
