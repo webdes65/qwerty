@@ -9,6 +9,7 @@ import { TbChartDots, TbAugmentedReality } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { BiBuildings } from "react-icons/bi";
 import Cookies from "universal-cookie";
+import LogoutModal from "@module/modal/LogoutModal.jsx";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Sidebar = () => {
   const queryClient = useQueryClient();
 
   const [run, setRun] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   useEffect(() => {
     const hasShown = localStorage.getItem("sidebar-guide-shown");
@@ -256,11 +258,18 @@ const Sidebar = () => {
       </ul>
       <button
         className="flex flex-row justify-center items-center gap-2 text-red-500 font-bold p-2"
-        onClick={handleLogout}
+        onClick={() => setIsLogoutModalOpen(true)}
       >
         <TbDoorExit className="text-red-500 text-[25px]" />
         Logout
       </button>
+
+      <LogoutModal
+        title="Do you want to log out of your account?"
+        isOpenModal={isLogoutModalOpen}
+        setIsOpenModal={setIsLogoutModalOpen}
+        onLogout={handleLogout}
+      />
     </aside>
   );
 };
