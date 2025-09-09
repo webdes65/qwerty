@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useMQTTContext } from "../context/MqttProvider.jsx";
+import { UseMqttContext } from "../context/MqttProvider.jsx";
 
-const useMQTTSubscription = (topics, messageHandler, enabled = true) => {
-  const { subscribe, isConnected, realtimeService } = useMQTTContext();
+const UseMqttSubscription = (topics, messageHandler, enabled = true) => {
+  const { subscribe, isConnected, realtimeService } = UseMqttContext();
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -39,4 +39,4 @@ const useMQTTSubscription = (topics, messageHandler, enabled = true) => {
   return { messages, isConnected };
 };
 
-export default useMQTTSubscription;
+export default UseMqttSubscription;

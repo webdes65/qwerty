@@ -14,7 +14,7 @@ import Spinner from "@template/Spinner";
 import InstallModal from "@module/modal/InstallModal";
 import useEchoNotif from "@hooks/useEchoNotif";
 import useAuthCheck from "@hooks/useAuthCheck";
-import useMQTTSubscription from "@hooks/useMQTTSubscription";
+import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import { setupInstallPrompt } from "@services/setupInstallPrompt.js";
 import { request } from "@services/apiService.js";
 
@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
 
   const notificationTopics = [`notifications/${userId}`];
 
-  const { messages: notificationMessages } = useMQTTSubscription(
+  const { messages: notificationMessages } = UseMqttSubscription(
     notificationTopics,
     (message) => {
       try {
