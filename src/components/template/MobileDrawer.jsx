@@ -10,6 +10,7 @@ import { PiUsersThreeFill } from "react-icons/pi";
 import { IoSettingsSharp } from "react-icons/io5";
 import { Drawer } from "antd";
 import Cookies from "universal-cookie";
+import LogoutModal from "@module/modal/LogoutModal.jsx";
 
 const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const cookies = new Cookies();
 
   const [run, setRun] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   useEffect(() => {
     if (open && !localStorage.getItem("mobileDrawer-guide-shown")) {
@@ -60,6 +62,22 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const handleNavigation = (route) => {
     navigate(route);
     onClose();
+  };
+
+  const handleLogout = () => {
+    cookies.remove("bms_access_token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_name");
+    localStorage.removeItem("registers");
+    localStorage.removeItem("createComponents-guide-shown");
+    localStorage.removeItem("createForm-guide-shown");
+    localStorage.removeItem("sidebar-guide-shown");
+    localStorage.removeItem("mobileDrawer-guide-shown");
+    localStorage.removeItem("realtime_service");
+    localStorage.removeItem("app_version");
+    localStorage.removeItem("sidebar-guide-shown");
+    queryClient.clear();
+    navigate("/login");
   };
 
   return (
@@ -214,27 +232,20 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
           </div>
           <button
             className="w-full p-2 rounded-md flex flex-row justify-center items-center gap-2 text-red-500 font-bold uppercase bg-red-200 border-[3px] border-red-500"
-            onClick={() => {
-              cookies.remove("bms_access_token");
-              navigate("/login");
-              localStorage.removeItem("user_id");
-              localStorage.removeItem("user_name");
-              localStorage.removeItem("registers");
-              localStorage.removeItem("createComponents-guide-shown");
-              localStorage.removeItem("createForm-guide-shown");
-              localStorage.removeItem("sidebar-guide-shown");
-              localStorage.removeItem("mobileDrawer-guide-shown");
-              localStorage.removeItem("realtime_service");
-              localStorage.removeItem("app_version");
-              setIsDrawerOpen(false);
-              queryClient.clear();
-            }}
+            onClick={() => setIsLogoutModalOpen(true)}
           >
             <TbDoorExit className="text-red-500 text-[25px]" />
             Logout
           </button>
         </div>
       </Drawer>
+
+      <LogoutModal
+        title="Do you want to log out of your account?"
+        isOpenModal={isLogoutModalOpen}
+        setIsOpenModal={setIsLogoutModalOpen}
+        onLogout={handleLogout}
+      />
     </>
   );
 };
