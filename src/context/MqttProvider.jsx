@@ -167,7 +167,7 @@ export const MqttProvider = ({ children }) => {
   return <MQTTContext.Provider value={value}>{children}</MQTTContext.Provider>;
 };
 
-export const useMQTTContext = () => {
+export const UseMqttContext = () => {
   const context = useContext(MQTTContext);
   if (!context) {
     throw new Error("useMQTTContext must be used within mqttProvider");

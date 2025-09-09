@@ -18,7 +18,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
 import useEchoRegister from "@hooks/useEchoRegister";
-import useMQTTSubscription from "@hooks/UseMqttSubscription.js";
+import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import FormDisplay from "@module/modal/FormDisplay";
 import { request } from "@services/apiService.js";
 
@@ -100,7 +100,7 @@ const DraggableBoxItem = ({
 
   console.log("allowedIds", allowedIds);
 
-  const { messages: notificationMessages } = useMQTTSubscription(
+  const { messages: notificationMessages } = UseMqttSubscription(
     mqttTopics,
     (message) => {
       try {
