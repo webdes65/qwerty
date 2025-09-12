@@ -87,7 +87,7 @@ const DraggableBoxItem = ({
   const [showModalFormDisplay, setShowModalFormDisplay] = useState(false);
   const [showOnlyController, setShowOnlyController] = useState(false);
 
-  console.log("info", info);
+  // console.log("info", info);
 
   const allowedIds = idRegister ?? null;
 
@@ -98,7 +98,7 @@ const DraggableBoxItem = ({
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
 
-  console.log("allowedIds", allowedIds);
+  // console.log("allowedIds", allowedIds);
 
   const { messages: notificationMessages } = UseMqttSubscription(
     mqttTopics,
@@ -106,8 +106,8 @@ const DraggableBoxItem = ({
       try {
         const payload = JSON.parse(message.payload);
         setInfo(payload.value);
-        console.log("payload", payload);
-        console.log("message", message);
+        // console.log("payload", payload);
+        // console.log("message", message);
       } catch (e) {
         console.error("MQTT parse error:", e);
       }
@@ -138,7 +138,7 @@ const DraggableBoxItem = ({
     }),
   );
 
-  console.log("images", imgsData?.data);
+  // console.log("images", imgsData?.data);
 
   useEffect(() => {
     displayInfo();
