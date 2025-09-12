@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 const FormDetail = () => {
   const location = useLocation();
   const { form } = location.state || {};
-  // console.log(form.content);
 
   const iframeRef = useRef();
 
@@ -19,6 +18,22 @@ const FormDetail = () => {
       const dropBox = iframeDocument.querySelector("#dropBox");
 
       if (dropBox) {
+        if (!dropBox.hasAttribute("data-token")) {
+          const token =
+            localStorage.getItem("token") || sessionStorage.getItem("token");
+          if (token) {
+            dropBox.setAttribute("data-token", token);
+          }
+        }
+
+        if (!dropBox.hasAttribute("data-idform")) {
+          dropBox.setAttribute("data-idform", form.uuid);
+        }
+
+        if (!dropBox.hasAttribute("data-typeservice")) {
+          dropBox.setAttribute("data-typeservice", "echo"); // یا 'mqtt'
+        }
+
         const updateScale = () => {
           if (window.matchMedia("(max-width: 640px)").matches) {
             dropBox.style.transform = "scale(0.4)";
@@ -31,6 +46,15 @@ const FormDetail = () => {
         };
 
         updateScale();
+
+        const iframeWindow = iframeRef.current.contentWindow;
+        if (iframeWindow && iframeWindow.initializeFormHandler) {
+          try {
+            iframeWindow.initializeFormHandler();
+          } catch (error) {
+            console.error("Error reinitializing form handler:", error);
+          }
+        }
 
         window.addEventListener("resize", updateScale);
 
@@ -57,6 +81,7 @@ const FormDetail = () => {
           width: "100%",
           height: "500px",
         }}
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
       />
     </div>
   );
