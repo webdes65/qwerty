@@ -84,24 +84,6 @@ const CreateItemModal = ({
     betList: [],
   });
 
-  const [infoReqBtn, setInfoReqBtn] = useState({
-    value: "",
-    title: "",
-    device_uuid: selectedDeviceId,
-    register_id: "",
-    startRange: "",
-    endRange: "",
-    singleIncrease: false,
-    singleReduction: false,
-  });
-
-  useEffect(() => {
-    setInfoReqBtn((prev) => ({
-      ...prev,
-      device_uuid: selectedDeviceId,
-    }));
-  }, [selectedDeviceId]);
-
   const { data: categoriesData } = useQuery(["getCategories"], () =>
     request({
       method: "GET",
@@ -181,12 +163,17 @@ const CreateItemModal = ({
       bg: "#000",
       borderColor: "#000",
     },
+    infoReqBtn: {
+      value: "",
+      title: "",
+      device_uuid: "",
+      register_id: "",
+      startRange: "",
+      endRange: "",
+      singleIncrease: false,
+      singleReduction: false,
+    },
   };
-
-  // const validateForm = (values) => {
-  //   const errors = {};
-  //   return errors;
-  // };
 
   const handleSubmit = (values) => {
     const newItem = {
@@ -226,7 +213,10 @@ const CreateItemModal = ({
       hideIfOne: values.hideIfOne,
       idForm: values.idForm,
       typeDisplay: values.typeDisplay,
-      infoReqBtn: { ...infoReqBtn },
+      infoReqBtn: {
+        ...values.infoReqBtn,
+        device_uuid: selectedDeviceId,
+      },
       point: {
         name: values.point?.name,
         width: values.point.width,
@@ -265,11 +255,7 @@ const CreateItemModal = ({
       footer={null}
     >
       <div className="h-auto w-full flex flex-col justify-start items-center bg-white font-Poppins overflow-auto">
-        <Formik
-          initialValues={initialValues}
-          // validate={validateForm}
-          onSubmit={handleSubmit}
-        >
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ setFieldValue, values }) => (
             <Form className="w-full flex flex-col gap-2">
               <div className="w-full h-auto">
@@ -307,8 +293,10 @@ const CreateItemModal = ({
                   isLoadingRegisters: isLoadingRegisters,
                   registersError: registersError,
                 }}
-                infoReqBtn={infoReqBtn}
-                setInfoReqBtn={setInfoReqBtn}
+                infoReqBtn={values.infoReqBtn}
+                setInfoReqBtn={(newValue) =>
+                  setFieldValue("infoReqBtn", newValue)
+                }
                 setFieldValue={setFieldValue}
                 optionsDevices={optionsDevices}
                 deviceStatus={{
@@ -877,8 +865,10 @@ const CreateItemModal = ({
 
               <ButtonSection
                 values={values}
-                infoReqBtn={infoReqBtn}
-                setInfoReqBtn={setInfoReqBtn}
+                infoReqBtn={values.infoReqBtn}
+                setInfoReqBtn={(newValue) =>
+                  setFieldValue("infoReqBtn", newValue)
+                }
                 selectedDeviceId={selectedDeviceId}
                 setSelectedDeviceId={setSelectedDeviceId}
                 optionsDevices={optionsDevices}
@@ -900,6 +890,7 @@ const CreateItemModal = ({
                 setComponentsList={setComponentsList}
                 setIsOpenCreateModal={setIsOpenCreateModal}
               />
+
               {values.type !== "components" && (
                 <div className="w-full flex flex-row justify-center items-center gap-1 font-bold">
                   <button
