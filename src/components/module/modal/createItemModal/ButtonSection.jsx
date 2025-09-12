@@ -20,7 +20,6 @@ const ButtonSection = ({
   const { isLoading, error } = deviceStatus;
   const [dispalyTypeButton, setDispalyTypeButton] = useState("externallink");
   const [optionsForm, setOptionsForm] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { data: dataForms } = useQuery(["GetFormData"], () =>
     request({
@@ -29,14 +28,12 @@ const ButtonSection = ({
     }),
   );
 
+  console.log("dataForms", dataForms);
+
   const processedOptions = optionsForm.map((option) => ({
     ...option,
     value: option.value,
   }));
-
-  const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
-  };
 
   useEffect(() => {
     if (dataForms) {
@@ -93,20 +90,16 @@ const ButtonSection = ({
               className="border-2 border-gray-200 p-2 py-[0.20rem] px-3 rounded-md w-full outline-none"
             />
           )}
+
           {optionsForm && dataForms && dispalyTypeButton === "chooseform" && (
             <>
-              {/*<Select
-                className="customSelect w-full font-Quicksand"
-                placeholder="Choose form"
-                options={optionsForm}
-                onChange={(value) => setFieldValue("idForm", value)}
-              />*/}
               <Select
                 className="customSelect w-full font-Quicksand"
-                options={processedOptions}
-                value={selectedCategory}
-                onChange={handleCategoryChange}
                 placeholder="Choose form"
+                options={processedOptions}
+                onChange={(value) => {
+                  setFieldValue("idForm", value);
+                }}
                 allowClear
                 showSearch
                 filterOption={(input, option) =>
@@ -115,6 +108,7 @@ const ButtonSection = ({
                     .includes(input.toLowerCase())
                 }
               />
+
               {values.idForm && (
                 <Select
                   className="customSelect w-full font-Quicksand"
@@ -127,6 +121,7 @@ const ButtonSection = ({
               )}
             </>
           )}
+
           {dispalyTypeButton === "selectdevice" &&
             (isLoading ? (
               <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
@@ -142,6 +137,7 @@ const ButtonSection = ({
                 onChange={(value) => setSelectedDeviceId(value)}
               />
             ))}
+
           {selectedDeviceId && (
             <div className="w-full">
               {isLoadingRegisters ? (

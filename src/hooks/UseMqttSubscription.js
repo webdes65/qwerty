@@ -34,7 +34,7 @@ const UseMqttSubscription = (topics, messageHandler, enabled = true) => {
     };
   }, [topics, enabled, subscribe, realtimeService, messageHandler]);
 
-  console.log("Received message", topics);
+  // console.log("Received message", topics);
 
   return { messages, isConnected };
 };
