@@ -32,11 +32,11 @@ const useAuthCheck = () => {
 
     if (
       !token &&
-      path !== "/login" &&
+      path !== "/register" &&
       path !== "/register" &&
       path !== "/forgetPassword"
     ) {
-      navigate("/register");
+      navigate("/login");
     }
   }, [location.pathname, token, navigate]);
 };
