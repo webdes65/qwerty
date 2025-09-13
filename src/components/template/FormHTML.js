@@ -337,10 +337,23 @@ const FormHTML = (container) => {
                                   formContainer.appendChild(
                                     dragDropDiv.cloneNode(true)
                                   );
+                                  
+                                  setTimeout(() => {
+                                    initializeFormHandler();
+                                  }, 1000);
+                                  
+                                  /*console.log('dragDropDiv', dragDropDiv)
+                                  console.log('buttonData', buttonData)*/
+                                  
                                 }
                               } else if (buttonData.typeDisplay === "modal") {
                                 if (dragDropDiv) {
                                   openModal(dragDropDiv);
+                                  
+                                  setTimeout(() => {
+                                    initializeFormHandler();
+                                  }, 1000);
+                                  
                                 }
                               }
                             }
