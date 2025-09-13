@@ -131,12 +131,12 @@ const DraggableBoxItem = ({
     [itemAbility.dragDisabled, id],
   );
 
-  const { data: imgsData } = useQuery(["fetchImgsCategory"], () =>
+  /*const { data: imgsData } = useQuery(["fetchImgsCategory"], () =>
     request({
       method: "GET",
       url: `/api/files`,
     }),
-  );
+  );*/
 
   // console.log("images", imgsData?.data);
 
@@ -399,19 +399,19 @@ const DraggableBoxItem = ({
 
   const [randomColor, setRandomColor] = useState("");
 
-  const getRandomColor = () => {
+  /*const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "#";
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  };
+  };*/
 
   const handleClick = async () => {
     const storedRegisters = JSON.parse(localStorage.getItem("registers"));
 
-    const newColor = getRandomColor();
+    /*const newColor = getRandomColor();
 
     if (Math.random() > 0.5) {
       setRandomColor(newColor);
@@ -423,7 +423,7 @@ const DraggableBoxItem = ({
         setBgImg(randomImage.path);
       }
       setRandomColor("");
-    }
+    }*/
 
     if (path !== "") {
       window.open(path, "_blank");
