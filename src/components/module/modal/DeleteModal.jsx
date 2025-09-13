@@ -35,7 +35,7 @@ export default function DeleteModal({
             onDelete();
             setTimeout(() => {
               setIsOpenModal(false);
-            }, 2000);
+            }, 1000);
           }}
         >
           Delete
