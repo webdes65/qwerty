@@ -257,11 +257,11 @@ const DragDropOption = ({
         setSubmitLoading(true);
         updateForm.mutate({ name: `${updatedName}`, content, objects });
 
-        const blob = new Blob([content], { type: "text/html" });
+        /*const blob = new Blob([content], { type: "text/html" });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = "dragdrop_content.html";
-        link.click();
+        link.click();*/
       } else {
         console.log("dragdrop-container element not found.");
       }

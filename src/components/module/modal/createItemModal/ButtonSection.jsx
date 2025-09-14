@@ -21,6 +21,9 @@ const ButtonSection = ({
   const [dispalyTypeButton, setDispalyTypeButton] = useState("externallink");
   const [optionsForm, setOptionsForm] = useState([]);
 
+  /*console.log('optionsRegisters', optionsRegisters)
+  console.log('infoReqBtn', infoReqBtn)*/
+
   const { data: dataForms } = useQuery(["GetFormData"], () =>
     request({
       method: "GET",
@@ -154,10 +157,10 @@ const ButtonSection = ({
                   options={optionsRegisters}
                   placeholder="Select device"
                   onChange={(value) =>
-                    setInfoReqBtn((prev) => ({
-                      ...prev,
+                    setInfoReqBtn({
+                      ...infoReqBtn,
                       register_id: value,
-                    }))
+                    })
                   }
                 />
               )}
@@ -169,10 +172,10 @@ const ButtonSection = ({
                   value={infoReqBtn.title}
                   placeholder="Title req"
                   onChange={(e) =>
-                    setInfoReqBtn((prev) => ({
-                      ...prev,
+                    setInfoReqBtn({
+                      ...infoReqBtn,
                       title: e.target.value,
-                    }))
+                    })
                   }
                 />
 
@@ -182,10 +185,10 @@ const ButtonSection = ({
                   type="text"
                   value={infoReqBtn.value}
                   onChange={(e) =>
-                    setInfoReqBtn((prev) => ({
-                      ...prev,
+                    setInfoReqBtn({
+                      ...infoReqBtn,
                       value: e.target.value,
-                    }))
+                    })
                   }
                 />
               </div>
@@ -197,13 +200,13 @@ const ButtonSection = ({
                     name="singleIncrease"
                     id="singleIncrease"
                     checked={infoReqBtn.singleIncrease}
-                    onChange={() => {
-                      setInfoReqBtn((prev) => ({
-                        ...prev,
-                        singleIncrease: true,
-                        singleReduction: false,
-                      }));
-                    }}
+                    onChange={() =>
+                      setInfoReqBtn({
+                        ...infoReqBtn,
+                        singleReduction: true,
+                        singleIncrease: false,
+                      })
+                    }
                     className="w-4 h-4"
                   />
                   <label
@@ -220,11 +223,11 @@ const ButtonSection = ({
                     id="singleReduction"
                     checked={infoReqBtn.singleReduction}
                     onChange={() =>
-                      setInfoReqBtn((prev) => ({
-                        ...prev,
+                      setInfoReqBtn({
+                        ...infoReqBtn,
                         singleReduction: true,
                         singleIncrease: false,
-                      }))
+                      })
                     }
                     className="w-4 h-4"
                   />
