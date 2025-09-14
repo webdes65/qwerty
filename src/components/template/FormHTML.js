@@ -874,7 +874,7 @@ const FormHTML = (container) => {
                 });
               }
                 } else {
-                  console.error("No registers found.");
+                  console.info("No registers found.");
                   loadingOverlay.style.display = "none";
                   dropBox.style.display = "flex";
                 }
