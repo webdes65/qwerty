@@ -340,7 +340,7 @@ const FormHTML = (container) => {
                                   
                                   setTimeout(() => {
                                     initializeFormHandler();
-                                  }, 1000);
+                                  }, 5);
                                   
                                   /*console.log('dragDropDiv', dragDropDiv)
                                   console.log('buttonData', buttonData)*/
@@ -352,7 +352,7 @@ const FormHTML = (container) => {
                                   
                                   setTimeout(() => {
                                     initializeFormHandler();
-                                  }, 1000);
+                                  }, 5);
                                   
                                 }
                               }
