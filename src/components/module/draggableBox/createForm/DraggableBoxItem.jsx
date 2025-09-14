@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -20,7 +19,6 @@ import { generateCypherKey } from "@utils/generateCypherKey.js";
 import useEchoRegister from "@hooks/useEchoRegister";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import FormDisplay from "@module/modal/FormDisplay";
-import { request } from "@services/apiService.js";
 
 const ItemType = {
   BOX: "box",
@@ -397,7 +395,7 @@ const DraggableBoxItem = ({
     }
   }, [registers]);
 
-  const [randomColor, setRandomColor] = useState("");
+  // const [randomColor, setRandomColor] = useState("");
 
   /*const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -483,7 +481,7 @@ const DraggableBoxItem = ({
       }
 
       const data = {
-        device_uuid: infoReqBtn.device_Id,
+        device_uuid: infoReqBtn.device_uuid,
         title: infoReqBtn.title,
         value: isNaN(Number(updatedValue)) ? 0 : Number(updatedValue),
       };
@@ -523,13 +521,13 @@ const DraggableBoxItem = ({
     const updateRegister = async () => {
       if (
         indexType !== "text input" ||
-        infoReqBtn.device_Id === null ||
+        infoReqBtn.device_uuid === null ||
         !sendRequest
       )
         return;
 
       const data = {
-        device_uuid: infoReqBtn.device_Id,
+        device_uuid: infoReqBtn.device_uuid,
         title: infoReqBtn.title,
         value: title,
       };
@@ -662,7 +660,7 @@ const DraggableBoxItem = ({
           isNew ? `translate(${offset}px, ${offset}px)` : ""
         }`,
         transition: "transform 0.3s ease",
-        backgroundColor: randomColor || bgColor,
+        backgroundColor: bgColor,
         backgroundImage: bgImg ? `url(${bgImg})` : "none",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
