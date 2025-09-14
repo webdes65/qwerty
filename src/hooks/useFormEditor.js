@@ -20,31 +20,65 @@ const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
       opacity: "1",
     };
 
-    return Object.keys(defaultBoxInfo).reduce((acc, key) => {
-      acc[key] = boxInfoData[key] ?? defaultBoxInfo[key];
-      return acc;
-    }, {});
+    if (!boxInfoData || typeof boxInfoData !== "object") {
+      return defaultBoxInfo;
+    }
+
+    return {
+      ...defaultBoxInfo,
+      ...boxInfoData,
+    };
   };
 
   useEffect(() => {
-    if (data && id) {
-      const filtered = data.data.find((register) => register.uuid === id);
-      if (filtered) {
-        const parsedObjects = JSON.parse(filtered.objects);
-        setBoxInfo(getBoxInfo(parsedObjects.boxInfo));
-
-        localStorage.setItem(
-          "registers",
-          JSON.stringify(parsedObjects.registers),
-        );
-        dispatch(setItems(parsedObjects.registers));
-        setBtnDisplayStatus(false);
-      } else {
-        setBtnDisplayStatus(true);
-      }
+    if (!data?.data || !id) {
+      dispatch(setItems([]));
+      setBtnDisplayStatus(true);
+      return;
     }
 
-    return () => dispatch(setItems([]));
+    try {
+      const filtered = data.data.find((register) => register.uuid === id);
+
+      if (!filtered) {
+        setBtnDisplayStatus(true);
+        dispatch(setItems([]));
+        return;
+      }
+
+      if (!filtered.objects || typeof filtered.objects !== "string") {
+        console.warn("Invalid objects data in filtered register");
+        setBtnDisplayStatus(true);
+        return;
+      }
+
+      const parsedObjects = JSON.parse(filtered.objects);
+
+      if (!parsedObjects || typeof parsedObjects !== "object") {
+        console.warn("Parsed objects is not a valid object");
+        setBtnDisplayStatus(true);
+        return;
+      }
+
+      const boxInfoResult = getBoxInfo(parsedObjects.boxInfo);
+      setBoxInfo(boxInfoResult);
+
+      const registers = Array.isArray(parsedObjects.registers)
+        ? parsedObjects.registers
+        : [];
+
+      localStorage.setItem("registers", JSON.stringify(registers));
+      dispatch(setItems(registers));
+      setBtnDisplayStatus(false);
+    } catch (error) {
+      console.error("Error parsing form data:", error);
+      setBtnDisplayStatus(true);
+      dispatch(setItems([]));
+    }
+
+    return () => {
+      dispatch(setItems([]));
+    };
   }, [data, id, dispatch, setBoxInfo, setBtnDisplayStatus]);
 };
 
