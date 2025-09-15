@@ -30,4 +30,7 @@ export default defineConfig({
       "@version": path.resolve(__dirname, "./src/version"),
     },
   },
+  build: {
+    outDir: "dist",
+  },
 });

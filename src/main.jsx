@@ -10,6 +10,32 @@ import "./styles/toggleListen.css";
 import "./styles/joyride.css";
 import { MqttProvider } from "./context/MqttProvider.jsx";
 
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  const message = args.join(" ");
+  if (
+    message.includes("React Router Future Flag Warning") ||
+    message.includes("v7_startTransition") ||
+    message.includes("v7_relativeSplatPath") ||
+    message.includes("Layout was forced")
+  ) {
+    return;
+  }
+  originalWarn(...args);
+};
+
+const originalError = console.error;
+console.error = (...args) => {
+  const message = args.join(" ");
+  if (
+    message.includes("Source map error") ||
+    message.includes("JSON.parse: unexpected character")
+  ) {
+    return;
+  }
+  originalError(...args);
+};
+
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
