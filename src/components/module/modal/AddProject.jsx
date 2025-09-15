@@ -5,6 +5,7 @@ import { Button, Modal, Select } from "antd";
 import { Formik, Form, ErrorMessage } from "formik";
 import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
   const queryClient = useQueryClient();
@@ -104,7 +105,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
         queryClient.invalidateQueries("getProject");
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPending(false);
@@ -138,7 +139,7 @@ const AddProject = ({ isModalOpenAddProject, setIsModalOpenAddProject }) => {
             setFieldValue("devices", []);
             toast.success("Project added successfully!");
           } catch (error) {
-            console.error("Error adding project:", error);
+            logger.error("Error adding project:", error);
             toast.error("Failed to add project!");
           } finally {
             setSubmitPending(false);

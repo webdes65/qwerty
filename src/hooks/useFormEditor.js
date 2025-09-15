@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setItems } from "@redux_toolkit/features/itemsSlice";
+import logger from "@utils/logger.js";
 
 const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
       }
 
       if (!filtered.objects || typeof filtered.objects !== "string") {
-        console.warn("Invalid objects data in filtered register");
+        logger.warn("Invalid objects data in filtered register");
         setBtnDisplayStatus(true);
         return;
       }
@@ -55,7 +56,7 @@ const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
       const parsedObjects = JSON.parse(filtered.objects);
 
       if (!parsedObjects || typeof parsedObjects !== "object") {
-        console.warn("Parsed objects is not a valid object");
+        logger.warn("Parsed objects is not a valid object");
         setBtnDisplayStatus(true);
         return;
       }
@@ -71,7 +72,7 @@ const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
       dispatch(setItems(registers));
       setBtnDisplayStatus(false);
     } catch (error) {
-      console.error("Error parsing form data:", error);
+      logger.error("Error parsing form data:", error);
       setBtnDisplayStatus(true);
       dispatch(setItems([]));
     }

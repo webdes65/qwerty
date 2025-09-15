@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import mqtt from "mqtt";
+import logger from "@utils/logger.js";
 
 const MQTTContext = createContext();
 
@@ -15,7 +16,7 @@ export const MqttProvider = ({ children }) => {
   useEffect(() => {
     if (realtimeService !== "mqtt") {
       if (mqttClient) {
-        // console.log("Disconnecting MQTT client...");
+        // logger.log("Disconnecting MQTT client...");
         mqttClient.end(true);
         setMqttClient(null);
         setIsConnected(false);
@@ -32,11 +33,11 @@ export const MqttProvider = ({ children }) => {
     const brokerUrl = import.meta.env.VITE_BROKER_URL;
 
     if (!brokerUrl) {
-      // console.error("MQTT broker URL not found");
+      // logger.error("MQTT broker URL not found");
       return;
     }
 
-    // console.log("Connecting to MQTT broker:", brokerUrl);
+    // logger.log("Connecting to MQTT broker:", brokerUrl);
 
     const client = mqtt.connect(brokerUrl, {
       username: import.meta.env.VITE_MQTT_USERNAME,
@@ -49,11 +50,11 @@ export const MqttProvider = ({ children }) => {
     setMqttClient(client);
 
     client.on("connect", () => {
-      // console.log("Connected to MQTT Broker");
+      // logger.log("Connected to MQTT Broker");
       setIsConnected(true);
     });
 
-    // console.log("Received message");
+    // logger.log("Received message");
 
     client.on("message", (topic, payload) => {
       const message = {
@@ -62,7 +63,7 @@ export const MqttProvider = ({ children }) => {
         timestamp: Date.now(),
       };
 
-      // console.log("Received message", message);
+      // logger.log("Received message", message);
 
       setMessages((prev) => [...prev, message]);
 
@@ -73,18 +74,18 @@ export const MqttProvider = ({ children }) => {
     });
 
     client.on("error", (err) => {
-      console.error("MQTT error:", err);
+      logger.error("MQTT error:", err);
       setIsConnected(false);
     });
 
     client.on("close", () => {
-      // console.log("MQTT connection closed");
+      // logger.log("MQTT connection closed");
       setIsConnected(false);
     });
 
     return () => {
       if (client && !client.disconnecting) {
-        // console.log("Cleaning up MQTT client...");
+        // logger.log("Cleaning up MQTT client...");
         client.end(true);
         subscribedTopics.current.clear();
         messageHandlers.current.clear();
@@ -113,7 +114,7 @@ export const MqttProvider = ({ children }) => {
             if (mqttClient && !mqttClient.disconnecting) {
               mqttClient.unsubscribe(topic);
               subscribedTopics.current.delete(topic);
-              // console.log(`Unsubscribed from ${topic}`);
+              // logger.log(`Unsubscribed from ${topic}`);
             }
           } else {
             messageHandlers.current.set(topic, newHandlers);
@@ -124,9 +125,9 @@ export const MqttProvider = ({ children }) => {
 
     mqttClient.subscribe(topic, (err) => {
       if (err) {
-        console.error(`Failed to subscribe to ${topic}`, err);
+        logger.error(`Failed to subscribe to ${topic}`, err);
       } else {
-        // console.log(`Successfully subscribed to ${topic}`);
+        // logger.log(`Successfully subscribed to ${topic}`);
         subscribedTopics.current.add(topic);
 
         if (messageHandler) {
@@ -147,7 +148,7 @@ export const MqttProvider = ({ children }) => {
           if (mqttClient && !mqttClient.disconnecting) {
             mqttClient.unsubscribe(topic);
             subscribedTopics.current.delete(topic);
-            // console.log(`Unsubscribed from ${topic}`);
+            // logger.log(`Unsubscribed from ${topic}`);
           }
         } else {
           messageHandlers.current.set(topic, newHandlers);

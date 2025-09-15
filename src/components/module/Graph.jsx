@@ -15,6 +15,7 @@ import {
 } from "chart.js";
 import useEchoChart from "@hooks/useEchoChart";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
+import logger from "@utils/logger.js";
 // import zoomPlugin from "chartjs-plugin-zoom";
 
 ChartJS.register(
@@ -184,7 +185,7 @@ const TemperatureChart = ({ data }) => {
       ? allowedIds.map((id) => `registers/${id}`)
       : [];
 
-  // console.log("allowedIds", allowedIds);
+  // logger.log("allowedIds", allowedIds)
 
   const { messages: notificationMessages } = UseMqttSubscription(
     mqttTopics,
@@ -206,7 +207,7 @@ const TemperatureChart = ({ data }) => {
           }
         });
       } catch (error) {
-        console.error("Error parsing register MQTT payload:", error);
+        logger.error("Error parsing register MQTT payload:", error);
       }
     },
     isLiveUpdate && realtimeService === "mqtt",

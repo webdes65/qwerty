@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { Select, Spin } from "antd";
 import { Field } from "formik";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const ButtonSection = ({
   values,
@@ -21,8 +22,8 @@ const ButtonSection = ({
   const [dispalyTypeButton, setDispalyTypeButton] = useState("externallink");
   const [optionsForm, setOptionsForm] = useState([]);
 
-  /*console.log('optionsRegisters', optionsRegisters)
-  console.log('infoReqBtn', infoReqBtn)*/
+  /*logger.log("infoReqBtn", infoReqBtn);
+  logger.log("optionsRegisters", optionsRegisters);*/
 
   const { data: dataForms } = useQuery(["GetFormData"], () =>
     request({
@@ -31,7 +32,7 @@ const ButtonSection = ({
     }),
   );
 
-  console.log("dataForms", dataForms);
+  logger.log("dataForms", dataForms);
 
   const processedOptions = optionsForm.map((option) => ({
     ...option,

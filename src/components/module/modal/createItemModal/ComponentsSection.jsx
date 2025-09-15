@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Button, Spin } from "antd";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const ComponentsSection = ({
   values,
@@ -40,7 +41,7 @@ const ComponentsSection = ({
         queryClient.invalidateQueries(["fetchComponents"]);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
     },
   );

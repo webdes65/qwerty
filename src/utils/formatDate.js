@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import logger from "@utils/logger.js";
 
 /**
  * @param {string} dateString
@@ -11,7 +12,7 @@ export const formatDate = (dateString, defaultValue = "N/A") => {
   try {
     return format(new Date(dateString), "yyyy/MM/dd HH:mm:ss");
   } catch (error) {
-    console.error("Error formatting date:", error);
+    logger.error("Error formatting date:", error);
     return defaultValue;
   }
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Modal, Spin } from "antd";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 function FormDisplay({
   showModalFormDisplay,
@@ -25,7 +26,7 @@ function FormDisplay({
       if (formInfo) {
         setFormInfo(formInfo.content);
       } else {
-        console.log("A form was not found with this ID.");
+        logger.log("A form was not found with this ID.");
       }
     }
   }, [data, idForm]);

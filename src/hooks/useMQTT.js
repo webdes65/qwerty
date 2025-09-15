@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import mqtt from "mqtt";
+import logger from "@utils/logger.js";
 
 const useMQTT = (topics, realtimeService, isLiveUpdate) => {
   const [messages, setMessages] = useState([]);
@@ -26,7 +27,7 @@ const useMQTT = (topics, realtimeService, isLiveUpdate) => {
     setMqttClient(client);
 
     client.on("connect", () => {
-      console.log("Connected to MQTT Broker");
+      logger.log("Connected to MQTT Broker");
       setIsConnected(true);
     });
 
@@ -38,7 +39,7 @@ const useMQTT = (topics, realtimeService, isLiveUpdate) => {
     });
 
     client.on("error", (err) => {
-      console.error("MQTT error:", err);
+      logger.error("MQTT error:", err);
     });
 
     return () => {
@@ -60,9 +61,9 @@ const useMQTT = (topics, realtimeService, isLiveUpdate) => {
       topics.forEach((topic) => {
         mqttClient.subscribe(topic, (err) => {
           if (err) {
-            console.error(`Failed to subscribe to ${topic}`, err);
+            logger.error(`Failed to subscribe to ${topic}`, err);
           } else {
-            // console.log(`Subscribed to ${topic}`);
+            // logger.log(`Subscribed to ${topic}`);
           }
         });
       });

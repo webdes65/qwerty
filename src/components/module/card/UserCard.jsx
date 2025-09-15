@@ -6,6 +6,7 @@ import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
+import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
 
 const UserCard = (data) => {
@@ -21,7 +22,7 @@ const UserCard = (data) => {
         queryClient.invalidateQueries(["fetchUsers"]);
       },
       onError: (error) => {
-        console.error("Error deleting device:", error);
+        logger.error("Error deleting device:", error);
       },
     },
   );

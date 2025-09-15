@@ -6,6 +6,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import CustomField from "@components/module/CustomField";
 import generateMindFile from "@utils/generateMindFile";
+import logger from "@utils/logger.js";
 import { request } from "@services/apiService.js";
 
 const { Dragger } = Upload;
@@ -49,7 +50,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
         setIsModalOpenAR(false);
         setProgress(0);
         setFileList([]);
-        // console.log('data', data);
+        // logger.error('data', data)
       },
       onError: (error) => {
         toast.error(error.message);
@@ -60,7 +61,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
     },
   );
 
-  // console.log('fileList', fileList);
+  // logger.log('fileList', fileList)
 
   return (
     <Modal
@@ -100,23 +101,23 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
                 // Use the original file object
                 const actualFile = file.originFileObj || file;
                 formData.append("files[]", actualFile, actualFile.name);
-                // console.log(`Adding file ${index}:`, actualFile.name, actualFile.size, actualFile.type);
+                // logger.log(`Adding file ${index}:`, actualFile.name, actualFile.size, actualFile.type)
               });
 
               // Log FormData contents for debugging
-              /*console.log('FormData contents:');
+              /* logger.log(pair[0], pair[1])
                   for (let pair of formData.entries()) {
-                    console.log(pair[0], pair[1]);
+                    logger.log(pair[0], pair[1])
                   }*/
 
-              // console.log('formData', formData)
+              // logger.log("formData", formData);
 
               mutation.mutate(formData);
             } else {
               toast.error("Failed to generate mind file.");
             }
           } catch (error) {
-            console.error(error);
+            logger.log(error);
             toast.error("An error occurred while processing files.");
           } finally {
             setSubmitPending(false);

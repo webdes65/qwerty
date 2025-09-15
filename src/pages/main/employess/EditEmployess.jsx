@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "react-query";
 import { Button, Select } from "antd";
 import { Formik, Form, Field } from "formik";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const EditEmployess = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const EditEmployess = () => {
 
   const onSubmit = (values) => {
     setUpdateLoading(true);
-    console.log(values);
+    logger.log(values);
     updateForm.mutate(values);
   };
 
@@ -49,7 +50,7 @@ const EditEmployess = () => {
         setIsEditable(false);
       },
       onError: (error) => {
-        console.log(error);
+        logger.log(error);
         toast.error(error);
       },
       onSettled: () => {

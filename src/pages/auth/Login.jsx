@@ -9,6 +9,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
 import logo from "/assets/images/logo.webp";
+import logger from "@utils/logger.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Login = () => {
         }, 5000);
       },
       onError: (error) => {
-        console.log(error);
+        logger.log("error", error);
         toast.error(error.response.data.message);
       },
       onSettled: () => {

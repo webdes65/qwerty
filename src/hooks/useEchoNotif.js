@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import echo from "@config/echo";
+import logger from "@utils/logger.js";
 
 const useEchoNotif = (userId, realtimeService) => {
   useEffect(() => {
@@ -26,10 +27,10 @@ const useEchoNotif = (userId, realtimeService) => {
 
       channel
         // .subscribed(() => {
-        //   console.log("Successfully subscribed to notification channel");
+        //   logger.log("Successfully subscribed to notification channel");
         // })
         .error((error) => {
-          console.error("Error subscribing to channel:", error);
+          logger.error("Error subscribing to channel:", error);
         });
     }
 
@@ -37,7 +38,7 @@ const useEchoNotif = (userId, realtimeService) => {
       if (channel) {
         channel.stopListening("NotificationEvent");
         echo.leave(`notification.${userId}`);
-        // console.log("Left the echo channel");
+        logger.log("Left the echo channel");
       }
     };
   }, [userId, realtimeService]);

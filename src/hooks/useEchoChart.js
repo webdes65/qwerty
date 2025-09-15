@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import echo from "@config/echo";
+import logger from "@utils/logger.js";
 
 const useEchoChart = (
   setRegisters,
@@ -25,9 +26,9 @@ const useEchoChart = (
             setRegisters((registers) => [...registers, data]);
           })
           // .subscribed(() =>
-          //   console.log(`Successfully subscribed to register ${id}`)
+          // logger.log(`Successfully subscribed to register ${id}`)
           // )
-          .error((error) => console.error(error));
+          .error((error) => logger.warn(error));
       });
     };
 

@@ -31,12 +31,12 @@ export function setupInstallPrompt() {
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
               if (choiceResult.outcome === "accepted") {
-                // console.log("User accepted the prompt");
+                // logger.log("User accepted the prompt")
                 localStorage.setItem("app_version", CURRENT_VERSION);
               }
-              // else {
-              //   console.log("User dismissed the prompt");
-              // }
+              /* else {
+                  logger.log("User dismissed the prompt")
+              }*/
 
               installModal.style.animation =
                 "install-slide-up 0.5s ease-in forwards";
