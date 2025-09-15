@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import logger from "@utils/logger.js";
 
 const FormDetail = () => {
   const location = useLocation();
@@ -52,7 +53,7 @@ const FormDetail = () => {
           try {
             iframeWindow.initializeFormHandler();
           } catch (error) {
-            console.error("Error reinitializing form handler:", error);
+            logger.error("Error reinitializing form handler:", error);
           }
         }
 
@@ -62,7 +63,7 @@ const FormDetail = () => {
           window.removeEventListener("resize", updateScale);
         };
       } else {
-        console.warn("Element with ID 'dropBox' not found in iframe content.");
+        logger.warn("Element with ID 'dropBox' not found in iframe content.");
       }
     }
   }, [form]);

@@ -1,4 +1,5 @@
 import { CURRENT_VERSION } from "@version";
+import logger from "@utils/logger.js";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -24,7 +25,7 @@ export function register(config) {
         checkValidServiceWorker(swUrl, config);
 
         navigator.serviceWorker.ready.then(() => {
-          console.log(
+          logger.log(
             "This web app has cached essential resources using a service worker.",
           );
         });
@@ -45,7 +46,7 @@ function registerValidSW(swUrl) {
       let installedVersion = localStorage.getItem("app_version");
 
       if (!installedVersion) {
-        console.log(
+        logger.log(
           "SW - No version of the app was found, so the app is not installed.",
         );
         return;
@@ -53,11 +54,11 @@ function registerValidSW(swUrl) {
 
       const currentVersion = CURRENT_VERSION;
 
-      // console.log("SW - Installed version", installedVersion);
-      // console.log("SW - Current version", currentVersion);
+      /*logger.log("SW - Installed version", installedVersion);
+        logger.log("SW - Current version", currentVersion);*/
 
       if (installedVersion !== currentVersion) {
-        console.log(
+        logger.log(
           "SW - A new version is available and The installed version is outdated.",
         );
 
@@ -65,7 +66,7 @@ function registerValidSW(swUrl) {
 
         registration.update().then(() => {
           localStorage.setItem("app_version", currentVersion);
-          console.log(
+          logger.log(
             "SW - The old cache has been cleared and the new cache has been created.",
           );
 
@@ -76,7 +77,7 @@ function registerValidSW(swUrl) {
           }
         });
       } else {
-        console.log("SW - The application is up to date.");
+        logger.log("SW - The application is up to date.");
       }
       // reload the page when a new version becomes active.
       navigator.serviceWorker.addEventListener("controllerchange", () => {
@@ -84,7 +85,7 @@ function registerValidSW(swUrl) {
       });
     })
     .catch((error) => {
-      console.error("SW - Error service worker registration", error);
+      logger.error("SW - Error service worker registration", error);
     });
 }
 
@@ -109,7 +110,7 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
-      console.log(
+      logger.log(
         "No internet connection found. App is running in offline mode.",
       );
     });
@@ -122,14 +123,14 @@ export function unregister() {
     navigator.serviceWorker.ready
       .then((registration) => {
         registration.unregister().then(() => {
-          console.log("SW - Service Worker has been unregistered.");
+          logger.log("SW - Service Worker has been unregistered.");
         });
       })
       .catch((error) => {
-        console.error("SW - Error unregistering Service Worker", error.message);
+        logger.error("SW - Error unregistering Service Worker", error.message);
       });
   } else {
-    console.log("SW - Service Worker is not supported.");
+    logger.log("SW - Service Worker is not supported.");
   }
 }
 
@@ -140,13 +141,10 @@ export function registerServiceWorker() {
     navigator.serviceWorker
       .register("/service-worker.js")
       .then(() => {
-        // console.log(
-        //   "SW - Service Worker registered with scope",
-        //   registration.scope
-        // );
+        // logger.log("SW - Service Worker registered with scope");
       })
       .catch((error) => {
-        console.error("SW - Service Worker registration failed", error);
+        logger.error("SW - Service Worker registration failed", error);
       });
   }
 }

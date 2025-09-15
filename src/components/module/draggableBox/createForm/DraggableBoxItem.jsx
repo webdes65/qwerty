@@ -16,6 +16,7 @@ import { setItems } from "@redux_toolkit/features/itemsSlice";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
+import logger from "@utils/logger.js";
 import useEchoRegister from "@hooks/useEchoRegister";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import FormDisplay from "@module/modal/FormDisplay";
@@ -85,7 +86,7 @@ const DraggableBoxItem = ({
   const [showModalFormDisplay, setShowModalFormDisplay] = useState(false);
   const [showOnlyController, setShowOnlyController] = useState(false);
 
-  // console.log("info", info);
+  // logger.log("info", info);
 
   const allowedIds = idRegister ?? null;
 
@@ -96,7 +97,7 @@ const DraggableBoxItem = ({
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
 
-  // console.log("allowedIds", allowedIds);
+  // logger.log("allowedIds", allowedIds);
 
   const { messages: notificationMessages } = UseMqttSubscription(
     mqttTopics,
@@ -104,10 +105,10 @@ const DraggableBoxItem = ({
       try {
         const payload = JSON.parse(message.payload);
         setInfo(payload.value);
-        // console.log("payload", payload);
-        // console.log("message", message);
+        /*logger.log("payload", payload);
+        logger.log("message", message);*/
       } catch (e) {
-        console.error("MQTT parse error:", e);
+        logger.error("MQTT parse error:", e);
       }
     },
     realtimeService === "mqtt",
@@ -136,7 +137,7 @@ const DraggableBoxItem = ({
     }),
   );*/
 
-  // console.log("images", imgsData?.data);
+  // logger.log("images", imgsData?.data);
 
   useEffect(() => {
     displayInfo();
@@ -446,17 +447,17 @@ const DraggableBoxItem = ({
             let currentValue = Number(foundItem.value);
 
             if (isNaN(currentValue)) {
-              console.error("Invalid value for 'value', defaulting to 0.");
+              logger.error("Invalid value for 'value', defaulting to 0.");
               currentValue = 0;
             }
 
             updatedValue = currentValue + 1;
             foundItem.value = updatedValue;
           } else {
-            console.log("No matching item found.");
+            logger.log("No matching item found.");
           }
         } else {
-          console.log("temps is not a valid array.");
+          logger.log("temps is not a valid array.");
         }
       }
 
@@ -469,14 +470,14 @@ const DraggableBoxItem = ({
           let currentValue = Number(foundItem.value);
 
           if (isNaN(currentValue)) {
-            console.error("Invalid value for 'value', defaulting to 0.");
+            logger.error("Invalid value for 'value', defaulting to 0.");
             currentValue = 0;
           }
 
           updatedValue = currentValue - 1;
           foundItem.value = updatedValue;
         } else {
-          console.log("No matching item found.");
+          logger.log("No matching item found.");
         }
       }
 
@@ -508,7 +509,7 @@ const DraggableBoxItem = ({
         if (error.status === 422) {
           toast.error(error.response.data.data);
         } else {
-          console.log(error);
+          logger.error(error);
         }
       }
     }

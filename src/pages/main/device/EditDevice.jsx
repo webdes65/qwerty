@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { Button, message } from "antd";
 import { Formik, Form, Field } from "formik";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const EditDevice = () => {
   const location = useLocation();
@@ -40,13 +41,13 @@ const EditDevice = () => {
       },
       onError: (error) => {
         message.error("Failed to update device!");
-        console.error("Update error:", error);
+        logger.error("Update error:", error);
       },
     },
   );
 
   const onSubmit = (values) => {
-    console.log("Submitting values:", values);
+    logger.error("Submitting values:", values);
     updateDeviceMutation.mutate(values);
   };
 

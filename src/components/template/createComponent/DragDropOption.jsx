@@ -12,6 +12,7 @@ import UploadImgsModal from "@module/modal/UploadImgsModal";
 import CreatePointModal from "@module/modal/CreatePointModal";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const DragDropOption = ({
   dropBoxRef,
@@ -83,7 +84,7 @@ const DragDropOption = ({
         setLines([]);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
     },
   );

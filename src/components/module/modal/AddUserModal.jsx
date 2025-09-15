@@ -5,6 +5,7 @@ import { Button, DatePicker, Modal, Select } from "antd";
 import { Formik, Form, ErrorMessage } from "formik";
 import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
   const [submitPending, setSubmitPending] = useState(false);
@@ -33,7 +34,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
     {
       onSuccess: (data) => {
         toast.success(data.data.message);
-        console.log("data", data);
+        logger.log("data", data);
 
         queryClient.invalidateQueries("fetchUsers");
 

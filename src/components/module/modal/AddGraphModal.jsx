@@ -5,6 +5,7 @@ import { Button, Modal, Select, Spin } from "antd";
 import { Formik, Form, Field } from "formik";
 import CustomField from "@module/CustomField";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
   const [submitPending, setSubmitPending] = useState(false);
@@ -151,7 +152,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
         queryClient.invalidateQueries("fetchGraphs");
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPending(false);

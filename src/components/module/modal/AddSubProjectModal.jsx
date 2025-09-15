@@ -5,6 +5,7 @@ import { Button, Modal, Select, Spin } from "antd";
 import { Formik, Form } from "formik";
 import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AddSubProjectModal = ({
   isModalOpenAddSub,
@@ -65,7 +66,7 @@ const AddSubProjectModal = ({
 
   useEffect(() => {
     if (isErrorAR) {
-      console.error(errorAR?.message);
+      logger.error(errorAR?.message);
     }
   }, [isErrorAR, errorAR]);
 
@@ -109,7 +110,7 @@ const AddSubProjectModal = ({
         queryClient.invalidateQueries("subsList");
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPending(false);

@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
+import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
 
 const CityCard = ({ city }) => {
@@ -19,7 +20,7 @@ const CityCard = ({ city }) => {
         queryClient.invalidateQueries(["fetchCities"]);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
     },
   );

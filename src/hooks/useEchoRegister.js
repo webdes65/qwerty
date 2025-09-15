@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import echo from "@config/echo";
+import logger from "@utils/logger.js";
 
 const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
   useEffect(() => {
@@ -42,9 +43,9 @@ const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
           });
         })
         // .subscribed(() =>
-        //   console.log("Successfully subscribed to register channel")
+        //   logger.log("Successfully subscribed to register channel")
         // )
-        .error((error) => console.error(error));
+        .error((error) => logger.error(error));
     };
 
     initializeEcho();

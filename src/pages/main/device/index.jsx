@@ -6,6 +6,7 @@ import { request } from "@services/apiService.js";
 import DeviceCard from "@components/module/card/DeviceCard";
 import AddDeviceModal from "@components/module/modal/AddDeviceModal";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import logger from "@utils/logger.js";
 
 const Devices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +19,7 @@ const Devices = () => {
   );
 
   if (error) {
-    console.error(error);
+    logger.error(error);
     return <div>{error.message}</div>;
   }
 

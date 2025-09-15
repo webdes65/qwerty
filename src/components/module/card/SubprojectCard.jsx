@@ -8,6 +8,7 @@ import Cookies from "universal-cookie";
 import { request } from "@services/apiService.js";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
 import { formatTimestamps } from "@utils/formatDate.js";
+import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
 
 const SubprojectCard = ({ data, idProject }) => {
@@ -28,7 +29,7 @@ const SubprojectCard = ({ data, idProject }) => {
         queryClient.invalidateQueries("subsList");
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
     },
   );
@@ -77,7 +78,7 @@ const SubprojectCard = ({ data, idProject }) => {
       })
 
       .catch((error) => {
-        console.error("Error: ", error);
+        logger.error("Error: ", error);
         toast.error("خطا در عملیات اسکن");
       })
       .finally(() => {

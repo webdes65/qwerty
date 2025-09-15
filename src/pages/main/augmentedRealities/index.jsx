@@ -9,6 +9,7 @@ import AddProject from "@components/module/modal/AddProject";
 import ProjectCard from "@components/module/card/ProjectCard";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AugmentedRealities = () => {
   const [isModalOpenAR, setIsModalOpenAR] = useState(false);
@@ -37,12 +38,12 @@ const AugmentedRealities = () => {
   );
 
   if (errAR) {
-    console.error(errAR);
+    logger.error(errAR);
     return <div>{errAR.message}</div>;
   }
 
   if (errProject) {
-    console.error(errProject);
+    logger.error(errProject);
     return <div>{errProject.message}</div>;
   }
 

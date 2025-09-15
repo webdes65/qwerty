@@ -14,6 +14,7 @@ import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
 import UpdateFormNameModal from "@module/modal/UpdateFormNameModal";
 import FormHTML from "@template/FormHTML";
 import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
+import logger from "@utils/logger.js";
 
 const DragDropOption = ({
   boxInfo,
@@ -129,7 +130,7 @@ const DragDropOption = ({
               // .then((res) => {
               // })
               .catch((err) => {
-                console.log(err);
+                logger.log(err);
               });
           }
         }
@@ -263,7 +264,7 @@ const DragDropOption = ({
         link.download = "dragdrop_content.html";
         link.click();*/
       } else {
-        console.log("dragdrop-container element not found.");
+        logger.log("dragdrop-container element not found.");
       }
     }
   };
