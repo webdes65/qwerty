@@ -13,7 +13,7 @@ import Header from "@template/Header";
 import Spinner from "@template/Spinner";
 import InstallModal from "@module/modal/InstallModal";
 import useEchoNotif from "@hooks/useEchoNotif";
-import useAuthCheck from "@hooks/useAu  thCheck";
+import useAuthCheck from "@hooks/useAuthCheck";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import { setupInstallPrompt } from "@services/setupInstallPrompt.js";
 import { request } from "@services/apiService.js";
