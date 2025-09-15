@@ -16,7 +16,7 @@ const useEchoNotif = (userId, realtimeService) => {
             navigator.serviceWorker.ready.then((registration) => {
               registration.showNotification(data.title, {
                 body: data.body,
-                icon: "/assets/icons/sidebarIcons/icon192.png",
+                icon: "/assets/icons/icon192.png",
               });
             });
           } else {
