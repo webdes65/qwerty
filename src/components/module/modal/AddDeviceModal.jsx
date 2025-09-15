@@ -6,6 +6,7 @@ import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
   const queryClient = useQueryClient();
@@ -63,7 +64,7 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
         queryClient.invalidateQueries("fetchDevices");
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPending(false);

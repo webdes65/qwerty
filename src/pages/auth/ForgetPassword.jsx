@@ -4,14 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { Form, Formik } from "formik";
-import Cookies from "universal-cookie";
 import CustomField from "@components/module/CustomField";
 import logo from "/assets/images/logo.webp";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const cookies = new Cookies();
   const [submitPending, setSubmitPending] = useState(false);
 
   const mutation = useMutation(
@@ -31,7 +30,7 @@ const ForgetPassword = () => {
                 }, 5000);*/
       },
       onError: (error) => {
-        console.log(error);
+        logger.error(error);
         toast.error(error.response.data.message);
       },
       onSettled: () => {

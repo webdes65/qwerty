@@ -1,5 +1,6 @@
 import { Button, Modal } from "antd";
 import { Formik, Form, Field } from "formik";
+import logger from "@utils/logger.js";
 
 const EditLine = ({
   isOpenEditLineModal,
@@ -26,7 +27,7 @@ const EditLine = ({
       setLines(updatedLines);
       setIsOpenEditLineModal(false);
     } else {
-      console.log("خط مورد نظر پیدا نشد!");
+      logger.log("خط مورد نظر پیدا نشد!");
     }
   };
 

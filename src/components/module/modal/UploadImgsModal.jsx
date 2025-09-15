@@ -6,6 +6,7 @@ import { Button, Select, Modal } from "antd";
 import Cookies from "universal-cookie";
 import { request } from "@services/apiService.js";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
+import logger from "@utils/logger.js";
 
 const UploadImgsModal = ({
   isOpenUploadImgsModal,
@@ -67,7 +68,7 @@ const UploadImgsModal = ({
         setSelectedCategory(null);
       },
       onError: (error) => {
-        console.error("Upload error:", error);
+        logger.error("Upload error:", error);
       },
       onSettled: () => {
         setSubmitLoadingImgs(false);
@@ -97,7 +98,7 @@ const UploadImgsModal = ({
         setIsCreatingCategory(false);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setLoadingCreateCategory(false);

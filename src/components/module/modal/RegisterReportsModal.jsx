@@ -4,6 +4,7 @@ import { DatePicker, Modal, Button, Pagination } from "antd";
 import { format } from "date-fns";
 import { request } from "@services/apiService.js";
 import ChartModal from "@module/modal/ChartModal";
+import logger from "@utils/logger.js";
 
 const RegisterReportsModal = ({
   isModalOpen,
@@ -47,7 +48,7 @@ const RegisterReportsModal = ({
         setListReports(data.data.data);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPending(false);
@@ -85,7 +86,7 @@ const RegisterReportsModal = ({
         setIsChartModalOpen(true);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPendingFetchChartData(false);

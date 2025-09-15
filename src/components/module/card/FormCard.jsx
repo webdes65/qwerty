@@ -6,6 +6,7 @@ import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
+import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
 
 const FormCard = ({ form }) => {
@@ -22,7 +23,7 @@ const FormCard = ({ form }) => {
         queryClient.invalidateQueries(["GetForms"]);
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitLoading(false);

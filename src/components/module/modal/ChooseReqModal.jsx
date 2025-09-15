@@ -91,7 +91,7 @@ const ChooseReqModal = ({ isChooseReqModal, setIsChooseReqModal }) => {
 
     //   }
     // } catch (error) {
-    //   console.error("Error:", error);
+    //   logger.error("Error:", error);
     // }
   };
 

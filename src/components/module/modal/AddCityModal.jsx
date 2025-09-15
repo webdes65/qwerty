@@ -5,6 +5,7 @@ import { Button, Modal, Select } from "antd";
 import { Formik, Form } from "formik";
 import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const AddCityModal = ({ isModalOpen, setIsModalOpen }) => {
   const [submitPending, setSubmitPending] = useState(false);
@@ -35,7 +36,7 @@ const AddCityModal = ({ isModalOpen, setIsModalOpen }) => {
         queryClient.invalidateQueries("fetchCities");
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
       onSettled: () => {
         setSubmitPending(false);

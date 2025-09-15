@@ -6,8 +6,8 @@ export async function generateTimestamp() {
 
   const timestamp = Math.floor(tehranNow.toSeconds() / 1000);
 
-  /*console.log('Tehran Time:', tehranNow.toFormat('yyyy-MM-dd HH:mm:ss'))
-  console.log('Timestamp:', timestamp)*/
+  /*logger.log('Tehran Time:', tehranNow.toFormat('yyyy-MM-dd HH:mm:ss'));
+  logger.log('Timestamp:', timestamp);*/
 
   return timestamp;
 }
@@ -75,12 +75,12 @@ export async function generateCypherKey() {
   let salt = import.meta.env.VITE_SALT;
   const newTimestamp = await generateTimestamp();
 
-  // console.log('newTimestamp', newTimestamp)
+  // logger.log('newTimestamp', newTimestamp)
 
   const newStringResult = await stringResult(salt, newTimestamp);
   let transformed = await transformString(newStringResult, salt);
 
-  // console.log('Cypher Key:', transformed)
+  // logger.log('Cypher Key:', transformed)
 
   return transformed;
 }

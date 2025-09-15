@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Button } from "antd";
 import { Formik, Form, Field } from "formik";
+import logger from "@utils/logger.js";
 
 const EditDevice = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const EditDevice = () => {
   const [isEditable, setIsEditable] = useState(false);
 
   const onSubmit = (values) => {
-    console.log(values);
+    logger.log(values);
   };
 
   return (

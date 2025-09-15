@@ -17,6 +17,7 @@ import useAuthCheck from "@hooks/useAuthCheck";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import { setupInstallPrompt } from "@services/setupInstallPrompt.js";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ const Layout = ({ children }) => {
             break;
         }
       } catch (error) {
-        console.error("Error parsing MQTT notification payload:", error);
+        logger.error("Error parsing MQTT notification payload:", error);
         toast.info(message.payload);
       }
     },

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import { setRealtimeService } from "@redux_toolkit/features/realtimeServiceSlice.js";
 import { request } from "@services/apiService.js";
+import logger from "@utils/logger.js";
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Settings = () => {
         dispatch(setRealtimeService(data.data));
       },
       onError: (error) => {
-        console.error(error);
+        logger.error(error);
       },
     },
   );
