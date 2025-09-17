@@ -598,6 +598,30 @@ const DragDropOption = ({
                   {itemAbility.remove ? "Active" : "Inactive"}
                 </span>
               </div>
+
+              <div className="w-full flex flex-row justify-start items-center gap-2">
+                <p className="font-bold">Enable/Disable move</p>
+                <Switch
+                  size="large"
+                  checked={itemAbility.moveTo}
+                  onChange={(checked) =>
+                    setItemAbility((prev) => ({ ...prev, moveTo: checked }))
+                  }
+                  style={{
+                    backgroundColor: itemAbility.moveTo
+                      ? "#22c55e"
+                      : "#ef4444 ",
+                  }}
+                />
+
+                <span
+                  className={`${
+                    itemAbility.moveTo ? "text-green-500" : "text-red-500"
+                  } font-bold`}
+                >
+                  {itemAbility.moveTo ? "Active" : "Inactive"}
+                </span>
+              </div>
             </>
           )}
           {items.length > 0 && (
