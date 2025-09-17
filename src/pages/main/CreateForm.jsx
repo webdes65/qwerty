@@ -44,6 +44,7 @@ const CreateForm = () => {
     remove: false,
     controller: false,
     dragDisabled: false,
+    moveTo: false,
   });
 
   const [componentsList, setComponentsList] = useState([]);

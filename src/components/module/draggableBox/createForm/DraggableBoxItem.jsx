@@ -643,7 +643,9 @@ const DraggableBoxItem = ({
   return (
     <div
       ref={drag}
-      onClick={indexType === "button" ? handleClick : undefined}
+      onClick={
+        (indexType === "button") & itemAbility.moveTo ? handleClick : undefined
+      }
       className={`flex flex-col justify-center items-center cursor-move break-all p-0 ${
         !displayItem ? "hidden" : ""
       }`}
