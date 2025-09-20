@@ -44,7 +44,7 @@ const Header = ({
     }
 
     if (isEditForm) {
-      return "Edit Form";
+      return `Edit Form of ${location.state.name}`;
     }
 
     return (

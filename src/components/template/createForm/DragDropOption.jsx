@@ -12,6 +12,7 @@ import CreatePointModalInRegisEditor from "@module/modal/CreatePointModalInRegis
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
 import UpdateFormNameModal from "@module/modal/UpdateFormNameModal";
+import CopyModal from "@module/modal/CopyModal.jsx";
 import FormHTML from "@template/FormHTML";
 import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
 import logger from "@utils/logger.js";
@@ -52,6 +53,7 @@ const DragDropOption = ({
     createPointModal: false,
     uploadImgsModal: false,
     chooseNameModal: false,
+    copyModal: false,
   });
 
   const {
@@ -92,6 +94,16 @@ const DragDropOption = ({
       setImgs(imgsData.data);
     }
   }, [imgsData]);
+
+  const handleCopyHTML = async () => {
+    await setItemAbility((prev) => ({ ...prev, edit: false }));
+    await setItemAbility((prev) => ({ ...prev, remove: false }));
+    await setItemAbility((prev) => ({ ...prev, controller: false }));
+    setModals((prevState) => ({
+      ...prevState,
+      copyModal: true,
+    }));
+  };
 
   const handleSendHTML = async () => {
     await setItemAbility((prev) => ({ ...prev, edit: false }));
@@ -670,6 +682,17 @@ const DragDropOption = ({
               </Button>
             </div>
           )}
+
+          {items.length > 0 && formId && (
+            <Button
+              onClick={handleCopyHTML}
+              loading={submitLoading}
+              className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+            >
+              Copy Form
+            </Button>
+          )}
+
           {items.length > 0 && (
             <Button
               onClick={btnDisplayStatus ? handleSendHTML : openModalUpdateName}
@@ -800,6 +823,21 @@ const DragDropOption = ({
               }
               points={points}
               setPoints={setPoints}
+            />
+          )}
+
+          {modals.copyModal && formId && (
+            <CopyModal
+              isOpenChooseNameModal={modals.copyModal}
+              setIsOpenChooseNameModal={(value) =>
+                setModals((prevState) => ({
+                  ...prevState,
+                  copyModal: value,
+                }))
+              }
+              setName={setName}
+              formId={formId}
+              title={"Copy Form"}
             />
           )}
 

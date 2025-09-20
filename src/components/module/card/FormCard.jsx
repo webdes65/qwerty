@@ -21,6 +21,7 @@ const FormCard = ({ form }) => {
       onSuccess: (data) => {
         toast.success(data.message);
         queryClient.invalidateQueries(["GetForms"]);
+        queryClient.invalidateQueries(["searchForms"]);
       },
       onError: (error) => {
         logger.error(error);
