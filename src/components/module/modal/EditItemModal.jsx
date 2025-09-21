@@ -3,70 +3,96 @@ import Modal from "react-modal";
 import { useQuery } from "react-query";
 import { setItems } from "@redux_toolkit/features/itemsSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Slider, Spin } from "antd";
+import { Select, Slider, Spin, Tabs } from "antd";
 import { Formik, Form, Field } from "formik";
 import { request } from "@services/apiService.js";
 import Spinner from "@template/Spinner";
+import ButtonSection from "@module/modal/createItemModal/ButtonSection.jsx";
 
 Modal.setAppElement("#root");
 
 const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
-  const [selectedCategorie, setSelectedCategorie] = useState(0);
-  const [optionsCategories, setOptionsCategories] = useState([]);
-  const [imgs, setImgs] = useState([]);
-
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items);
 
+  const [selectedCategorie, setSelectedCategorie] = useState(0);
+  const [optionsCategories, setOptionsCategories] = useState([]);
+  const [imgs, setImgs] = useState([]);
+  const [optionsDevices, setOptionsDevices] = useState([]);
+  const [optionsRegisters, setOptionsRegisters] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(
+    item?.infoReqBtn?.device_uuid || null,
+  );
+
+  // Categories
   const {
     data: categoriesData,
     isLoading: isLoadingCategories,
     error: categoriesError,
   } = useQuery(["getCategories"], () =>
-    request({
-      method: "GET",
-      url: "/api/categories",
-    }),
+    request({ method: "GET", url: "/api/categories" }),
   );
 
   useEffect(() => {
     if (categoriesData) {
-      const newOptions = categoriesData.data.map((item) => ({
-        label: item.title,
-        value: item.uuid,
+      const newOptions = categoriesData.data.map((cat) => ({
+        label: cat.title,
+        value: cat.uuid,
       }));
-      const allOption = { label: "All", value: 0 };
-      setOptionsCategories([allOption, ...newOptions]);
+      setOptionsCategories([{ label: "All", value: 0 }, ...newOptions]);
     }
   }, [categoriesData]);
 
+  // Images
   const {
     data: imgsData,
     isLoading: isLoadingImgs,
     error: imgsError,
   } = useQuery(["fetchImgsCategory", selectedCategorie], () =>
-    request({
-      method: "GET",
-      url: `/api/files?category=${selectedCategorie}`,
-    }),
+    request({ method: "GET", url: `/api/files?category=${selectedCategorie}` }),
   );
 
   useEffect(() => {
-    if (imgsData) {
-      setImgs(imgsData.data);
-    }
+    if (imgsData) setImgs(imgsData.data);
   }, [imgsData]);
 
-  const handleSave = (values) => {
-    const updatedItems = items.map((i) =>
-      i.position.x === item.position.x && i.position.y === item.position.y
-        ? { ...i, ...values }
-        : i,
-    );
-    dispatch(setItems(updatedItems));
-    localStorage.setItem("registers", JSON.stringify(updatedItems));
-    setIsOpenEditModal(false);
-  };
+  // Devices
+  const { data: devicesData } = useQuery(["getDevices"], () =>
+    request({ method: "GET", url: "/api/devices" }),
+  );
+
+  useEffect(() => {
+    if (devicesData) {
+      const newOptions = devicesData.data.map((dev) => ({
+        label: dev.name,
+        value: dev.uuid,
+      }));
+      setOptionsDevices(newOptions);
+    }
+  }, [devicesData]);
+
+  // Registers
+  const { data: registersData } = useQuery(
+    ["getRegisters", selectedDeviceId],
+    () =>
+      request({
+        method: "GET",
+        url: `/api/registers?device_id=${selectedDeviceId}`,
+      }),
+    { enabled: !!selectedDeviceId },
+  );
+
+  useEffect(() => {
+    if (registersData) {
+      const newOptions = registersData.data.map((reg) => ({
+        label: `${reg.title} (${reg.uuid})`,
+        value: reg.uuid,
+      }));
+      setOptionsRegisters(newOptions);
+    }
+  }, [registersData]);
+
+  if (!item) return null;
 
   const fontOptions = [
     { label: "Azeret Mono", value: "Azeret Mono" },
@@ -92,347 +118,429 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
       contentLabel="Edit Item"
       className="modal fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
-      style={{
-        overlay: {
-          zIndex: 1000,
-        },
-      }}
+      style={{ overlay: { zIndex: 1000 } }}
     >
       <div
         style={{ direction: "ltr" }}
-        className="h-5/6 w-1/2 flex flex-col justify-start items-center p-10 px-20 bg-white rounded-md overflow-auto font-Poppins max-lg:w-10/12 max-sm:w-full max-sm:px-10"
+        className="h-5/6 w-1/2 flex flex-col justify-start items-center p-10 px-20 bg-white rounded-md font-Poppins max-lg:w-10/12 max-sm:w-full max-sm:px-10"
       >
         {isLoadingCategories ? (
-          <Spinner />
+          <div className="flex items-center justify-center h-full">
+            <Spinner />
+          </div>
         ) : categoriesError ? (
-          <div>{categoriesError}</div>
+          <div className="flex items-center justify-center h-full text-red-500">
+            {categoriesError.message}
+          </div>
         ) : (
           <>
-            <h2 className="text-lg mb-4">Edit Item</h2>
-            <Formik
-              initialValues={{
-                backgroundImage: item?.backgroundImage || "",
-                width: item?.width || 60,
-                height: item?.height || 60,
-                opacity: item?.opacity,
-                rounded: item?.rounded,
-                textColor: item?.textColor,
-                fontSize: item?.fontSize,
-                fontFamily: item?.fontFamily,
-                decimalPlaces: item?.decimalPlaces,
-                borderColor: item?.borderColor,
-                borderWidth: item?.borderWidth,
-                backgroundColor: item?.backgroundColor,
-                rotation: item?.rotation,
-                type: item?.type,
-                titlebtn: item?.titlebtn,
-                title: item?.title,
-              }}
-              onSubmit={(values) => handleSave(values)}
-            >
-              {({ values, handleChange, setFieldValue }) => (
-                <Form className="flex flex-col gap-4 w-full">
-                  {values.type === "button" && (
-                    <div className="w-full flex flex-col gap-2">
-                      <label className="text-sm" htmlFor="titlebtn">
-                        Button Title
-                      </label>
-                      <Field
-                        name="titlebtn"
-                        type="text"
-                        placeholder="Enter button title"
-                        className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
-                        value={values.titlebtn}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  )}
+            <h2 className="text-lg mb-4 mt-6 text-center font-semibold">
+              Edit Item
+            </h2>
 
-                  {values.type !== "button" && (
-                    <div className="w-full flex flex-col gap-2">
-                      <label className="text-sm" htmlFor="title">
-                        Title
-                      </label>
-                      <Field
-                        name="title"
-                        type="text"
-                        placeholder="Title"
-                        className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
-                        value={values.title}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  )}
+            <div className="flex-1 w-full overflow-auto px-6 pb-6">
+              <Formik
+                initialValues={{
+                  ...item,
+                  infoReqBtn: item.infoReqBtn || {
+                    value: "",
+                    title: "",
+                    device_uuid: "",
+                    register_id: "",
+                    singleIncrease: false,
+                    singleReduction: false,
+                  },
+                }}
+                onSubmit={(values) => {
+                  const updatedItems = items.map((i) =>
+                    i.position.x === item.position.x &&
+                    i.position.y === item.position.y
+                      ? { ...i, ...values }
+                      : i,
+                  );
+                  dispatch(setItems(updatedItems));
+                  localStorage.setItem(
+                    "registers",
+                    JSON.stringify(updatedItems),
+                  );
+                  setIsOpenEditModal(false);
+                }}
+              >
+                {({ values, setFieldValue, handleChange }) => (
+                  <Form className="flex flex-col gap-4 w-full">
+                    <Tabs
+                      defaultActiveKey="style"
+                      items={[
+                        {
+                          key: "style",
+                          label: "Style",
+                          children: (
+                            <div className="flex flex-col gap-4">
+                              {values.type === "button" && (
+                                <div className="w-full flex flex-col gap-2">
+                                  <label className="text-sm" htmlFor="titlebtn">
+                                    Button Title
+                                  </label>
+                                  <Field
+                                    name="titlebtn"
+                                    type="text"
+                                    placeholder="Enter button title"
+                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    value={values.titlebtn}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              )}
 
-                  <div className="w-full flex flex-row justify-center items-center gap-2">
-                    <label className="text-sm w-1/2">
-                      Height
-                      <Field
-                        name="height"
-                        type="number"
-                        placeholder="Enter height"
-                        className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
-                        value={values.height}
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <label className="text-sm w-1/2">
-                      Width
-                      <Field
-                        name="width"
-                        type="number"
-                        placeholder="Enter width"
-                        className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
-                        value={values.width}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
+                              {values.type !== "button" && (
+                                <div className="w-full flex flex-col gap-2">
+                                  <label className="text-sm" htmlFor="title">
+                                    Title
+                                  </label>
+                                  <Field
+                                    name="title"
+                                    type="text"
+                                    placeholder="Title"
+                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    value={values.title}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              )}
 
-                  <div className="w-full flex flex-row justify-center items-center gap-2">
-                    <label className="text-sm w-1/2">
-                      Opacity
-                      <Slider
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        value={values.opacity}
-                        onChange={(value) => setFieldValue("opacity", value)}
-                      />
-                    </label>
-                    <label className="text-sm w-1/2">
-                      Border Radius
-                      <Slider
-                        min={0}
-                        max={100}
-                        step={1}
-                        value={(values.rounded / 40) * 100}
-                        onChange={(value) => {
-                          const roundedValue = Math.floor((value / 100) * 40);
-                          setFieldValue("rounded", roundedValue);
-                        }}
-                      />
-                    </label>
-                  </div>
+                              <div className="w-full flex flex-row justify-center items-center gap-2">
+                                <label className="text-sm w-1/2">
+                                  Height
+                                  <Field
+                                    name="height"
+                                    type="number"
+                                    placeholder="Enter height"
+                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    value={values.height}
+                                    onChange={handleChange}
+                                  />
+                                </label>
+                                <label className="text-sm w-1/2">
+                                  Width
+                                  <Field
+                                    name="width"
+                                    type="number"
+                                    placeholder="Enter width"
+                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    value={values.width}
+                                    onChange={handleChange}
+                                  />
+                                </label>
+                              </div>
 
-                  <div className="w-full flex flex-row justify-center items-center gap-2">
-                    <label className="text-sm w-1/2">
-                      Rotation
-                      <Slider
-                        min={0}
-                        max={180}
-                        step={1}
-                        value={values.rotation}
-                        onChange={(value) => setFieldValue("rotation", value)}
-                      />
-                    </label>
+                              <div className="w-full flex flex-row justify-center items-center gap-2">
+                                <label className="text-sm w-1/2">
+                                  Opacity
+                                  <Slider
+                                    min={0}
+                                    max={1}
+                                    step={0.01}
+                                    value={values.opacity}
+                                    onChange={(value) =>
+                                      setFieldValue("opacity", value)
+                                    }
+                                  />
+                                </label>
+                                <label className="text-sm w-1/2">
+                                  Border Radius
+                                  <Slider
+                                    min={0}
+                                    max={100}
+                                    step={1}
+                                    value={(values.rounded / 40) * 100}
+                                    onChange={(value) => {
+                                      const roundedValue = Math.floor(
+                                        (value / 100) * 40,
+                                      );
+                                      setFieldValue("rounded", roundedValue);
+                                    }}
+                                  />
+                                </label>
+                              </div>
 
-                    <label className="text-sm w-1/2">
-                      Border Width
-                      <Slider
-                        min={0}
-                        max={10}
-                        step={1}
-                        value={values.borderWidth}
-                        onChange={(value) =>
-                          setFieldValue("borderWidth", value)
-                        }
-                      />
-                    </label>
-                  </div>
+                              <div className="w-full flex flex-row justify-center items-center gap-2">
+                                <label className="text-sm w-1/2">
+                                  Rotation
+                                  <Slider
+                                    min={0}
+                                    max={180}
+                                    step={1}
+                                    value={values.rotation}
+                                    onChange={(value) =>
+                                      setFieldValue("rotation", value)
+                                    }
+                                  />
+                                </label>
 
-                  {item.type === "label" && (
-                    <div className="text-sm w-full flex flex-col justify-center items-start gap-1">
-                      <label htmlFor="title">Display Decimal Places</label>
-                      <Select
-                        className="customSelect w-full font-Quicksand h-[2.60rem] font-medium"
-                        options={optionsDecimalPlaces}
-                        defaultValue={optionsDecimalPlaces.find(
-                          (option) =>
-                            option.value === String(values.decimalPlaces),
-                        )}
-                        onChange={(value) =>
-                          setFieldValue("decimalPlaces", value)
-                        }
-                      />
-                    </div>
-                  )}
+                                <label className="text-sm w-1/2">
+                                  Border Width
+                                  <Slider
+                                    min={0}
+                                    max={10}
+                                    step={1}
+                                    value={values.borderWidth}
+                                    onChange={(value) =>
+                                      setFieldValue("borderWidth", value)
+                                    }
+                                  />
+                                </label>
+                              </div>
 
-                  <div className="w-full flex flex-row justify-between items-center gap-4">
-                    <label className="text-sm w-4/12">
-                      backgroundColor
-                      <input
-                        type="color"
-                        name="backgroundColor"
-                        value={values.backgroundColor}
-                        onChange={(e) =>
-                          setFieldValue("backgroundColor", e.target.value)
-                        }
-                        className="w-full mt-1"
-                      />
-                      <input
-                        type="text"
-                        placeholder="#ffffff"
-                        value={values.backgroundColor}
-                        onChange={(e) =>
-                          setFieldValue("backgroundColor", e.target.value)
-                        }
-                        className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
-                      />
-                    </label>
+                              {item.type === "label" && (
+                                <div className="text-sm w-full flex flex-col justify-center items-start gap-1">
+                                  <label htmlFor="title">
+                                    Display Decimal Places
+                                  </label>
+                                  <Select
+                                    className="customSelect w-full font-Quicksand h-[2.60rem] font-medium"
+                                    options={optionsDecimalPlaces}
+                                    defaultValue={optionsDecimalPlaces.find(
+                                      (option) =>
+                                        option.value ===
+                                        String(values.decimalPlaces),
+                                    )}
+                                    onChange={(value) =>
+                                      setFieldValue("decimalPlaces", value)
+                                    }
+                                  />
+                                </div>
+                              )}
 
-                    <label className="text-sm w-4/12">
-                      Border Color
-                      <input
-                        type="color"
-                        name="borderColor"
-                        value={values.borderColor}
-                        onChange={(e) =>
-                          setFieldValue("borderColor", e.target.value)
-                        }
-                        className="w-full mt-1"
-                      />
-                      <input
-                        type="text"
-                        placeholder="#ffffff"
-                        value={values.borderColor}
-                        onChange={(e) =>
-                          setFieldValue("borderColor", e.target.value)
-                        }
-                        className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
-                      />
-                    </label>
+                              <div className="w-full flex flex-row justify-between items-center gap-4">
+                                <label className="text-sm w-4/12">
+                                  backgroundColor
+                                  <input
+                                    type="color"
+                                    name="backgroundColor"
+                                    value={values.backgroundColor}
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        "backgroundColor",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="w-full mt-1"
+                                  />
+                                  <input
+                                    type="text"
+                                    placeholder="#ffffff"
+                                    value={values.backgroundColor}
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        "backgroundColor",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
+                                  />
+                                </label>
 
-                    <label className="text-sm w-4/12">
-                      Text Color
-                      <input
-                        type="color"
-                        name="textColor"
-                        value={values.textColor}
-                        onChange={(e) =>
-                          setFieldValue("textColor", e.target.value)
-                        }
-                        className="w-full mt-1"
-                      />
-                      <input
-                        type="text"
-                        placeholder="#ffffff"
-                        value={values.textColor}
-                        onChange={(e) =>
-                          setFieldValue("textColor", e.target.value)
-                        }
-                        className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
-                      />
-                    </label>
-                  </div>
+                                <label className="text-sm w-4/12">
+                                  Border Color
+                                  <input
+                                    type="color"
+                                    name="borderColor"
+                                    value={values.borderColor}
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        "borderColor",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="w-full mt-1"
+                                  />
+                                  <input
+                                    type="text"
+                                    placeholder="#ffffff"
+                                    value={values.borderColor}
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        "borderColor",
+                                        e.target.value,
+                                      )
+                                    }
+                                    className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
+                                  />
+                                </label>
 
-                  <div className="w-full flex flex-row justify-center items-center gap-2">
-                    <label className="text-sm w-1/2">
-                      Font Size
-                      <Field
-                        name="fontSize"
-                        type="number"
-                        placeholder="Enter font size"
-                        className="border-2 border-gray-200 p-2 rounded w-full mt-1 outline-none"
-                        value={values.fontSize}
-                        onChange={handleChange}
-                      />
-                    </label>
+                                <label className="text-sm w-4/12">
+                                  Text Color
+                                  <input
+                                    type="color"
+                                    name="textColor"
+                                    value={values.textColor}
+                                    onChange={(e) =>
+                                      setFieldValue("textColor", e.target.value)
+                                    }
+                                    className="w-full mt-1"
+                                  />
+                                  <input
+                                    type="text"
+                                    placeholder="#ffffff"
+                                    value={values.textColor}
+                                    onChange={(e) =>
+                                      setFieldValue("textColor", e.target.value)
+                                    }
+                                    className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
+                                  />
+                                </label>
+                              </div>
 
-                    <label className="text-sm h-full flex flex-col justify-between items-start w-1/2">
-                      Font Family
-                      <Select
-                        className="customSelect ant-select-selector h-[2.60rem] w-full"
-                        value={values.fontFamily}
-                        onChange={(value) => setFieldValue("fontFamily", value)}
-                        options={fontOptions.map((option) => ({
-                          value: option.value,
-                          label: (
-                            <span style={{ fontFamily: option.value }}>
-                              {option.label}
-                            </span>
+                              <div className="w-full flex flex-row justify-center items-center gap-2">
+                                <label className="text-sm w-1/2">
+                                  Font Size
+                                  <Field
+                                    name="fontSize"
+                                    type="number"
+                                    placeholder="Enter font size"
+                                    className="border-2 border-gray-200 p-2 rounded w-full mt-1 outline-none"
+                                    value={values.fontSize}
+                                    onChange={handleChange}
+                                  />
+                                </label>
+
+                                <label className="text-sm h-full flex flex-col justify-between items-start w-1/2">
+                                  Font Family
+                                  <Select
+                                    className="customSelect ant-select-selector h-[2.60rem] w-full"
+                                    value={values.fontFamily}
+                                    onChange={(value) =>
+                                      setFieldValue("fontFamily", value)
+                                    }
+                                    options={fontOptions.map((option) => ({
+                                      value: option.value,
+                                      label: (
+                                        <span
+                                          style={{ fontFamily: option.value }}
+                                        >
+                                          {option.label}
+                                        </span>
+                                      ),
+                                    }))}
+                                    placeholder="Select Font"
+                                  />
+                                </label>
+                              </div>
+
+                              <Select
+                                showSearch
+                                className="customSelect ant-select-selector h-[2.60rem] w-full"
+                                placeholder="Choose Category"
+                                optionFilterProp="label"
+                                filterSort={(optionA, optionB) =>
+                                  (optionA?.label ?? "")
+                                    .toLowerCase()
+                                    .localeCompare(
+                                      (optionB?.label ?? "").toLowerCase(),
+                                    )
+                                }
+                                value={selectedCategorie}
+                                options={optionsCategories}
+                                onChange={(value) =>
+                                  setSelectedCategorie(value)
+                                }
+                              />
+
+                              <div className="w-full h-[12rem] overflow-auto flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+                                {isLoadingImgs ? (
+                                  <Spin />
+                                ) : imgsError ? (
+                                  <div>{imgsError}</div>
+                                ) : (
+                                  <div className="w-full h-full flex flex-row flex-wrap justify-start items-start gap-2">
+                                    <div
+                                      onClick={() =>
+                                        setFieldValue("backgroundImage", "")
+                                      }
+                                      className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
+                                        values.backgroundImage === ""
+                                          ? "border-blue-500 shadow-xl"
+                                          : "border-transparent"
+                                      } flex items-center justify-center bg-gray-200 shadow p-1`}
+                                    >
+                                      <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-300 font-bold text-[0.70rem] rounded-md">
+                                        No Image
+                                      </span>
+                                    </div>
+                                    {imgs.map((img, index) => (
+                                      <div
+                                        key={index}
+                                        onClick={() =>
+                                          setFieldValue(
+                                            "backgroundImage",
+                                            img.path,
+                                          )
+                                        }
+                                        className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
+                                          values.backgroundImage === img.path
+                                            ? "border-blue-500 shadow-xl"
+                                            : "border-transparent"
+                                        }`}
+                                      >
+                                        <img
+                                          src={img.path}
+                                          alt={index}
+                                          className="w-full h-full object-cover rounded-lg p-1"
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           ),
-                        }))}
-                        placeholder="Select Font"
-                      />
-                    </label>
-                  </div>
-
-                  <Select
-                    showSearch
-                    className="customSelect ant-select-selector h-[2.60rem] w-full"
-                    placeholder="Choose Category"
-                    optionFilterProp="label"
-                    filterSort={(optionA, optionB) =>
-                      (optionA?.label ?? "")
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? "").toLowerCase())
-                    }
-                    value={selectedCategorie}
-                    options={optionsCategories}
-                    onChange={(value) => setSelectedCategorie(value)}
-                  />
-
-                  <div className="w-full h-[12rem] overflow-auto flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
-                    {isLoadingImgs ? (
-                      <Spin />
-                    ) : imgsError ? (
-                      <div>{imgsError}</div>
-                    ) : (
-                      <div className="w-full h-full flex flex-row flex-wrap justify-start items-start gap-2">
-                        <div
-                          onClick={() => setFieldValue("backgroundImage", "")}
-                          className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
-                            values.backgroundImage === ""
-                              ? "border-blue-500 shadow-xl"
-                              : "border-transparent"
-                          } flex items-center justify-center bg-gray-200 shadow p-1`}
-                        >
-                          <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-300 font-bold text-[0.70rem] rounded-md">
-                            No Image
-                          </span>
-                        </div>
-                        {imgs.map((img, index) => (
-                          <div
-                            key={index}
-                            onClick={() =>
-                              setFieldValue("backgroundImage", img.path)
-                            }
-                            className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
-                              values.backgroundImage === img.path
-                                ? "border-blue-500 shadow-xl"
-                                : "border-transparent"
-                            }`}
-                          >
-                            <img
-                              src={img.path}
-                              alt={index}
-                              className="w-full h-full object-cover rounded-lg p-1"
+                        },
+                        {
+                          key: "logic",
+                          label: "Logic",
+                          children: (
+                            <ButtonSection
+                              values={values}
+                              infoReqBtn={values.infoReqBtn}
+                              setInfoReqBtn={(newValue) =>
+                                setFieldValue("infoReqBtn", newValue)
+                              }
+                              selectedDeviceId={selectedDeviceId}
+                              setSelectedDeviceId={setSelectedDeviceId}
+                              optionsDevices={optionsDevices}
+                              deviceStatus={{ isLoading: false, error: null }}
+                              optionsRegisters={optionsRegisters}
+                              registersStatus={{
+                                isLoadingRegisters: false,
+                                registersError: null,
+                              }}
+                              setFieldValue={setFieldValue}
+                              forceShow={true}
                             />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                          ),
+                        },
+                      ]}
+                    />
 
-                  <div className="flex justify-end gap-2 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsOpenEditModal(false)}
-                      className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+                    <div className="flex justify-end gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsOpenEditModal(false)}
+                        className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
           </>
         )}
       </div>
