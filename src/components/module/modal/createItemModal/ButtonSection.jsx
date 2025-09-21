@@ -16,6 +16,7 @@ const ButtonSection = ({
   registersStatus,
   optionsRegisters,
   setFieldValue,
+  forceShow = false,
 }) => {
   const { isLoadingRegisters, registersError } = registersStatus;
   const { isLoading, error } = deviceStatus;
@@ -51,7 +52,7 @@ const ButtonSection = ({
 
   return (
     <>
-      {values.type === "button" && (
+      {(forceShow || values.type === "button") && (
         <>
           <div>
             <label className="font-bold text-gray-500">Type</label>
@@ -156,7 +157,7 @@ const ButtonSection = ({
                 <Select
                   className="customSelect w-full font-Quicksand"
                   options={optionsRegisters}
-                  placeholder="Select device"
+                  placeholder="Select register"
                   onChange={(value) =>
                     setInfoReqBtn({
                       ...infoReqBtn,
