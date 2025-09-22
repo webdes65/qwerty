@@ -7,7 +7,7 @@ import { setShowBtnDeleteComponent } from "@redux_toolkit/features/showBtnDelete
 import { setEditEnabledComponent } from "@redux_toolkit/features/editEnabledComponentSlice.js";
 import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import { Button, Switch } from "antd";
-import CreateBoardMoal from "@module/modal/CreateBoardMoal";
+import CreateBoardModal from "@module/modal/CreateBoardModal";
 import UploadImgsModal from "@module/modal/UploadImgsModal";
 import CreatePointModal from "@module/modal/CreatePointModal";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
@@ -308,20 +308,21 @@ const DragDropOption = ({
         isOpenModalCreatePoint={isOpenModalCreatePoint}
         setIsOpenModalCreatePoint={setIsOpenModalCreatePoint}
       />
-      <CreateBoardMoal
+      <CreateBoardModal
         isOpenModalCreateBoard={isOpenModalCreateBoard}
         setIsOpenModalCreateBoard={setIsOpenModalCreateBoard}
+      />
+      <ChooseNameModal
+        isOpenChooseNameModal={isOpenChooseNameModal}
+        setIsOpenChooseNameModal={setIsOpenChooseNameModal}
+        optionsCategories={optionsCategories}
+        setName={setName}
+        title={"Component"}
       />
       <UploadImgsModal
         isOpenUploadImgsModal={isOpenUploadImgsModal}
         setIsOpenUploadImgsModal={setIsOpenUploadImgsModal}
         optionsCategories={optionsCategories}
-      />
-      <ChooseNameModal
-        isOpenChooseNameModal={isOpenChooseNameModal}
-        setIsOpenChooseNameModal={setIsOpenChooseNameModal}
-        setName={setName}
-        title={"Component"}
       />
     </div>
   );
