@@ -268,7 +268,12 @@ const DragDropOption = ({
         });
 
         setSubmitLoading(true);
-        updateForm.mutate({ name: `${updatedName}`, content, objects });
+        updateForm.mutate({
+          name: `${updatedName}`,
+          content,
+          objects,
+          category: selectedCategorie === 0 ? null : selectedCategorie,
+        });
       } else {
         logger.log("dragdrop-container element not found.");
       }
@@ -858,6 +863,8 @@ const DragDropOption = ({
               }
               optionsCategories={optionsCategories}
               setName={setName}
+              selectedCategory={selectedCategorie}
+              setSelectedCategory={setSelectedCategorie}
               title={"Form"}
             />
           )}
@@ -872,6 +879,8 @@ const DragDropOption = ({
               onConfirm={handleConfirmUpdate}
               handleDownloadHTML={handleDownloadHTML}
               optionsCategories={optionsCategories}
+              selectedCategory={selectedCategorie}
+              setSelectedCategory={setSelectedCategorie}
             />
           )}
         </>
