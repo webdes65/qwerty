@@ -9,14 +9,14 @@ import logger from "@utils/logger.js";
 export default function UpdateFormNameModal({
   name,
   updatedName,
-  setUpdatedName,
   openUpdateModal,
   setOpenUpdateModal,
   onConfirm,
   handleDownloadHTML,
   optionsCategories,
+  selectedCategory,
+  setSelectedCategory,
 }) {
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [loadingCreateCategory, setLoadingCreateCategory] = useState(false);
@@ -41,7 +41,7 @@ export default function UpdateFormNameModal({
         setIsCreatingCategory(false);
       },
       onError: (error) => {
-        logger.error(error.message);
+        logger.error(error);
       },
       onSettled: () => {
         setLoadingCreateCategory(false);
@@ -65,8 +65,8 @@ export default function UpdateFormNameModal({
     }
 
     const newCategory = {
-      title: categoryTitle.trim(),
-      type: "Files",
+      title: categoryTitle,
+      type: "None",
       description: categoryDescription,
     };
 
@@ -98,9 +98,27 @@ export default function UpdateFormNameModal({
     return errors;
   };
 
-  const handleSubmit = (values) => {
-    setUpdatedName(values.updatedName);
+  const handleSubmit = (values, { resetForm }) => {
+    if (!values.updatedName.trim()) {
+      toast.error("Form name is required");
+      return;
+    }
+
+    if (!selectedCategory) {
+      toast.error("Category is required");
+      return;
+    }
+
+    const payloadData = {
+      title: values.updatedName,
+      type: "None",
+      category: selectedCategory,
+    };
+
     if (onConfirm) onConfirm(values.updatedName, selectedCategory);
+
+    mutation.mutate(payloadData);
+    resetForm();
     setOpenUpdateModal(false);
   };
 
@@ -120,7 +138,6 @@ export default function UpdateFormNameModal({
       >
         {({ handleSubmit: formikSubmit, setFieldValue, values }) => (
           <Form onFinish={formikSubmit} className="w-full flex flex-col gap-4">
-            {/* اسم فرم */}
             <div className="flex flex-col gap-1">
               <label className="text-sm text-gray-500 font-bold">
                 New Name
@@ -139,7 +156,6 @@ export default function UpdateFormNameModal({
               />
             </div>
 
-            {/* انتخاب دسته‌بندی */}
             <Select
               className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
               options={processedOptions}
@@ -155,7 +171,6 @@ export default function UpdateFormNameModal({
               }
             />
 
-            {/* ایجاد دسته‌بندی */}
             {!isCreatingCategory && (
               <Button
                 onClick={() => setIsCreatingCategory(true)}
@@ -198,7 +213,6 @@ export default function UpdateFormNameModal({
               </div>
             )}
 
-            {/* دکمه‌های پایینی */}
             <div className="flex flex-row justify-end items-center gap-2 mt-2">
               <Button
                 key="cancel"

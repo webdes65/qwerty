@@ -70,6 +70,7 @@ const CopyModal = ({
     const payloadData = {
       name: values.name,
       form: formId,
+      category: selectedCategory,
     };
 
     copyFormMutation.mutate(payloadData);
@@ -108,7 +109,6 @@ const CopyModal = ({
   const handleCreateCategory = () => {
     const newCategory = {
       title: categoryTitle,
-      type: "Files",
       description: categoryDescription,
     };
 
@@ -208,7 +208,8 @@ const CopyModal = ({
                     Cancel
                   </Button>
                   <Button
-                    htmlType="submit"
+                    onClick={handleCreateCategory}
+                    loading={loadingCreateCategory}
                     className="w-1/2 font-Quicksand font-bold !bg-blue-200 !p-4 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
                   >
                     Create
@@ -219,8 +220,7 @@ const CopyModal = ({
 
             <Button
               htmlType="submit"
-              onClick={handleCreateCategory}
-              loading={loadingCreateCategory && copyFormMutation.isLoading}
+              loading={copyFormMutation.isLoading}
               className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
             >
               Copy Form
