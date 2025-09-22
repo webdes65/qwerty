@@ -7,7 +7,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
 import { request } from "@services/apiService.js";
 
-const CreateBoardMoal = ({
+const CreateBoardModal = ({
   isOpenModalCreateBoard,
   setIsOpenModalCreateBoard,
 }) => {
@@ -243,4 +243,4 @@ const CreateBoardMoal = ({
   );
 };
 
-export default CreateBoardMoal;
+export default CreateBoardModal;
