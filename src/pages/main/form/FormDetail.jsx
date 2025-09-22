@@ -80,7 +80,7 @@ const FormDetail = () => {
         title="Form Content"
         style={{
           width: "100%",
-          height: "500px",
+          height: "90vh",
         }}
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
       />

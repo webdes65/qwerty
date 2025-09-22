@@ -47,6 +47,12 @@ const Header = ({
       return `Edit Form of ${location.state.name}`;
     }
 
+    const formDetail = lastSegment === "formDetail";
+
+    if (formDetail) {
+      return `Detail of ${location.state.form.name} form`;
+    }
+
     return (
       specialCases[lastSegment.toLowerCase()] ||
       lastSegment
@@ -70,7 +76,7 @@ const Header = ({
   return (
     <header className="h-3/12 flex flex-row justify-between items-center px-4 bg-[#fff] shadow rounded-xl font-Quicksand p-2">
       <h1
-        className="font-bold text-[1.5rem] max-md:hidden text-transparent bg-clip-text uppercase cursor-default"
+        className="font-bold text-[1.5rem] max-md:hidden text-transparent bg-clip-text cursor-default"
         style={{
           backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
         }}
