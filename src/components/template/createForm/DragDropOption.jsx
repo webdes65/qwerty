@@ -835,6 +835,7 @@ const DragDropOption = ({
                   copyModal: value,
                 }))
               }
+              optionsCategories={optionsCategories}
               setName={setName}
               formId={formId}
               title={"Copy Form"}
@@ -850,6 +851,7 @@ const DragDropOption = ({
                   chooseNameModal: value,
                 }))
               }
+              optionsCategories={optionsCategories}
               setName={setName}
               title={"Form"}
             />
