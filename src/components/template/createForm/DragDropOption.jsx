@@ -269,15 +269,21 @@ const DragDropOption = ({
 
         setSubmitLoading(true);
         updateForm.mutate({ name: `${updatedName}`, content, objects });
-
-        /*const blob = new Blob([content], { type: "text/html" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "dragdrop_content.html";
-        link.click();*/
       } else {
         logger.log("dragdrop-container element not found.");
       }
+    }
+  };
+
+  const handleDownloadHTML = () => {
+    const container = document.querySelector(".dragdrop-container");
+    if (container) {
+      const content = FormHTML(container);
+      const blob = new Blob([content], { type: "text/html" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "dragdrop_content.html";
+      link.click();
     }
   };
 
@@ -686,7 +692,6 @@ const DragDropOption = ({
           {items.length > 0 && formId && (
             <Button
               onClick={handleCopyHTML}
-              loading={submitLoading}
               className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
             >
               Copy Form
@@ -865,6 +870,8 @@ const DragDropOption = ({
               openUpdateModal={openUpdateModal}
               setOpenUpdateModal={setOpenUpdateModal}
               onConfirm={handleConfirmUpdate}
+              handleDownloadHTML={handleDownloadHTML}
+              optionsCategories={optionsCategories}
             />
           )}
         </>
