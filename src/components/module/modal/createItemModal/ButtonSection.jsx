@@ -205,8 +205,8 @@ const ButtonSection = ({
                     onChange={() =>
                       setInfoReqBtn({
                         ...infoReqBtn,
-                        singleReduction: true,
-                        singleIncrease: false,
+                        singleReduction: false,
+                        singleIncrease: true,
                       })
                     }
                     className="w-4 h-4"
