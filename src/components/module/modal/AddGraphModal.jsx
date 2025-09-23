@@ -253,8 +253,8 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                             <Spin className="w-full h-10 flex items-center justify-center" />
                           ) : (
                             <Select
-                              /*mode="multiple"
-                              allowClear*/
+                              mode="multiple"
+                              allowClear
                               maxTagCount={2}
                               maxTagTextLength={15}
                               className="w-full"
