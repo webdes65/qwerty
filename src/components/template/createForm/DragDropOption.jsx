@@ -205,7 +205,11 @@ const DragDropOption = ({
 
       setSubmitLoading(true);
 
-      postForm.mutate({ name, objects });
+      postForm.mutate({
+        name,
+        objects,
+        category: selectedCategorie === 0 ? null : selectedCategorie,
+      });
     }
   }, [name]);
 
