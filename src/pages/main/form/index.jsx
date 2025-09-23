@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Input } from "antd";
+import { Input, Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { IoLogoDropbox } from "react-icons/io5";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
@@ -11,6 +11,8 @@ const Forms = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(null);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [optionsCategories, setOptionsCategories] = useState([]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -22,6 +24,7 @@ const Forms = () => {
     };
   }, [searchTerm]);
 
+  // دریافت همه فرم‌ها زمانی که جستجو یا فیلتر وجود ندارد
   const { data: allFormsData, isLoading: allFormsLoading } = useQuery(
     ["GetForms"],
     () =>
@@ -30,58 +33,135 @@ const Forms = () => {
         url: "/api/forms",
       }),
     {
-      enabled: searchTerm.length === 0,
+      enabled:
+        searchTerm.length === 0 &&
+        (selectedCategory === null || selectedCategory === 0),
     },
   );
 
+  // جستجو یا فیلتر بر اساس کتگوری
   const { data: searchData, isLoading: searchLoading } = useQuery(
-    ["searchForms", debouncedSearchTerm],
+    ["searchForms", debouncedSearchTerm, selectedCategory],
     () => {
+      let url = "/api/forms/search?";
+      const params = new URLSearchParams();
+
+      if (debouncedSearchTerm) {
+        params.append("q", debouncedSearchTerm);
+      }
+
+      if (selectedCategory && selectedCategory !== 0) {
+        params.append("category", selectedCategory);
+      }
+
       return request({
         method: "GET",
-        url: `/api/forms/search?q=${encodeURIComponent(debouncedSearchTerm)}`,
+        url: url + params.toString(),
       });
     },
     {
-      enabled: debouncedSearchTerm.length > 0,
+      enabled:
+        debouncedSearchTerm.length > 0 ||
+        (selectedCategory !== null && selectedCategory !== 0),
     },
   );
 
   useEffect(() => {
-    if (debouncedSearchTerm.length === 0) {
+    if (
+      debouncedSearchTerm.length === 0 &&
+      (selectedCategory === null || selectedCategory === 0)
+    ) {
       setSearchResults(null);
     } else if (searchData) {
       setSearchResults(searchData.data);
     }
-  }, [searchData, debouncedSearchTerm]);
+  }, [searchData, debouncedSearchTerm, selectedCategory]);
 
   const forms =
     searchResults !== null ? searchResults : allFormsData?.data || [];
-  const isLoading = searchTerm ? searchLoading : allFormsLoading;
+  const isLoading =
+    searchTerm || (selectedCategory && selectedCategory !== 0)
+      ? searchLoading
+      : allFormsLoading;
+
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+  };
+
+  // دریافت کتگوری‌ها
+  const { data: categoriesData } = useQuery(["getCategories"], () =>
+    request({
+      method: "GET",
+      url: "/api/categories",
+    }),
+  );
+
+  useEffect(() => {
+    if (categoriesData) {
+      const newOptions = categoriesData.data.map((item) => ({
+        label: item.title,
+        value: item.uuid,
+      }));
+      const allOption = { label: "All", value: 0 };
+      setOptionsCategories([allOption, ...newOptions]);
+    }
+  }, [categoriesData]);
+
+  const processedOptions = (optionsCategories ?? []).map((option) => ({
+    ...option,
+    value: option.value,
+  }));
+
+  // تابع برای پاک کردن فیلترها
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory(null);
+    setDebouncedSearchTerm("");
+    setSearchResults(null);
+  };
 
   return (
     <div className="w-full h-[90vh] flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
-      {/* Search Input */}
-      <div className="w-full mb-4 px-2">
-        <Input
-          size="large"
-          placeholder="Search forms..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-          prefix={<SearchOutlined className="text-gray-400" />}
-          className="font-Quicksand"
-          allowClear
-        />
-        {isLoading && searchTerm && (
-          <div className="text-sm text-gray-500 mt-2 text-center">
-            Searching for "{debouncedSearchTerm}"...
-          </div>
-        )}
+      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2">
+        <div className="w-full md:w-2/3 px-2">
+          <Input
+            size="large"
+            placeholder="Search forms..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+            prefix={<SearchOutlined className="text-gray-400" />}
+            className="font-Quicksand"
+            allowClear
+          />
+        </div>
+
+        <div className="w-full md:w-1/3 flex flex-row gap-2 items-center">
+          <Select
+            className="customSelect w-full !h-10 md:mr-2 font-Quicksand font-medium placeholder:font-medium"
+            options={processedOptions}
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            placeholder="Categories"
+            allowClear
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          />
+
+          {(searchTerm || (selectedCategory && selectedCategory !== 0)) && (
+            <button
+              onClick={clearFilters}
+              className="px-3 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors whitespace-nowrap"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Forms List */}
       <ul className="w-full h-auto flex flex-row justify-start items-start flex-wrap">
         {isLoading ? (
           <>
@@ -98,7 +178,9 @@ const Forms = () => {
           <div className="w-full h-full flex flex-col justify-center items-center font-Quicksand uppercase font-bold bg-gray-200 rounded-md shadow">
             <IoLogoDropbox className="text-[5rem] text-gray-400" />
             <p className="text-gray-500 cursor-default">
-              {searchTerm ? "No forms found matching your search" : "No Data"}
+              {searchTerm || (selectedCategory && selectedCategory !== 0)
+                ? "No forms found matching your criteria"
+                : "No Data"}
             </p>
           </div>
         ) : (
@@ -108,13 +190,18 @@ const Forms = () => {
         )}
       </ul>
 
-      {/* Search Results Info */}
-      {debouncedSearchTerm && forms.length > 0 && !isLoading && (
-        <div className="w-full text-center text-sm text-gray-600 mt-2">
-          Found {forms.length} form{forms.length !== 1 ? "s" : ""} for "
-          {debouncedSearchTerm}"
-        </div>
-      )}
+      {(debouncedSearchTerm || (selectedCategory && selectedCategory !== 0)) &&
+        forms.length > 0 &&
+        !isLoading && (
+          <div className="w-full text-center text-sm text-gray-600 mt-2">
+            Found {forms.length} form{forms.length !== 1 ? "s" : ""}
+            {debouncedSearchTerm && selectedCategory && selectedCategory !== 0
+              ? ` for "${debouncedSearchTerm}" in selected category`
+              : debouncedSearchTerm
+                ? ` for "${debouncedSearchTerm}"`
+                : " in selected category"}
+          </div>
+        )}
     </div>
   );
 };

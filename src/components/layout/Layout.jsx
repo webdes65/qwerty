@@ -118,31 +118,35 @@ const Layout = ({ children }) => {
       <InstallModal />
     </>
   ) : (
-    <div className="h-[100vh] flex bg-[#F2F3F5]">
-      <Sidebar />
-      <div className="h-full w-full flex flex-col gap-2 flex-1 p-3">
-        <Header
-          onOpenDrawer={() => setIsDrawerOpen(true)}
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-        />
-        <main className="h-6/12 flex-1 bg-[#F2F3F5] overflow-auto">
-          {children}
-        </main>
-        <div className="h-6/12">
-          <MobileMenu />
+    <div className="bg-[#F2F3F5]">
+      <div className="h-[100vh] flex">
+        <Sidebar />
+        <div className="h-full w-full flex flex-col gap-2 flex-1 p-3">
+          <Header
+            onOpenDrawer={() => setIsDrawerOpen(true)}
+            isDrawerOpen={isDrawerOpen}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
+          <main
+            className={`h-6/12 flex-1 bg-[#F2F3F5] ${location.pathname === "/forms" || location.pathname === "/createform" ? "overflow-hidden" : "overflow-auto"}`}
+          >
+            {children}
+          </main>
+          <div className="h-6/12">
+            <MobileMenu />
+          </div>
+          <MobileDrawer
+            open={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
         </div>
-        <MobileDrawer
-          open={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-          setIsDrawerOpen={setIsDrawerOpen}
+        <ToastContainer
+          position="top-right"
+          className="!p-1 text-[0.90rem] font-bold"
         />
+        <InstallModal />
       </div>
-      <ToastContainer
-        position="top-right"
-        className="!p-1 text-[0.90rem] font-bold"
-      />
-      <InstallModal />
     </div>
   );
 };
