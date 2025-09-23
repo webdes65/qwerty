@@ -49,7 +49,7 @@ const FormCard = ({ form }) => {
         onClick={() => navigate("/forms/formDetail", { state: { form } })}
       >
         <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white shadow p-3 hover:shadow-xl">
-          <div className="flex flex-col text-[1rem]">
+          <div className="flex gap-1 text-[1rem]">
             <p className="text-gray-500">Form Name :</p>
             <p>{form.name || "empty"}</p>
           </div>
