@@ -12,8 +12,9 @@ const ChooseNameModal = ({
   optionsCategories,
   setName,
   title,
+  selectedCategory,
+  setSelectedCategory,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [loadingCreateCategory, setLoadingCreateCategory] = useState(false);
@@ -65,7 +66,7 @@ const ChooseNameModal = ({
 
     const newCategory = {
       title: categoryTitle,
-      type: "Files",
+      type: "None",
       description: categoryDescription,
     };
 
@@ -85,6 +86,30 @@ const ChooseNameModal = ({
     setCategoryDescription("");
   };
 
+  const handleSubmit = (values, { resetForm }) => {
+    if (!values.name.trim()) {
+      toast.error("Form name is required");
+      return;
+    }
+
+    if (!selectedCategory) {
+      toast.error("Category is required");
+      return;
+    }
+
+    setName(values.name);
+
+    const payloadData = {
+      title: values.name,
+      type: "None",
+      category: selectedCategory,
+    };
+
+    mutation.mutate(payloadData);
+    resetForm();
+    setIsOpenChooseNameModal(false);
+  };
+
   return (
     <Modal
       className="font-Quicksand"
@@ -96,11 +121,7 @@ const ChooseNameModal = ({
       <Formik
         initialValues={initialValues}
         validate={validate}
-        onSubmit={(values, { resetForm }) => {
-          setName(values.name);
-          setIsOpenChooseNameModal(false);
-          resetForm();
-        }}
+        onSubmit={handleSubmit}
       >
         {({ handleSubmit, setFieldValue, values }) => (
           <Form onFinish={handleSubmit} className="w-full flex flex-col gap-4">
