@@ -54,11 +54,7 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
 
   return (
     <div
-      id="dropBox"
-      ref={drop}
       style={{
-        width: `${boxInfo.width}px`,
-        height: `${boxInfo.height}px`,
         backgroundColor: newBackgroundColor,
         backgroundImage: boxInfo.bgImg ? `url(${boxInfo.bgImg})` : "none",
         borderStyle: "solid",
@@ -67,12 +63,21 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
         borderRadius: `${boxInfo.borderRadius}%`,
         borderColor: boxInfo.borderColor,
       }}
-      className="relative flex items-center justify-center bg-cover"
-      // Information we need in the form in HTML
-      data-token={token}
-      data-typeservice={realtimeService}
     >
-      {children}
+      <div
+        id="dropBox"
+        ref={drop}
+        style={{
+          width: `${boxInfo.width}px`,
+          height: `${boxInfo.height}px`,
+        }}
+        className="relative flex items-center justify-center bg-cover"
+        // Information we need in the form in HTML
+        data-token={token}
+        data-typeservice={realtimeService}
+      >
+        {children}
+      </div>
     </div>
   );
 };
