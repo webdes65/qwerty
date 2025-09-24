@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import { Select, Spin } from "antd";
 import { Field } from "formik";
 import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
 
 const ButtonSection = ({
   values,
@@ -33,7 +32,7 @@ const ButtonSection = ({
     }),
   );
 
-  logger.log("dataForms", dataForms);
+  // logger.log("dataForms", dataForms);
 
   const processedOptions = optionsForm.map((option) => ({
     ...option,
