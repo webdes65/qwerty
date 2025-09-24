@@ -8,6 +8,8 @@ import { Formik, Form, Field } from "formik";
 import { request } from "@services/apiService.js";
 import Spinner from "@template/Spinner";
 import ButtonSection from "@module/modal/createItemModal/ButtonSection.jsx";
+import DeviceOfInputCard from "@module/card/DeviceOfInputCard.jsx";
+import DeviceOfLabelCard from "@module/card/DeviceOfLabelCard.jsx";
 
 Modal.setAppElement("#root");
 
@@ -23,6 +25,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
   const [selectedDeviceId, setSelectedDeviceId] = useState(
     item?.infoReqBtn?.device_uuid || null,
   );
+  const [selectDevice, setSelectDevice] = useState(false);
 
   // Categories
   const {
@@ -57,7 +60,11 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
   }, [imgsData]);
 
   // Devices
-  const { data: devicesData } = useQuery(["getDevices"], () =>
+  const {
+    data: devicesData,
+    isLoading: isLoadingDevices,
+    error: devicesError,
+  } = useQuery(["getDevices"], () =>
     request({ method: "GET", url: "/api/devices" }),
   );
 
@@ -72,7 +79,11 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
   }, [devicesData]);
 
   // Registers
-  const { data: registersData } = useQuery(
+  const {
+    data: registersData,
+    isLoading: isLoadingRegisters,
+    error: registersError,
+  } = useQuery(
     ["getRegisters", selectedDeviceId],
     () =>
       request({
@@ -150,6 +161,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                     singleIncrease: false,
                     singleReduction: false,
                   },
+                  temp: item.temp || "",
                 }}
                 onSubmit={(values) => {
                   const updatedItems = items.map((i) =>
@@ -247,17 +259,14 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                   />
                                 </label>
                                 <label className="text-sm w-1/2">
-                                  Border Radius
+                                  Border Radius (%)
                                   <Slider
                                     min={0}
                                     max={100}
                                     step={1}
-                                    value={(values.rounded / 40) * 100}
+                                    value={values.rounded || 0}
                                     onChange={(value) => {
-                                      const roundedValue = Math.floor(
-                                        (value / 100) * 40,
-                                      );
-                                      setFieldValue("rounded", roundedValue);
+                                      setFieldValue("rounded", value);
                                     }}
                                   />
                                 </label>
@@ -499,23 +508,102 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                           key: "logic",
                           label: "Logic",
                           children: (
-                            <ButtonSection
-                              values={values}
-                              infoReqBtn={values.infoReqBtn}
-                              setInfoReqBtn={(newValue) =>
-                                setFieldValue("infoReqBtn", newValue)
-                              }
-                              selectedDeviceId={selectedDeviceId}
-                              setSelectedDeviceId={setSelectedDeviceId}
-                              optionsDevices={optionsDevices}
-                              deviceStatus={{ isLoading: false, error: null }}
-                              optionsRegisters={optionsRegisters}
-                              registersStatus={{
-                                isLoadingRegisters: false,
-                                registersError: null,
-                              }}
-                              setFieldValue={setFieldValue}
-                              forceShow={true}
+                            <Tabs
+                              defaultActiveKey="input"
+                              size="small"
+                              items={[
+                                {
+                                  key: "input",
+                                  label: "Input Logic",
+                                  children: (
+                                    <div className="flex flex-col gap-4 py-4">
+                                      <DeviceOfInputCard
+                                        isLoading={isLoadingDevices}
+                                        error={devicesError}
+                                        optionsDevices={optionsDevices}
+                                        setSelectedDeviceId={
+                                          setSelectedDeviceId
+                                        }
+                                        selectedDeviceId={selectedDeviceId}
+                                        isLoadingRegisters={isLoadingRegisters}
+                                        registersError={registersError}
+                                        optionsRegisters={optionsRegisters}
+                                        setInfoReqBtn={(newValue) =>
+                                          setFieldValue("infoReqBtn", newValue)
+                                        }
+                                      />
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  key: "label",
+                                  label: "Label Logic",
+                                  children: (
+                                    <div className="flex flex-col gap-4 py-4">
+                                      <div className="flex items-center gap-2 mb-4">
+                                        <input
+                                          type="checkbox"
+                                          id="selectDevice"
+                                          checked={selectDevice}
+                                          onChange={(e) =>
+                                            setSelectDevice(e.target.checked)
+                                          }
+                                          className="w-4 h-4"
+                                        />
+                                        <label
+                                          htmlFor="selectDevice"
+                                          className="text-sm"
+                                        >
+                                          Enable Device Selection
+                                        </label>
+                                      </div>
+
+                                      <DeviceOfLabelCard
+                                        selectDevice={selectDevice}
+                                        isLoadingDevices={isLoadingDevices}
+                                        devicesError={devicesError}
+                                        optionsDevices={optionsDevices}
+                                        setSelectedDeviceId={
+                                          setSelectedDeviceId
+                                        }
+                                        selectedDeviceId={selectedDeviceId}
+                                        isLoadingRegisters={isLoadingRegisters}
+                                        registersError={registersError}
+                                        registersData={registersData}
+                                        optionsRegisters={optionsRegisters}
+                                        setFieldValue={setFieldValue}
+                                      />
+                                    </div>
+                                  ),
+                                },
+                                {
+                                  key: "button",
+                                  label: "Button Logic",
+                                  children: (
+                                    <ButtonSection
+                                      values={values}
+                                      infoReqBtn={values.infoReqBtn}
+                                      setInfoReqBtn={(newValue) =>
+                                        setFieldValue("infoReqBtn", newValue)
+                                      }
+                                      selectedDeviceId={selectedDeviceId}
+                                      setSelectedDeviceId={setSelectedDeviceId}
+                                      optionsDevices={optionsDevices}
+                                      deviceStatus={{
+                                        isLoading: isLoadingDevices,
+                                        error: devicesError,
+                                      }}
+                                      optionsRegisters={optionsRegisters}
+                                      registersStatus={{
+                                        isLoadingRegisters: isLoadingRegisters,
+                                        registersError: registersError,
+                                      }}
+                                      setFieldValue={setFieldValue}
+                                      forceShow={true}
+                                    />
+                                  ),
+                                },
+                              ]}
                             />
                           ),
                         },
