@@ -1,5 +1,6 @@
-import { Select, Spin } from "antd";
+import { Select } from "antd";
 import { Field } from "formik";
+import DeviceOfInputCard from "@module/card/DeviceOfInputCard.jsx";
 
 const TextInputSection = ({
   values,
@@ -20,46 +21,18 @@ const TextInputSection = ({
     <>
       {values.type === "text input" && (
         <>
-          {isLoading ? (
-            <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
-              <Spin />
-            </div>
-          ) : error ? (
-            <p className="text-center text-red-500">Error: {error.message}</p>
-          ) : (
-            <Select
-              className="customSelect ant-select-selector font-medium w-full placeholder:!font-bold"
-              options={optionsDevices}
-              placeholder="Select device"
-              onChange={(value) => setSelectedDeviceId(value)}
-            />
-          )}
+          <DeviceOfInputCard
+            selectedDeviceId={selectedDeviceId}
+            setSelectedDeviceId={setSelectedDeviceId}
+            optionsDevices={optionsDevices}
+            isLoadingRegisters={isLoadingRegisters}
+            registersError={registersError}
+            isLoading={isLoading}
+            optionsRegisters={optionsRegisters}
+            setInfoReqBtn={setInfoReqBtn}
+            error={error}
+          />
 
-          {selectedDeviceId && (
-            <>
-              {isLoadingRegisters ? (
-                <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
-                  <Spin />
-                </div>
-              ) : registersError ? (
-                <p className="text-center text-red-500">
-                  Error: {registersError.message}
-                </p>
-              ) : (
-                <Select
-                  className="customSelect ant-select-selector w-full"
-                  placeholder="Select registers"
-                  options={optionsRegisters}
-                  onChange={(value) =>
-                    setInfoReqBtn((prev) => ({
-                      ...prev,
-                      register_id: value,
-                    }))
-                  }
-                />
-              )}
-            </>
-          )}
           <div className="w-full h-auto flex flex-row justify-center items-center gap-1">
             <div className="w-1/2">
               <Select
