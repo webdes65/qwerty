@@ -1,5 +1,6 @@
 import { Select, Spin } from "antd";
 import { Field } from "formik";
+import DeviceOfLabelCard from "@module/card/DeviceOfLabelCard.jsx";
 
 const LabelSection = ({
   values,
@@ -52,49 +53,19 @@ const LabelSection = ({
             </label>
           </div>
 
-          {selectDevice ? (
-            isLoadingDevices ? (
-              <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
-                <Spin />
-              </div>
-            ) : devicesError ? (
-              <p className="text-center text-red-500">
-                Error: {devicesError.message}
-              </p>
-            ) : (
-              <Select
-                className="customSelect ant-select-selector w-full"
-                placeholder="Select device"
-                options={optionsDevices}
-                onChange={(value) => {
-                  setSelectedDeviceId(value);
-                }}
-              />
-            )
-          ) : null}
-
-          {selectDevice && selectedDeviceId && (
-            <>
-              {isLoadingRegisters ? (
-                <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
-                  <Spin />
-                </div>
-              ) : registersError ? (
-                <p className="text-center text-red-500">
-                  Error: {registersError.message}
-                </p>
-              ) : (
-                registersData && (
-                  <Select
-                    className="customSelect ant-select-selector w-full"
-                    placeholder="Select register"
-                    options={optionsRegisters}
-                    onChange={(value) => setFieldValue("temp", value)}
-                  />
-                )
-              )}
-            </>
-          )}
+          <DeviceOfLabelCard
+            selectDevice={selectDevice}
+            selectedDeviceId={selectedDeviceId}
+            setSelectedDeviceId={setSelectedDeviceId}
+            optionsDevices={optionsDevices}
+            isLoadingDevices={isLoadingDevices}
+            registersError={registersError}
+            setFieldValue={setFieldValue}
+            isLoadingRegisters={isLoadingRegisters}
+            devicesError={devicesError}
+            registersData={registersData}
+            optionsRegisters={optionsRegisters}
+          />
 
           {values.temp && (
             <Select
