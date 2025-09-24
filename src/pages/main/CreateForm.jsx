@@ -85,7 +85,7 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="h-[90vh] w-full flex flex-row justify-center items-center overflow-auto max-lg:flex-col max-lg:justify-start">
+    <div className="h-[110vh] w-full flex flex-row justify-center items-center overflow-auto max-lg:flex-col max-lg:justify-start">
       {isLoading && <Spinner />}
       {error && <p className="text-red-500">{error.message}</p>}
       {!isLoading && !error && (
