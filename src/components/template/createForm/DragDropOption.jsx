@@ -773,7 +773,7 @@ const DragDropOption = ({
                 </div>
               </div>
             ) : (
-              <div className="w-full flex flex-row flex-wrap justify-center items-center gap-2">
+              <div className="w-full h-auto flex flex-row flex-wrap justify-center items-center gap-2">
                 {imgs.map((img, index) => (
                   <div
                     key={index}

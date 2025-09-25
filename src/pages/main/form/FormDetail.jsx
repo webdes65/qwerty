@@ -32,7 +32,7 @@ const FormDetail = () => {
         }
 
         if (!dropBox.hasAttribute("data-typeservice")) {
-          dropBox.setAttribute("data-typeservice", "echo"); // یا 'mqtt'
+          dropBox.setAttribute("data-typeservice", "echo");
         }
 
         const updateScale = () => {

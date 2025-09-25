@@ -25,7 +25,7 @@ const MobileMenu = () =>
     // };
 
     return (
-      <div className="h-[4rem] hidden flex-row justify-between items-center bg-[#fff] shadow rounded-xl font-Quicksand relative max-md:flex">
+      <div className="h-[4rem] hidden flex-row justify-between items-center bg-[#fff] shadow rounded-xl font-Quicksand relative max-lg:flex">
         <div className="w-full flex flex-row justify-around items-center">
           <div className="w-1/2 h-full flex flex-row justify-center items-center">
             <button

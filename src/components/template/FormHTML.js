@@ -510,7 +510,7 @@ const FormHTML = (container) => {
                         }
 
                         const data = {
-                          device_id: textInputData.infoReqBtn.device_Id,
+                          device_id: textInputData.infoReqBtn.device_uuid,
                           title: textInputData.infoReqBtn.title,
                           value: inputValue,
                         };

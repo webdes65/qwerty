@@ -76,14 +76,14 @@ const Header = ({
   return (
     <header className="h-3/12 flex flex-row justify-between items-center px-4 bg-[#fff] shadow rounded-xl font-Quicksand p-2">
       <h1
-        className="font-bold text-[1.5rem] max-md:hidden text-transparent bg-clip-text cursor-default"
+        className="font-bold text-[1.5rem] max-lg:hidden text-transparent bg-clip-text cursor-default"
         style={{
           backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
         }}
       >
         {formattedLastSegment}
       </h1>
-      <div className="w-auto flex flex-row justify-center items-center gap-2 max-md:hidden">
+      <div className="w-auto flex flex-row justify-center items-center gap-2 max-lg:hidden">
         {/* <button
             onClick={toggleListening}
             className={`w-[2.5rem] h-[2.5rem] shadow-xl flex flex-row justify-center items-center rounded-full
@@ -116,7 +116,7 @@ const Header = ({
       </div>
 
       <div
-        className="hidden max-md:flex"
+        className="hidden max-lg:flex"
         onClick={() => {
           onOpenDrawer();
         }}
@@ -129,10 +129,7 @@ const Header = ({
           className="hamburger-custom"
         />
       </div>
-      <div
-        className="w-12 h-12 hidden max-md:flex"
-        onClick={() => navigate("/")}
-      >
+      <div className="w-12 h-12 flex lg:hidden" onClick={() => navigate("/")}>
         <img alt="logo" src={logo} className="w-full h-full" />
       </div>
     </header>
