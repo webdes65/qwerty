@@ -8,7 +8,7 @@ import EditLine from "@module/modal/EditLine";
 import DraggablePoint from "@module/draggableBox/createComponent/DraggablePoint";
 import DraggableBoxItem from "@module/draggableBox/createForm/DraggableBoxItem";
 import DraggableBoxComponent from "@module/draggableBox/createForm/DraggableBoxComponent";
-import DropBox from "@template/createForm/DrapBox";
+import DropBox from "@template/createForm/DropBox.jsx";
 
 const DragDrop = ({
   boxInfo,
