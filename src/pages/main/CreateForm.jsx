@@ -85,15 +85,15 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="h-[110vh] w-full flex flex-row justify-center items-center overflow-auto max-lg:flex-col max-lg:justify-start">
+    <div className="h-[110vh] w-full flex flex-row gap-3 justify-center items-center xl:items-start overflow-auto max-xl:flex-col max-xl:justify-start">
       {isLoading && <Spinner />}
       {error && <p className="text-red-500">{error.message}</p>}
       {!isLoading && !error && (
         <>
-          <div className="w-8/12 h-full max-2xl:w-7/12 max-xl:w-6/12 max-lg:p-10">
+          <div className="w-full md:w-9/12 xl:w-7/12 2xl:w-8/12 h-full">
             <DragDrop {...dragDropProps} />
           </div>
-          <div className="w-4/12 h-full p-10 max-2xl:w-5/12 max-xl:w-6/12 max-lg:w-full max-md:p-4">
+          <div className="w-full md:w-9/12 xl:w-5/12 2xl:w-4/12 h-full 2xl:mr-2">
             <DragDropOption {...dragDropOptionProps} />
           </div>
         </>

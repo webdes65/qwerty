@@ -331,7 +331,7 @@ const DragDropOption = ({
   ];
 
   return (
-    <div className="w-full h-full flex flex-col items-start justify-start gap-4 font-Quicksand p-5 bg-white shadow rounded-lg text-[0.90rem] overflow-auto">
+    <div className="w-full h-[100vh] flex flex-col items-start justify-start gap-4 font-Quicksand p-5 bg-white shadow rounded-lg text-[0.90rem] overflow-auto">
       {isLoadingCategories ? (
         <div className="w-full h-full flex flex-row justify-center items-center">
           <Spin size="large" />
@@ -773,7 +773,7 @@ const DragDropOption = ({
                 </div>
               </div>
             ) : (
-              <div className="w-full flex flex-row flex-wrap justify-center items-center gap-2">
+              <div className="w-full h-auto flex flex-row flex-wrap justify-center items-center gap-2">
                 {imgs.map((img, index) => (
                   <div
                     key={index}

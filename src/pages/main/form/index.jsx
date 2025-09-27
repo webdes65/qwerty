@@ -24,7 +24,6 @@ const Forms = () => {
     };
   }, [searchTerm]);
 
-  // دریافت همه فرم‌ها زمانی که جستجو یا فیلتر وجود ندارد
   const { data: allFormsData, isLoading: allFormsLoading } = useQuery(
     ["GetForms"],
     () =>
@@ -39,7 +38,6 @@ const Forms = () => {
     },
   );
 
-  // جستجو یا فیلتر بر اساس کتگوری
   const { data: searchData, isLoading: searchLoading } = useQuery(
     ["searchForms", debouncedSearchTerm, selectedCategory],
     () => {
@@ -88,7 +86,6 @@ const Forms = () => {
     setSelectedCategory(value);
   };
 
-  // دریافت کتگوری‌ها
   const { data: categoriesData } = useQuery(["getCategories"], () =>
     request({
       method: "GET",
@@ -112,7 +109,6 @@ const Forms = () => {
     value: option.value,
   }));
 
-  // تابع برای پاک کردن فیلترها
   const clearFilters = () => {
     setSearchTerm("");
     setSelectedCategory(null);
@@ -122,7 +118,7 @@ const Forms = () => {
 
   return (
     <div className="w-full h-[90vh] flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
-      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2">
+      <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2 mt-5">
         <div className="w-full md:w-2/3 px-2">
           <Input
             size="large"

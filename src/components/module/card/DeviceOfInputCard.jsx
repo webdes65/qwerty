@@ -10,6 +10,7 @@ export default function DeviceOfInputCard({
   registersError,
   optionsRegisters,
   setInfoReqBtn,
+  infoReqBtn,
 }) {
   return (
     <>
@@ -44,10 +45,10 @@ export default function DeviceOfInputCard({
               placeholder="Select registers"
               options={optionsRegisters}
               onChange={(value) =>
-                setInfoReqBtn((prev) => ({
-                  ...prev,
+                setInfoReqBtn({
+                  ...infoReqBtn,
                   register_id: value,
-                }))
+                })
               }
             />
           )}

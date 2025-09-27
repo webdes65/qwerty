@@ -30,6 +30,7 @@ const TextInputSection = ({
             isLoading={isLoading}
             optionsRegisters={optionsRegisters}
             setInfoReqBtn={setInfoReqBtn}
+            infoReqBtn={infoReqBtn}
             error={error}
           />
 
@@ -75,10 +76,10 @@ const TextInputSection = ({
                   placeholder="Title req"
                   value={infoReqBtn.title}
                   onChange={(e) =>
-                    setInfoReqBtn((prev) => ({
-                      ...prev,
+                    setInfoReqBtn({
+                      ...infoReqBtn,
                       title: e.target.value,
-                    }))
+                    })
                   }
                 />
               </div>
@@ -90,10 +91,10 @@ const TextInputSection = ({
                     value={infoReqBtn.startRange}
                     placeholder="Start range"
                     onChange={(e) =>
-                      setInfoReqBtn((prev) => ({
-                        ...prev,
+                      setInfoReqBtn({
+                        ...infoReqBtn,
                         startRange: e.target.value,
-                      }))
+                      })
                     }
                   />
                 </div>
@@ -104,10 +105,10 @@ const TextInputSection = ({
                     placeholder="End range"
                     value={infoReqBtn.endRange}
                     onChange={(e) =>
-                      setInfoReqBtn((prev) => ({
-                        ...prev,
+                      setInfoReqBtn({
+                        ...infoReqBtn,
                         endRange: e.target.value,
-                      }))
+                      })
                     }
                   />
                 </div>

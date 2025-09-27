@@ -88,7 +88,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 h-full flex flex-col justify-between items-start p-2 bg-gray-800 text-white font-Quicksand font-medium max-md:hidden">
+    <aside className="max-w-64 h-full flex flex-col justify-between items-start p-2 bg-gray-800 text-white font-Quicksand font-medium max-lg:hidden">
       <Joyride
         className="!font-Quicksand"
         steps={steps}
