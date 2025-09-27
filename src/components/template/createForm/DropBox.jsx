@@ -14,23 +14,53 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
   const token = cookies.get("bms_access_token");
   const realtimeService = useSelector((state) => state.realtimeService);
   const dropBoxRef = useRef(null);
-  const [scaleRatio, setScaleRatio] = useState(1);
+  const outerContainerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [containerDimensions, setContainerDimensions] = useState({
+    width: boxInfo.width,
+    height: boxInfo.height,
+  });
 
   useEffect(() => {
-    const updateScale = () => {
-      if (dropBoxRef.current) {
-        const containerWidth =
-          dropBoxRef.current.parentElement?.clientWidth || boxInfo.width;
-        const ratio = Math.min(1, containerWidth / boxInfo.width);
-        setScaleRatio(ratio);
+    const checkScreenSize = () => {
+      const isCurrentlyMobile = window.innerWidth <= 1540;
+      setIsMobile(isCurrentlyMobile);
+
+      if (isCurrentlyMobile && outerContainerRef.current) {
+        const parentElement = outerContainerRef.current.parentElement;
+        if (parentElement) {
+          const availableWidth = parentElement.clientWidth - 32;
+          const availableHeight = window.innerHeight - 200;
+
+          const finalWidth = Math.min(boxInfo.width, availableWidth);
+          const finalHeight = Math.min(boxInfo.height, availableHeight);
+
+          setContainerDimensions({
+            width: finalWidth,
+            height: finalHeight,
+          });
+        }
+      } else {
+        setContainerDimensions({
+          width: boxInfo.width,
+          height: boxInfo.height,
+        });
       }
     };
 
-    updateScale();
-    window.addEventListener("resize", updateScale);
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
 
-    return () => window.removeEventListener("resize", updateScale);
-  }, [boxInfo.width]);
+    const resizeObserver = new ResizeObserver(checkScreenSize);
+    if (outerContainerRef.current?.parentElement) {
+      resizeObserver.observe(outerContainerRef.current.parentElement);
+    }
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+      resizeObserver.disconnect();
+    };
+  }, [boxInfo.width, boxInfo.height]);
 
   const [, drop] = useDrop(() => ({
     accept: [ItemType.BOX, ItemType.BOX_COM, ItemType.POINT],
@@ -46,27 +76,26 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
       const offsetX = initialClientOffset.x - initialSourceClientOffset.x;
       const offsetY = initialClientOffset.y - initialSourceClientOffset.y;
 
-      let newLeft = Math.round(
-        (clientOffset.x - dropBoxBounds.left - offsetX) / scaleRatio,
-      );
-      let newTop = Math.round(
-        (clientOffset.y - dropBoxBounds.top - offsetY) / scaleRatio,
-      );
+      let newLeft = Math.round(clientOffset.x - dropBoxBounds.left - offsetX);
+      let newTop = Math.round(clientOffset.y - dropBoxBounds.top - offsetY);
 
       const elementWidth = 50;
       const elementHeight = 50;
 
-      const maxLeft = boxInfo.width - elementWidth;
-      const maxTop = boxInfo.height - elementHeight;
+      const maxLeft =
+        (isMobile ? containerDimensions.width : boxInfo.width) - elementWidth;
+      const maxTop =
+        (isMobile ? containerDimensions.height : boxInfo.height) -
+        elementHeight;
 
       newLeft = Math.max(0, Math.min(newLeft, maxLeft));
       newTop = Math.max(0, Math.min(newTop, maxTop));
 
       if (
         newLeft < 0 ||
-        newLeft > boxInfo.width ||
+        newLeft > (isMobile ? containerDimensions.width : boxInfo.width) ||
         newTop < 0 ||
-        newTop > boxInfo.height
+        newTop > (isMobile ? containerDimensions.height : boxInfo.height)
       ) {
         return;
       }
@@ -100,37 +129,55 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
 
   return (
     <div
+      ref={outerContainerRef}
       style={{
-        backgroundColor: newBackgroundColor,
-        backgroundImage: boxInfo.bgImg ? `url(${boxInfo.bgImg})` : "none",
-        borderStyle: "solid",
-        boxSizing: "border-box",
-        borderWidth: `${boxInfo.borderTop}px ${boxInfo.borderRight}px ${boxInfo.borderBottom}px ${boxInfo.borderLeft}px`,
-        borderRadius: `${boxInfo.borderRadius}%`,
-        borderColor: boxInfo.borderColor,
-        overflow: "hidden",
-        maxWidth: "100%",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
+        padding: "16px",
+        minHeight: "100%",
+        boxSizing: "border-box",
       }}
     >
       <div
-        id="dropBox"
-        ref={combinedRef}
         style={{
-          width: `${boxInfo.width}px`,
-          height: `${boxInfo.height}px`,
-          transform: `scale(${scaleRatio})`,
-          transformOrigin: "center center",
-          minWidth: `${boxInfo.width}px`,
-          minHeight: `${boxInfo.height}px`,
+          backgroundColor: newBackgroundColor,
+          backgroundImage: boxInfo.bgImg ? `url(${boxInfo.bgImg})` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderStyle: "solid",
+          boxSizing: "border-box",
+          borderWidth: `${boxInfo.borderTop}px ${boxInfo.borderRight}px ${boxInfo.borderBottom}px ${boxInfo.borderLeft}px`,
+          borderRadius: `${boxInfo.borderRadius}%`,
+          borderColor: boxInfo.borderColor,
+          overflow:
+            containerDimensions.width < boxInfo.width ||
+            containerDimensions.height < boxInfo.height
+              ? "auto"
+              : "hidden",
+          width: `${containerDimensions.width}px`,
+          height: `${containerDimensions.height}px`,
+          maxWidth: "100%",
+          position: "relative",
         }}
-        className="relative flex items-center justify-center bg-cover"
-        data-token={token}
-        data-typeservice={realtimeService}
       >
-        {children}
+        <div
+          id="dropBox"
+          ref={combinedRef}
+          style={{
+            width: `${containerDimensions.width}px`,
+            height: `${containerDimensions.height}px`,
+            minWidth: `${containerDimensions.width}px`,
+            minHeight: `${containerDimensions.height}px`,
+            position: "relative",
+          }}
+          className="bg-cover"
+          data-token={token}
+          data-typeservice={realtimeService}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
