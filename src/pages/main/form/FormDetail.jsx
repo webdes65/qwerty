@@ -15,12 +15,12 @@ const FormDetail = () => {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      const isCurrentlyMobile = window.innerWidth <= 1420; // Changed from 1540 to 1420
+      const isCurrentlyMobile = window.innerWidth <= 1420;
 
       if (isCurrentlyMobile && outerContainerRef.current) {
         const parentElement = outerContainerRef.current.parentElement;
         if (parentElement) {
-          const availableWidth = parentElement.clientWidth - 64; // Increased padding
+          const availableWidth = parentElement.clientWidth - 64;
           const availableHeight = window.innerHeight - 200;
 
           const finalWidth = Math.min(form?.width || 800, availableWidth);
@@ -61,7 +61,6 @@ const FormDetail = () => {
       iframeDocument.write(form.content);
       iframeDocument.close();
 
-      // Override the CSS styles inside iframe
       const style = iframeDocument.createElement("style");
       style.textContent = `
         body {
@@ -118,10 +117,8 @@ const FormDetail = () => {
           dropBox.setAttribute("data-typeservice", "echo");
         }
 
-        // Apply DropBox-like styling to the container inside iframe
         const dropBoxParent = dropBox.parentElement;
         if (dropBoxParent) {
-          // Reset any existing styles that might cause positioning issues
           dropBoxParent.style.position = "relative";
           dropBoxParent.style.left = "0";
           dropBoxParent.style.top = "0";
@@ -148,16 +145,14 @@ const FormDetail = () => {
           dropBoxParent.style.height = `${containerDimensions.height}px`;
           dropBoxParent.style.maxWidth = "100%";
 
-          // محاسبه Available space در outerContainer
           const outerContainer = outerContainerRef.current;
           let availableWidth = containerDimensions.width;
           let availableHeight = containerDimensions.height;
 
           if (outerContainer && outerContainer.parentElement) {
-            // محاسبه فضای موجود با در نظر گیری padding ها
             const parentRect =
               outerContainer.parentElement.getBoundingClientRect();
-            const containerPadding = 32; // 16px * 2 for both sides
+            const containerPadding = 32;
 
             availableWidth = Math.min(
               containerDimensions.width,
@@ -169,17 +164,15 @@ const FormDetail = () => {
             );
           }
 
-          // بررسی اینکه آیا محتوای فرم از فضای موجود بزرگتر است یا نه
           const originalFormWidth = form?.width || 800;
           const originalFormHeight = form?.height || 600;
 
           const needsHorizontalScroll = originalFormWidth > availableWidth;
           const needsVerticalScroll = originalFormHeight > availableHeight;
 
-          // اگر هر کدام از ابعاد فرم از فضای موجود بزرگتر باشد، اسکرول را فعال کن
           const needsScroll = needsHorizontalScroll || needsVerticalScroll;
 
-          console.log("Form dimensions check:", {
+          /*console.log("Form dimensions check:", {
             originalFormWidth,
             originalFormHeight,
             availableWidth,
@@ -188,12 +181,11 @@ const FormDetail = () => {
             needsVerticalScroll,
             needsScroll,
             containerDimensions,
-          });
+          });*/
 
           dropBoxParent.style.overflow = needsScroll ? "auto" : "hidden";
         }
 
-        // Set dropBox dimensions and reset positioning
         dropBox.style.width = `${containerDimensions.width}px`;
         dropBox.style.height = `${containerDimensions.height}px`;
         dropBox.style.minWidth = `${containerDimensions.width}px`;
@@ -234,17 +226,18 @@ const FormDetail = () => {
           padding: "16px",
           minHeight: "100%",
           boxSizing: "border-box",
+          overflow: "hidden",
         }}
       >
         <iframe
           ref={iframeRef}
           title="Form Content"
           style={{
-            width: `${containerDimensions.width}px`,
+            width: `${containerDimensions.width + 200}px`,
             height: `${containerDimensions.height}px`,
             maxWidth: "100%",
             border: "none",
-            background: "transparent",
+            overflow: "auto",
           }}
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
         />

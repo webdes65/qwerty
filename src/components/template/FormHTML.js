@@ -573,10 +573,9 @@ const FormHTML = (container) => {
                 // console.log(registersId);
 
                 if (registersId.length > 0) {
-                  const updateElementData = (data) => {
+                  const updateElementData = (data, registerId) => {
                     if (data.type === "float") {
-                      const elements =
-                        document.querySelectorAll("[data-idregister]");
+                      const elements = document.querySelectorAll('[data-idregister="' + registerId + '"]');
                       elements.forEach((element) => {
                         const idRegister = element.getAttribute("data-idregister");
                         const id = element.id;
@@ -600,7 +599,7 @@ const FormHTML = (container) => {
                       });
                     } else if (data.type === "bool") {
                       const elements =
-                        document.querySelectorAll("[data-idregister]");
+                        document.querySelectorAll('[data-idregister="' + registerId + '"]');
                       // console.log(elements);
 
                       elements.forEach((element) => {
@@ -640,7 +639,7 @@ const FormHTML = (container) => {
                       });
                     } else if (data.type === "binary") {
                       const elements =
-                        document.querySelectorAll("[data-idregister]");
+                        document.querySelectorAll('[data-idregister="' + registerId + '"]');
 
                       elements.forEach((element) => {
                         const id = element.id;
@@ -696,7 +695,7 @@ const FormHTML = (container) => {
                       });
                     } else if (data.type === "int") {
                         const elements =
-                        document.querySelectorAll("[data-idregister]");
+                        document.querySelectorAll('[data-idregister="' + registerId + '"]');
     
                       elements.forEach((element) => {
                         const id = element.id;
@@ -764,7 +763,7 @@ const FormHTML = (container) => {
                       });
                     } else if (data.type === "string") {
                       const elements =
-                              document.querySelectorAll("[data-idregister]");
+                              document.querySelectorAll('[data-idregister="' + registerId + '"]');
 
                       elements.forEach((element) => {
                         const id = element.id;
@@ -825,8 +824,7 @@ const FormHTML = (container) => {
                   echo
                     .private(\`register.\${id}\`)
                     .listen("RegisterEvent", (data) => {
-                      // console.log(data);
-                      updateElementData(data);
+                      updateElementData(data, id);
                       updateRegisterData({ id: id, value: data.value });
                     });
                 });
@@ -865,8 +863,7 @@ const FormHTML = (container) => {
 
                     // console.log("Parsed Data:", data);
                     // console.log("Extracted ID:", id);
-
-                    updateElementData(data);
+                    updateElementData(data, id);
                     updateRegisterData({ id, value: data.value });
                   } catch (err) {
                     console.error("MQTT message parse error", err);
