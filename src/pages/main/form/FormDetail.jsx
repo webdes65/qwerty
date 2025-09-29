@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import logger from "@utils/logger.js";
 
@@ -209,8 +209,14 @@ const FormDetail = () => {
     }
   }, [form, containerDimensions]);
 
+  const width = useMemo(() => {
+    return containerDimensions.width > 500
+      ? containerDimensions.width + 200
+      : 500;
+  }, [containerDimensions.width]);
+
   return (
-    <div className="flex flex-col justify-center items-start gap-10 p-2">
+    <div className="flex flex-col justify-center gap-10 p-2">
       <div className="flex flex-col font-bold">
         <p className="text-[0.90rem] text-gray-500">Form Name</p>
         <p className="text-[1rem]">{form.name || "empty"}</p>
@@ -233,7 +239,7 @@ const FormDetail = () => {
           ref={iframeRef}
           title="Form Content"
           style={{
-            width: `${containerDimensions.width + 200}px`,
+            width: `${width}px`,
             height: `${containerDimensions.height}px`,
             maxWidth: "100%",
             border: "none",
