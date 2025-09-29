@@ -16,6 +16,7 @@ export default function UpdateFormNameModal({
   optionsCategories,
   selectedCategory,
   setSelectedCategory,
+  setUpdatedName,
 }) {
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
@@ -109,15 +110,8 @@ export default function UpdateFormNameModal({
       return;
     }
 
-    const payloadData = {
-      title: values.updatedName,
-      type: "None",
-      category: selectedCategory,
-    };
-
     if (onConfirm) onConfirm(values.updatedName, selectedCategory);
-
-    mutation.mutate(payloadData);
+    setUpdatedName(values.updatedName);
     resetForm();
     setOpenUpdateModal(false);
   };
@@ -134,7 +128,6 @@ export default function UpdateFormNameModal({
         initialValues={initialValues}
         validate={validate}
         onSubmit={handleSubmit}
-        enableReinitialize
       >
         {({ handleSubmit: formikSubmit, setFieldValue, values }) => (
           <Form onFinish={formikSubmit} className="w-full flex flex-col gap-4">
