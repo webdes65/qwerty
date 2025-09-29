@@ -110,6 +110,7 @@ const CopyModal = ({
     const newCategory = {
       title: categoryTitle,
       description: categoryDescription,
+      type: "None",
     };
 
     mutation.mutate(newCategory);

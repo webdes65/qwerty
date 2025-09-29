@@ -250,7 +250,7 @@ const DragDropOption = ({
     },
   );
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (formName, category) => {
     await setItemAbility((prev) => ({ ...prev, edit: false }));
     await setItemAbility((prev) => ({ ...prev, remove: false }));
     await setItemAbility((prev) => ({ ...prev, controller: false }));
@@ -273,10 +273,17 @@ const DragDropOption = ({
 
         setSubmitLoading(true);
         updateForm.mutate({
-          name: `${updatedName}`,
+          name: formName || updatedName,
           content,
           objects,
-          category: selectedCategorie === 0 ? null : selectedCategorie,
+          category:
+            category !== undefined
+              ? category === 0
+                ? null
+                : category
+              : selectedCategorie === 0
+                ? null
+                : selectedCategorie,
         });
       } else {
         logger.log("dragdrop-container element not found.");
@@ -300,9 +307,10 @@ const DragDropOption = ({
     setOpenUpdateModal(true);
   };
 
-  const handleConfirmUpdate = () => {
+  const handleConfirmUpdate = (newName, category) => {
+    setUpdatedName(newName);
+    handleUpdate(newName, category);
     setOpenUpdateModal(false);
-    handleUpdate();
   };
 
   const [run, setRun] = useState(false);
