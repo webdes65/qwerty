@@ -722,15 +722,27 @@ const DraggableBoxItem = ({
                 if (e.key === "Enter") {
                   const startRange = Number(infoReqBtn.startRange);
                   const endRange = Number(infoReqBtn.endRange);
-                  if (
-                    isNaN(newTitle) ||
-                    newTitle < startRange ||
-                    newTitle > endRange
-                  ) {
-                    toast.error(
-                      `Value must be between ${startRange} and ${endRange}`,
-                    );
-                    return;
+
+                  const hasRange =
+                    infoReqBtn.startRange !== undefined &&
+                    infoReqBtn.startRange !== null &&
+                    infoReqBtn.startRange !== "" &&
+                    infoReqBtn.endRange !== undefined &&
+                    infoReqBtn.endRange !== null &&
+                    infoReqBtn.endRange !== "";
+
+                  if (hasRange) {
+                    const numValue = Number(newTitle);
+                    if (
+                      isNaN(numValue) ||
+                      numValue < startRange ||
+                      numValue > endRange
+                    ) {
+                      toast.error(
+                        `Value must be between ${startRange} and ${endRange}`,
+                      );
+                      return;
+                    }
                   }
 
                   setIsEditing(false);
