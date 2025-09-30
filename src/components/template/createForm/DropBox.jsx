@@ -127,6 +127,10 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
     newBackgroundColor = `rgba(${boxInfo.bgColor}, ${boxInfo.opacity})`;
   }
 
+  const needsScroll =
+    containerDimensions.width < boxInfo.width ||
+    containerDimensions.height < boxInfo.height;
+
   return (
     <div
       ref={outerContainerRef}
@@ -142,20 +146,12 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
     >
       <div
         style={{
-          backgroundColor: newBackgroundColor,
-          backgroundImage: boxInfo.bgImg ? `url(${boxInfo.bgImg})` : "none",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
           borderStyle: "solid",
           boxSizing: "border-box",
           borderWidth: `${boxInfo.borderTop}px ${boxInfo.borderRight}px ${boxInfo.borderBottom}px ${boxInfo.borderLeft}px`,
           borderRadius: `${boxInfo.borderRadius}%`,
           borderColor: boxInfo.borderColor,
-          overflow:
-            containerDimensions.width < boxInfo.width ||
-            containerDimensions.height < boxInfo.height
-              ? "auto"
-              : "hidden",
+          overflow: needsScroll ? "auto" : "hidden",
           width: `${containerDimensions.width}px`,
           height: `${containerDimensions.height}px`,
           maxWidth: "100%",
@@ -166,10 +162,14 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
           id="dropBox"
           ref={combinedRef}
           style={{
-            width: `${containerDimensions.width}px`,
-            height: `${containerDimensions.height}px`,
-            minWidth: `${containerDimensions.width}px`,
-            minHeight: `${containerDimensions.height}px`,
+            backgroundColor: newBackgroundColor,
+            backgroundImage: boxInfo.bgImg ? `url(${boxInfo.bgImg})` : "none",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: `${boxInfo.width}px`,
+            height: `${boxInfo.height}px`,
+            minWidth: `${boxInfo.width}px`,
+            minHeight: `${boxInfo.height}px`,
             position: "relative",
           }}
           className="bg-cover"
