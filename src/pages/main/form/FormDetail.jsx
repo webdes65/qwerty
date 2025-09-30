@@ -81,6 +81,10 @@ const FormDetail = () => {
           position: relative !important;
         }
         
+        #form-container > div > div > div {
+          overflow: auto !important;
+        }
+        
         #dropBox {
           position: absolute !important;
           left: 0 !important;
