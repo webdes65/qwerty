@@ -1,9 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { UseMqttContext } from "../context/MqttProvider.jsx";
+import logger from "@utils/logger.js";
 
-const UseMqttSubscription = (topics, messageHandler, enabled = true) => {
+const UseMqttSubscription = (
+  topics,
+  messageHandler,
+  enabled = true,
+  publishOnSubscribe = null,
+) => {
   const { subscribe, isConnected, realtimeService } = UseMqttContext();
   const [messages, setMessages] = useState([]);
+  const messageHandlerRef = useRef(messageHandler);
+
+  useEffect(() => {
+    messageHandlerRef.current = messageHandler;
+  }, [messageHandler]);
 
   useEffect(() => {
     if (
@@ -18,13 +29,21 @@ const UseMqttSubscription = (topics, messageHandler, enabled = true) => {
     const cleanupFunctions = [];
 
     topics.forEach((topic) => {
-      const cleanup = subscribe(topic, (message) => {
-        setMessages((prev) => [...prev, message]);
+      const options = publishOnSubscribe ?? {};
 
-        if (messageHandler) {
-          messageHandler(message);
-        }
-      });
+      const cleanup = subscribe(
+        topic,
+        (message) => {
+          // logger.log(`Received message on topic: ${topic}`, message);
+
+          setMessages((prev) => [...prev, message]);
+
+          if (messageHandlerRef.current) {
+            messageHandlerRef.current(message);
+          }
+        },
+        options,
+      );
 
       cleanupFunctions.push(cleanup);
     });
@@ -32,9 +51,7 @@ const UseMqttSubscription = (topics, messageHandler, enabled = true) => {
     return () => {
       cleanupFunctions.forEach((cleanup) => cleanup());
     };
-  }, [topics, enabled, subscribe, realtimeService, messageHandler]);
-
-  // logger.log("Received message", topics);
+  }, [topics, enabled, subscribe, realtimeService, publishOnSubscribe]);
 
   return { messages, isConnected };
 };
