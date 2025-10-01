@@ -839,6 +839,11 @@ const FormHTML = (container) => {
                 //   username: API_ENDPOINTS.USER_NAME,
                 //   password: API_ENDPOINTS.PASSWORD,
                 // });
+                
+                 if (idForm) {
+                  client.publish('forms/watchers', idForm);
+                  // console.log("Published formId to forms/request:", idForm);
+                 }
 
                 client.on("connect", () => {
                   // console.log("MQTT connected");

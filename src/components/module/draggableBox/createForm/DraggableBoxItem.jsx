@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -78,6 +78,8 @@ const DraggableBoxItem = ({
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const token = cookies.get("bms_access_token");
+  const location = useLocation();
+  const formId = location.state?.id;
 
   const [isEditing, setIsEditing] = useState(false);
   const [displayItem, setDisplayItem] = useState(true);
@@ -97,9 +99,7 @@ const DraggableBoxItem = ({
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
 
-  // logger.log("allowedIds", allowedIds);
-
-  const { messages: notificationMessages } = UseMqttSubscription(
+  const { messages: register } = UseMqttSubscription(
     mqttTopics,
     (message) => {
       try {
@@ -112,6 +112,13 @@ const DraggableBoxItem = ({
       }
     },
     realtimeService === "mqtt",
+
+    formId
+      ? {
+          publishTopic: "forms/watchers",
+          publishMessage: formId,
+        }
+      : null,
   );
 
   const [{ isDragging }, drag] = useDrag(

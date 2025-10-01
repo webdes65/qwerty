@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { LuDownload } from "react-icons/lu";
@@ -32,6 +33,8 @@ ChartJS.register(
 const TemperatureChart = ({ data }) => {
   const chartRef = useRef(null);
   const realtimeService = useSelector((state) => state.realtimeService);
+  const location = useLocation();
+  const formId = location.state?.id;
 
   const [isLiveUpdate, setIsLiveUpdate] = useState(false);
   const [allowedIds, setAllowedIds] = useState([]);
@@ -185,9 +188,7 @@ const TemperatureChart = ({ data }) => {
       ? allowedIds.map((id) => `registers/${id}`)
       : [];
 
-  // logger.log("allowedIds", allowedIds)
-
-  const { messages: notificationMessages } = UseMqttSubscription(
+  const { messages: register } = UseMqttSubscription(
     mqttTopics,
     (message) => {
       try {
@@ -211,6 +212,13 @@ const TemperatureChart = ({ data }) => {
       }
     },
     isLiveUpdate && realtimeService === "mqtt",
+
+    formId
+      ? {
+          publishTopic: "forms/watchers",
+          publishMessage: formId,
+        }
+      : null,
   );
 
   const handleExport = () => {
