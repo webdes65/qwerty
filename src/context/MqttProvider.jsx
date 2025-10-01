@@ -93,7 +93,7 @@ export const MqttProvider = ({ children }) => {
     };
   }, [realtimeService]);
 
-  const subscribe = (topic, messageHandler) => {
+  const subscribe = (topic, messageHandler, options = {}) => {
     if (!mqttClient || !isConnected || realtimeService !== "mqtt") {
       return () => {};
     }
@@ -134,6 +134,30 @@ export const MqttProvider = ({ children }) => {
           const handlers = messageHandlers.current.get(topic) || [];
           handlers.push(messageHandler);
           messageHandlers.current.set(topic, handlers);
+        }
+
+        if (options?.publishTopic && options?.publishMessage) {
+          mqttClient.publish(
+            options.publishTopic,
+            String(options.publishMessage),
+          );
+          logger.log(
+            `Published initial request to ${options.publishTopic}:`,
+            options.publishMessage,
+          );
+
+          const intervalId = setInterval(() => {
+            mqttClient.publish(
+              options.publishTopic,
+              String(options.publishMessage),
+            );
+            logger.log(
+              `Published repeated request to ${options.publishTopic}:`,
+              options.publishMessage,
+            );
+          }, 30000);
+
+          return () => clearInterval(intervalId);
         }
       }
     });
