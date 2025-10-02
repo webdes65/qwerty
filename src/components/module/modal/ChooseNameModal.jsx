@@ -98,14 +98,6 @@ const ChooseNameModal = ({
     }
 
     setName(values.name);
-
-    const payloadData = {
-      title: values.name,
-      type: "None",
-      category: selectedCategory,
-    };
-
-    mutation.mutate(payloadData);
     resetForm();
     setIsOpenChooseNameModal(false);
   };
