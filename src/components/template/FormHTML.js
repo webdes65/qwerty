@@ -427,143 +427,170 @@ const FormHTML = (container) => {
             const textInputRegisters = window.registersData.filter(
               (item) => item.type === "text input"
             );
-
-            textInputRegisters.forEach((item) => {
-              const element = document.getElementById(item.id);
-
-              if (element) {
-                element.onclick = () => {
-                  const textInputData = textInputRegisters.find(
-                    (textInput) => textInput.id === item.id
-                  );
-
-                  if (textInputData) {
-                    const pTag = element.querySelector("p");
-
-                    if (pTag) {
-                      const input = document.createElement("input");
-                      input.type = "text";
-                      input.value = "";
-                      input.style.width = "80%";
-                      input.style.height = "30px";
-                      input.style.fontSize = "1rem";
-                      input.style.border = "2px solid #3b82f6";
-                      input.style.padding = "5px";
-                      input.style.borderRadius = "3px";
-                      input.style.textAlign = "center";
-                      input.style.outline = "none";
-
-                      pTag.replaceWith(input);
-
-                      input.focus();
-
-                      let hasHandledBlur = false;
-
-                      const handleInputBlur = async () => {
-                        if (hasHandledBlur) return;
-                        hasHandledBlur = true;
-
-                        if (input.parentNode && pTag) {
-                          pTag.textContent = input.value;
-                          input.replaceWith(pTag);
+            
+            const initializeTextInputs = async () => {
+              for (const item of textInputRegisters) {
+                const element = document.getElementById(item.id);
+                
+                const textInputData = textInputRegisters.find(
+                  (textInput) => textInput.id === item.id
+                );
+                
+                if (textInputData && textInputData.infoReqBtn?.register_id) {
+                  try {
+                    const cypherKey = await getToken();
+                    const response = await fetch(
+                      \`${BASE_URL}/registers/\${textInputData.infoReqBtn.register_id}\`,
+                      {
+                        method: "GET",
+                        headers: {
+                          Authorization: \`Bearer \${token}\`,
+                          "Content-Type": "application/json",
+                          cypherKey: cypherKey,
+                        },
+                      }
+                    );
+                    
+                    console.log('response', response);
+                    
+                    if (response.ok) {
+                      const data = await response.json();
+                      
+                      if (element) {
+                        const pTag = element.querySelector("p");
+                        if (pTag && data.data && data.data.value !== undefined) {
+                          pTag.textContent = data.data.value;
                         }
-                        input.removeEventListener("blur", handleInputBlur);
-                        input.removeEventListener("keypress", handleKeyPress);
-
-                        const inputValue = input.value;
-
-                        const numericValue = parseFloat(inputValue);
-                        const start = parseFloat(
-                          textInputData.infoReqBtn.startRange
-                        );
-                        const end = parseFloat(
-                          textInputData.infoReqBtn.endRange
-                        );
-
-                        if (isNaN(numericValue)) {
-                          Toastify({
-                            text: "The entered value is not a number!",
-                            duration: 3000,
-                            close: false,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                            background: "#3b82f6",
-                            },
-                          }).showToast();
-                          return;
-                        }
-
-                        if (numericValue < start || numericValue > end) {
-
-                          Toastify({
-                            text: \`The value must be between \${start} and \${end}.\`,
-                            duration: 3000,
-                            close: false,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                            background: "#3b82f6",
-                            },
-                          }).showToast();
-                          return;
-                        }
-
-                        const data = {
-                          device_id: textInputData.infoReqBtn.device_uuid,
-                          title: textInputData.infoReqBtn.title,
-                          value: inputValue,
-                        };
-                        const cypherKey = await getToken();
-                        try {
-                          const response = await fetch(
-                            \`${BASE_URL}/registers/\${textInputData.infoReqBtn.register_id}\`,
-                            {
-                              method: "PATCH",
-                              headers: {
-                                Authorization: \`Bearer \${token}\`,
-                                "Content-Type": "application/json",
-                                cypherKey: cypherKey,
-                              },
-                              body: JSON.stringify(data),
-                            }
-                          );
-
-                          if (!response.ok) {
-                            throw new Error("Request failed");
-                          }
-
-                          const result = await response.json();
-
-                          Toastify({
-                            text: result.message,
-                            duration: 3000,
-                            close: false,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                            background: "#3b82f6",
-                            },
-                          }).showToast();
-
-                        } catch (error) {
-                          console.error(error);
-                        }
-                      };
-
-                      const handleKeyPress = (e) => {
-                        if (e.key === "Enter") {
-                          handleInputBlur();
-                        }
-                      };
-
-                      input.addEventListener("blur", handleInputBlur);
-                      input.addEventListener("keypress", handleKeyPress);
+                      }
                     }
+                  } catch (error) {
+                    console.error(\`Error fetching initial value for \${item.id}:\`, error);
                   }
-                };
+                }
+            
+                if (element) {
+                  element.onclick = () => {
+                    if (textInputData) {
+                      const pTag = element.querySelector("p");
+            
+                      if (pTag) {
+                        const input = document.createElement("input");
+                        input.type = "text";
+                        input.value = pTag.textContent || "";
+                        input.style.width = "80%";
+                        input.style.height = "30px";
+                        input.style.fontSize = "1rem";
+                        input.style.border = "2px solid #3b82f6";
+                        input.style.padding = "5px";
+                        input.style.borderRadius = "3px";
+                        input.style.textAlign = "center";
+                        input.style.outline = "none";
+            
+                        pTag.replaceWith(input);
+                        input.focus();
+            
+                        let hasHandledBlur = false;
+            
+                        const handleInputBlur = async () => {
+                          if (hasHandledBlur) return;
+                          hasHandledBlur = true;
+            
+                          if (input.parentNode && pTag) {
+                            pTag.textContent = input.value;
+                            input.replaceWith(pTag);
+                          }
+                          input.removeEventListener("blur", handleInputBlur);
+                          input.removeEventListener("keypress", handleKeyPress);
+            
+                          const inputValue = input.value;
+                          const numericValue = parseFloat(inputValue);
+                          const start = parseFloat(textInputData.infoReqBtn.startRange);
+                          const end = parseFloat(textInputData.infoReqBtn.endRange);
+            
+                          if (isNaN(numericValue)) {
+                            Toastify({
+                              text: "The entered value is not a number!",
+                              duration: 3000,
+                              close: false,
+                              gravity: "top",
+                              position: "right",
+                              style: {
+                                background: "#3b82f6",
+                              },
+                            }).showToast();
+                            return;
+                          }
+            
+                          if (numericValue < start || numericValue > end) {
+                            Toastify({
+                              text: \`The value must be between \${start} and \${end}.\`,
+                              duration: 3000,
+                              close: false,
+                              gravity: "top",
+                              position: "right",
+                              style: {
+                                background: "#3b82f6",
+                              },
+                            }).showToast();
+                            return;
+                          }
+            
+                          const data = {
+                            device_id: textInputData.infoReqBtn.device_uuid,
+                            title: textInputData.infoReqBtn.title,
+                            value: inputValue,
+                          };
+                          const cypherKey = await getToken();
+                          try {
+                            const response = await fetch(
+                              \`${BASE_URL}/registers/\${textInputData.infoReqBtn.register_id}\`,
+                              {
+                                method: "PATCH",
+                                headers: {
+                                  Authorization: \`Bearer \${token}\`,
+                                  "Content-Type": "application/json",
+                                  cypherKey: cypherKey,
+                                },
+                                body: JSON.stringify(data),
+                              }
+                            );
+            
+                            if (!response.ok) {
+                              throw new Error("Request failed");
+                            }
+            
+                            const result = await response.json();
+                            Toastify({
+                              text: result.message,
+                              duration: 3000,
+                              close: false,
+                              gravity: "top",
+                              position: "right",
+                              style: {
+                                background: "#3b82f6",
+                              },
+                            }).showToast();
+                          } catch (error) {
+                            console.error(error);
+                          }
+                        };
+            
+                        const handleKeyPress = (e) => {
+                          if (e.key === "Enter") {
+                            handleInputBlur();
+                          }
+                        };
+            
+                        input.addEventListener("blur", handleInputBlur);
+                        input.addEventListener("keypress", handleKeyPress);
+                      }
+                    }
+                  };
+                }
               }
-            });
+            };
+            
+            initializeTextInputs();
 
               // create registrarId list
                 const registersId = window.registersData
