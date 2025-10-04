@@ -34,7 +34,7 @@ const TemperatureChart = ({ data }) => {
   const chartRef = useRef(null);
   const realtimeService = useSelector((state) => state.realtimeService);
   const location = useLocation();
-  const formId = location.state?.id;
+  const graphId = location.pathname.slice(8);
 
   const [isLiveUpdate, setIsLiveUpdate] = useState(false);
   const [allowedIds, setAllowedIds] = useState([]);
@@ -213,10 +213,10 @@ const TemperatureChart = ({ data }) => {
     },
     isLiveUpdate && realtimeService === "mqtt",
 
-    formId
+    graphId
       ? {
-          publishTopic: "forms/watchers",
-          publishMessage: formId,
+          publishTopic: "graphs/watchers",
+          publishMessage: graphId,
         }
       : null,
   );
