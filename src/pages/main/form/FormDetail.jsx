@@ -61,6 +61,9 @@ const FormDetail = () => {
       iframeDocument.write(form.content);
       iframeDocument.close();
 
+      const shouldAddOverflow =
+        containerDimensions.width > 550 || containerDimensions.height > 550;
+
       const style = iframeDocument.createElement("style");
       style.textContent = `
         body {
@@ -82,8 +85,9 @@ const FormDetail = () => {
         }
         
         #form-container > div > div > div {
-          overflow: auto !important;
-        }
+          overflow: ${
+            shouldAddOverflow ? "auto !important" : "hidden !important"
+          }
         
         #dropBox {
           position: absolute !important;
