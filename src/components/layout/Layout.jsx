@@ -6,28 +6,31 @@ import { setRealtimeService } from "@redux_toolkit/features/realtimeServiceSlice
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
+import { ConfigProvider, theme } from "antd";
 import MobileDrawer from "@template/MobileDrawer";
 import Sidebar from "@template/Sidebar";
 import MobileMenu from "@template/MobileMenu";
 import Header from "@template/Header";
 import Spinner from "@template/Spinner";
 import InstallModal from "@module/modal/InstallModal";
-import useEchoNotif from "@hooks/useEchoNotif";
-import useAuthCheck from "@hooks/useAuthCheck";
+import UseEchoNotif from "@hooks/UseEchoNotif.js";
+import UseAuthCheck from "@hooks/UseAuthCheck.js";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import { setupInstallPrompt } from "@services/setupInstallPrompt.js";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
+import useDarkMode from "../../store/UseDarkMode.js";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const userId = localStorage.getItem("user_id");
   const realtimeService = useSelector((state) => state.realtimeService);
+  const { darkMode, initializeDarkMode } = useDarkMode();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  useAuthCheck();
+  UseAuthCheck();
 
   useEffect(() => {
     setupInstallPrompt();
@@ -45,13 +48,17 @@ const Layout = ({ children }) => {
     }
   }, [data, dispatch]);
 
+  useEffect(() => {
+    initializeDarkMode();
+  }, [initializeDarkMode]);
+
   const hideLayout =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
     location.pathname === "/forgetPassword";
 
   // Echo notification channel listening
-  useEchoNotif(userId, realtimeService);
+  UseEchoNotif(userId, realtimeService);
 
   const notificationTopics = [`notifications/${userId}`];
 
@@ -93,14 +100,14 @@ const Layout = ({ children }) => {
 
   if (isLoading)
     return (
-      <div className="w-full h-screen flex flex-row justify-center items-center">
+      <div className="w-full h-screen flex flex-row justify-center items-center bg-white dark:bg-dark">
         <Spinner />
       </div>
     );
 
   if (isError)
     return (
-      <div className="w-full h-screen flex flex-row justify-center items-center gap-2">
+      <div className="w-full h-screen flex flex-row justify-center items-center gap-2 bg-white dark:bg-dark">
         <MdError className="text-red-500 text-[1.5rem]" />
         <p className="text-red-500 font-medium">
           Error receiving information. Please try again.
@@ -108,46 +115,80 @@ const Layout = ({ children }) => {
       </div>
     );
 
-  return hideLayout ? (
-    <>
-      <main className="flex-1 bg-red-500">{children}</main>
-      <ToastContainer
-        position="top-right"
-        className="!p-1 text-[0.90rem] font-bold"
-      />
-      <InstallModal />
-    </>
-  ) : (
-    <div className="bg-[#F2F3F5]">
-      <div className="h-[100vh] flex">
-        <Sidebar />
-        <div className="h-full w-full flex flex-col gap-2 flex-1 p-3">
-          <Header
-            onOpenDrawer={() => setIsDrawerOpen(true)}
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        token: {
+          colorPrimary: "#007BFF",
+          borderRadius: 4,
+          fontSize: 14,
+        },
+        components: {
+          Carousel: {
+            arrowSize: 18,
+            arrowOffset: 12,
+          },
+          Layout: {
+            headerBg: darkMode ? "#1E1E1E" : "#FFFFFF",
+            siderBg: darkMode ? "#1E1E1E" : "#FFFFFF",
+          },
+          Menu: {
+            itemBg: darkMode ? "#1E1E1E" : "#FFFFFF",
+            itemHoverBg: "#00A3FF",
+            itemSelectedBg: "#007BFF",
+          },
+          Slider: {
+            trackBg: darkMode ? "#2AC3DE" : "#1A56DC",
+            trackHoverBg: darkMode ? "#2AC3DE" : "#1A56DC",
+            handleColor: darkMode ? "#2AC3DE" : "#1A56DC",
+            handleActiveColor: darkMode ? "#2AC3DE" : "#1A56DC",
+          },
+        },
+      }}
+    >
+      {hideLayout ? (
+        <>
+          <main className="flex-1 bg-red-500">{children}</main>
+          <ToastContainer
+            position="top-right"
+            className="!p-1 text-[0.90rem] font-bold"
           />
-          <main
-            className={`h-6/12 flex-1 bg-[#F2F3F5] ${location.pathname === "/forms" ? "overflow-hidden" : "overflow-auto"}`}
-          >
-            {children}
-          </main>
-          <div className="h-6/12">
-            <MobileMenu />
+          <InstallModal />
+        </>
+      ) : (
+        <div className="bg-white dark:bg-dark">
+          <div className="h-[100vh] flex">
+            <Sidebar />
+            <div className="h-full w-full flex flex-col gap-2 flex-1 p-3 bg-white dark:bg-dark-100">
+              <Header
+                onOpenDrawer={() => setIsDrawerOpen(true)}
+                isDrawerOpen={isDrawerOpen}
+                setIsDrawerOpen={setIsDrawerOpen}
+              />
+              <main
+                className={`h-6/12 flex-1 bg-white dark:bg-dark ${location.pathname === "/forms" ? "overflow-hidden" : "overflow-auto"}`}
+              >
+                {children}
+              </main>
+              <div className="h-6/12">
+                <MobileMenu />
+              </div>
+              <MobileDrawer
+                open={isDrawerOpen}
+                onClose={() => setIsDrawerOpen(false)}
+                setIsDrawerOpen={setIsDrawerOpen}
+              />
+            </div>
+            <ToastContainer
+              position="top-right"
+              className="!p-1 text-[0.90rem] font-bold"
+            />
+            <InstallModal />
           </div>
-          <MobileDrawer
-            open={isDrawerOpen}
-            onClose={() => setIsDrawerOpen(false)}
-            setIsDrawerOpen={setIsDrawerOpen}
-          />
         </div>
-        <ToastContainer
-          position="top-right"
-          className="!p-1 text-[0.90rem] font-bold"
-        />
-        <InstallModal />
-      </div>
-    </div>
+      )}
+    </ConfigProvider>
   );
 };
 

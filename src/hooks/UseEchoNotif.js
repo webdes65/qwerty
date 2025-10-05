@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import echo from "@config/echo";
 import logger from "@utils/logger.js";
 
-const useEchoNotif = (userId, realtimeService) => {
+const UseEchoNotif = (userId, realtimeService) => {
   useEffect(() => {
     let channel;
 
@@ -44,4 +44,4 @@ const useEchoNotif = (userId, realtimeService) => {
   }, [userId, realtimeService]);
 };
 
-export default useEchoNotif;
+export default UseEchoNotif;

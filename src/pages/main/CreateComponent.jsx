@@ -20,7 +20,7 @@ const CreateComponent = () => {
   });
 
   return (
-    <div className="h-full w-full flex flex-row justify-center items-center overflow-auto max-lg:flex-col max-lg:justify-start">
+    <div className="h-full w-full flex flex-row justify-center items-center overflow-auto max-lg:flex-col max-lg:justify-start bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
       <div className="w-8/12 h-full max-2xl:w-7/12 max-xl:w-6/12 max-lg:p-10 ">
         <DragDrop
           lines={lines}

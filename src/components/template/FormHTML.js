@@ -114,10 +114,10 @@ const FormHTML = (container) => {
           id="myModal"
           class="modal w-full h-full flex flex-row justify-center items-center"
         >
-          <div class="modal-content w-1/2 bg-white p-5 pb-14 rounded-lg">
+          <div class="modal-content w-1/2 bg-white text-dark-100  dark:bg-dark-100 dark:text-white p-5 pb-14 rounded-lg">
             <div class="w-full h-auto flex flex-row justify-end items-center">
               <span
-                class="close-btn w-auto h-auto flex flex-row justify-center items-center cursor-pointer text-[#333] text-4xl font-bold hover:text-red-500"
+                class="close-btn w-auto h-auto flex flex-row justify-center items-center cursor-pointer text-dark-100 dark:text-white text-4xl font-bold hover:text-red-500"
               >
                 &times;
               </span>
@@ -125,7 +125,7 @@ const FormHTML = (container) => {
             <div id="modalBody"></div>
           </div>
         </div>
-        <div id="form-container" class="h-screen w-full flex flex-row justify-center items-center">
+        <div id="form-container" class="h-screen w-full flex flex-row justify-center items-center !bg-white !text-dark-100  dark:!bg-dark-100 dark:!text-white">
           ${container.outerHTML}
         </div>
         <script type="module">

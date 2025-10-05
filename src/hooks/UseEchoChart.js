@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import echo from "@config/echo";
 import logger from "@utils/logger.js";
 
-const useEchoChart = (
+const UseEchoChart = (
   setRegisters,
   allowedIds = [],
   isLiveUpdate,
@@ -42,4 +42,4 @@ const useEchoChart = (
   }, [allowedIds, setRegisters, isLiveUpdate, realtimeService]);
 };
 
-export default useEchoChart;
+export default UseEchoChart;

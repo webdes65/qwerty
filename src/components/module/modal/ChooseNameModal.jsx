@@ -78,14 +78,6 @@ const ChooseNameModal = ({
     setSelectedCategory(value);
   };
 
-  const handleModalClose = () => {
-    setSelectedCategory(null);
-    setIsOpenChooseNameModal(false);
-    setIsCreatingCategory(false);
-    setCategoryTitle("");
-    setCategoryDescription("");
-  };
-
   const handleSubmit = (values, { resetForm }) => {
     if (!values.name.trim()) {
       toast.error("Form name is required");
@@ -107,7 +99,7 @@ const ChooseNameModal = ({
       className="font-Quicksand"
       title={`Choose Name ${title}`}
       open={isOpenChooseNameModal}
-      onCancel={handleModalClose}
+      onCancel={() => setIsOpenChooseNameModal(false)}
       footer={null}
     >
       <Formik
@@ -118,13 +110,16 @@ const ChooseNameModal = ({
         {({ handleSubmit, setFieldValue, values }) => (
           <Form onFinish={handleSubmit} className="w-full flex flex-col gap-4">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="name" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="name"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Name
               </label>
               <Field
                 type="text"
                 name="name"
-                className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -162,14 +157,14 @@ const ChooseNameModal = ({
             {isCreatingCategory && (
               <div className="w-full flex flex-col gap-2">
                 <input
-                  className="border-2 border-gray-200 outline-none p-3 rounded-md placeholder:font-medium"
+                  className="border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md placeholder:font-medium bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   placeholder="Title"
                   value={categoryTitle}
                   onChange={(e) => setCategoryTitle(e.target.value)}
                   required
                 />
                 <input
-                  className="border-2 border-gray-200 outline-none p-3 rounded-md placeholder:font-medium"
+                  className="border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md placeholder:font-medium bg-white text-dark-100  dark:bg-dark-100 dark:text-white mb-2"
                   placeholder="Description"
                   value={categoryDescription}
                   onChange={(e) => setCategoryDescription(e.target.value)}

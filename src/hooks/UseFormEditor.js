@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setItems } from "@redux_toolkit/features/itemsSlice";
 import logger from "@utils/logger.js";
 
-const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
+const UseFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
   const dispatch = useDispatch();
 
   const getBoxInfo = (boxInfoData) => {
@@ -83,4 +83,4 @@ const useFormData = (data, id, setBoxInfo, setBtnDisplayStatus) => {
   }, [data, id, dispatch, setBoxInfo, setBtnDisplayStatus]);
 };
 
-export default useFormData;
+export default UseFormData;

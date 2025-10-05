@@ -132,13 +132,13 @@ export default function UpdateFormNameModal({
         {({ handleSubmit: formikSubmit, setFieldValue, values }) => (
           <Form onFinish={formikSubmit} className="w-full flex flex-col gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-500 font-bold">
+              <label className="text-sm text-dark-100 dark:text-white font-bold">
                 New Name
               </label>
               <Field
                 type="text"
                 name="updatedName"
-                className="w-full border-2 border-gray-300 rounded-lg p-2 outline-none"
+                className="w-full border-2 border-gray-200 dark:border-gray-600 rounded-lg p-2 outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                 onChange={(e) => setFieldValue("updatedName", e.target.value)}
                 value={values.updatedName}
               />
@@ -176,14 +176,14 @@ export default function UpdateFormNameModal({
             {isCreatingCategory && (
               <div className="w-full flex flex-col gap-2">
                 <input
-                  className="border-2 border-gray-200 outline-none p-3 rounded-md placeholder:font-medium"
+                  className="border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md placeholder:font-medium bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   placeholder="Title"
                   value={categoryTitle}
                   onChange={(e) => setCategoryTitle(e.target.value)}
                   required
                 />
                 <input
-                  className="border-2 border-gray-200 outline-none p-3 rounded-md placeholder:font-medium"
+                  className="border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md placeholder:font-medium bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   placeholder="Description"
                   value={categoryDescription}
                   onChange={(e) => setCategoryDescription(e.target.value)}

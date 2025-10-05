@@ -17,8 +17,8 @@ export default function DeviceOfLabelCard({
     <>
       {selectDevice ? (
         isLoadingDevices ? (
-          <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
-            <Spin />
+          <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-2 rounded-lg">
+            <Spin className="dark:text-lightBlue" />
           </div>
         ) : devicesError ? (
           <p className="text-center text-red-500">
@@ -39,8 +39,8 @@ export default function DeviceOfLabelCard({
       {selectDevice && selectedDeviceId && (
         <>
           {isLoadingRegisters ? (
-            <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
-              <Spin />
+            <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
+              <Spin className="dark:text-lightBlue" />
             </div>
           ) : registersError ? (
             <p className="text-center text-red-500">

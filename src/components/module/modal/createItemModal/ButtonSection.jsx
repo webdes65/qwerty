@@ -54,7 +54,9 @@ const ButtonSection = ({
       {(forceShow || values.type === "button") && (
         <>
           <div>
-            <label className="font-bold text-gray-500">Type</label>
+            <label className="font-bold text-dark-100 dark:text-white">
+              Type
+            </label>
             <div className="w-full flex flex-row justify-between items-center gap-1 font-bold">
               {["externallink", "chooseform", "selectdevice"].map((type) => (
                 <label
@@ -62,8 +64,8 @@ const ButtonSection = ({
                   className={`w-4/12 flex flex-row justify-center items-center gap-2 bg-blue-100 rounded-md p-2 cursor-pointer
         ${
           dispalyTypeButton === type
-            ? "border-2 border-blue-500 text-blue-500"
-            : "border border-transparent"
+            ? "border-2 border-blue-500 text-dark-100"
+            : "border border-transparent text-gray-100"
         }`}
                   onClick={() => setDispalyTypeButton(type)}
                 >
@@ -83,7 +85,7 @@ const ButtonSection = ({
             type="text"
             name="titlebtn"
             placeholder="Button Title"
-            className="border-2 border-gray-200 py-[0.20rem] px-3 rounded-md w-full outline-none"
+            className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
           />
 
           {dispalyTypeButton === "externallink" && (
@@ -91,7 +93,7 @@ const ButtonSection = ({
               type="text"
               name="path"
               placeholder="External link"
-              className="border-2 border-gray-200 p-2 py-[0.20rem] px-3 rounded-md w-full outline-none"
+              className="border-2  border-gray-200 dark:border-gray-600 p-2 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
             />
           )}
 
@@ -168,7 +170,7 @@ const ButtonSection = ({
 
               <div className="flex flex-col justify-center items-center gap-2 pt-2">
                 <input
-                  className="border-2 border-gray-200 py-[0.20rem] px-3 rounded-md w-full outline-none"
+                  className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                   type="text"
                   value={infoReqBtn.title}
                   placeholder="Title req"
@@ -181,7 +183,7 @@ const ButtonSection = ({
                 />
 
                 <input
-                  className="border-2 border-gray-200 py-[0.20rem] px-3 rounded-md w-full outline-none"
+                  className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                   placeholder="Value req"
                   type="text"
                   value={infoReqBtn.value}

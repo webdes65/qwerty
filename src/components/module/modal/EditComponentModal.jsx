@@ -21,11 +21,16 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     }),
   );
 
+  const processedOptions = optionsCategories.map((option) => ({
+    ...option,
+    value: option.value,
+  }));
+
   useEffect(() => {
     if (categoriesData) {
       const newOptions = categoriesData.data.map((item) => ({
         label: item.title,
-        value: item.id,
+        value: item.uuid,
       }));
       const allOption = { label: "All", value: 0 };
       setOptionsCategories([allOption, ...newOptions]);
@@ -86,14 +91,14 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="width"
-                  className="text-sm text-gray-500 font-bold"
+                  className="text-sm text-dark-100 dark:text-white font-bold"
                 >
                   Width
                 </label>
                 <Field
                   type="number"
                   name="width"
-                  className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   onChange={handleChange}
                   value={values.width}
                 />
@@ -101,14 +106,14 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="height"
-                  className="text-sm text-gray-500 font-bold"
+                  className="text-sm text-dark-100 dark:text-white font-bold"
                 >
                   Height
                 </label>
                 <Field
                   type="number"
                   name="height"
-                  className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   onChange={handleChange}
                   value={values.height}
                 />
@@ -116,7 +121,10 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label htmlFor="bg" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="bg"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Border Radius
               </label>
               <Slider
@@ -132,7 +140,10 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
             </div>
 
             <div className="flex flex-row justify-start items-center gap-2">
-              <label htmlFor="bg" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="bg"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Background Color
               </label>
 
@@ -158,14 +169,14 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                       .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
                   value={selectedCategorie}
-                  options={optionsCategories}
+                  options={processedOptions}
                   onChange={(value) => setSelectedCategorie(value)}
                 />
-                <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+                <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
                   {isLoadingImgs ? (
                     <Spin />
                   ) : (
-                    <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
+                    <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
                       <div
                         onClick={() => setFieldValue("bgImg", "")}
                         className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${

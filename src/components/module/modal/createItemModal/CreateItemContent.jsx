@@ -89,7 +89,7 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
     if (categoriesData) {
       const newOptions = categoriesData.data.map((item) => ({
         label: item.title,
-        value: item.id,
+        value: item.uuid,
       }));
       const allOption = { label: "All", value: 0 };
       setOptionsCategories([allOption, ...newOptions]);
@@ -241,21 +241,23 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
   };
 
   return (
-    <div className="h-auto w-full flex flex-col justify-start items-center bg-white font-Poppins overflow-auto">
+    <div className="h-auto w-full flex flex-col justify-start items-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white  font-Poppins overflow-auto">
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ setFieldValue, values }) => (
           <Form className="w-full flex flex-col gap-2">
             <div className="w-full h-auto">
-              <label className="font-bold text-gray-500">Type item</label>
+              <label className="font-bold text-black dark:text-white">
+                Type item
+              </label>
               <div className="w-full flex flex-row justify-between items-center gap-1 font-bold">
                 {["text input", "label", "button", "components"].map((type) => (
                   <label
                     key={type}
-                    className={`w-3/12 flex flex-row justify-center items-center gap-1 bg-blue-100 rounded-md p-2 cursor-pointer
+                    className={`w-3/12 flex flex-row justify-center items-center gap-1 bg-blue-100  rounded-md p-2 cursor-pointer
                 ${
                   values.type === type
-                    ? "border-2 border-blue-500 text-blue-500"
-                    : "border border-transparent"
+                    ? "border-2 border-blue-500 text-dark-100"
+                    : "border border-transparent text-gray-100"
                 }`}
                   >
                     <Field

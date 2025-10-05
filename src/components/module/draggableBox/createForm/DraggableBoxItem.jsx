@@ -17,7 +17,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { generateCypherKey } from "@utils/generateCypherKey.js";
 import logger from "@utils/logger.js";
-import useEchoRegister from "@hooks/useEchoRegister";
+import UseEchoRegister from "@hooks/UseEchoRegister.js";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import FormDisplay from "@module/modal/FormDisplay";
 
@@ -94,7 +94,7 @@ const DraggableBoxItem = ({
 
   const realtimeService = useSelector((state) => state.realtimeService);
 
-  useEchoRegister(setRegisters, allowedIds, realtimeService);
+  UseEchoRegister(setRegisters, allowedIds, realtimeService);
 
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
