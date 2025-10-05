@@ -33,7 +33,7 @@ const LabelSection = ({
             type="text"
             name="title"
             placeholder="Title"
-            className="border-2 border-gray-200 py-[0.20rem] px-3 rounded-md w-full outline-none"
+            className="border-2 border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
           />
 
           <div className="flex items-center gap-2">
@@ -150,7 +150,7 @@ const LabelSection = ({
           {values.typeDataRegister === "boolean" &&
             showImgsOrColors === "colors" && (
               <div className="w-full flex flex-row justify-center items-center gap-1">
-                <label className="w-1/2 flex flex-row justify-start items-center gap-1 text-sm font-bold bg-blue-50 runded-md p-2">
+                <label className="w-1/2 flex flex-row justify-start items-center gap-1 text-sm font-bold bg-blue-50 dark:bg-gray-100 runded-md p-2">
                   Color in true :
                   <input
                     type="color"
@@ -164,7 +164,7 @@ const LabelSection = ({
                     }
                   />
                 </label>
-                <label className="w-1/2 flex flex-row justify-start items-center gap-1 text-sm font-bold bg-blue-50 runded-md p-2">
+                <label className="w-1/2 flex flex-row justify-start items-center gap-1 text-sm font-bold bg-blue-50 dark:bg-gray-100 runded-md p-2">
                   Color in fasle :
                   <input
                     type="color"
@@ -184,7 +184,7 @@ const LabelSection = ({
           {values.typeDataRegister === "binary" &&
             showImgsOrColors === "colors" && (
               <div className="w-full h-auto flex flex-row justify-center items-center gap-1">
-                <label className="w-1/2 text-sm font-bold flex flex-row justify-start items-center gap-1 bg-blue-50 rounded-md p-2">
+                <label className="w-1/2 text-sm font-bold flex flex-row justify-start items-center gap-1 bg-blue-50 dark:bg-gray-100 rounded-md p-2">
                   Color in 0 :
                   <input
                     type="color"
@@ -195,7 +195,7 @@ const LabelSection = ({
                     }
                   />
                 </label>
-                <label className="w-1/2 text-sm font-bold flex flex-row justify-start items-center gap-1 bg-blue-50 rounded-md p-2">
+                <label className="w-1/2 text-sm font-bold flex flex-row justify-start items-center gap-1 bg-blue-50 dark:bg-gray-100 rounded-md p-2">
                   Color in 1 :
                   <input
                     type="color"
@@ -229,7 +229,7 @@ const LabelSection = ({
 
           {values.typeDataRegister === "boolean" &&
             showImgsOrColors === "images" && (
-              <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+              <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
                 {isLoadingImgs ? (
                   <Spin />
                 ) : imgsError ? (
@@ -237,7 +237,7 @@ const LabelSection = ({
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in true</p>
-                    <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
+                    <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
                       <div
                         onClick={() =>
                           setFieldValue("backgroundImageBooleanTrue", "")
@@ -282,7 +282,7 @@ const LabelSection = ({
 
           {values.typeDataRegister === "boolean" &&
             showImgsOrColors === "images" && (
-              <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+              <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
                 {isLoadingImgs ? (
                   <Spin />
                 ) : imgsError ? (
@@ -290,7 +290,7 @@ const LabelSection = ({
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in false</p>
-                    <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
+                    <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
                       <div
                         onClick={() =>
                           setFieldValue("backgroundImageBooleanFalse", "")
@@ -335,7 +335,7 @@ const LabelSection = ({
 
           {values.typeDataRegister === "binary" &&
             showImgsOrColors === "images" && (
-              <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+              <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
                 {isLoadingImgs ? (
                   <Spin />
                 ) : imgsError ? (
@@ -343,7 +343,7 @@ const LabelSection = ({
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in 0</p>
-                    <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
+                    <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
                       <div
                         onClick={() =>
                           setFieldValue("backgroundImageBinaryZero", "")
@@ -385,7 +385,7 @@ const LabelSection = ({
 
           {values.typeDataRegister === "binary" &&
             showImgsOrColors === "images" && (
-              <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+              <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
                 {isLoadingImgs ? (
                   <Spin />
                 ) : imgsError ? (
@@ -393,7 +393,7 @@ const LabelSection = ({
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in 1</p>
-                    <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
+                    <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
                       <div
                         onClick={() =>
                           setFieldValue("backgroundImageBinaryOne", "")
@@ -435,7 +435,7 @@ const LabelSection = ({
 
           {values.typeDataRegister === "binary" && (
             <div className="flex flex-row justify-center items-center gap-1">
-              <div className="w-1/2 flex flex-row justify-start items-center gap-2 p-2 bg-blue-50 rounded-md">
+              <div className="w-1/2 flex flex-row justify-start items-center gap-2 p-2 bg-blue-50 dark:bg-gray-100 rounded-md">
                 <Field
                   type="checkbox"
                   id="hideIfZero"
@@ -453,7 +453,7 @@ const LabelSection = ({
                   If 0, it's hidden.
                 </label>
               </div>
-              <div className="w-1/2 flex flex-row justify-start items-center gap-2 p-2 bg-blue-50 rounded-md">
+              <div className="w-1/2 flex flex-row justify-start items-center gap-2 p-2 bg-blue-50 dark:bg-gray-100 rounded-md">
                 <Field
                   type="checkbox"
                   id="hideIfOne"

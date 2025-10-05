@@ -133,7 +133,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     >
       <div
         style={{ direction: "ltr" }}
-        className="h-5/6 w-1/2 flex flex-col justify-start items-center p-10 px-20 bg-white rounded-md font-Poppins max-lg:w-10/12 max-sm:w-full max-sm:px-10"
+        className="h-5/6 w-1/2 flex flex-col justify-start items-center p-10 px-20 bg-white text-dark-100 dark:bg-dark-100 dark:text-white rounded-md font-Poppins max-lg:w-10/12 max-sm:w-full max-sm:px-10"
       >
         {isLoadingCategories ? (
           <div className="flex items-center justify-center h-full">
@@ -197,7 +197,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                     name="titlebtn"
                                     type="text"
                                     placeholder="Enter button title"
-                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full mt-1 outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                     value={values.titlebtn}
                                     onChange={handleChange}
                                   />
@@ -213,7 +213,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                     name="title"
                                     type="text"
                                     placeholder="Title"
-                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full mt-1 outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                     value={values.title}
                                     onChange={handleChange}
                                   />
@@ -227,7 +227,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                     name="height"
                                     type="number"
                                     placeholder="Enter height"
-                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full mt-1 outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                     value={values.height}
                                     onChange={handleChange}
                                   />
@@ -238,7 +238,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                     name="width"
                                     type="number"
                                     placeholder="Enter width"
-                                    className="border-2 border-gray-300 p-2 rounded w-full mt-1 outline-none"
+                                    className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full mt-1 outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                     value={values.width}
                                     onChange={handleChange}
                                   />
@@ -345,7 +345,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                         e.target.value,
                                       )
                                     }
-                                    className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
+                                    className="w-full mt-1 border-2 border-gray-200 dark:border-gray-600 rounded p-1 text-center cursor-text outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                   />
                                 </label>
 
@@ -373,7 +373,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                         e.target.value,
                                       )
                                     }
-                                    className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
+                                    className="w-full mt-1 border-2 border-gray-200 dark:border-gray-600 rounded p-1 text-center cursor-text outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                   />
                                 </label>
 
@@ -395,7 +395,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                     onChange={(e) =>
                                       setFieldValue("textColor", e.target.value)
                                     }
-                                    className="w-full mt-1 border-2 border-gray-300 rounded p-1 text-center cursor-text outline-none"
+                                    className="w-full mt-1 border-2 border-gray-200 dark:border-gray-600 rounded p-1 text-center cursor-text outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                   />
                                 </label>
                               </div>
@@ -407,7 +407,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                     name="fontSize"
                                     type="number"
                                     placeholder="Enter font size"
-                                    className="border-2 border-gray-200 p-2 rounded w-full mt-1 outline-none"
+                                    className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full mt-1 outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
                                     value={values.fontSize}
                                     onChange={handleChange}
                                   />
@@ -455,7 +455,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                 }
                               />
 
-                              <div className="w-full h-[12rem] overflow-auto flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+                              <div className="w-full h-[12rem] overflow-auto flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
                                 {isLoadingImgs ? (
                                   <Spin />
                                 ) : imgsError ? (

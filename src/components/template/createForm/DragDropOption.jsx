@@ -339,7 +339,7 @@ const DragDropOption = ({
   ];
 
   return (
-    <div className="w-full h-[100vh] flex flex-col items-start justify-start gap-4 font-Quicksand p-5 bg-white shadow rounded-lg text-[0.90rem] overflow-auto">
+    <div className="w-full h-[100vh] flex flex-col items-start justify-start gap-4 font-Quicksand p-5 border-2 border-gray-200 dark:border-gray-100 bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-lg text-[0.90rem] overflow-auto">
       {isLoadingCategories ? (
         <div className="w-full h-full flex flex-row justify-center items-center">
           <Spin size="large" />
@@ -380,13 +380,15 @@ const DragDropOption = ({
                 last: "End",
               }}
             />
-            <label className="text-black font-bold">Box size</label>
+            <label className="text-black dark:text-white font-bold">
+              Box size
+            </label>
             <div className="w-full flex flex-col justify-center items-start gap-2 max-xl:flex-col max-xl:items-start">
               <div className="w-full flex flex-row justify-center items-center">
                 <input
                   type="number"
                   placeholder={`Width ${boxInfo.width}`}
-                  className="w-1/2 border-2 border-gray-200 p-2 rounded mr-2 outline-none"
+                  className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
                   onChange={(e) => {
                     const value = e.target.value ? Number(e.target.value) : 300;
                     setBoxInfo((prev) => ({
@@ -398,7 +400,7 @@ const DragDropOption = ({
                 <input
                   type="number"
                   placeholder={`Height ${boxInfo.height}`}
-                  className="w-1/2 border-2 border-gray-200 p-2 rounded mr-2 outline-none"
+                  className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
                   onChange={(e) => {
                     const value = e.target.value ? Number(e.target.value) : 300;
                     setBoxInfo((prev) => ({
@@ -412,7 +414,9 @@ const DragDropOption = ({
           </div>
 
           <div className="w-full flex flex-col justify-center items-start gap-2">
-            <label className="text-black font-bold">Border</label>
+            <label className="text-black dark:text-white font-bold">
+              Border
+            </label>
             <div className="w-full flex flex-col justify-center items-start gap-2 max-xl:flex-col max-xl:items-start">
               <div className="w-full flex flex-row justify-center items-center">
                 <input
@@ -425,7 +429,7 @@ const DragDropOption = ({
                     }));
                   }}
                   placeholder={`Top ${boxInfo.borderTop}`}
-                  className="w-1/2 border-2 border-gray-200 p-2 rounded mr-2 outline-none"
+                  className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
                 />
                 <input
                   type="number"
@@ -437,7 +441,7 @@ const DragDropOption = ({
                     }));
                   }}
                   placeholder={`Bottom ${boxInfo.borderTop}`}
-                  className="w-1/2 border-2 border-gray-200 p-2 rounded mr-2 outline-none"
+                  className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
                 />
               </div>
               <div className="w-full flex flex-row justify-center items-center">
@@ -451,7 +455,7 @@ const DragDropOption = ({
                     }));
                   }}
                   placeholder={`Left ${boxInfo.borderLeft}`}
-                  className="w-1/2 border-2 border-gray-200 p-2 rounded mr-2 outline-none"
+                  className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
                 />
                 <input
                   type="number"
@@ -463,7 +467,7 @@ const DragDropOption = ({
                     }));
                   }}
                   placeholder={`Right ${boxInfo.borderRight}`}
-                  className="w-1/2 border-2 border-gray-200 p-2 rounded mr-2 outline-none"
+                  className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
                 />
               </div>
             </div>
@@ -506,7 +510,9 @@ const DragDropOption = ({
           </div>
 
           <div className="w-full flex flex-row justify-start items-center gap-2">
-            <label className="text-black font-bold">Border color</label>
+            <label className="text-black dark:text-white font-bold">
+              Border color
+            </label>
             <input
               type="color"
               value={boxInfo.borderColor}
@@ -521,7 +527,9 @@ const DragDropOption = ({
           </div>
 
           <div className="w-full flex flex-row justify-start items-center gap-2">
-            <label className="text-black font-bold">Background color</label>
+            <label className="text-black dark:text-white font-bold">
+              Background color
+            </label>
             <input
               type="color"
               value={rgbaToHex(boxInfo.bgColor)}
@@ -755,7 +763,7 @@ const DragDropOption = ({
             />
           </div>
 
-          <div className="w-full min-h-[12rem] overflow-auto flex flex-row justify-center items-start bg-blue-50 p-3 rounded-lg">
+          <div className="w-full min-h-[12rem] overflow-auto flex flex-row justify-center items-start bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
             {isLoadingImgs ? (
               <Spin />
             ) : imgsError ? (

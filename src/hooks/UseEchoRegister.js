@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import echo from "@config/echo";
 import logger from "@utils/logger.js";
 
-const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
+const UseEchoRegister = (setRegisters, allowedIds, realtimeService) => {
   useEffect(() => {
     if (realtimeService !== "echo" || !allowedIds) return;
     const initializeEcho = () => {
@@ -56,4 +56,4 @@ const useEchoRegister = (setRegisters, allowedIds, realtimeService) => {
   }, [setRegisters, allowedIds, realtimeService]);
 };
 
-export default useEchoRegister;
+export default UseEchoRegister;

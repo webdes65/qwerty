@@ -5,7 +5,7 @@ import DragDropOption from "@components/template/createForm/DragDropOption";
 import DragDrop from "@components/template/createForm/DragDrop";
 import Spinner from "@components/template/Spinner";
 import { request } from "@services/apiService.js";
-import useFormData from "@hooks/useFormEditor";
+import UseFormData from "@hooks/UseFormEditor.js";
 
 const CreateForm = () => {
   const location = useLocation();
@@ -63,7 +63,7 @@ const CreateForm = () => {
     { enabled: !!id && !!name },
   );
 
-  useFormData(data, id, setBoxInfo, setBtnDisplayStatus);
+  UseFormData(data, id, setBoxInfo, setBtnDisplayStatus);
 
   const dragDropProps = {
     boxInfo,
@@ -85,7 +85,7 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="h-[110vh] w-full flex flex-row gap-3 justify-center items-center xl:items-start overflow-auto max-xl:flex-col max-xl:justify-start">
+    <div className="h-[110vh] w-full flex flex-row gap-3 justify-center items-center xl:items-start overflow-auto max-xl:flex-col max-xl:justify-start bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
       {isLoading && <Spinner />}
       {error && <p className="text-red-500">{error.message}</p>}
       {!isLoading && !error && (

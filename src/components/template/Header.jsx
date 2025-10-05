@@ -3,6 +3,7 @@ import { Spin as Hamburger } from "hamburger-react";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import logo from "/assets/images/logo.webp";
+import useDarkMode from "../../store/UseDarkMode.js";
 
 const Header = ({
   onOpenDrawer,
@@ -15,6 +16,7 @@ const Header = ({
   const location = useLocation();
   const navigate = useNavigate();
   const pathSegments = location.pathname.split("/").filter(Boolean);
+  const { darkMode } = useDarkMode();
 
   const lastSegment =
     pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "home";
@@ -74,11 +76,13 @@ const Header = ({
   // };
 
   return (
-    <header className="h-3/12 flex flex-row justify-between items-center px-4 bg-[#fff] shadow rounded-xl font-Quicksand p-2">
+    <header className="h-3/12 flex flex-row justify-between items-center px-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow rounded-xl font-Quicksand p-2">
       <h1
         className="font-bold text-[1.5rem] max-lg:hidden text-transparent bg-clip-text cursor-default"
         style={{
-          backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
+          backgroundImage: darkMode
+            ? "linear-gradient(to right, #9897c6, #94d2e0"
+            : "linear-gradient(to right, #6D6CAA, #6EC5D6)",
         }}
       >
         {formattedLastSegment}
@@ -109,7 +113,7 @@ const Header = ({
               boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
             }}
           />
-          <p className="text-[1rem] text-[#000] font-bold cursor-default">
+          <p className="text-[1rem] text-dark-100 dark:text-white font-bold cursor-default">
             {userName}
           </p>
         </div>

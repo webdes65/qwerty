@@ -68,13 +68,16 @@ const CreatePointModal = ({
         {({ setFieldValue, values }) => (
           <Form className="w-full flex flex-col gap-4">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="name" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="name"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Name
               </label>
               <Field
                 type="text"
                 name="name"
-                className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -86,7 +89,7 @@ const CreatePointModal = ({
             </div>
 
             <div className="w-full flex flex-col justify-center items-start">
-              <label className="text-sm text-gray-500 font-bold">
+              <label className="text-sm text-dark-100 dark:text-white font-bold">
                 Choose Board ID
               </label>
               <Select
@@ -124,14 +127,14 @@ const CreatePointModal = ({
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="width"
-                  className="text-sm text-gray-500 font-bold"
+                  className="text-sm text-dark-100 dark:text-white font-bold"
                 >
                   Width
                 </label>
                 <Field
                   type="number"
                   name="width"
-                  className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   onChange={(e) => setFieldValue("width", e.target.value)}
                   value={values.width}
                 />
@@ -139,14 +142,14 @@ const CreatePointModal = ({
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="height"
-                  className="text-sm text-gray-500 font-bold"
+                  className="text-sm text-dark-100 dark:text-white font-bold"
                 >
                   Height
                 </label>
                 <Field
                   type="number"
                   name="height"
-                  className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   onChange={(e) => setFieldValue("height", e.target.value)}
                   value={values.height}
                 />
@@ -154,7 +157,10 @@ const CreatePointModal = ({
             </div>
 
             <div className="flex flex-row justify-start items-center gap-2">
-              <label htmlFor="bg" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="bg"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Background Color
               </label>
               <Field
@@ -167,7 +173,10 @@ const CreatePointModal = ({
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label htmlFor="bg" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="bg"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Border Radius
               </label>
               <Slider

@@ -142,7 +142,7 @@ const UploadImgsModal = ({
       title="Upload Images"
       className="font-Poppins"
     >
-      <div className="h-auto w-full flex flex-col justify-center items-center gap-5 p-10 px-20 bg-white rounded-md max-sm:w-full max-sm:px-10">
+      <div className="h-auto w-full flex flex-col justify-center items-center gap-5 p-10 px-20 bg-white text-dark-100  dark:bg-dark-100 dark:text-white rounded-md max-sm:w-full max-sm:px-10">
         <Select
           className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
           options={processedOptions}
@@ -185,14 +185,14 @@ const UploadImgsModal = ({
         {isCreatingCategory && (
           <div className="w-full flex flex-col gap-2">
             <input
-              className="border-2 border-gray-200 outline-none p-3 rounded-md placeholder:font-medium"
+              className="border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md placeholder:font-mediumbg-white text-dark-100  dark:bg-dark-100 dark:text-white"
               placeholder="Title"
               value={categoryTitle}
               onChange={(e) => setCategoryTitle(e.target.value)}
               required
             />
             <input
-              className="border-2 border-gray-200 outline-none p-3 rounded-md placeholder:font-medium"
+              className="border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md placeholder:font-mediumbg-white text-dark-100  dark:bg-dark-100 dark:text-white mb-2"
               placeholder="Description"
               value={categoryDescription}
               onChange={(e) => setCategoryDescription(e.target.value)}

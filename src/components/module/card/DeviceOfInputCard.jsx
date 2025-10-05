@@ -15,8 +15,8 @@ export default function DeviceOfInputCard({
   return (
     <>
       {isLoading ? (
-        <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
-          <Spin />
+        <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-2 rounded-lg">
+          <Spin className="dark:text-lightBlue" />
         </div>
       ) : error ? (
         <p className="text-center text-red-500">Error: {error.message}</p>
@@ -32,8 +32,8 @@ export default function DeviceOfInputCard({
       {selectedDeviceId && (
         <>
           {isLoadingRegisters ? (
-            <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 p-2 rounded-lg">
-              <Spin />
+            <div className="w-full h-auto flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-2 rounded-lg">
+              <Spin className="dark:text-lightBlue" />
             </div>
           ) : registersError ? (
             <p className="text-center text-red-500">
