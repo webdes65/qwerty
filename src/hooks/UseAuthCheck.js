@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-const useAuthCheck = () => {
+const UseAuthCheck = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const cookies = new Cookies();
@@ -41,4 +41,4 @@ const useAuthCheck = () => {
   }, [location.pathname, token, navigate]);
 };
 
-export default useAuthCheck;
+export default UseAuthCheck;
