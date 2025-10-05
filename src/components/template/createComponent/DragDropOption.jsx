@@ -125,7 +125,7 @@ const DragDropOption = ({
   ];
 
   return (
-    <div className="w-full h-auto flex flex-col items-start justify-start gap-4 font-Quicksand p-5 bg-white shadow rounded-lg text-[0.90rem] overflow-auto">
+    <div className="w-full h-auto flex flex-col items-start justify-start gap-4 font-Quicksand p-5 border-2 border-gray-200 dark:border-gray-100 bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-lg text-[0.90rem] overflow-auto">
       <Joyride
         className="!font-Quicksand"
         steps={steps}
@@ -158,7 +158,7 @@ const DragDropOption = ({
         }}
       />
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="text-black font-bold">Box size</label>
+        <label className="text-black dark:text-white font-bold">Box size</label>
         <div className="w-full flex flex-row justify-center items-start gap-2">
           <input
             type="number"
@@ -170,7 +170,7 @@ const DragDropOption = ({
                 width: value,
               }));
             }}
-            className="w-1/2 border-2 border-gray-200 p-2 rounded outline-none"
+            className="w-1/2 border-2 border-gray-200 dark:border-gray-600 p-2 rounded outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
           />
           <input
             type="number"
@@ -182,7 +182,7 @@ const DragDropOption = ({
                 height: value,
               }));
             }}
-            className="w-1/2 border-2 border-gray-200 p-2 rounded outline-none"
+            className="w-1/2 border-2 border-gray-200 dark:border-gray-600 p-2 rounded outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
           />
         </div>
       </div>

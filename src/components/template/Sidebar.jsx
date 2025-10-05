@@ -8,14 +8,27 @@ import { FaListOl } from "react-icons/fa6";
 import { TbChartDots, TbAugmentedReality } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { BiBuildings } from "react-icons/bi";
+import { Button, Dropdown, Space } from "antd";
 import Cookies from "universal-cookie";
 import LogoutModal from "@module/modal/LogoutModal.jsx";
+import { useSystemTheme } from "@hooks/UseSystemTheme.js";
+import UseDarkModeStore from "../../store/UseDarkMode.js";
+import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
+import { MdOutlineImportantDevices } from "react-icons/md";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const location = useLocation();
   const queryClient = useQueryClient();
+  const {
+    darkMode,
+    useSystemTheme: useSystemThemeMode,
+    setDarkMode,
+    enableSystemTheme,
+    disableSystemTheme,
+  } = UseDarkModeStore();
+  const systemTheme = useSystemTheme();
 
   const [run, setRun] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -60,6 +73,11 @@ const Sidebar = () => {
     return location.pathname === route;
   };
 
+  const resetToSystemTheme = () => {
+    enableSystemTheme();
+    setDarkMode(systemTheme, true);
+  };
+
   const steps = [
     {
       target: ".create-component",
@@ -87,8 +105,50 @@ const Sidebar = () => {
     },
   ];
 
+  const themeMenuItems = [
+    {
+      key: "1",
+      label: (
+        <div className="flex items-center justify-between">
+          <AiOutlineSun />
+        </div>
+      ),
+      onClick: () => {
+        disableSystemTheme();
+        setDarkMode(false);
+      },
+    },
+    {
+      key: "2",
+      label: (
+        <div className="flex items-center justify-between">
+          <AiOutlineMoon />
+        </div>
+      ),
+      onClick: () => {
+        disableSystemTheme();
+        setDarkMode(true);
+      },
+    },
+    {
+      key: "3",
+      label: (
+        <div className="flex items-center justify-between">
+          <AiOutlineDesktop />
+        </div>
+      ),
+      onClick: resetToSystemTheme,
+    },
+  ];
+
+  useEffect(() => {
+    if (useSystemThemeMode) {
+      setDarkMode(systemTheme, true);
+    }
+  }, [systemTheme, useSystemThemeMode, setDarkMode]);
+
   return (
-    <aside className="max-w-64 h-full flex flex-col justify-between items-start p-2 bg-gray-800 text-white font-Quicksand font-medium max-lg:hidden">
+    <aside className="max-w-64 h-full flex flex-col justify-between items-start p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200 font-Quicksand font-medium max-lg:hidden">
       <Joyride
         className="!font-Quicksand"
         steps={steps}
@@ -135,7 +195,9 @@ const Sidebar = () => {
           <h1
             className="font-bold text-[1.75rem] p-2 max-md:hidden text-transparent bg-clip-text"
             style={{
-              backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
+              backgroundImage: darkMode
+                ? "linear-gradient(to right, #9897c6, #94d2e0"
+                : "linear-gradient(to right, #6D6CAA, #6EC5D6)",
             }}
           >
             MCP
@@ -144,7 +206,7 @@ const Sidebar = () => {
 
         <li
           className={`w-full flex flex-row justify-start items-end gap-2 cursor-pointer p-2 rounded ${
-            isActive("/") ? "bg-gray-700" : ""
+            isActive("/") ? "bg-tealBlue text-white" : ""
           }`}
           onClick={() => handleNavigation("/")}
         >
@@ -153,26 +215,26 @@ const Sidebar = () => {
         </li>
         <li
           className={`w-full create-component flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-            isActive("/createcomponent") ? "bg-gray-700" : ""
+            isActive("/createcomponent") ? "bg-tealBlue text-white" : ""
           }`}
           onClick={() => handleNavigation("/createcomponent")}
         >
-          <IoCreateOutline className="text-[1.70rem]" />
+          <IoCreateOutline className="text-[1.5rem]" />
           Create Component
         </li>
         <li
           className={`w-full create-form flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-            isActive("/createform") ? "bg-gray-700" : ""
+            isActive("/createform") ? "bg-tealBlue text-white" : ""
           }`}
           onClick={() => handleNavigation("/createform")}
         >
-          <IoCreateOutline className="text-[1.70rem]" />
+          <IoCreateOutline className="text-[1.5rem]" />
           Create Form
         </li>
         <li
           className={`w-full forms flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
             isActive("/forms") || isActive("/forms/formDetail")
-              ? "bg-gray-700"
+              ? "bg-tealBlue text-white"
               : ""
           }`}
           onClick={() => handleNavigation("/forms")}
@@ -186,17 +248,19 @@ const Sidebar = () => {
             isActive("/ProjectDetails") ||
             isActive("/ARDetails") ||
             isActive("/SubProject/:id")
-              ? "bg-gray-700"
+              ? "bg-tealBlue text-white"
               : ""
           }`}
           onClick={() => handleNavigation("/augmentedRealities")}
         >
-          <TbAugmentedReality className="text-[1.70rem]" />
+          <TbAugmentedReality className="text-[1.5rem]" />
           AR
         </li>
         <li
           className={`graphs w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded  ${
-            isActive("/graphs") || isActive("/graphs/:id ") ? "bg-gray-700" : ""
+            isActive("/graphs") || isActive("/graphs/:id ")
+              ? "bg-tealBlue text-white"
+              : ""
           }`}
           onClick={() => handleNavigation("/graphs")}
         >
@@ -208,38 +272,30 @@ const Sidebar = () => {
             isActive("/devices") ||
             isActive("/devices/deviceDetail") ||
             /^\/devices\/\d+\/registers$/.test(window.location.pathname)
-              ? "bg-gray-700"
+              ? "bg-tealBlue text-white"
               : ""
           }`}
           onClick={() => handleNavigation("/devices")}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            className="bi bi-pc-display"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill="d1d5db"
-              d="M8 1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1zm1 13.5a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0m2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0M9.5 1a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM9 3.5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 0-1h-5a.5.5 0 0 0-.5.5M1.5 2A1.5 1.5 0 0 0 0 3.5v7A1.5 1.5 0 0 0 1.5 12H6v2h-.5a.5.5 0 0 0 0 1H7v-4H1.5a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5H7V2z"
-            />
-          </svg>
+          <MdOutlineImportantDevices className="text-[1.5rem]" />
           Devices
         </li>
         <li
           className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-            isActive("/cities") ? "bg-gray-700" : ""
+            isActive("/cities") ? "bg-tealBlue text-white" : ""
           }`}
           onClick={() => handleNavigation("/cities")}
         >
-          <BiBuildings className="text-[1.70rem]" />
+          <BiBuildings className="text-[1.5rem]" />
           Cities
         </li>
         <li
           className={`w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded  ${
-            isActive("/employees") ? "bg-gray-700" : ""
+            isActive("/employees") ||
+            isActive("/employees/employeesDetail") ||
+            isActive("/employees/editEmployess")
+              ? "bg-tealBlue text-white"
+              : ""
           }`}
           onClick={() => handleNavigation("/employees")}
         >
@@ -248,7 +304,7 @@ const Sidebar = () => {
         </li>
         <li
           className={`w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-            isActive("/settings") ? "bg-gray-700" : ""
+            isActive("/settings") ? "bg-tealBlue text-white" : ""
           }`}
           onClick={() => handleNavigation("/settings")}
         >
@@ -256,20 +312,51 @@ const Sidebar = () => {
           Settings
         </li>
       </ul>
-      <button
-        className="flex flex-row justify-center items-center gap-2 text-red-500 font-bold p-2"
-        onClick={() => setIsLogoutModalOpen(true)}
-      >
-        <TbDoorExit className="text-red-500 text-[25px]" />
-        Logout
-      </button>
 
-      <LogoutModal
-        title="Do you want to log out of your account?"
-        isOpenModal={isLogoutModalOpen}
-        setIsOpenModal={setIsLogoutModalOpen}
-        onLogout={handleLogout}
-      />
+      <div className="flex flex-col items-center justify-center gap-1 w-full">
+        <div className="flex items-center gap-1 flex-row-reverse">
+          <Dropdown
+            menu={{ items: themeMenuItems }}
+            trigger={["click"]}
+            className="mb-2"
+          >
+            <Button type="text" className="flex items-center gap-2">
+              <Space>
+                {useSystemThemeMode ? (
+                  <AiOutlineDesktop />
+                ) : darkMode ? (
+                  <AiOutlineMoon />
+                ) : (
+                  <AiOutlineSun />
+                )}
+              </Space>
+            </Button>
+          </Dropdown>
+          <p className="text-dark-100 dark:text-white mb-2.5">
+            {useSystemThemeMode
+              ? "System mode"
+              : darkMode
+                ? "Dark mode"
+                : "Light mode"}
+          </p>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            className="flex flex-row justify-center items-center gap-2 text-red-500 font-bold"
+            onClick={() => setIsLogoutModalOpen(true)}
+          >
+            <TbDoorExit className="text-red-500 text-[25px]" />
+            Logout
+          </button>
+
+          <LogoutModal
+            title="Do you want to log out of your account?"
+            isOpenModal={isLogoutModalOpen}
+            setIsOpenModal={setIsLogoutModalOpen}
+            onLogout={handleLogout}
+          />
+        </div>
+      </div>
     </aside>
   );
 };

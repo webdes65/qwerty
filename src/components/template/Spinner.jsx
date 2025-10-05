@@ -1,6 +1,6 @@
 const Spinner = () => {
   return (
-    <div className="h-full w-full flex flex-col justify-center items-center">
+    <div className="h-full w-full flex flex-col justify-center items-center bg-white dark:bg-dark-100">
       <img
         src="https://s8.uupload.ir/files/metariom_k1n.png"
         alt="MMCP"

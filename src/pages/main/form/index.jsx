@@ -117,7 +117,7 @@ const Forms = () => {
   };
 
   return (
-    <div className="w-full h-[90vh] flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
+    <div className="w-full h-[90vh] flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
       <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2 mt-5">
         <div className="w-full md:w-2/3 px-2">
           <Input
@@ -127,8 +127,10 @@ const Forms = () => {
             onChange={(e) => {
               setSearchTerm(e.target.value);
             }}
-            prefix={<SearchOutlined className="text-gray-400" />}
-            className="font-Quicksand"
+            prefix={
+              <SearchOutlined className="text-dark-100 dark:text-white" />
+            }
+            className="font-Quicksand text-dark-100 dark:text-white border-2 border-gray-200 dark:border-gray-500"
             allowClear
           />
         </div>
@@ -150,7 +152,7 @@ const Forms = () => {
           {(searchTerm || (selectedCategory && selectedCategory !== 0)) && (
             <button
               onClick={clearFilters}
-              className="px-3 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors whitespace-nowrap"
+              className="px-3 py-2 text-sm bg-gray-200 dark: hover:bg-gray-300 rounded-md transition-colors whitespace-nowrap"
             >
               Clear All
             </button>
@@ -171,7 +173,7 @@ const Forms = () => {
             <ARProjectSubprojectSkeleton />
           </>
         ) : forms.length === 0 ? (
-          <div className="w-full h-full flex flex-col justify-center items-center font-Quicksand uppercase font-bold bg-gray-200 rounded-md shadow">
+          <div className="w-full h-full flex flex-col justify-center items-center font-Quicksand uppercase font-bold bg-gray-200 dark:bg-gray-100 rounded-md shadow">
             <IoLogoDropbox className="text-[5rem] text-gray-400" />
             <p className="text-gray-500 cursor-default">
               {searchTerm || (selectedCategory && selectedCategory !== 0)

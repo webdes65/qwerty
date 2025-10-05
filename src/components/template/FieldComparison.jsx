@@ -20,7 +20,7 @@ const FieldComparison = ({ betData, setBetData }) => {
     if (categoriesData) {
       const newOptions = categoriesData.data.map((item) => ({
         label: item.title,
-        value: item.id,
+        value: item.uuid,
       }));
       const allOption = { label: "All", value: 0 };
       setOptionsCategories([allOption, ...newOptions]);
@@ -94,10 +94,10 @@ const FieldComparison = ({ betData, setBetData }) => {
         {betData.betList.map((field, index) => (
           <div
             key={field.id}
-            className="w-full flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-200 rounded-md p-2"
+            className="w-full flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-md p-2"
           >
             <input
-              className="w-full h-full border-2 border-gray-200 rounded-md py-[0.20rem] px-3 outline-none"
+              className="w-full h-full border-2  border-gray-200 dark:border-gray-600 rounded-md py-[0.20rem] px-3 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
               type="text"
               placeholder={field.key}
               value={field.value}
@@ -108,7 +108,7 @@ const FieldComparison = ({ betData, setBetData }) => {
 
             <div className="w-full flex flex-row justify-center items-center">
               <div className="w-1/2 h-auto flex flex-row justify-start items-center gap-2">
-                <p className="w-auto h-full text-sm text-gray-500 font-bold">
+                <p className="w-auto h-full text-sm text-black dark:text-white font-bold">
                   Color :
                 </p>
                 <input
@@ -127,7 +127,7 @@ const FieldComparison = ({ betData, setBetData }) => {
                     handleFieldChange(index, "visibility", e.target.checked)
                   }
                 />
-                <span className="text-sm text-gray-500 font-bold">
+                <span className="text-sm text-black dark:text-white font-bold">
                   Visibility
                 </span>
               </label>
@@ -151,13 +151,13 @@ const FieldComparison = ({ betData, setBetData }) => {
               }}
             />
 
-            <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+            <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
               {isLoadingImgs ? (
                 <Spin />
               ) : imgsError ? (
                 <div>{imgsError}</div>
               ) : (
-                <div className="w-full flex flex-row flex-wrap justify-start items-start gap-1">
+                <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-1 overflow-auto">
                   <div
                     onClick={() => handleFieldChange(index, "bgImg", "")}
                     className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
@@ -166,7 +166,7 @@ const FieldComparison = ({ betData, setBetData }) => {
                         : "border-transparent"
                     } flex items-center justify-center bg-gray-200 shadow p-1`}
                   >
-                    <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-300 font-bold text-[0.70rem] rounded-md">
+                    <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-200 font-bold text-[0.70rem] rounded-md">
                       No Image
                     </span>
                   </div>

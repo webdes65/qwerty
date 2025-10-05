@@ -102,14 +102,14 @@ const CreateBoardModal = ({
             <div className="flex flex-col justify-center items-start pb-2">
               <label
                 htmlFor="title"
-                className="text-sm text-gray-500 font-bold"
+                className="text-sm text-dark-100 dark:text-white font-bold"
               >
                 Name
               </label>
               <Field
                 type="text"
                 name="name"
-                className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                className="border-2  border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                 onChange={(e) => setFieldValue("name", e.target.value)}
               />
               <ErrorMessage
@@ -122,14 +122,14 @@ const CreateBoardModal = ({
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="width"
-                  className="text-sm text-gray-500 font-bold"
+                  className="text-sm text-dark-100 dark:text-white font-bold"
                 >
                   Width
                 </label>
                 <Field
                   type="number"
                   name="width"
-                  className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                  className="border-2  border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   onChange={(e) => setFieldValue("width", e.target.value)}
                   value={values.width}
                 />
@@ -137,21 +137,24 @@ const CreateBoardModal = ({
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="height"
-                  className="text-sm text-gray-500 font-bold"
+                  className="text-sm text-dark-100 dark:text-white font-bold"
                 >
                   Height
                 </label>
                 <Field
                   type="number"
                   name="height"
-                  className="border-2 border-gray-200 p-2 rounded w-full outline-none"
+                  className="border-2  border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                   onChange={(e) => setFieldValue("height", e.target.value)}
                   value={values.height}
                 />
               </div>
             </div>
             <div className="flex flex-row justify-start items-center gap-2">
-              <label htmlFor="bg" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="bg"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Background Color
               </label>
               <Field
@@ -164,7 +167,10 @@ const CreateBoardModal = ({
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label htmlFor="bg" className="text-sm text-gray-500 font-bold">
+              <label
+                htmlFor="bg"
+                className="text-sm text-dark-100 dark:text-white font-bold"
+              >
                 Border Radius
               </label>
               <Slider
@@ -190,31 +196,28 @@ const CreateBoardModal = ({
               options={processedOptions}
               onChange={(value) => setSelectedCategorie(value)}
             />
-            <div className="w-full flex flex-row justify-center items-center bg-blue-50 p-3 rounded-lg">
+            <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg overflow-auto">
               {isLoadingImgs ? (
                 <Spin />
-              ) : imgs.length === 0 ? (
-                <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
+              ) : (
+                <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
                   <div
                     onClick={() => setFieldValue("bgImg", "")}
-                    className={`w-20 h-20 rounded-lg cursor-default border-2 ${
+                    className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
                       values.bgImg === ""
                         ? "border-blue-500 shadow-xl"
                         : "border-transparent"
-                    } flex items-center justify-center bg-gray-200 shadow`}
+                    } flex items-center justify-center bg-gray-200 shadow p-1`}
                   >
                     <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-300 font-bold text-[0.70rem] rounded-md">
                       No Image
                     </span>
                   </div>
-                </div>
-              ) : (
-                <div className="w-full flex flex-row flex-wrap justify-start items-start gap-2">
                   {imgs.map((img, index) => (
                     <div
                       key={index}
                       onClick={() => setFieldValue("bgImg", img.path)}
-                      className={`w-20 h-20 rounded-lg text-center content-center cursor-default border-2 ${
+                      className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
                         values.bgImg === img.path
                           ? "border-blue-500 shadow-xl"
                           : "border-transparent"
@@ -223,7 +226,7 @@ const CreateBoardModal = ({
                       <img
                         src={img.path}
                         alt={index}
-                        className="w-full h-full text-center content-center object-cover rounded-lg p-1"
+                        className="w-full h-full object-cover rounded-lg p-1"
                       />
                     </div>
                   ))}

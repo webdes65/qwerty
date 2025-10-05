@@ -14,7 +14,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import useEchoChart from "@hooks/useEchoChart";
+import UseEchoChart from "@hooks/UseEchoChart.js";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
 import logger from "@utils/logger.js";
 // import zoomPlugin from "chartjs-plugin-zoom";
@@ -179,7 +179,7 @@ const TemperatureChart = ({ data }) => {
     }
   };
 
-  useEchoChart(setRegisters, allowedIds, isLiveUpdate, realtimeService);
+  UseEchoChart(setRegisters, allowedIds, isLiveUpdate, realtimeService);
 
   const mqttTopics =
     realtimeService === "mqtt" &&
