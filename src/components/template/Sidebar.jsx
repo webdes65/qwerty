@@ -8,13 +8,13 @@ import { FaListOl } from "react-icons/fa6";
 import { TbChartDots, TbAugmentedReality } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { BiBuildings } from "react-icons/bi";
+import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
+import { MdOutlineImportantDevices } from "react-icons/md";
 import { Button, Dropdown, Space } from "antd";
 import Cookies from "universal-cookie";
 import LogoutModal from "@module/modal/LogoutModal.jsx";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
-import UseDarkModeStore from "../../store/UseDarkMode.js";
-import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
-import { MdOutlineImportantDevices } from "react-icons/md";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -171,6 +171,9 @@ const Sidebar = () => {
           },
           buttonBack: {
             color: "#ff0000",
+          },
+          buttonSkip: {
+            color: darkMode ? "#ffffff" : "#000000",
           },
         }}
         locale={{
