@@ -16,6 +16,7 @@ import CopyModal from "@module/modal/CopyModal.jsx";
 import FormHTML from "@template/FormHTML";
 import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
 import logger from "@utils/logger.js";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const DragDropOption = ({
   boxInfo,
@@ -35,6 +36,7 @@ const DragDropOption = ({
   const location = useLocation();
   const queryClient = useQueryClient();
   const items = useSelector((state) => state.items);
+  const { darkMode } = UseDarkModeStore();
 
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -371,6 +373,9 @@ const DragDropOption = ({
                 },
                 buttonBack: {
                   color: "#ff0000",
+                },
+                buttonSkip: {
+                  color: darkMode ? "#ffffff" : "#000000",
                 },
               }}
               locale={{

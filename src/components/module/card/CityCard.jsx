@@ -37,21 +37,21 @@ const CityCard = ({ city }) => {
 
   return (
     <div className="w-4/12 h-auto p-1 font-bold cursor-default max-xl:w-1/2 max-lg:w-full max-md:w-1/2 max-sm:w-full">
-      <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white shadow p-3 hover:shadow-xl">
+      <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow p-3 hover:shadow-xl">
         <div className="flex flex-row justify-start items-center gap-2 text-[1rem]">
-          <p className=" text-gray-500">Name : </p>
+          <p className=" text-dark-100 dark:text-white">Name : </p>
           <p>{city.name || "empty"}</p>
         </div>
-        <div className="flex flex-col text-black">
+        <div className="flex flex-col text-black dark:text-white">
           <p className="text-[0.80rem]">
-            <span className="text-gray-500">Country : </span>
+            <span className="text-dark-100 dark:text-white">Country : </span>
             {city?.country?.name || "empty"}
           </p>
-          <p className="text-[0.80rem] text-gray-500">
+          <p className="text-[0.80rem] text-dark-100 dark:text-white">
             <span>Created at : </span>
             {formattedCreatedAt || "empty"}
           </p>
-          <p className="text-[0.80rem] text-gray-500">
+          <p className="text-[0.80rem] text-dark-100 dark:text-white">
             <span>Updated at : </span>
             {formattedUpdatedAt || "empty"}
           </p>
@@ -66,7 +66,7 @@ const CityCard = ({ city }) => {
             <EditOutlined style={{ fontSize: "18px" }} />
           </Button> */}
           <Button
-            className="w-full font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500"
+            className="w-full font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600"
             color="danger"
             variant="solid"
             onClick={(e) => {

@@ -240,8 +240,8 @@ const TemperatureChart = ({ data }) => {
   };
 
   return (
-    <div className="w-1/2 h-auto p-1 max-xl:w-full">
-      <div className="w-full h-full flex flex-col justify-start items-center gap-5 p-8 bg-white rounded-md border-4 border-gray-200 max-md:p-4">
+    <div className="w-1/2 h-auto p-1 max-xl:w-full bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+      <div className="w-full h-full flex flex-col justify-start items-center gap-5 p-8 bg-white text-dark-100 dark:bg-dark-100 dark:text-white rounded-md border-4 border-gray-200 dark:border-gray-600 max-md:p-4">
         {/* <Line
           ref={chartRef}
           data={{

@@ -4,7 +4,7 @@ const CustomField = ({ id, name, placeholder }) => {
   return (
     <>
       <Field
-        className="w-full p-3 border-2 border-gray-200 rounded-lg outline-none text-[0.90rem] max-sm:text-[0.80rem]"
+        className="w-full p-3 border-2 border-gray-200 dark:border-gray-600 rounded-lg outline-none text-[0.90rem] max-sm:text-[0.80rem] bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
         style={{
           direction: "ltr",
           textAlign: "left",

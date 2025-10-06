@@ -40,35 +40,39 @@ const DeviceCard = ({ device }) => {
   return (
     <>
       <div
-        className="w-4/12 h-auto p-1 font-bold cursor-pointer max-xl:w-1/2 max-lg:w-full "
+        className="w-4/12 h-auto p-1 font-bold cursor-pointer max-xl:w-1/2 max-lg:w-full"
         onClick={() => navigate("/devices/deviceDetail", { state: { device } })}
       >
-        <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white shadow p-3 hover:shadow-xl">
+        <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow p-3 hover:shadow-xl">
           <div className="flex flex-row justify-start items-center gap-2 text-[1rem]">
-            <p className=" text-gray-500">Device Name : </p>
+            <p className=" text-dark-100 dark:text-white">Device Name : </p>
             <p>{device.name || "empty"}</p>
           </div>
-          <div className="flex flex-col text-black">
+          <div className="flex flex-col text-black dark:text-white">
             <p className="text-[0.80rem]">
-              <span className="text-gray-500">Brand : </span>
+              <span className="text-dark-100 dark:text-white">Brand : </span>
               {device.brand || "---"}
             </p>
             <p className="text-[0.80rem]">
-              <span className="text-gray-500">Model : </span>
+              <span className="text-dark-100 dark:text-white">Model : </span>
               {device.model || "---"}
             </p>
-            <p className="text-[0.80rem] text-gray-500">
-              <span className="text-gray-500">Created at : </span>
+            <p className="text-[0.80rem] text-dark-100 dark:text-white">
+              <span className="text-dark-100 dark:text-white">
+                Created at :{" "}
+              </span>
               {formattedCreatedAt || "empty"}
             </p>
-            <p className="text-[0.80rem] text-gray-500">
-              <span className="text-gray-500">Updated at : </span>
+            <p className="text-[0.80rem] text-dark-100 dark:text-white">
+              <span className="text-dark-100 dark:text-white">
+                Updated at :{" "}
+              </span>
               {formattedUpdatedAt || "empty"}
             </p>
           </div>
           <div className="w-full h-auto flex flex-row gap-2 pt-2">
             <Button
-              className="w-full font-Quicksand font-medium !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500 max-sm:!px-3"
+              className="w-full font-Quicksand font-medium !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-blue-500 dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600 max-sm:!px-3"
               variant="solid"
               onClick={(e) => {
                 e.stopPropagation();
@@ -79,7 +83,7 @@ const DeviceCard = ({ device }) => {
             </Button>
             <Button
               type="primary"
-              className="w-full font-Quicksand font-medium !bg-blue-200 !p-5 !shadow !text-[#3b82f6] !text-[0.90rem] !border-[2.5px] !border-blue-500 max-sm:!px-3"
+              className="w-full font-Quicksand font-medium !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600 max-sm:!px-3"
               onClick={(e) => {
                 e.stopPropagation();
                 handleEdit();
@@ -89,7 +93,7 @@ const DeviceCard = ({ device }) => {
               Edit
             </Button>
             <Button
-              className="w-full font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500 max-sm:!px-3"
+              className="w-full font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600 max-sm:!px-3"
               color="danger"
               variant="solid"
               onClick={(e) => {
