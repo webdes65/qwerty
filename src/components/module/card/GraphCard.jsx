@@ -39,32 +39,32 @@ const GraphCard = ({ data }) => {
         className="w-4/12 h-auto p-1 font-bold cursor-pointer max-xl:w-1/2 max-lg:w-full"
         onClick={() => navigate(`/graphs/${data.uuid}`)}
       >
-        <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white shadow p-3 hover:shadow-xl">
+        <div className="h-full w-full flex flex-col gap-2 rounded-md bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow p-3 hover:shadow-xl">
           <div className="flex flex-row justify-start items-center gap-2 text-[1rem]">
-            <p className="text-gray-500">Name : </p>
+            <p className="text-dark-100 dark:text-white">Name : </p>
             <p>{data.title || "empty"}</p>
           </div>
           <div className="flex flex-col">
             <p className="text-[0.80rem]">
-              <span className="text-gray-500">Columns : </span>
+              <span className="text-dark-100 dark:text-white">Columns : </span>
               {data.columns || "---"}
             </p>
             <p className="text-[0.80rem]">
-              <span className="text-gray-500">Rows : </span>
+              <span className="text-dark-100 dark:text-white">Rows : </span>
               {data.rows || "---"}
             </p>
-            <p className="text-[0.80rem] text-gray-500">
+            <p className="text-[0.80rem] text-dark-100 dark:text-white">
               <span>Created at : </span>
               {formattedCreatedAt || "empty"}
             </p>
-            <p className="text-[0.80rem] text-gray-500">
+            <p className="text-[0.80rem] text-dark-100 dark:text-white">
               <span>Updated at : </span>
               {formattedUpdatedAt || "empty"}
             </p>
           </div>
           <div className="w-full h-auto flex flex-row  gap-2 pt-2">
             <Button
-              className="w-full font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500"
+              className="w-full font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600"
               color="danger"
               variant="solid"
               onClick={(e) => {

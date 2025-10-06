@@ -18,17 +18,17 @@ const Registers = () => {
 
   if (loadingRegisters) {
     return (
-      <div className="w-full h-full flex flex-row justify-center items-center">
-        <Spin size="large" />
+      <div className="w-full h-full flex flex-row justify-center items-center  bg-white dark:bg-dark-100">
+        <Spin className="dark:text-lightBlue" size="large" />
       </div>
     );
   }
 
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full overflow-auto bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
       {loadingRegisters ? (
-        <div className="w-full h-full flex flex-row justify-center items-center">
-          <Spin size="large" />
+        <div className="w-full h-full flex flex-row justify-center items-center  bg-white dark:bg-dark-100">
+          <Spin className="dark:text-lightBlue" size="large" />
         </div>
       ) : (
         <div className="w-full h-full flex flex-row justify-start items-start flex-wrap overflow-auto">

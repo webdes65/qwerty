@@ -12,6 +12,16 @@
   border-color: #ff0000 !important;
 }
 
+.react-joyride__tooltip {
+  background-color: white !important;
+  color: black !important;
+}
+
+.dark .react-joyride__tooltip {
+  background-color: black !important;
+  color: white !important;
+}
+
 button[data-test-id="button-close"] {
   display: none !important;
 }

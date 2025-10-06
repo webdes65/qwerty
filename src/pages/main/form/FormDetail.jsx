@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import logger from "@utils/logger.js";
-import UseDarkModeStore from "../../../store/UseDarkMode.js";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const FormDetail = () => {
   const location = useLocation();

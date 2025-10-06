@@ -25,11 +25,11 @@ const SubProject = () => {
   );
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
+    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
       <div className="w-full h-auto flex flex-row justify-end items-center">
         <Button
           type="primary"
-          className="font-Quicksand font-bold !bg-blue-200 !py-5 !px-6 !shadow !text-[#3b82f6] !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="font-Quicksand font-bold !bg-blue-200 dark:!bg-blue-300 !py-5 !px-6 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
           onClick={() => setIsModalOpenAddSub(true)}
         >
           <PlusCircleOutlined style={{ fontSize: "20px", color: "#3b82f6 " }} />
@@ -51,7 +51,9 @@ const SubProject = () => {
             <SubprojectCard key={index.uuid} data={index} idProject={id} />
           ))
         ) : (
-          <p className="font-bold text-gray-500">No subprojects available.</p>
+          <p className="font-bold text-dark-100 dark:text-white cursor-default">
+            No subprojects available.
+          </p>
         )}
       </ul>
       <AddSubProjectModal
