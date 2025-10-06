@@ -86,50 +86,56 @@ const EditEmployess = () => {
     })) || [];
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
-      <div className="w-full p-4 bg-white rounded shadow">
+    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins">
+      <div className="w-full h-full p-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow">
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({ handleSubmit, setFieldValue }) => (
             <Form className="w-full flex flex-row justify-start items-start flex-wrap gap-2">
               <div className="w-full flex flex-row justify-center items-center gap-2 max-sm:flex-col">
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     First Name :{" "}
                   </span>
                   <Field
                     id="first_name"
                     name="first_name"
                     disabled={!isEditable}
-                    className={`w-full p-2 border-2 outline-none ${
-                      isEditable ? "text-black" : "text-gray-500"
+                    className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                      isEditable
+                        ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                        : "text-dark-100 dark:text-white dark:bg-gray-100"
                     } rounded`}
                   />
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Last Name :{" "}
                   </span>
                   <Field
                     id="last_name"
                     name="last_name"
                     disabled={!isEditable}
-                    className={`w-full p-2 border-2 outline-none ${
-                      isEditable ? "text-black" : "text-gray-500"
+                    className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                      isEditable
+                        ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                        : "text-dark-100 dark:text-white dark:bg-gray-100"
                     } rounded`}
                   />
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     User Name :{" "}
                   </span>
                   <Field
                     id="name"
                     name="name"
                     disabled={!isEditable}
-                    className={`w-full p-2 border-2 outline-none ${
-                      isEditable ? "text-black" : "text-gray-500"
+                    className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                      isEditable
+                        ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                        : "text-dark-100 dark:text-white dark:bg-gray-100"
                     } rounded`}
                   />
                 </div>
@@ -137,38 +143,42 @@ const EditEmployess = () => {
 
               <div className="w-full flex flex-row justify-center items-center gap-2 max-sm:flex-col">
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Phone Number :{" "}
                   </span>
                   <Field
                     id="phone_number"
                     name="phone_number"
                     disabled={!isEditable}
-                    className={`w-full p-2 border-2 outline-none ${
-                      isEditable ? "text-black" : "text-gray-500"
+                    className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                      isEditable
+                        ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                        : "text-dark-100 dark:text-white dark:bg-gray-100"
                     } rounded`}
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Email :{" "}
                   </span>
                   <Field
                     id="email"
                     name="email"
                     disabled={!isEditable}
-                    className={`w-full p-2 border-2 outline-none ${
-                      isEditable ? "text-black" : "text-gray-500"
+                    className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                      isEditable
+                        ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                        : "text-dark-100 dark:text-white dark:bg-gray-100"
                     } rounded`}
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Birthday :{" "}
                   </span>
                   {isEditable ? (
                     <MaskedInput
-                      className="w-full p-2 border-2 border-gray-200 rounded outline-none"
+                      className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded outline-none"
                       id="birthday"
                       mask="1111-11-11"
                       placeholder="yyyy-mm-dd"
@@ -184,8 +194,10 @@ const EditEmployess = () => {
                       id="birthday"
                       name="birthday"
                       disabled={!isEditable}
-                      className={`w-full p-2 border-2 ${
-                        isEditable ? "text-black" : "text-gray-500"
+                      className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 ${
+                        isEditable
+                          ? "bg-white text-black dark:bg-dark-100"
+                          : "text-dark-100 dark:text-white dark:bg-gray-100"
                       } rounded`}
                     />
                   )}
@@ -194,7 +206,7 @@ const EditEmployess = () => {
 
               <div className="w-full flex flex-row justify-center items-center gap-2 max-sm:flex-col">
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Time Zone :{" "}
                   </span>
                   {isEditable ? (
@@ -209,15 +221,17 @@ const EditEmployess = () => {
                       id="timezone"
                       name="timezone"
                       disabled={!isEditable}
-                      className={`w-auto p-2 border-2 outline-none ${
-                        isEditable ? "text-black" : "text-gray-500"
+                      className={`w-auto p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                        isEditable
+                          ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                          : "text-dark-100 dark:text-white dark:bg-gray-100"
                       } rounded`}
                     />
                   )}
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Calendar :{" "}
                   </span>
                   {isEditable ? (
@@ -232,15 +246,17 @@ const EditEmployess = () => {
                       id="calendar"
                       name="calendar"
                       disabled={!isEditable}
-                      className={`w-auto p-2 border-2 outline-none ${
-                        isEditable ? "text-black" : "text-gray-500"
+                      className={`w-auto p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                        isEditable
+                          ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                          : "text-dark-100 dark:text-white dark:bg-gray-100"
                       } rounded`}
                     />
                   )}
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
-                  <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                  <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Language :{" "}
                   </span>
                   {isEditable ? (
@@ -255,8 +271,10 @@ const EditEmployess = () => {
                       id="language"
                       name="language"
                       disabled={!isEditable}
-                      className={`w-auto p-2 border-2 outline-none ${
-                        isEditable ? "text-black" : "text-gray-500"
+                      className={`w-auto p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                        isEditable
+                          ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                          : "text-dark-100 dark:text-white dark:bg-gray-100"
                       } rounded`}
                     />
                   )}
@@ -264,15 +282,17 @@ const EditEmployess = () => {
               </div>
 
               <div className="w-full flex flex-col gap-1">
-                <span className="text-gray-500 text-[0.80rem] font-bold uppercase">
+                <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                   Address :{" "}
                 </span>
                 <Field
                   id="address"
                   name="address"
                   disabled={!isEditable}
-                  className={`w-full p-2 border-2 outline-none ${
-                    isEditable ? "text-black" : "text-gray-500"
+                  className={`w-full p-2 border-2 border-gray-200 dark:border-gray-600 outline-none ${
+                    isEditable
+                      ? "bg-white text-black dark:bg-dark-100 dark:text-white"
+                      : "text-dark-100 dark:text-white dark:bg-gray-100"
                   } rounded`}
                 />
               </div>
@@ -281,7 +301,7 @@ const EditEmployess = () => {
                 <Button
                   type="primary"
                   onClick={() => setIsEditable(!isEditable)}
-                  className={`font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500 ${
+                  className={`font-Quicksand font-bold !bg-blue-200 dark:bg-blue-300 !p-5 !shadow !text-blue-500 dark:text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:border-blue-600 ${
                     isEditable ? "w-full" : "w-1/2"
                   } transition-all duration-500 ease-in-out`}
                 >
@@ -290,7 +310,7 @@ const EditEmployess = () => {
                 {isEditable && (
                   <Button
                     onClick={handleSubmit}
-                    className="w-full font-Quicksand font-bold !bg-green-200 !p-5 !shadow !text-green-500 !text-[0.90rem] !border-[2.5px] !border-green-500"
+                    className="w-full font-Quicksand font-bold !bg-green-200 dark:!bg-green-300 !p-5 !shadow !text-green-500 dark:!text-green-600 !text-[0.90rem] !border-[2.5px] !border-green-500 dark:!border-green-600"
                     loading={updateLoading}
                   >
                     Save

@@ -170,7 +170,7 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
             <CustomField id={"wifi"} name={"wifi"} placeholder={"WiFi"} />
 
             <Button
-              className="w-full h-auto flex flex-row justify-center items-center p-2 font-Quicksand border-2 border-gray-200 bg-gray-200 font-bold"
+              className="w-full h-auto flex flex-row justify-center items-center p-2 font-Quicksand border-2 border-gray-200 dark:border-gray-600 bg-gray-200 text-dark-100  dark:bg-dark-100 dark:text-white font-bold"
               onClick={addPattern}
             >
               Add Pattern
@@ -181,7 +181,7 @@ const AddDeviceModal = ({ isModalOpen, setIsModalOpen }) => {
               {patterns.map((pattern) => (
                 <div
                   key={pattern.id}
-                  className="w-full flex flex-col justify-center items-center gap-3 bg-gray-100 p-3 pb-[1rem] rounded-lg relative"
+                  className="w-full flex flex-col justify-center items-center gap-3 bg-white dark:bg-gray-100 p-3 pb-[1rem] rounded-lg relative"
                 >
                   <div className="w-full flex flex-row justify-center items-center gap-2">
                     <Select

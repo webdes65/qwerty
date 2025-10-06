@@ -35,11 +35,11 @@ const GraphId = () => {
   return (
     <div className="w-full h-full">
       {loadingGraph && (
-        <div className="w-full h-full flex flex-row justify-center items-center">
-          <Spin size="large" />
+        <div className="w-full h-full flex flex-row justify-center items-center bg-white dark:bg-dark-100">
+          <Spin className="dark:text-lightBlue" size="large" />
         </div>
       )}
-      <div className="w-full h-full flex flex-row justify-start items-start flex-wrap overflow-auto">
+      <div className="w-full h-full flex flex-row justify-start items-start flex-wrap overflow-auto bg-white dark:bg-dark-100">
         {processedData.map((data, index) => (
           <Graph key={index} data={data} />
         ))}

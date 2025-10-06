@@ -6,14 +6,14 @@ import { TbAugmentedReality, TbChartDots, TbDoorExit } from "react-icons/tb";
 import { FaListOl } from "react-icons/fa6";
 import { IoCreateOutline, IoHome, IoSettingsSharp } from "react-icons/io5";
 import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
+import { BiBuildings } from "react-icons/bi";
+import { MdOutlineImportantDevices } from "react-icons/md";
+import { LuUsers } from "react-icons/lu";
 import { Button, Drawer, Dropdown, Space } from "antd";
 import Cookies from "universal-cookie";
 import LogoutModal from "@module/modal/LogoutModal.jsx";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
-import UseDarkModeStore from "../../store/UseDarkMode.js";
-import { MdOutlineImportantDevices } from "react-icons/md";
-import { BiBuildings } from "react-icons/bi";
-import { LuUsers } from "react-icons/lu";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const navigate = useNavigate();
@@ -55,6 +55,10 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
 
     if (route === "/graphs/:id ") {
       return location.pathname.startsWith("/graphs/");
+    }
+
+    if (route === "/devices/:id ") {
+      return location.pathname.startsWith("/devices/");
     }
 
     return location.pathname === route;
@@ -171,6 +175,9 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
           buttonBack: {
             color: "#ff0000",
           },
+          buttonSkip: {
+            color: darkMode ? "#ffffff" : "#000000",
+          },
         }}
         locale={{
           next: "Next",
@@ -258,6 +265,8 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
               className={`devices-step flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer ${
                 isActive("/devices") ||
                 isActive("/devices/deviceDetail") ||
+                isActive("/devices/editdevice") ||
+                isActive("/devices/*/registers") ||
                 /^\/devices\/\d+\/registers$/.test(window.location.pathname)
                   ? "bg-tealBlue text-white"
                   : ""

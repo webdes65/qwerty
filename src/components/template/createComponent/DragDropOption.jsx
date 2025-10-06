@@ -13,6 +13,7 @@ import CreatePointModal from "@module/modal/CreatePointModal";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const DragDropOption = ({
   dropBoxRef,
@@ -34,6 +35,7 @@ const DragDropOption = ({
   const editEnabledComponent = useSelector(
     (state) => state.editEnabledComponent,
   );
+  const { darkMode } = UseDarkModeStore();
 
   const [isOpenModalCreatePoint, setIsOpenModalCreatePoint] = useState(false);
   const [isOpenModalCreateBoard, setIsOpenModalCreateBoard] = useState(false);
@@ -148,6 +150,9 @@ const DragDropOption = ({
           },
           buttonBack: {
             color: "#ff0000",
+          },
+          buttonSkip: {
+            color: darkMode ? "#ffffff" : "#000000",
           },
         }}
         locale={{

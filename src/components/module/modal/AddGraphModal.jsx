@@ -201,7 +201,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                     handleChange(e);
                     generateGrid(values.rows, e.target.value);
                   }}
-                  className="p-2 border-2 border-gray-200 rounded-lg w-full outline-none"
+                  className="p-2 border-2 border-gray-200 dark:border-gray-600 rounded-lg w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                 />
                 <Field
                   id="rows"
@@ -215,7 +215,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                     handleChange(e);
                     generateGrid(e.target.value, values.columns);
                   }}
-                  className="p-2 border-2 border-gray-200 rounded-lg w-full outline-none"
+                  className="p-2 border-2 border-gray-200 dark:border-gray-600 rounded-lg w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
                 />
               </div>
               <div className="w-full mt-4 space-y-3">
@@ -231,7 +231,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                     {row.map((_, colIndex) => (
                       <div
                         key={colIndex}
-                        className="min-w-0 border-2 border-gray-200 rounded-md bg-gray-50"
+                        className="min-w-0 border-2 border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-dark-100"
                       >
                         <div className="p-3 space-y-3">
                           <Select
@@ -316,7 +316,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                                 e.target.value,
                               )
                             }
-                            className="w-full border-2 border-gray-200 outline-none py-2 px-3 rounded-md font-medium placeholder:text-gray-400 focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                            className="w-full border-2 border-gray-200 dark:border-gray-600 bg-white text-dark-100  dark:bg-dark-100 dark:text-white outline-none py-2 px-3 rounded-md font-medium placeholder:text-gray-400 dark:placeholder:text-white focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
                             min="0"
                           />
                         </div>
@@ -330,7 +330,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                   type="primary"
                   htmlType="submit"
                   loading={submitPending}
-                  className="w-1/2 font-Quicksand !bg-blue-200 !p-5 !shadow !text-blue-500 font-bold !text-[0.90rem] !border-[2.5px] !border-blue-500"
+                  className="w-1/2 font-Quicksand !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-blue-500 dark:!text-blue-600 font-bold !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
                 >
                   Submit
                 </Button>

@@ -109,12 +109,12 @@ const RegisterReportsModal = ({
       <div className="flex flex-col gap-4">
         <div className="w-full h-auto flex flex-row justify-between items-center gap-2">
           <DatePicker
-            className="w-full h-[2.5rem] border-2 border-gray-200"
+            className="w-full h-[2.5rem] border-2 border-gray-200 dark:border-gray-600"
             placeholder="Start Date"
             onChange={(date) => setStartDate(date)}
           />
           <DatePicker
-            className="w-full h-[2.5rem] border-2 border-gray-200"
+            className="w-full h-[2.5rem] border-2 border-gray-200 dark:border-gray-600"
             placeholder="End Date"
             onChange={(date) => setEndDate(date)}
           />
@@ -122,8 +122,8 @@ const RegisterReportsModal = ({
           <Button
             className={`w-full h-[2.5rem] font-Quicksand font-medium !p-4 !shadow !text-[0.90rem] !border-[2.5px] ${
               startDate && endDate
-                ? "!bg-blue-200 !text-blue-500 !border-blue-500"
-                : "!bg-gray-200 !text-gray-400 !border-gray-200"
+                ? "!bg-blue-200 !text-blue-500 !border-blue-500 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600"
+                : "!bg-gray-200 dark:!bg-gray-600 !text-gray-400 dark:!text-white !border-gray-200 dark:!border-gray-600"
             }`}
             disabled={!startDate || !endDate}
             type="primary"

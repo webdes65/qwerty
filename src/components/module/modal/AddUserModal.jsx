@@ -265,7 +265,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
               </div>
               <div className="w-1/2 h-full flex flex-col justify-start items-start">
                 <DatePicker
-                  className="w-full h-[3rem] border-2 border-gray-200 outline-none"
+                  className="w-full h-[3rem] border-2 border-gray-200 dark:border-gray-600 outline-none"
                   placeholder="Birthday"
                   onChange={(date) => setFieldValue("birthday", date)}
                 />
