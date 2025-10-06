@@ -366,21 +366,27 @@ const FormHTML = (container) => {
                     }
 
                       let currentValue = 0;
-                      const registerData = window.updatedRegistersData.find(
-                        (item) => item.id === buttonData.infoReqBtn.register_id
-                      );
-
-                      if (registerData) {
-                        currentValue = registerData.value;
-                      }
-
-                      if (buttonData.infoReqBtn?.singleIncrease) {
-                        currentValue += 1;
-                      } else if (buttonData.infoReqBtn?.singleReduction) {
-                        currentValue -= 1;
-                      } else if (buttonData.infoReqBtn?.value) {
-                        currentValue = buttonData.infoReqBtn.value;
-                      }
+                        const registerData = window.updatedRegistersData.find(
+                          (item) => item.id === buttonData.infoReqBtn.register_id
+                        );
+                        
+                        /*console.log('registerData1111', registerData);
+                        console.log('window.updatedRegistersData', window.updatedRegistersData);*/
+                        
+                        if (registerData) {
+                          currentValue = Number(registerData.value);
+                        }
+                        
+                        /*console.log('registerData', registerData);
+                        console.log('currentValue', currentValue);*/
+                        
+                        if (buttonData.infoReqBtn?.singleIncrease) {
+                          currentValue += 1;
+                        } else if (buttonData.infoReqBtn?.singleReduction) {
+                          currentValue -= 1;
+                        } else if (buttonData.infoReqBtn?.value) {
+                          currentValue = Number(buttonData.infoReqBtn.value);
+                        }
 
                       const requestData = {
                         device_id: buttonData.infoReqBtn.device_uuid,
