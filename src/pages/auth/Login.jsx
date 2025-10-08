@@ -10,10 +10,12 @@ import CustomField from "@components/module/CustomField";
 import { request } from "@services/apiService.js";
 import logo from "/assets/images/logo.webp";
 import logger from "@utils/logger.js";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const Login = () => {
   const navigate = useNavigate();
   const cookies = new Cookies();
+  const { darkMode } = UseDarkModeStore();
   const [showPassword, setShowPassword] = useState(false);
   const [submitPending, setSubmitPending] = useState(false);
 
@@ -82,9 +84,9 @@ const Login = () => {
   return (
     <div
       style={{ direction: "ltr" }}
-      className="w-full h-screen flex flex-col items-center justify-center bg-[#F3F4F6] font-Poppins max-sm:px-5"
+      className="w-full h-screen flex flex-col items-center justify-center bg-[#F3F4F6] dark:bg-gray-100 font-Poppins max-sm:px-5"
     >
-      <div className="w-1/2 h-auto flex flex-col items-center justify-center shadow bg-white rounded-xl gap-7 py-14 max-lg:w-8/12 max-md:w-10/12 max-sm:w-full">
+      <div className="w-1/2 h-auto flex flex-col items-center justify-center shadow bg-white text-dark-100 dark:text-white dark:bg-dark-100 rounded-xl gap-7 py-14 max-lg:w-8/12 max-md:w-10/12 max-sm:w-full">
         <div className="flex flex-col justify-center items-center gap-2">
           <div className="w-20 h-20">
             <img alt="logo" src={logo} className="w-full h-full" />
@@ -93,7 +95,9 @@ const Login = () => {
           <h1
             className="text-xl font-semibold uppercase text-transparent bg-clip-text max-md:text-base text-center p-2.5"
             style={{
-              backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
+              backgroundImage: darkMode
+                ? "linear-gradient(to right, #9897c6, #94d2e0"
+                : "linear-gradient(to right, #6D6CAA, #6EC5D6)",
             }}
           >
             Monitoring Control Panel - Login
@@ -106,9 +110,9 @@ const Login = () => {
         >
           <Form className="w-10/12 flex flex-col justify-center items-start gap-2">
             <CustomField id={"email"} name={"email"} placeholder={"Email"} />
-            <div className="w-full flex items-center rounded-lg border-2 border-gray-200">
+            <div className="w-full flex items-center rounded-lg border-2 border-gray-200 dark:border-gray-600">
               <Field
-                className="w-full p-3 rounded-lg outline-none text-[0.90rem] max-sm:text-[0.80rem]"
+                className="w-full p-3 rounded-lg outline-none text-[0.90rem] max-sm:text-[0.80rem] bg-white dark:bg-dark-100"
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
@@ -117,7 +121,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="p-3 bg-white rounded-r-lg focus:outline-none"
+                className="p-3 bg-white dark:bg-dark-100 rounded-r-lg focus:outline-none"
               >
                 {showPassword ? (
                   <VscEyeClosed size={20} />

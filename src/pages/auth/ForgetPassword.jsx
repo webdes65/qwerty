@@ -8,9 +8,11 @@ import CustomField from "@components/module/CustomField";
 import logo from "/assets/images/logo.webp";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
+  const { darkMode } = UseDarkModeStore();
   const [submitPending, setSubmitPending] = useState(false);
 
   const mutation = useMutation(
@@ -63,9 +65,9 @@ const ForgetPassword = () => {
   return (
     <div
       style={{ direction: "ltr" }}
-      className="w-full h-screen flex flex-col items-center justify-center bg-[#F3F4F6] font-Poppins max-sm:px-5"
+      className="w-full h-screen flex flex-col items-center justify-center bg-[#F3F4F6] dark:bg-gray-100 font-Poppins max-sm:px-5"
     >
-      <div className="w-1/2 h-auto flex flex-col items-center justify-center shadow bg-white rounded-xl gap-7 py-14 max-lg:w-8/12 max-md:w-10/12 max-sm:w-full">
+      <div className="w-1/2 h-auto flex flex-col items-center justify-center shadow bg-white text-dark-100 dark:text-white dark:bg-dark-100 rounded-xl gap-7 py-14 max-lg:w-8/12 max-md:w-10/12 max-sm:w-full">
         <div className="flex flex-col justify-center items-center gap-2">
           <div className="w-20 h-20">
             <img alt="logo" src={logo} className="w-full h-full" />
@@ -74,7 +76,9 @@ const ForgetPassword = () => {
           <h1
             className="text-xl font-semibold uppercase text-transparent bg-clip-text max-md:text-base text-center p-2.5"
             style={{
-              backgroundImage: "linear-gradient(to right, #6D6CAA, #6EC5D6)",
+              backgroundImage: darkMode
+                ? "linear-gradient(to right, #9897c6, #94d2e0"
+                : "linear-gradient(to right, #6D6CAA, #6EC5D6)",
             }}
           >
             Monitoring Control Panel - Forget Password
