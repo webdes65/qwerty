@@ -178,7 +178,7 @@ const EditEmployess = () => {
                   </span>
                   {isEditable ? (
                     <MaskedInput
-                      className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded outline-none"
+                      className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded outline-none bg-white text-black dark:bg-dark-100 dark:text-white"
                       id="birthday"
                       mask="1111-11-11"
                       placeholder="yyyy-mm-dd"

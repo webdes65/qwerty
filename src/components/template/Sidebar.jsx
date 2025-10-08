@@ -148,7 +148,7 @@ const Sidebar = () => {
   }, [systemTheme, useSystemThemeMode, setDarkMode]);
 
   return (
-    <aside className="max-w-64 h-full flex flex-col justify-between items-start p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200 font-Quicksand font-medium max-lg:hidden">
+    <aside className="max-w-64 h-full flex flex-col justify-between items-start p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200 dark:border-gray-600 font-Quicksand font-medium max-lg:hidden">
       <Joyride
         className="!font-Quicksand"
         steps={steps}
