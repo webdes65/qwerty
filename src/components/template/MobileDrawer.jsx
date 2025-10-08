@@ -187,7 +187,7 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
         }}
       />
       <Drawer
-        className="font-Poppins text-[1rem] font-bold bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200"
+        className="font-Poppins text-[1rem] font-bold bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200 dark:border-gray-600"
         title="BMS"
         placement="left"
         closable={true}
