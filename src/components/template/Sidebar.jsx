@@ -10,6 +10,7 @@ import { LuUsers } from "react-icons/lu";
 import { BiBuildings } from "react-icons/bi";
 import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
 import { MdOutlineImportantDevices } from "react-icons/md";
+import { PiMapPinArea } from "react-icons/pi";
 import { Button, Dropdown, Space } from "antd";
 import Cookies from "universal-cookie";
 import LogoutModal from "@module/modal/LogoutModal.jsx";
@@ -304,6 +305,15 @@ const Sidebar = () => {
         >
           <LuUsers className="text-[1.5rem]" />
           Employees
+        </li>
+        <li
+          className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
+            isActive("/map") ? "bg-tealBlue text-white" : ""
+          }`}
+          onClick={() => handleNavigation("/map")}
+        >
+          <PiMapPinArea className="text-[1.5rem]" />
+          Map
         </li>
         <li
           className={`w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
