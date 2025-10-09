@@ -1,0 +1,7 @@
+.inputStyle {
+  @apply w-full px-3 py-2 border border-gray-200 dark:border-gray-600 bg-white text-black dark:bg-dark-100 dark:text-white rounded-lg focus:outline-none outline-none;
+}
+
+.labelStyle {
+  @apply block text-sm font-medium text-dark-100 dark:text-white mb-2;
+}

@@ -26,6 +26,7 @@ import CreateComponent from "@pages/main/CreateComponent";
 import Settings from "@pages/main/Settings";
 import NotFound from "@pages/404";
 import ForgetPassword from "@pages/auth/ForgetPassword.jsx";
+import Map from "@pages/main/Map.jsx";
 
 const App = () => {
   return (
@@ -57,6 +58,7 @@ const App = () => {
         />
         <Route path="/employees/editEmployess" element={<EditEmployess />} />
         <Route path="/createcomponent" element={<CreateComponent />} />
+        <Route path="/map" element={<Map />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
