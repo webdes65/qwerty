@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const MobileMenu = () =>
   // {
@@ -13,6 +14,7 @@ const MobileMenu = () =>
   {
     const navigate = useNavigate();
     const location = useLocation();
+    const { darkMode } = UseDarkModeStore();
 
     // const toggleListening = () => {
     //   if (isListening) {
@@ -35,7 +37,11 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/assets/icons/sidebarIcons/home.png"
+                src={
+                  darkMode
+                    ? "/assets/icons/sidebarIcons/dark/home.webp"
+                    : "/assets/icons/sidebarIcons/home.webp"
+                }
                 alt="icon"
                 className="w-8 h-8"
               />
@@ -49,7 +55,11 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/assets/icons/sidebarIcons/pencil.png"
+                src={
+                  darkMode
+                    ? "/assets/icons/sidebarIcons/dark/pencil.webp"
+                    : "/assets/icons/sidebarIcons/pencil.webp"
+                }
                 alt="icon"
                 className="w-8 h-8"
               />
@@ -96,7 +106,11 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/assets/icons/sidebarIcons/computer.png"
+                src={
+                  darkMode
+                    ? "/assets/icons/sidebarIcons/dark/computer.webp"
+                    : "/assets/icons/sidebarIcons/computer.webp"
+                }
                 alt="icon"
                 className="w-8 h-8"
               />
@@ -110,7 +124,11 @@ const MobileMenu = () =>
               }`}
             >
               <img
-                src="/assets/icons/sidebarIcons/growth.png"
+                src={
+                  darkMode
+                    ? "/assets/icons/sidebarIcons/dark/growth.webp"
+                    : "/assets/icons/sidebarIcons/growth.webp"
+                }
                 alt="icon"
                 className="w-8 h-8"
               />
