@@ -13,6 +13,7 @@ import "leaflet-draw/dist/leaflet.draw.css";
 import { useMapDrawHandlers } from "@hooks/UseMapDrawHandlers.js";
 import UseMapEvents from "@hooks/UseMapEvents.js";
 import MapToolbar from "@module/card/map/MapToolbar.jsx";
+import MapDetailModal from "@module/modal/MapDetailModal.jsx";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: new URL(
@@ -32,7 +33,16 @@ export default function MapCard({
 }) {
   const [position, setPosition] = useState([lat, lng]);
   const [currentZoom, setCurrentZoom] = useState(zoom);
-  const { onCreated, onEdited, onDeleted } = useMapDrawHandlers();
+
+  const {
+    onCreated,
+    onEdited,
+    onDeleted,
+    isModalOpen,
+    modalData,
+    handleModalSubmit,
+    handleModalCancel,
+  } = useMapDrawHandlers();
 
   return (
     <div className="w-full bg-white text-dark-100 dark:bg-dark-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
@@ -47,7 +57,6 @@ export default function MapCard({
         onLatChange={(val) => setPosition([parseFloat(val), position[1]])}
         onLngChange={(val) => setPosition([position[0], parseFloat(val)])}
         onZoomChange={setCurrentZoom}
-        /* onGoToLocation={(lat, lng) => setPosition([lat, lng])}*/
       />
 
       <div style={{ height, width: "100%", position: "relative" }}>
@@ -106,6 +115,18 @@ export default function MapCard({
         </span>
         <span>Zoom: {currentZoom}</span>
       </div>
+
+      <MapDetailModal
+        isOpenCreateModal={isModalOpen}
+        setIsOpenCreateModal={(open) => {
+          if (!open) {
+            handleModalCancel();
+          }
+        }}
+        onSubmit={handleModalSubmit}
+        initialData={modalData}
+        title="اطلاعات شکل جدید"
+      />
     </div>
   );
 }
