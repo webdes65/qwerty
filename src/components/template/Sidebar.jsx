@@ -17,7 +17,7 @@ import LogoutModal from "@module/modal/LogoutModal.jsx";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
 import UseDarkModeStore from "@store/UseDarkMode.js";
 
-const showMap = import.meta.env.VITE_SHOW_MAP;
+const showMap = import.meta.env.VITE_SHOW_MAP === "true";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -308,7 +308,7 @@ const Sidebar = () => {
           <LuUsers className="text-[1.5rem]" />
           Employees
         </li>
-        {showMap === true && (
+        {showMap && (
           <li
             className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
               isActive("/map") ? "bg-tealBlue text-white" : ""

@@ -16,7 +16,7 @@ import LogoutModal from "@module/modal/LogoutModal.jsx";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
 import UseDarkModeStore from "@store/UseDarkMode.js";
 
-const showMap = import.meta.env.VITE_SHOW_MAP;
+const showMap = import.meta.env.VITE_SHOW_MAP === "true";
 
 const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const navigate = useNavigate();
@@ -302,7 +302,7 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
               Employees
             </p>
 
-            {showMap === true && (
+            {showMap && (
               <p
                 className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
                   isActive("/map") ? "bg-tealBlue text-white" : ""
