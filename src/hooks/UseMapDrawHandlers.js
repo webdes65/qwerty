@@ -1,8 +1,8 @@
 import { useState } from "react";
 import L from "leaflet";
 import Cookies from "universal-cookie";
-import logger from "@utils/logger.js";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+import logger from "@utils/logger.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
@@ -23,6 +23,8 @@ export const useMapDrawHandlers = () => {
       layer.getLatLngs()[0]?.map?.((p) => ({ lat: p.lat, lng: p.lng })) ||
       layer.getLatLngs().map((p) => ({ lat: p.lat, lng: p.lng }));
 
+    const coordinates = latlngs.map((point) => [point.lng, point.lat]);
+
     const shapeType =
       e.layerType === "polygon"
         ? "polygon"
@@ -30,21 +32,30 @@ export const useMapDrawHandlers = () => {
           ? "polyline"
           : "unknown";
 
-    setModalData({
+    const data = {
       latlngs,
+      coordinates,
       type: shapeType,
       zoom: layer._map.getZoom(),
-    });
+    };
 
+    setModalData(data);
     setIsModalOpen(true);
   };
 
-  const handleCreateSubmit = async (data) => {
-    if (!tempLayer) return;
+  const handleCreateSubmit = async (formData) => {
+    if (!tempLayer || !modalData) {
+      return;
+    }
+
+    const color =
+      typeof formData.color === "string"
+        ? formData.color
+        : formData.color?.toHexString?.() || "#ff0000";
 
     tempLayer.setStyle({
-      color: data.color,
-      fillColor: data.color,
+      color: color,
+      fillColor: color,
       fillOpacity: 0.4,
     });
 
@@ -52,17 +63,27 @@ export const useMapDrawHandlers = () => {
     const label = L.marker(center, {
       icon: L.divIcon({
         className: "polygon-label",
-        html: `<div style="color:white; font-weight:bold; background:rgba(0,0,0,0.5); padding:4px 8px; border-radius:4px;">${data.title}</div>`,
+        html: `<div style="color:white; font-weight:bold; background:rgba(0,0,0,0.5); padding:4px 8px; border-radius:4px;">${formData.title}</div>`,
       }),
     }).addTo(tempLayer._map);
 
     tempLayer._label = label;
-    tempLayer._text = data.title;
-    tempLayer._description = data.description;
-    tempLayer._color = data.color;
+    tempLayer._text = formData.title;
+    tempLayer._description = formData.description;
+    tempLayer._color = color;
     tempLayer._id = Date.now();
 
     tempLayer.addTo(tempLayer._map);
+
+    const dataToSend = {
+      name: formData.title,
+      ProvincName: formData.title,
+      description: formData.description,
+      color: color,
+      coordinates: modalData.coordinates,
+      type: modalData.type || "polygon",
+      zoom: tempLayer._map.getZoom(),
+    };
 
     try {
       const response = await fetch(BASE_URL + "/gis", {
@@ -74,34 +95,22 @@ export const useMapDrawHandlers = () => {
         },
         body: JSON.stringify({
           feature: "Test-feature",
-          data: [
-            {
-              name: data.title,
-              ProvincName: data.title,
-              description: data.description,
-              color: data.color,
-              coordinates: data.coordinates,
-              type: data.type,
-              zoom: tempLayer._map.getZoom(),
-            },
-          ],
+          data: [dataToSend],
         }),
       });
 
       if (!response.ok) {
-        logger.Error("خطا در ارسال اطلاعات به سرور");
+        return;
       }
 
-      logger.log("اطلاعات با موفقیت ارسال شد");
-
       triggerMapRefresh();
-    } catch (error) {
-      logger.error("خطا در ارسال به بک‌اند:", error);
-    }
 
-    setTempLayer(null);
-    setModalData(null);
-    setIsModalOpen(false);
+      setTempLayer(null);
+      setModalData(null);
+      setIsModalOpen(false);
+    } catch (error) {
+      logger.error("❌ خطا در ارسال به بکاند:", error);
+    }
   };
 
   const handleModalCancel = () => {
