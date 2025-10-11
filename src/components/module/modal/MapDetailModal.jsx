@@ -39,6 +39,25 @@ const MapDetailModal = ({
     setIsOpenModal(false);
   };
 
+  const handleSubmit = async (values) => {
+    const hexColor = typeof color === "string" ? color : color.toHexString();
+
+    const dataToSubmit = {
+      title: values.title,
+      description: values.description,
+      color: hexColor,
+    };
+
+    logger.log("📤 Data being submitted from modal:", dataToSubmit);
+
+    if (!edit) {
+      onSubmit(dataToSubmit);
+      return;
+    }
+
+    await handleEditSubmit(values);
+  };
+
   const handleEditSubmit = async (values) => {
     try {
       const hexColor = typeof color === "string" ? color : color.toHexString();
@@ -124,7 +143,7 @@ const MapDetailModal = ({
       <Form
         form={form}
         layout="vertical"
-        onFinish={edit ? handleEditSubmit : onSubmit}
+        onFinish={handleSubmit}
         className="mt-4"
       >
         <Form.Item
