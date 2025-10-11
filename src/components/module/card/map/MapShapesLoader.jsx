@@ -1,0 +1,187 @@
+import { useEffect, useRef, useCallback } from "react";
+import { useMap } from "react-leaflet";
+import L from "leaflet";
+import Cookies from "universal-cookie";
+import logger from "@utils/logger.js";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
+
+let globalRefreshShapes = null;
+
+export const triggerMapRefresh = () => {
+  if (globalRefreshShapes) {
+    globalRefreshShapes();
+  } else {
+    logger.error("⚠️ MapShapesLoader هنوز آماده نیست");
+  }
+};
+
+export default function MapShapesLoader({ onEditShape }) {
+  const map = useMap();
+  const cookies = new Cookies();
+  const token = cookies.get("bms_access_token");
+
+  const loadedShapesRef = useRef(new Set());
+  const layersRef = useRef(new Map());
+
+  const attachButtonEvents = useCallback(
+    (labelElement, shapeData) => {
+      setTimeout(() => {
+        const editBtn = labelElement._icon?.querySelector(".edit-btn");
+
+        if (editBtn) {
+          editBtn.onclick = (e) => {
+            e.stopPropagation();
+            logger.log("Edit clicked for:", shapeData);
+            onEditShape?.(shapeData);
+          };
+        }
+      }, 0);
+    },
+    [onEditShape],
+  );
+
+  const createLabel = useCallback(
+    (shape, item) => {
+      const label = L.marker(shape.getBounds().getCenter(), {
+        icon: L.divIcon({
+          className: "polygon-label",
+          html: `
+            <div class="group flex items-center text-white font-bold px-2 py-1 rounded">
+                <span>${shape._text}</span>
+                <button class="edit-btn ml-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
+                    Edit
+                </button>
+            </div>
+        `,
+        }),
+      });
+
+      const shapeData = {
+        id: item.id,
+        name: shape._text,
+        type: item.type,
+        coordinates: item.coordinates,
+        properties: item.properties,
+      };
+
+      attachButtonEvents(label, shapeData);
+
+      return label;
+    },
+    [attachButtonEvents],
+  );
+
+  const updateLabels = useCallback(() => {
+    layersRef.current.forEach(({ shape, label, item }, id) => {
+      map.removeLayer(label);
+
+      const newLabel = createLabel(shape, item);
+      newLabel.addTo(map);
+
+      layersRef.current.set(id, { shape, label: newLabel, item });
+    });
+  }, [map, createLabel]);
+
+  const loadAllShapes = useCallback(async () => {
+    try {
+      if (!token) {
+        logger.error("❌ توکن یافت نشد!");
+        return;
+      }
+
+      const res = await fetch(BASE_URL + "/gis/showAll", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        logger.error("خطای سرور:", errorText);
+        logger.error(`خطا در واکشی اشکال از سرور: ${res.status}`);
+        return;
+      }
+
+      const result = await res.json();
+      logger.log("✅ داده دریافتی:", result);
+
+      const currentServerIds = new Set();
+
+      result.data.forEach((featureGroup) => {
+        (featureGroup.data || []).forEach((item) => {
+          if (!item.coordinates) return;
+
+          currentServerIds.add(item.id);
+
+          if (loadedShapesRef.current.has(item.id)) {
+            return;
+          }
+
+          const latlngs = item.coordinates.map((c) => [c.lat, c.lng]);
+
+          const shape =
+            item.type === "polyline"
+              ? L.polyline(latlngs, { color: item.properties?.color || "blue" })
+              : L.polygon(latlngs, {
+                  color: item.properties?.color || "red",
+                  fillColor: item.properties?.color || "red",
+                  fillOpacity: 0.4,
+                });
+
+          shape._serverId = item.id;
+          shape._text =
+            item.properties?.name ?? item.properties?.ProvincName ?? "No title";
+
+          const label = createLabel(shape, item);
+
+          shape.addTo(map);
+          label.addTo(map);
+          shape._label = label;
+
+          loadedShapesRef.current.add(item.id);
+          layersRef.current.set(item.id, { shape, label, item });
+          logger.log(`✅ شکل جدید اضافه شد: ${item.id}`);
+        });
+      });
+
+      loadedShapesRef.current.forEach((loadedId) => {
+        if (!currentServerIds.has(loadedId)) {
+          const layers = layersRef.current.get(loadedId);
+          if (layers) {
+            map.removeLayer(layers.shape);
+            map.removeLayer(layers.label);
+            layersRef.current.delete(loadedId);
+            loadedShapesRef.current.delete(loadedId);
+            logger.log(`🗑️ شکل حذف شد: ${loadedId}`);
+          }
+        }
+      });
+    } catch (err) {
+      logger.error("❌ خطا در بارگذاری اشکال:", err);
+    }
+  }, [map, token, createLabel]);
+
+  useEffect(() => {
+    loadAllShapes();
+  }, [loadAllShapes]);
+
+  useEffect(() => {
+    if (layersRef.current.size > 0) {
+      updateLabels();
+    }
+  }, [updateLabels]);
+
+  useEffect(() => {
+    globalRefreshShapes = loadAllShapes;
+
+    return () => {
+      globalRefreshShapes = null;
+    };
+  }, [loadAllShapes]);
+
+  return null;
+}

@@ -167,7 +167,13 @@ const Layout = ({ children }) => {
                 setIsDrawerOpen={setIsDrawerOpen}
               />
               <main
-                className={`h-6/12 flex-1 bg-white dark:bg-dark ${location.pathname === "/forms" ? "overflow-hidden" : "overflow-auto"}`}
+                style={{
+                  overflow:
+                    location.pathname === "/forms"
+                      ? "!overflow-hidden"
+                      : "!overflow-auto",
+                }}
+                className={`h-6/12 flex-1 bg-white dark:bg-dark ${location.pathname === "/forms" ? "!overflow-hidden" : "!overflow-auto"}`}
               >
                 {children}
               </main>

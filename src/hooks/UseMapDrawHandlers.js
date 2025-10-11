@@ -1,8 +1,15 @@
-import L from "leaflet";
 import { useState } from "react";
+import L from "leaflet";
+import Cookies from "universal-cookie";
 import logger from "@utils/logger.js";
+import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
 export const useMapDrawHandlers = () => {
+  const cookies = new Cookies();
+  const token = cookies.get("bms_access_token");
+
   const [tempLayer, setTempLayer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -12,21 +19,27 @@ export const useMapDrawHandlers = () => {
 
     setTempLayer(layer);
 
-    const latlngs = layer.getLatLngs()[0].map((p) => ({
-      lat: p.lat,
-      lng: p.lng,
-    }));
+    const latlngs =
+      layer.getLatLngs()[0]?.map?.((p) => ({ lat: p.lat, lng: p.lng })) ||
+      layer.getLatLngs().map((p) => ({ lat: p.lat, lng: p.lng }));
+
+    const shapeType =
+      e.layerType === "polygon"
+        ? "polygon"
+        : e.layerType === "polyline"
+          ? "polyline"
+          : "unknown";
 
     setModalData({
       latlngs,
-      type: "polygon",
+      type: shapeType,
       zoom: layer._map.getZoom(),
     });
 
     setIsModalOpen(true);
   };
 
-  const handleModalSubmit = async (data) => {
+  const handleCreateSubmit = async (data) => {
     if (!tempLayer) return;
 
     tempLayer.setStyle({
@@ -52,34 +65,43 @@ export const useMapDrawHandlers = () => {
     tempLayer.addTo(tempLayer._map);
 
     try {
-      const response = await fetch("/api/polygons", {
+      const response = await fetch(BASE_URL + "/gis", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          id: tempLayer._id,
-          title: data.title,
-          description: data.description,
-          color: data.color,
-          coordinates: data.coordinates,
-          type: data.type,
-          zoom: tempLayer._map.getZoom(),
-          createdAt: data.createdAt,
+          feature: "Test-feature",
+          data: [
+            {
+              name: data.title,
+              ProvincName: data.title,
+              description: data.description,
+              color: data.color,
+              coordinates: data.coordinates,
+              type: data.type,
+              zoom: tempLayer._map.getZoom(),
+            },
+          ],
         }),
       });
 
       if (!response.ok) {
-        throw new Error("خطا در ارسال اطلاعات به سرور");
+        logger.Error("خطا در ارسال اطلاعات به سرور");
       }
 
       logger.log("اطلاعات با موفقیت ارسال شد");
+
+      triggerMapRefresh();
     } catch (error) {
       logger.error("خطا در ارسال به بک‌اند:", error);
     }
 
     setTempLayer(null);
     setModalData(null);
+    setIsModalOpen(false);
   };
 
   const handleModalCancel = () => {
@@ -91,60 +113,12 @@ export const useMapDrawHandlers = () => {
     setIsModalOpen(false);
   };
 
-  const onEdited = async (e) => {
-    e.layers.eachLayer(async (layer) => {
-      const latlngs = layer.getLatLngs()[0].map((p) => ({
-        lat: p.lat,
-        lng: p.lng,
-      }));
-
-      try {
-        await fetch(`/api/polygons/${layer._id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            coordinates: latlngs,
-            zoom: layer._map.getZoom(),
-            updatedAt: new Date().toISOString(),
-          }),
-        });
-        logger.log("تغییرات با موفقیت ذخیره شد");
-      } catch (error) {
-        logger.error("خطا در ویرایش:", error);
-      }
-    });
-  };
-
-  const onDeleted = async (e) => {
-    e.layers.eachLayer(async (layer) => {
-      // حذف label
-      if (layer._label) {
-        layer._map.removeLayer(layer._label);
-      }
-
-      try {
-        await fetch(`/api/polygons/${layer._id}`, {
-          method: "DELETE",
-        });
-        logger.log("شکل با موفقیت حذف شد");
-      } catch (error) {
-        logger.log("خطا در حذف:", error);
-      }
-
-      layer._map.removeLayer(layer);
-    });
-  };
-
   return {
     onCreated,
-    onEdited,
-    onDeleted,
     isModalOpen,
     setIsModalOpen,
     modalData,
-    handleModalSubmit,
+    handleCreateSubmit,
     handleModalCancel,
   };
 };

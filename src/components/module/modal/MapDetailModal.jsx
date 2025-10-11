@@ -1,69 +1,118 @@
-import { Modal, Form, Input, Button, ColorPicker } from "antd";
 import { useState, useEffect } from "react";
+import { IoTrashOutline } from "react-icons/io5";
+import { Modal, Form, Input, Button, ColorPicker } from "antd";
+import Cookies from "universal-cookie";
+import logger from "@utils/logger.js";
+import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
 const MapDetailModal = ({
-  isOpenCreateModal,
-  setIsOpenCreateModal,
+  isOpenModal,
+  setIsOpenModal,
   onSubmit,
   title,
   initialData = null,
+  edit = false,
 }) => {
   const [form] = Form.useForm();
+  const cookies = new Cookies();
+  const token = cookies.get("bms_access_token");
   const [color, setColor] = useState("#ff0000");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpenCreateModal && initialData) {
+    if (isOpenModal && initialData) {
       form.setFieldsValue({
-        title: initialData.text || "",
+        title: initialData.name || "",
         description: initialData.description || "",
       });
-      setColor(initialData.color || "#ff0000");
-    } else if (!isOpenCreateModal) {
+      setColor(initialData.properties?.color || initialData.color || "#ff0000");
+    } else if (!isOpenModal) {
       form.resetFields();
       setColor("#ff0000");
     }
-  }, [isOpenCreateModal, initialData, form]);
-
-  const handleSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      setLoading(true);
-
-      const dataToSend = {
-        title: values.title,
-        description: values.description,
-        color: typeof color === "string" ? color : color.toHexString(),
-        coordinates: initialData?.latlngs || [],
-        type: initialData?.type || "polygon",
-        createdAt: new Date().toISOString(),
-      };
-
-      if (onSubmit) {
-        await onSubmit(dataToSend);
-      }
-
-      setIsOpenCreateModal(false);
-      form.resetFields();
-      setColor("#ff0000");
-    } catch (error) {
-      console.error("خطا در ارسال اطلاعات:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [isOpenModal, initialData, form]);
 
   const handleCancel = () => {
     form.resetFields();
     setColor("#ff0000");
-    setIsOpenCreateModal(false);
+    setIsOpenModal(false);
+  };
+
+  const handleEditSubmit = async (values) => {
+    try {
+      const hexColor = typeof color === "string" ? color : color.toHexString();
+
+      const response = await fetch(BASE_URL + `/gis/${initialData?.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: values.title,
+          description: values.description,
+          color: hexColor,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        logger.error("خطا در ویرایش شکل:", errorText);
+        return;
+      }
+
+      const result = await response.json();
+      logger.log("✅ تغییرات با موفقیت ذخیره شد:", result);
+
+      form.resetFields();
+      setColor("#ff0000");
+      setIsOpenModal(false);
+
+      triggerMapRefresh();
+    } catch (error) {
+      logger.error("❌ خطا در ویرایش:", error);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      const response = await fetch(
+        BASE_URL + `/gis/features/${initialData?.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        logger.error("خطا در حذف شکل:", errorText);
+        return;
+      }
+
+      logger.log("✅ شکل با موفقیت حذف شد");
+
+      form.resetFields();
+      setColor("#ff0000");
+      setIsOpenModal(false);
+
+      triggerMapRefresh();
+    } catch (error) {
+      logger.error("❌ خطا در حذف:", error);
+    }
   };
 
   return (
     <Modal
       className="font-Quicksand"
-      title={title || "اطلاعات شکل"}
-      open={isOpenCreateModal}
+      title={title || "shape information"}
+      open={isOpenModal}
       onCancel={handleCancel}
       footer={null}
       width={500}
@@ -72,7 +121,7 @@ const MapDetailModal = ({
       <Form
         form={form}
         layout="vertical"
-        onFinish={handleSubmit}
+        onFinish={edit ? handleEditSubmit : onSubmit}
         className="mt-4"
       >
         <Form.Item
@@ -147,19 +196,44 @@ const MapDetailModal = ({
           </div>
         )}
 
+        {initialData?.coordinates && (
+          <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Number of points: {initialData.coordinates.length}
+            </p>
+          </div>
+        )}
+
         <Form.Item className="mb-0 mt-6">
-          <div className="flex justify-end gap-2">
-            <Button onClick={handleCancel} size="large">
-              Cancel
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-              size="large"
-            >
-              Save and send
-            </Button>
+          <div className="flex flex-row-reverse items-center justify-between">
+            <div className="flex justify-end gap-2">
+              <Button
+                className="bg-blue-500 hover:!bg-blue-500 hover:!border-blue-500 hover:!text-white"
+                onClick={handleCancel}
+                size="large"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                className="bg-green-500 hover:!bg-green-500 hover:!border-green-500 hover:!text-white"
+              >
+                {edit ? "Update" : "Send"}
+              </Button>
+            </div>
+            {edit && (
+              <Button
+                type="text"
+                danger
+                icon={<IoTrashOutline size={20} />}
+                onClick={handleDeleteConfirm}
+                size="large"
+              >
+                Delete
+              </Button>
+            )}
           </div>
         </Form.Item>
       </Form>
