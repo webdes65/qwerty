@@ -17,6 +17,8 @@ import LogoutModal from "@module/modal/LogoutModal.jsx";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
 import UseDarkModeStore from "@store/UseDarkMode.js";
 
+const showMap = import.meta.env.VITE_SHOW_MAP === "true";
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -306,15 +308,17 @@ const Sidebar = () => {
           <LuUsers className="text-[1.5rem]" />
           Employees
         </li>
-        <li
-          className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-            isActive("/map") ? "bg-tealBlue text-white" : ""
-          }`}
-          onClick={() => handleNavigation("/map")}
-        >
-          <PiMapPinArea className="text-[1.5rem]" />
-          Map
-        </li>
+        {showMap && (
+          <li
+            className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
+              isActive("/map") ? "bg-tealBlue text-white" : ""
+            }`}
+            onClick={() => handleNavigation("/map")}
+          >
+            <PiMapPinArea className="text-[1.5rem]" />
+            Map
+          </li>
+        )}
         <li
           className={`w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
             isActive("/settings") ? "bg-tealBlue text-white" : ""

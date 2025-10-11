@@ -14,6 +14,7 @@ import { useMapDrawHandlers } from "@hooks/UseMapDrawHandlers.js";
 import UseMapEvents from "@hooks/UseMapEvents.js";
 import MapToolbar from "@module/card/map/MapToolbar.jsx";
 import MapDetailModal from "@module/modal/MapDetailModal.jsx";
+import MapShapesLoader from "@module/card/map/MapShapesLoader.jsx";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: new URL(
@@ -34,21 +35,27 @@ export default function MapCard({
   const [position, setPosition] = useState([lat, lng]);
   const [currentZoom, setCurrentZoom] = useState(zoom);
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editShapeData, setEditShapeData] = useState(null);
+
   const {
     onCreated,
-    onEdited,
-    onDeleted,
     isModalOpen,
     modalData,
-    handleModalSubmit,
+    handleCreateSubmit,
     handleModalCancel,
   } = useMapDrawHandlers();
+
+  const handleEditShape = (shapeData) => {
+    setEditShapeData(shapeData);
+    setIsEditModalOpen(true);
+  };
 
   return (
     <div className="w-full bg-white text-dark-100 dark:bg-dark-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
       <div className="bg-gradient-to-r from-blue-600 to-tealBlue dark:from-blue-600 dark:to-blue-800 text-white p-4">
         <h2 className="text-2xl font-bold">Interactive map</h2>
-        <p className="text-sm  mt-1">Click on the map to select a location</p>
+        <p className="text-sm mt-1">Click on the map to select a location</p>
       </div>
 
       <MapToolbar
@@ -71,8 +78,6 @@ export default function MapCard({
             <EditControl
               position="topright"
               onCreated={onCreated}
-              onEdited={onEdited}
-              onDeleted={onDeleted}
               draw={{
                 rectangle: false,
                 circle: false,
@@ -84,6 +89,11 @@ export default function MapCard({
                   shapeOptions: { color: "#3388ff", weight: 3 },
                   repeatMode: true,
                 },
+                polyline: false,
+              }}
+              edit={{
+                edit: false,
+                remove: false,
               }}
             />
           </FeatureGroup>
@@ -105,6 +115,8 @@ export default function MapCard({
             </Popup>
           </Marker>
 
+          <MapShapesLoader onEditShape={handleEditShape} />
+
           <UseMapEvents setPosition={setPosition} setZoom={setCurrentZoom} />
         </MapContainer>
       </div>
@@ -117,15 +129,23 @@ export default function MapCard({
       </div>
 
       <MapDetailModal
-        isOpenCreateModal={isModalOpen}
-        setIsOpenCreateModal={(open) => {
+        isOpenModal={isModalOpen}
+        setIsOpenModal={(open) => {
           if (!open) {
             handleModalCancel();
           }
         }}
-        onSubmit={handleModalSubmit}
+        onSubmit={handleCreateSubmit}
         initialData={modalData}
-        title="اطلاعات شکل جدید"
+        title="New shape information"
+      />
+
+      <MapDetailModal
+        isOpenModal={isEditModalOpen}
+        setIsOpenModal={setIsEditModalOpen}
+        initialData={editShapeData}
+        title="Edit shape information"
+        edit={true}
       />
     </div>
   );
