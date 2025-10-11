@@ -43,19 +43,22 @@ const MapDetailModal = ({
     try {
       const hexColor = typeof color === "string" ? color : color.toHexString();
 
-      const response = await fetch(BASE_URL + `/gis/${initialData?.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        BASE_URL + `/gis/features/${initialData?.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: values.title,
+            description: values.description,
+            color: hexColor,
+          }),
         },
-        body: JSON.stringify({
-          name: values.title,
-          description: values.description,
-          color: hexColor,
-        }),
-      });
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
