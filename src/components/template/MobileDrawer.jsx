@@ -16,6 +16,8 @@ import LogoutModal from "@module/modal/LogoutModal.jsx";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
 import UseDarkModeStore from "@store/UseDarkMode.js";
 
+const showMap = import.meta.env.VITE_SHOW_MAP === "true";
+
 const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -300,15 +302,17 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
               Employees
             </p>
 
-            <p
-              className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
-                isActive("/map") ? "bg-tealBlue text-white" : ""
-              }`}
-              onClick={() => handleNavigation("/map")}
-            >
-              <PiMapPinArea className="text-[1.5rem]" />
-              Map
-            </p>
+            {showMap && (
+              <p
+                className={`citys-btn w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded ${
+                  isActive("/map") ? "bg-tealBlue text-white" : ""
+                }`}
+                onClick={() => handleNavigation("/map")}
+              >
+                <PiMapPinArea className="text-[1.5rem]" />
+                Map
+              </p>
+            )}
 
             <p
               className={`flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer ${
