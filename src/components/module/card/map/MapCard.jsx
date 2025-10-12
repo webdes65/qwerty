@@ -36,7 +36,7 @@ export default function MapCard({
   lat = 37.1378,
   lng = 50.2856,
   zoom = 15,
-  height = "500px",
+  height = "650px",
 }) {
   const cookies = new Cookies();
   const token = cookies.get("bms_access_token");
@@ -151,7 +151,7 @@ export default function MapCard({
   };
 
   return (
-    <div className="w-full bg-white text-dark-100 dark:bg-dark-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
+    <div className="w-full !h-auto bg-white text-dark-100 dark:bg-gray-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
       {/* <div className="bg-gradient-to-r from-blue-600 to-tealBlue dark:from-blue-600 dark:to-blue-800 text-white p-4">
         <h2 className="text-2xl font-bold">Interactive map</h2>
         <p className="text-sm mt-1">Click on the map to select a location</p>
@@ -227,23 +227,10 @@ export default function MapCard({
           }}
         >
           <div
-            className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg cursor-pointer"
+            className="flex items-center justify-between gap-1 p-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-t-lg cursor-pointer"
             onClick={() => setIsPanelCollapsed(!isPanelCollapsed)}
           >
             <h3 className="text-sm font-semibold flex items-center gap-2">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
               List of shapes ({shapesList.length})
             </h3>
             <button className="hover:bg-white/20 rounded p-1 transition-colors">
@@ -266,8 +253,8 @@ export default function MapCard({
           {!isPanelCollapsed && (
             <div className="p-3">
               {loading ? (
-                <div className="text-center py-6 text-gray-500">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                <div className="text-center py-6 text-white">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto" />
                   <p className="mt-2 text-xs">loading...</p>
                 </div>
               ) : shapesList.length === 0 ? (

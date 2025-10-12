@@ -165,7 +165,6 @@ const MapDetailModal = ({
           label="Description"
           name="description"
           rules={[
-            { required: true, message: "Please enter a description" },
             { min: 10, message: "Description must be at least 10 characters" },
           ]}
         >
