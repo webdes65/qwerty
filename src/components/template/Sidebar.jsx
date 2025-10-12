@@ -9,7 +9,7 @@ import { TbChartDots, TbAugmentedReality } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { BiBuildings } from "react-icons/bi";
 import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
-import { MdOutlineImportantDevices } from "react-icons/md";
+import { MdOutlineImportantDevices, MdOutlinePreview } from "react-icons/md";
 import { PiMapPinArea } from "react-icons/pi";
 import { Button, Dropdown, Space } from "antd";
 import Cookies from "universal-cookie";
@@ -247,6 +247,15 @@ const Sidebar = () => {
         >
           <FaListOl className="text-[1.5rem]" />
           Forms
+        </li>
+        <li
+          className={`forms-step flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer ${
+            isActive("/preview") ? "bg-tealBlue text-white" : ""
+          }`}
+          onClick={() => handleNavigation("/preview")}
+        >
+          <MdOutlinePreview className="text-[1.5rem]" />
+          Preview
         </li>
         <li
           className={`ar w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded  ${
