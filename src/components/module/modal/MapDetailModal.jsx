@@ -210,18 +210,16 @@ const MapDetailModal = ({
           </div>
         </Form.Item>
 
-        {initialData?.latlngs && (
+        {initialData?.latlngs ? (
           <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded">
             <p className="text-sm text-gray-600 dark:text-gray-300">
-              Number of points: {initialData.latlngs.length}
+              Number of points: {initialData?.latlngs?.length}
             </p>
           </div>
-        )}
-
-        {initialData?.coordinates && (
+        ) : (
           <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded">
             <p className="text-sm text-gray-600 dark:text-gray-300">
-              Number of points: {initialData.coordinates.length}
+              Number of points: {initialData?.coordinates?.length}
             </p>
           </div>
         )}

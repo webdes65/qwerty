@@ -47,7 +47,7 @@ export default function MapShapesLoader({ onEditShape }) {
         icon: L.divIcon({
           className: "polygon-label",
           html: `
-            <div class="group flex items-center text-white font-bold px-2 py-1 rounded">
+            <div class="group flex items-center text-white font-bold px-2 py-1 rounded bg-transparent">
                 <span>${shape._text}</span>
                 <button class="edit-btn ml-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
                     Edit
@@ -121,7 +121,10 @@ export default function MapShapesLoader({ onEditShape }) {
             return;
           }
 
-          const latlngs = item.coordinates.map((c) => [c.lat, c.lng]);
+          const latlngs = item.coordinates.map((c) => [
+            c.latitude,
+            c.longitude,
+          ]);
 
           const shape =
             item.type === "polyline"
