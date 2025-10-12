@@ -86,12 +86,12 @@ const EditEmployess = () => {
     })) || [];
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins">
-      <div className="w-full h-full p-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow">
+    <div className="w-full h-auto flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins">
+      <div className="w-full min-h-[100vh] p-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow">
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({ handleSubmit, setFieldValue }) => (
             <Form className="w-full flex flex-row justify-start items-start flex-wrap gap-2">
-              <div className="w-full flex flex-row justify-center items-center gap-2 max-sm:flex-col">
+              <div className="w-full flex flex-row justify-center items-center gap-2 max-md:flex-col">
                 <div className="w-full flex flex-col gap-1">
                   <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     First Name :{" "}
@@ -141,7 +141,7 @@ const EditEmployess = () => {
                 </div>
               </div>
 
-              <div className="w-full flex flex-row justify-center items-center gap-2 max-sm:flex-col">
+              <div className="w-full flex flex-row justify-center items-center gap-2 max-md:flex-col">
                 <div className="w-full flex flex-col gap-1">
                   <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Phone Number :{" "}
@@ -204,7 +204,7 @@ const EditEmployess = () => {
                 </div>
               </div>
 
-              <div className="w-full flex flex-row justify-center items-center gap-2 max-sm:flex-col">
+              <div className="w-full flex flex-row justify-center items-center gap-2 max-md:flex-col">
                 <div className="w-full flex flex-col gap-1">
                   <span className="text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase">
                     Time Zone :{" "}

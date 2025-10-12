@@ -152,10 +152,10 @@ export default function MapCard({
 
   return (
     <div className="w-full bg-white text-dark-100 dark:bg-dark-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-tealBlue dark:from-blue-600 dark:to-blue-800 text-white p-4">
+      {/* <div className="bg-gradient-to-r from-blue-600 to-tealBlue dark:from-blue-600 dark:to-blue-800 text-white p-4">
         <h2 className="text-2xl font-bold">Interactive map</h2>
         <p className="text-sm mt-1">Click on the map to select a location</p>
-      </div>
+      </div>*/}
 
       <MapToolbar
         position={position}
@@ -214,10 +214,7 @@ export default function MapCard({
             </Popup>
           </Marker>
 
-          <MapShapesLoader
-            onEditShape={handleEditShape}
-            visibleShapes={checkedShapes}
-          />
+          <MapShapesLoader onEditShape={handleEditShape} />
 
           <UseMapEvents setPosition={setPosition} setZoom={setCurrentZoom} />
         </MapContainer>
@@ -294,7 +291,7 @@ export default function MapCard({
                 <div className="space-y-1 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
                   {shapesList.map((shape) => (
                     <label
-                      key={shape.id}
+                      key={shape.uuid}
                       className="flex items-center p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded cursor-pointer transition-colors group"
                     >
                       <input

@@ -152,7 +152,7 @@ const Forms = () => {
           {(searchTerm || (selectedCategory && selectedCategory !== 0)) && (
             <button
               onClick={clearFilters}
-              className="px-3 py-2 text-sm bg-gray-200 dark: hover:bg-gray-300 rounded-md transition-colors whitespace-nowrap"
+              className="px-3 py-2 text-sm bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 rounded-md transition-colors whitespace-nowrap"
             >
               Clear All
             </button>
@@ -160,7 +160,7 @@ const Forms = () => {
         </div>
       </div>
 
-      <ul className="w-full h-auto flex flex-row justify-start items-start flex-wrap">
+      <ul className="w-full h-auto mb-20 lg:mb-0 flex flex-row justify-start items-start flex-wrap">
         {isLoading ? (
           <>
             <ARProjectSubprojectSkeleton />
