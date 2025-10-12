@@ -18,7 +18,6 @@ import MapDetailModal from "@module/modal/MapDetailModal.jsx";
 import MapShapesLoader, {
   triggerMapRefresh,
 } from "@module/card/map/MapShapesLoader.jsx";
-import logger from "@utils/logger.js";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: new URL(
@@ -47,7 +46,7 @@ export default function MapCard({
   const [editShapeData, setEditShapeData] = useState(null);
 
   const [shapesList, setShapesList] = useState([]);
-  const [checkedShapes, setCheckedShapes] = useState({});
+  const [hiddenCollections, setHiddenCollections] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
 
@@ -72,77 +71,41 @@ export default function MapCard({
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        logger.error("خطا در دریافت لیست:", errorText);
+        // const errorText = await response.text();
+        // logger.error("خطا در دریافت لیست:", errorText);
         return;
       }
 
       const result = await response.json();
-      logger.log("✅ داده‌های لیست با موفقیت دریافت شد", result);
+      // logger.log("✅ داده‌های لیست با موفقیت دریافت شد", result);
       setShapesList(result.data || result);
-
-      const initialChecked = {};
-      (result.data || result).forEach((shape) => {
-        initialChecked[shape.id] = true;
-      });
-      setCheckedShapes(initialChecked);
     } catch (error) {
-      logger.error("❌ خطا در دریافت لیست:", error);
+      // logger.error("❌ خطا در دریافت لیست:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  logger.log("shapesList", shapesList);
-
   useEffect(() => {
     fetchShapesList();
   }, []);
 
-  const handleCheckboxChange = async (shapeId) => {
-    const newValue = !checkedShapes[shapeId];
-
-    setCheckedShapes((prev) => ({
-      ...prev,
-      [shapeId]: newValue,
-    }));
-
-    try {
-      const response = await fetch(`${BASE_URL}/gis/hide/${shapeId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          hide: newValue ? 1 : 0,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        logger.error("خطا در تغییر وضعیت نمایش:", errorText);
-
-        setCheckedShapes((prev) => ({
-          ...prev,
-          [shapeId]: !newValue,
-        }));
-        return;
+  const handleCollectionToggle = (collectionName) => {
+    setHiddenCollections((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(collectionName)) {
+        newSet.delete(collectionName);
+        // logger.log(`✅ Collection نمایش داده می‌شود: ${collectionName}`);
+      } else {
+        newSet.add(collectionName);
+        // logger.log(`🚫 Collection مخفی می‌شود: ${collectionName}`);
       }
+      return newSet;
+    });
 
-      const result = await response.json();
-      logger.log("✅ وضعیت نمایش با موفقیت تغییر کرد", result);
-
+    setTimeout(() => {
       triggerMapRefresh();
-    } catch (error) {
-      logger.error("❌ خطا در تغییر وضعیت نمایش:", error);
-
-      setCheckedShapes((prev) => ({
-        ...prev,
-        [shapeId]: !newValue,
-      }));
-    }
+    }, 1);
   };
 
   const handleEditShape = (shapeData) => {
@@ -152,11 +115,6 @@ export default function MapCard({
 
   return (
     <div className="w-full !h-auto bg-white text-dark-100 dark:bg-gray-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
-      {/* <div className="bg-gradient-to-r from-blue-600 to-tealBlue dark:from-blue-600 dark:to-blue-800 text-white p-4">
-        <h2 className="text-2xl font-bold">Interactive map</h2>
-        <p className="text-sm mt-1">Click on the map to select a location</p>
-      </div>*/}
-
       <MapToolbar
         position={position}
         zoom={currentZoom}
@@ -214,7 +172,10 @@ export default function MapCard({
             </Popup>
           </Marker>
 
-          <MapShapesLoader onEditShape={handleEditShape} />
+          <MapShapesLoader
+            onEditShape={handleEditShape}
+            hiddenCollections={hiddenCollections}
+          />
 
           <UseMapEvents setPosition={setPosition} setZoom={setCurrentZoom} />
         </MapContainer>
@@ -231,7 +192,7 @@ export default function MapCard({
             onClick={() => setIsPanelCollapsed(!isPanelCollapsed)}
           >
             <h3 className="text-sm font-semibold flex items-center gap-2">
-              List of shapes ({shapesList.length})
+              Collections ({shapesList.length})
             </h3>
             <button className="hover:bg-white/20 rounded p-1 transition-colors">
               <svg
@@ -251,10 +212,10 @@ export default function MapCard({
           </div>
 
           {!isPanelCollapsed && (
-            <div className="p-3">
+            <div className="p-3 max-h-48 overflow-auto">
               {loading ? (
-                <div className="text-center py-6 text-white">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto" />
+                <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400 mx-auto" />
                   <p className="mt-2 text-xs">loading...</p>
                 </div>
               ) : shapesList.length === 0 ? (
@@ -276,30 +237,33 @@ export default function MapCard({
                 </div>
               ) : (
                 <div className="space-y-1 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-                  {shapesList.map((shape) => (
-                    <label
-                      key={shape.uuid}
-                      className="flex items-center p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded cursor-pointer transition-colors group"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={checkedShapes[shape.uuid] || false}
-                        onChange={() => handleCheckboxChange(shape.uuid)}
-                        className="w-4 h-4 ml-2 accent-blue-600 cursor-pointer flex-shrink-0"
-                      />
-                      <div className="flex-1 min-w-0 ml-2">
-                        <span className="text-sm text-dark-100 dark:text-white block truncate">
-                          {shape.name || `shape ${shape.uuid}`}
-                        </span>
-                      </div>
-                      {shape.color && (
-                        <div
-                          className="w-3 h-3 rounded-full border border-gray-300 flex-shrink-0 mr-2"
-                          style={{ backgroundColor: shape.color }}
+                  {shapesList.map((shape) => {
+                    const isVisible = !hiddenCollections.has(shape.name);
+                    return (
+                      <label
+                        key={shape.uuid}
+                        className="flex items-center p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded cursor-pointer transition-colors group"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isVisible}
+                          onChange={() => handleCollectionToggle(shape.name)}
+                          className="w-4 h-4 ml-2 accent-blue-600 cursor-pointer flex-shrink-0"
                         />
-                      )}
-                    </label>
-                  ))}
+                        <div className="flex-1 min-w-0 ml-2">
+                          <span className="text-sm text-dark-100 dark:text-white block truncate">
+                            {shape.name || `shape ${shape.uuid}`}
+                          </span>
+                        </div>
+                        {shape.color && (
+                          <div
+                            className="w-3 h-3 rounded-full border border-gray-300 flex-shrink-0 mr-2"
+                            style={{ backgroundColor: shape.color }}
+                          />
+                        )}
+                      </label>
+                    );
+                  })}
                 </div>
               )}
             </div>
