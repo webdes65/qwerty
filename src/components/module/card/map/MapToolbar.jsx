@@ -18,7 +18,7 @@ export default function MapToolbar({
     ];*/
 
   return (
-    <div className="p-4 bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-b">
+    <div className="p-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white border-b">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="labelStyle">Latitude</label>
