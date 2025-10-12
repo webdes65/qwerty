@@ -71,7 +71,6 @@ export const useMapDrawHandlers = () => {
     tempLayer._text = formData.title;
     tempLayer._description = formData.description;
     tempLayer._color = color;
-    tempLayer._id = Date.now();
 
     tempLayer.addTo(tempLayer._map);
 
