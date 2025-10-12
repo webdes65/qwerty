@@ -53,7 +53,7 @@ const FormCard = ({ form }) => {
             <p className="text-dark-100 dark:text-white">Form Name :</p>
             <p>{form.name || "empty"}</p>
           </div>
-          <div className="flex flex-col text-black">
+          <div className="flex flex-col text-dark-100 dark:text-white">
             <p className="text-[0.80rem]">
               <span className="text-dark-100 dark:text-white">Category : </span>
               {form.category?.title ?? "---"}
