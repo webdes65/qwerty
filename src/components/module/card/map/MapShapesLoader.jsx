@@ -16,7 +16,10 @@ export const triggerMapRefresh = () => {
   }
 };
 
-export default function MapShapesLoader({ onEditShape }) {
+export default function MapShapesLoader({
+  onEditShape,
+  hiddenCollections = new Set(),
+}) {
   const map = useMap();
   const cookies = new Cookies();
   const token = cookies.get("bms_access_token");
@@ -86,7 +89,7 @@ export default function MapShapesLoader({ onEditShape }) {
   const loadAllShapes = useCallback(async () => {
     try {
       if (!token) {
-        logger.error("❌ توکن یافت نشد!");
+        // logger.error("❌ توکن یافت نشد!");
         return;
       }
 
@@ -100,18 +103,40 @@ export default function MapShapesLoader({ onEditShape }) {
       });
 
       if (!res.ok) {
-        const errorText = await res.text();
-        logger.error("خطای سرور:", errorText);
-        logger.error(`خطا در واکشی اشکال از سرور: ${res.status}`);
+        // const errorText = await res.text();
+        // logger.error("خطای سرور:", errorText);
+        // logger.error(`خطا در واکشی اشکال از سرور: ${res.status}`);
         return;
       }
 
       const result = await res.json();
-      logger.log("✅ داده دریافتی:", result);
+      // logger.log("✅ داده دریافتی:", result);
 
       const currentServerIds = new Set();
 
       result.data.forEach((featureGroup) => {
+        const featureName = featureGroup.feature;
+
+        const isHidden = hiddenCollections.has(featureName);
+
+        // logger.log(`🔍 Feature: ${featureName}, Hidden: ${isHidden}`);
+
+        if (isHidden) {
+          (featureGroup.data || []).forEach((item) => {
+            if (loadedShapesRef.current.has(item.id)) {
+              const layers = layersRef.current.get(item.id);
+              if (layers) {
+                map.removeLayer(layers.shape);
+                map.removeLayer(layers.label);
+                layersRef.current.delete(item.id);
+                loadedShapesRef.current.delete(item.id);
+                // logger.log(`🚫 شکل حذف شد (collection مخفی): ${item.id} - ${featureName}`);
+              }
+            }
+          });
+          return;
+        }
+
         (featureGroup.data || []).forEach((item) => {
           if (!item.coordinates) return;
 
@@ -147,7 +172,9 @@ export default function MapShapesLoader({ onEditShape }) {
 
           loadedShapesRef.current.add(item.id);
           layersRef.current.set(item.id, { shape, label, item });
-          logger.log(`✅ شکل جدید اضافه شد: ${item.id}`);
+          logger.log(
+            `✅ شکل جدید اضافه شد: ${item.id} (Feature: ${featureName})`,
+          );
         });
       });
 
@@ -166,7 +193,7 @@ export default function MapShapesLoader({ onEditShape }) {
     } catch (err) {
       logger.error("❌ خطا در بارگذاری اشکال:", err);
     }
-  }, [map, token, createLabel]);
+  }, [map, token, createLabel, hiddenCollections]);
 
   useEffect(() => {
     loadAllShapes();
