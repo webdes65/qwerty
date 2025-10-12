@@ -254,7 +254,17 @@ const FormHTML = (container) => {
             window.registersData = null;
             const cypherKey = await getToken();
 
-            fetch(\`\${BASE_URL}/forms/\${idForm}\`, {
+            const currentPath = window.location.pathname;
+            const isPreview = currentPath.includes('/preview') || !idForm;
+            
+            let apiUrl;
+            if (isPreview) {
+              apiUrl = \`${BASE_URL}/forms/default-building\`;
+            } else {
+              apiUrl = \`${BASE_URL}/forms/${idForm}\`;
+            }
+        
+            fetch(apiUrl, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",

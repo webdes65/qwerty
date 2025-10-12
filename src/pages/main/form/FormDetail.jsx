@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import logger from "@utils/logger.js";
-import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const FormDetail = () => {
   const location = useLocation();
   const { form } = location.state || {};
-  const { darkMode } = UseDarkModeStore();
 
   const iframeRef = useRef();
   const outerContainerRef = useRef(null);
@@ -229,9 +227,9 @@ const FormDetail = () => {
     <div className="flex flex-col justify-center gap-10 p-2 bg-white text-dark-100  dark:bg-dark-100 dark:text-white">
       <div className="flex flex-col font-bold">
         <p className="text-[0.90rem] text-dark-100 dark:text-white">
-          Form Name
+          Form Name:
         </p>
-        <p className="text-[1rem]">{form.name || "empty"}</p>
+        <p className="text-[1rem]">{form.name ?? ""}</p>
       </div>
 
       <div

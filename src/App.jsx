@@ -27,6 +27,7 @@ import Settings from "@pages/main/Settings";
 import NotFound from "@pages/404";
 import ForgetPassword from "@pages/auth/ForgetPassword.jsx";
 import Map from "@pages/main/Map.jsx";
+import FormPreview from "@pages/main/form/FormPreview.jsx";
 
 const showMap = import.meta.env.VITE_SHOW_MAP === "true";
 
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/cities/editcity" element={<EditCity />} />
         <Route path="/forms" element={<Forms />} />
         <Route path="/forms/formDetail" element={<FormDetail />} />
+        <Route path="/preview" element={<FormPreview />} />
         <Route path="/augmentedRealities" element={<AugmentedRealities />} />
         <Route path="/ARDetails" element={<ARDetails />} />
         <Route path="/ProjectDetails" element={<ProjectDetails />} />

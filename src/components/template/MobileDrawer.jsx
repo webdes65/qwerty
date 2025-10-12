@@ -7,7 +7,7 @@ import { FaListOl } from "react-icons/fa6";
 import { IoCreateOutline, IoHome, IoSettingsSharp } from "react-icons/io5";
 import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
 import { BiBuildings } from "react-icons/bi";
-import { MdOutlineImportantDevices } from "react-icons/md";
+import { MdOutlineImportantDevices, MdOutlinePreview } from "react-icons/md";
 import { LuUsers } from "react-icons/lu";
 import { PiMapPinArea } from "react-icons/pi";
 import { Button, Drawer, Dropdown, Space } from "antd";
@@ -237,6 +237,15 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
             >
               <FaListOl className="text-[1.5rem]" />
               Forms
+            </p>
+            <p
+              className={`forms-step flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer ${
+                isActive("/preview") ? "bg-tealBlue text-white" : ""
+              }`}
+              onClick={() => handleNavigation("/preview")}
+            >
+              <MdOutlinePreview className="text-[1.5rem]" />
+              Preview
             </p>
             <p
               className={`ar-step flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer ${
