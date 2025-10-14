@@ -18,6 +18,7 @@ import MapDetailModal from "@module/modal/MapDetailModal.jsx";
 import MapShapesLoader, {
   triggerMapRefresh,
 } from "@module/card/map/MapShapesLoader.jsx";
+import logger from "@utils/logger.js";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: new URL(
@@ -80,7 +81,7 @@ export default function MapCard({
       // logger.log("✅ داده‌های لیست با موفقیت دریافت شد", result);
       setShapesList(result.data || result);
     } catch (error) {
-      // logger.error("❌ خطا در دریافت لیست:", error);
+      logger.error("❌ خطا در دریافت لیست:", error);
     } finally {
       setLoading(false);
     }
@@ -146,7 +147,7 @@ export default function MapCard({
                   shapeOptions: { color: "#3388ff", weight: 3 },
                   repeatMode: true,
                 },
-                polyline: false,
+                polyline: true,
               }}
               edit={{
                 edit: false,
