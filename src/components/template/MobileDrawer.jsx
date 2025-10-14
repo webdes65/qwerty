@@ -198,7 +198,7 @@ const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
         open={open}
         key="left"
       >
-        <div className="h-full flex flex-col justify-between items-start">
+        <div className="h-full flex flex-col justify-between items-start !overflow-auto">
           <div className="w-full flex flex-col justify-start items-start gap-1">
             <p
               className={`flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer ${
