@@ -3,6 +3,7 @@ import { useMap } from "react-leaflet";
 import L from "leaflet";
 import Cookies from "universal-cookie";
 import logger from "@utils/logger.js";
+import { UseSetCollection } from "@store/UseSetCollection.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
@@ -26,6 +27,8 @@ export default function MapShapesLoader({
 
   const loadedShapesRef = useRef(new Set());
   const layersRef = useRef(new Map());
+  const collectionsLoadedRef = useRef(false);
+  const setCollections = UseSetCollection((state) => state.setCollections);
 
   const attachButtonEvents = useCallback(
     (labelElement, shapeData) => {
@@ -46,11 +49,16 @@ export default function MapShapesLoader({
 
   const createLabel = useCallback(
     (shape, item) => {
-      const label = L.marker(shape.getBounds().getCenter(), {
+      const labelPosition =
+        item.type === "polyline"
+          ? shape.getCenter()
+          : shape.getBounds().getCenter();
+
+      const label = L.marker(labelPosition, {
         icon: L.divIcon({
           className: "polygon-label",
           html: `
-            <div class="group flex items-center text-white font-bold px-2 py-1 rounded bg-transparent">
+            <div class="group flex items-center text-white font-bold px-2 py-1 rounded">
                 <span>${shape._text}</span>
                 <button class="edit-btn ml-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
                     Edit
@@ -85,6 +93,33 @@ export default function MapShapesLoader({
       layersRef.current.set(id, { shape, label: newLabel, item });
     });
   }, [map, createLabel]);
+
+  const loadCollections = useCallback(async () => {
+    if (collectionsLoadedRef.current || !token) return;
+
+    try {
+      const res = await fetch(BASE_URL + "/gis/showAll", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) return;
+
+      const result = await res.json();
+
+      if (result.collections_basic) {
+        setCollections(result.collections_basic);
+        collectionsLoadedRef.current = true;
+        // logger.log("✅ Collections loaded:", result.collections_basic);
+      }
+    } catch (err) {
+      logger.error("❌ خطا در بارگذاری collections:", err);
+    }
+  }, [token, setCollections]);
 
   const loadAllShapes = useCallback(async () => {
     try {
@@ -172,9 +207,9 @@ export default function MapShapesLoader({
 
           loadedShapesRef.current.add(item.id);
           layersRef.current.set(item.id, { shape, label, item });
-          logger.log(
-            `✅ شکل جدید اضافه شد: ${item.id} (Feature: ${featureName})`,
-          );
+          // logger.log(
+          //   `✅ شکل جدید اضافه شد: ${item.id} (Feature: ${featureName})`,
+          // );
         });
       });
 
@@ -186,7 +221,7 @@ export default function MapShapesLoader({
             map.removeLayer(layers.label);
             layersRef.current.delete(loadedId);
             loadedShapesRef.current.delete(loadedId);
-            logger.log(`🗑️ شکل حذف شد: ${loadedId}`);
+            // logger.log(`🗑️ شکل حذف شد: ${loadedId}`);
           }
         }
       });
@@ -194,6 +229,10 @@ export default function MapShapesLoader({
       logger.error("❌ خطا در بارگذاری اشکال:", err);
     }
   }, [map, token, createLabel, hiddenCollections]);
+
+  useEffect(() => {
+    loadCollections();
+  }, [loadCollections]);
 
   useEffect(() => {
     loadAllShapes();

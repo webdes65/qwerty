@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-import { Modal, Form, Input, Button, ColorPicker } from "antd";
+import { Modal, Form, Input, Button, ColorPicker, Select } from "antd";
 import Cookies from "universal-cookie";
 import logger from "@utils/logger.js";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+import { UseSetCollection } from "@store/UseSetCollection.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
@@ -19,23 +20,51 @@ const MapDetailModal = ({
   const cookies = new Cookies();
   const token = cookies.get("bms_access_token");
   const [color, setColor] = useState("#ff0000");
+  const [AllCollections, setAllCollections] = useState([]);
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
+  const collections = UseSetCollection((state) => state.collections);
+  const setCollectionId = UseSetCollection((state) => state.setCollectionId);
 
   useEffect(() => {
     if (isOpenModal && initialData) {
+      const formattedCollections =
+        collections?.map((item) => ({
+          label: item.name,
+          value: item.uuid,
+        })) || [];
+
+      setAllCollections(formattedCollections);
+
+      // logger.info("formattedCollections", formattedCollections);
+
       form.setFieldsValue({
-        title: initialData.name || "",
-        description: initialData.description || "",
+        title: initialData.name ?? "",
+        description: initialData.description ?? "",
+        type: initialData.type || "polygon",
+        collections: initialData.collection_id ?? null,
       });
+
       setColor(initialData.properties?.color || initialData.color || "#ff0000");
+
+      if (initialData.collection_id) {
+        setSelectedCollection(initialData.collection_id);
+        setCollectionId(initialData.collection_id);
+      }
     } else if (!isOpenModal) {
       form.resetFields();
       setColor("#ff0000");
+      setAllCollections([]);
+      setSelectedCollection(null);
+      setCollectionId(null);
     }
-  }, [isOpenModal, initialData, form]);
+  }, [isOpenModal, initialData, form, collections, setCollectionId]);
 
   const handleCancel = () => {
     form.resetFields();
     setColor("#ff0000");
+    setSelectedCollection(null);
+    setCollectionId(null);
     setIsOpenModal(false);
   };
 
@@ -45,10 +74,12 @@ const MapDetailModal = ({
     const dataToSubmit = {
       title: values.title,
       description: values.description,
+      type: values.type || "polygon",
       color: hexColor,
+      collection_id: selectedCollection || null,
     };
 
-    logger.log("📤 Data being submitted from modal:", dataToSubmit);
+    // logger.log("📤 Data being submitted from modal:", dataToSubmit);
 
     if (!edit) {
       onSubmit(dataToSubmit);
@@ -74,7 +105,9 @@ const MapDetailModal = ({
           body: JSON.stringify({
             name: values.title,
             description: values.description,
+            type: values.type || "polygon",
             color: hexColor,
+            collection_id: selectedCollection || null,
           }),
         },
       );
@@ -90,6 +123,8 @@ const MapDetailModal = ({
 
       form.resetFields();
       setColor("#ff0000");
+      setSelectedCollection(null);
+      setCollectionId(null);
       setIsOpenModal(false);
 
       triggerMapRefresh();
@@ -122,6 +157,8 @@ const MapDetailModal = ({
 
       form.resetFields();
       setColor("#ff0000");
+      setSelectedCollection(null);
+      setCollectionId(null);
       setIsOpenModal(false);
 
       triggerMapRefresh();
@@ -176,13 +213,34 @@ const MapDetailModal = ({
           />
         </Form.Item>
 
+        <Form.Item
+          label="Collections"
+          name="collections"
+          rules={[{ required: true, message: "Collections is required" }]}
+        >
+          <Select
+            showSearch
+            className="customSelect w-full font-Quicksand"
+            placeholder="Choose Collection"
+            optionFilterProp="label"
+            allowClear
+            options={AllCollections}
+            value={selectedCollection}
+            onChange={(value) => {
+              setSelectedCollection(value);
+              setCollectionId(value);
+              logger.log("کالکشن انتخاب شده:", value);
+            }}
+          />
+        </Form.Item>
+
         <Form.Item label="Color" required>
           <div className="flex items-center gap-3">
             <ColorPicker
               value={color}
               onChange={setColor}
               showText
-              size="large"
+              size="middle"
               presets={[
                 {
                   label: "Suggested colors",
@@ -200,7 +258,7 @@ const MapDetailModal = ({
               ]}
             />
             <div
-              className="w-12 h-12 rounded border-2 border-gray-300"
+              className="w-8 h-8 rounded border-2 border-gray-300"
               style={{
                 backgroundColor:
                   typeof color === "string" ? color : color.toHexString(),
@@ -215,13 +273,13 @@ const MapDetailModal = ({
               Number of points: {initialData?.latlngs?.length}
             </p>
           </div>
-        ) : (
+        ) : initialData?.coordinates ? (
           <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded">
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Number of points: {initialData?.coordinates?.length}
             </p>
           </div>
-        )}
+        ) : null}
 
         <Form.Item className="mb-0 mt-6">
           <div className="flex flex-row-reverse items-center justify-between">
@@ -229,14 +287,14 @@ const MapDetailModal = ({
               <Button
                 className="bg-blue-500 hover:!bg-blue-500 hover:!border-blue-500 hover:!text-white"
                 onClick={handleCancel}
-                size="large"
+                size="middle"
               >
                 Cancel
               </Button>
               <Button
                 type="primary"
                 htmlType="submit"
-                size="large"
+                size="middle"
                 className="bg-green-500 hover:!bg-green-500 hover:!border-green-500 hover:!text-white"
               >
                 {edit ? "Update" : "Send"}
@@ -248,7 +306,7 @@ const MapDetailModal = ({
                 danger
                 icon={<IoTrashOutline size={20} />}
                 onClick={handleDeleteConfirm}
-                size="large"
+                size="middle"
               >
                 Delete
               </Button>
