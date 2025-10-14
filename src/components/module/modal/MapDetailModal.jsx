@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { Modal, Form, Input, Button, ColorPicker, Select } from "antd";
 import Cookies from "universal-cookie";
@@ -24,7 +24,33 @@ const MapDetailModal = ({
   const [selectedCollection, setSelectedCollection] = useState(null);
 
   const collections = UseSetCollection((state) => state.collections);
-  const setCollectionId = UseSetCollection((state) => state.setCollectionId);
+  const setCollection = UseSetCollection((state) => state.setCollection);
+  const collection = UseSetCollection((state) => state.collection);
+
+  const collection_Name = useMemo(() => {
+    if (!collection) {
+      return "";
+    }
+
+    if (collections?.length) {
+      const foundCollection = collections.find(
+        (item) => item.uuid === collection,
+      );
+
+      if (foundCollection) {
+        return foundCollection.name;
+      }
+    }
+
+    return collection;
+  }, [collections, collection]);
+
+  const isNewCollection = useMemo(() => {
+    if (!collection) return false;
+
+    const found = collections?.find((item) => item.uuid === collection);
+    return !found;
+  }, [collections, collection]);
 
   useEffect(() => {
     if (isOpenModal && initialData) {
@@ -49,37 +75,46 @@ const MapDetailModal = ({
 
       if (initialData.collection_id) {
         setSelectedCollection(initialData.collection_id);
-        setCollectionId(initialData.collection_id);
+        setCollection(initialData.collection_id);
       }
     } else if (!isOpenModal) {
       form.resetFields();
       setColor("#ff0000");
       setAllCollections([]);
       setSelectedCollection(null);
-      setCollectionId(null);
+      setCollection(null);
     }
-  }, [isOpenModal, initialData, form, collections, setCollectionId]);
+  }, [isOpenModal, initialData, form, collections, setCollection]);
 
   const handleCancel = () => {
     form.resetFields();
     setColor("#ff0000");
     setSelectedCollection(null);
-    setCollectionId(null);
+    setCollection(null);
     setIsOpenModal(false);
+  };
+
+  const handleCollectionChange = (value) => {
+    setSelectedCollection(value);
+    setCollection(value);
+
+    /*const isUUID = collections?.some((item) => item.uuid === value);
+    logger.log("Collection:", {
+      value,
+      isUUID,
+      type: isUUID ? "Existing (UUID)" : "New (String)",
+    });*/
   };
 
   const handleSubmit = async (values) => {
     const hexColor = typeof color === "string" ? color : color.toHexString();
 
     const dataToSubmit = {
-      title: values.title,
+      name: values.title,
       description: values.description,
       type: values.type || "polygon",
       color: hexColor,
-      collection_id: selectedCollection || null,
     };
-
-    // logger.log("📤 Data being submitted from modal:", dataToSubmit);
 
     if (!edit) {
       onSubmit(dataToSubmit);
@@ -103,11 +138,14 @@ const MapDetailModal = ({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name: values.title,
-            description: values.description,
-            type: values.type || "polygon",
-            color: hexColor,
-            collection_id: selectedCollection || null,
+            data: {
+              name: values.title,
+              description: values.description,
+              type: values.type || "polygon",
+              color: hexColor,
+              collection_id: isNewCollection ? null : collection,
+              collection_name: collection_Name,
+            },
           }),
         },
       );
@@ -124,7 +162,7 @@ const MapDetailModal = ({
       form.resetFields();
       setColor("#ff0000");
       setSelectedCollection(null);
-      setCollectionId(null);
+      setCollection(null);
       setIsOpenModal(false);
 
       triggerMapRefresh();
@@ -158,7 +196,7 @@ const MapDetailModal = ({
       form.resetFields();
       setColor("#ff0000");
       setSelectedCollection(null);
-      setCollectionId(null);
+      setCollection(null);
       setIsOpenModal(false);
 
       triggerMapRefresh();
@@ -214,23 +252,30 @@ const MapDetailModal = ({
         </Form.Item>
 
         <Form.Item
-          label="Collections"
+          label="Collection"
           name="collections"
-          rules={[{ required: true, message: "Collections is required" }]}
+          rules={[{ required: true, message: "Collection is required" }]}
         >
           <Select
+            mode="tags"
+            maxCount={1}
             showSearch
             className="customSelect w-full font-Quicksand"
-            placeholder="Choose Collection"
+            placeholder="Choose existing or type new collection name"
             optionFilterProp="label"
             allowClear
             options={AllCollections}
-            value={selectedCollection}
-            onChange={(value) => {
-              setSelectedCollection(value);
-              setCollectionId(value);
-              logger.log("کالکشن انتخاب شده:", value);
+            value={selectedCollection ? [selectedCollection] : []}
+            onChange={(values) => {
+              const value =
+                values && values.length > 0 ? values[values.length - 1] : null;
+              handleCollectionChange(value);
             }}
+            suffixIcon
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            tokenSeparators={[","]}
           />
         </Form.Item>
 

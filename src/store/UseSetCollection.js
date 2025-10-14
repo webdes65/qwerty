@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export const UseSetCollection = create((set) => ({
   collections: [],
-  collectionId: "",
+  collection: "",
   setCollections: (collections) => set({ collections }),
-  setCollectionId: (collectionId) => set({ collectionId }),
+  setCollection: (collection) => set({ collection }),
 }));

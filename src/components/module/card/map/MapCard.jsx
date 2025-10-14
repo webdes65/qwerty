@@ -213,7 +213,7 @@ export default function MapCard({
           </div>
 
           {!isPanelCollapsed && (
-            <div className="p-3 max-h-48 overflow-auto">
+            <div className="p-3">
               {loading ? (
                 <div className="text-center py-6 text-gray-500 dark:text-gray-400">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400 mx-auto" />
@@ -237,7 +237,7 @@ export default function MapCard({
                   <p className="text-xs">Not found</p>
                 </div>
               ) : (
-                <div className="space-y-1 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+                <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
                   {shapesList.map((shape) => {
                     const isVisible = !hiddenCollections.has(shape.name);
                     return (

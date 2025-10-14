@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import L from "leaflet";
 import Cookies from "universal-cookie";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
@@ -16,26 +16,32 @@ export const useMapDrawHandlers = () => {
   const [modalData, setModalData] = useState(null);
 
   const collections = UseSetCollection((state) => state.collections);
-  const collectionId = UseSetCollection((state) => state.collectionId);
+  const collection = UseSetCollection((state) => state.collection);
 
-  const featureName = useMemo(() => {
-    if (!collections?.length || !collectionId) {
-      // logger.warn("⚠️ collections یا collectionId موجود نیست");
+  const collection_Name = useMemo(() => {
+    if (!collection) {
       return "";
     }
 
-    const foundCollection = collections.find(
-      (item) => item.uuid === collectionId,
-    );
+    if (collections?.length) {
+      const foundCollection = collections.find(
+        (item) => item.uuid === collection,
+      );
 
-    if (!foundCollection) {
-      // logger.warn("⚠️ Collection با این ID پیدا نشد:", collectionId);
-      return "";
+      if (foundCollection) {
+        return foundCollection.name;
+      }
     }
 
-    // logger.info("✅ Collection پیدا شد:", foundCollection.name);
-    return foundCollection.name;
-  }, [collections, collectionId]);
+    return collection;
+  }, [collections, collection]);
+
+  const isNewCollection = useMemo(() => {
+    if (!collection) return false;
+
+    const found = collections?.find((item) => item.uuid === collection);
+    return !found;
+  }, [collections, collection]);
 
   const onCreated = (e) => {
     const layer = e.layer;
@@ -72,8 +78,8 @@ export const useMapDrawHandlers = () => {
       return;
     }
 
-    if (!featureName) {
-      // logger.error("❌ featureName خالی است! لطفاً یک Collection انتخاب کنید");
+    if (!collection_Name) {
+      // logger.error("❌ collection_Name خالی است! لطفاً یک Collection انتخاب کنید");
       return;
     }
 
@@ -92,33 +98,36 @@ export const useMapDrawHandlers = () => {
     const label = L.marker(center, {
       icon: L.divIcon({
         className: "polygon-label",
-        html: `<div style="color:white; font-weight:bold; padding:20px 12px; border-radius:4px; position: absolute">${formData.title}</div>`,
+        html: `<div style="color:white; font-weight:bold; padding:20px 12px; border-radius:4px; position: absolute">${formData.name}</div>`,
       }),
     }).addTo(tempLayer._map);
 
     tempLayer._label = label;
-    tempLayer._text = formData.title;
+    tempLayer._text = formData.name;
     tempLayer._description = formData.description;
     tempLayer.collection_id = formData.collection_id;
     tempLayer._color = color;
 
     tempLayer.addTo(tempLayer._map);
 
-    const dataToSend = {
-      name: formData.title,
-      ProvincName: formData.title,
+    const data = {
+      name: formData.name,
+      ProvincName: formData.name,
       description: formData.description,
-      collection_id: formData.collection_id,
+      collection_id: isNewCollection ? "" : collection,
       color: color,
       coordinates: modalData.coordinates,
       type: modalData.type || "polygon",
       zoom: tempLayer._map.getZoom(),
+      collection_name: collection_Name,
     };
 
-    /*logger.log("📤 ارسال به بکاند:", {
-      feature: featureName,
-      data: dataToSend,
-    });*/
+    logger.log("📤 ارسال به بکاند:", {
+      isNewCollection,
+      collection_id: data.collection_id,
+      collection_name: data.collection_name,
+      fullData: data,
+    });
 
     try {
       const response = await fetch(BASE_URL + "/gis", {
@@ -129,18 +138,17 @@ export const useMapDrawHandlers = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          feature: featureName,
-          data: [dataToSend],
+          data,
         }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
+        // const errorText = await response.text();
         // logger.error("❌ خطا از سرور:", errorText);
         return;
       }
 
-      const result = await response.json();
+      // const result = await response.json();
       // logger.log("✅ پاسخ موفق از سرور:", result);
 
       triggerMapRefresh();
