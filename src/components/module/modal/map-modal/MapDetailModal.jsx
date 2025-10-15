@@ -67,7 +67,7 @@ const MapDetailModal = ({
       form.setFieldsValue({
         title: initialData.name ?? "",
         description: initialData.description ?? "",
-        type: initialData.type || "polygon",
+        type: "polygon",
         collections: initialData.collection_id ?? null,
       });
 
@@ -207,7 +207,7 @@ const MapDetailModal = ({
 
   return (
     <Modal
-      className="font-Quicksand"
+      className="font-Quicksand cursor-default"
       title={title || "shape information"}
       open={isOpenModal}
       onCancel={handleCancel}
