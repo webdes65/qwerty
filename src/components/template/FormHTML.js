@@ -261,7 +261,7 @@ const FormHTML = (container) => {
             if (isPreview) {
               apiUrl = \`${BASE_URL}/forms/default-building\`;
             } else {
-              apiUrl = \`${BASE_URL}/forms/${idForm}\`;
+              apiUrl = \`${BASE_URL}/forms/\${idForm}\`;
             }
         
             fetch(apiUrl, {

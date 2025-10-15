@@ -14,10 +14,11 @@ import Cookies from "universal-cookie";
 import { useMapDrawHandlers } from "@hooks/UseMapDrawHandlers.js";
 import UseMapEvents from "@hooks/UseMapEvents.js";
 import MapToolbar from "@module/card/map/MapToolbar.jsx";
-import MapDetailModal from "@module/modal/MapDetailModal.jsx";
 import MapShapesLoader, {
   triggerMapRefresh,
 } from "@module/card/map/MapShapesLoader.jsx";
+import MapDetailModal from "@module/modal/map-modal/MapDetailModal.jsx";
+import CoordinateEditorModal from "@module/modal/map-modal/CoordinatesEditorModal.jsx";
 import logger from "@utils/logger.js";
 
 L.Icon.Default.mergeOptions({
@@ -45,11 +46,12 @@ export default function MapCard({
   const [currentZoom, setCurrentZoom] = useState(zoom);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editShapeData, setEditShapeData] = useState(null);
-
   const [shapesList, setShapesList] = useState([]);
   const [hiddenCollections, setHiddenCollections] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
+  const [isCordEditModalOpen, setIsCordEditModalOpen] = useState(false);
+  const [cordEditShapeData, setCordEditShapeData] = useState(null);
 
   const {
     onCreated,
@@ -114,6 +116,49 @@ export default function MapCard({
     setIsEditModalOpen(true);
   };
 
+  const handleEditCoordinates = (shapeData) => {
+    // logger.log("Opening coordinate editor for:", shapeData);
+    setCordEditShapeData(shapeData);
+    setIsCordEditModalOpen(true);
+  };
+
+  const handleSaveCoordinates = async (updatedShapeData) => {
+    try {
+      logger.log("Saving coordinates:", updatedShapeData);
+
+      const response = await fetch(
+        `${BASE_URL}/gis/features/${updatedShapeData.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            data: {
+              coordinates: updatedShapeData.coordinates,
+            },
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        /*const errorText = await response.text();
+        logger.error("خطا در آپدیت کوردینیت‌ها:", errorText);*/
+        return;
+      }
+
+      /*const result = await response.json();
+      logger.log('✅ کوردینیت‌ها با موفقیت آپدیت شدند:', result);*/
+
+      // رفرش مپ
+      triggerMapRefresh();
+    } catch (error) {
+      logger.error("❌ خطا در آپدیت کوردینیت‌ها:", error);
+    }
+  };
+
   return (
     <div className="w-full !h-auto bg-white text-dark-100 dark:bg-gray-100 dark:text-white rounded-lg shadow-lg overflow-hidden">
       <MapToolbar
@@ -175,6 +220,7 @@ export default function MapCard({
 
           <MapShapesLoader
             onEditShape={handleEditShape}
+            onEditCoordinates={handleEditCoordinates}
             hiddenCollections={hiddenCollections}
           />
 
@@ -298,6 +344,13 @@ export default function MapCard({
         initialData={editShapeData}
         title="Edit shape information"
         edit={true}
+      />
+
+      <CoordinateEditorModal
+        isOpenModal={isCordEditModalOpen}
+        setIsOpenModal={setIsCordEditModalOpen}
+        shapeData={cordEditShapeData}
+        onSave={handleSaveCoordinates}
       />
     </div>
   );
