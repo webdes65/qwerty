@@ -19,6 +19,7 @@ export const triggerMapRefresh = () => {
 
 export default function MapShapesLoader({
   onEditShape,
+  onEditCoordinates,
   hiddenCollections = new Set(),
 }) {
   const map = useMap();
@@ -34,6 +35,7 @@ export default function MapShapesLoader({
     (labelElement, shapeData) => {
       setTimeout(() => {
         const editBtn = labelElement._icon?.querySelector(".edit-btn");
+        const coordsBtn = labelElement._icon?.querySelector(".coords-btn");
 
         if (editBtn) {
           editBtn.onclick = (e) => {
@@ -42,9 +44,17 @@ export default function MapShapesLoader({
             onEditShape?.(shapeData);
           };
         }
+
+        if (coordsBtn) {
+          coordsBtn.onclick = (e) => {
+            e.stopPropagation();
+            logger.log("Edit coordinates clicked for:", shapeData);
+            onEditCoordinates?.(shapeData);
+          };
+        }
       }, 0);
     },
-    [onEditShape],
+    [onEditShape, onEditCoordinates],
   );
 
   const createLabel = useCallback(
@@ -58,13 +68,18 @@ export default function MapShapesLoader({
         icon: L.divIcon({
           className: "polygon-label",
           html: `
-            <div class="group flex items-center text-white font-bold px-2 py-1 rounded">
-                <span>${shape._text}</span>
-                <button class="edit-btn ml-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
-                    Edit
-                </button>
-            </div>
-        `,
+          <div class="group flex items-center text-white font-bold px-2 py-1 rounded">
+              <span>${shape._text}</span>
+              <div class="ml-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex gap-1">
+                  <button class="edit-btn bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm whitespace-nowrap">
+                      Edit
+                  </button>
+                  <button class="coords-btn bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm whitespace-nowrap">
+                      Coords
+                  </button>
+              </div>
+          </div>
+      `,
         }),
       });
 
