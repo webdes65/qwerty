@@ -40,7 +40,7 @@ const DragDropOption = ({
 
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const [selectedCategorie, setSelectedCategorie] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(0);
   const [optionsCategories, setOptionsCategories] = useState([]);
   const [imgs, setImgs] = useState([]);
 
@@ -84,10 +84,10 @@ const DragDropOption = ({
     data: imgsData,
     isLoading: isLoadingImgs,
     error: imgsError,
-  } = useQuery(["fetchImgsCategory", selectedCategorie], () =>
+  } = useQuery(["fetchImgsCategory", selectedCategory], () =>
     request({
       method: "GET",
-      url: `/api/files?category=${selectedCategorie}`,
+      url: `/api/files?category=${selectedCategory}`,
     }),
   );
 
@@ -210,7 +210,7 @@ const DragDropOption = ({
       postForm.mutate({
         name,
         objects,
-        category: selectedCategorie === 0 ? null : selectedCategorie,
+        category: selectedCategory === 0 ? null : selectedCategory,
       });
     }
   }, [name]);
@@ -283,9 +283,9 @@ const DragDropOption = ({
               ? category === 0
                 ? null
                 : category
-              : selectedCategorie === 0
+              : selectedCategory === 0
                 ? null
-                : selectedCategorie,
+                : selectedCategory,
         });
       } else {
         logger.log("dragdrop-container element not found.");
@@ -762,9 +762,9 @@ const DragDropOption = ({
                   .toLowerCase()
                   .localeCompare((optionB?.label ?? "").toLowerCase())
               }
-              value={selectedCategorie}
+              value={selectedCategory}
               options={optionsCategories}
-              onChange={(value) => setSelectedCategorie(value)}
+              onChange={(value) => setSelectedCategory(value)}
             />
           </div>
 
@@ -888,8 +888,8 @@ const DragDropOption = ({
               }
               optionsCategories={optionsCategories}
               setName={setName}
-              selectedCategory={selectedCategorie}
-              setSelectedCategory={setSelectedCategorie}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               title={"Form"}
             />
           )}
@@ -904,8 +904,8 @@ const DragDropOption = ({
               onConfirm={handleConfirmUpdate}
               handleDownloadHTML={handleDownloadHTML}
               optionsCategories={optionsCategories}
-              selectedCategory={selectedCategorie}
-              setSelectedCategory={setSelectedCategorie}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
             />
           )}
         </>
