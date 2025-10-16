@@ -12,22 +12,26 @@ const ChooseNameModal = ({
   optionsCategories,
   setName,
   title,
-  selectedCategory,
-  setSelectedCategory,
+  selectedCategory: initialCategory,
+  setSelectedCategory = () => {},
 }) => {
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [loadingCreateCategory, setLoadingCreateCategory] = useState(false);
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+
+  // این local state رو اضافه کن
+  const [localSelectedCategory, setLocalSelectedCategory] = useState(
+    initialCategory || null,
+  );
+
   const initialValues = {
     name: "",
   };
 
   const validate = (values) => {
     const errors = {};
-
     if (!values.name) errors.name = "Name is required";
-
     return errors;
   };
 
@@ -42,7 +46,7 @@ const ChooseNameModal = ({
     (data) => request({ method: "POST", url: "/api/categories", data }),
     {
       onSuccess: (data) => {
-        toast.success(data.data.message);
+        toast().success(data.data.message);
         queryClient.invalidateQueries("getCategories");
 
         setCategoryTitle("");
@@ -75,6 +79,8 @@ const ChooseNameModal = ({
   };
 
   const handleCategoryChange = (value) => {
+    console.log("handleCategoryChange - value:", value);
+    setLocalSelectedCategory(value);
     setSelectedCategory(value);
   };
 
@@ -84,12 +90,13 @@ const ChooseNameModal = ({
       return;
     }
 
-    if (!selectedCategory) {
+    if (!localSelectedCategory) {
       toast.error("Category is required");
       return;
     }
 
     setName(values.name);
+    setSelectedCategory(localSelectedCategory);
     resetForm();
     setIsOpenChooseNameModal(false);
   };
@@ -133,7 +140,7 @@ const ChooseNameModal = ({
             <Select
               className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
               options={processedOptions}
-              value={selectedCategory}
+              value={localSelectedCategory}
               onChange={handleCategoryChange}
               placeholder="Categories"
               allowClear
