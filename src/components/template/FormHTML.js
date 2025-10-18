@@ -467,7 +467,7 @@ const FormHTML = (container) => {
                       }
                     );
                     
-                    console.log('response', response);
+                    // console.log('response', response);
                     
                     if (response.ok) {
                       const data = await response.json();
@@ -858,7 +858,7 @@ const FormHTML = (container) => {
                   });
 
                 echo.connector.pusher.connection.bind("connected", function () {
-                  console.log("Echo connected");
+                  // console.log("Echo connected");
                   loadingOverlay.style.display = "none";
                   dropBox.style.display = "flex";
                 });
