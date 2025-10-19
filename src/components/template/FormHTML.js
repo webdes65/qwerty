@@ -241,139 +241,129 @@ const FormHTML = (container) => {
           });
 
           window.initializeFormHandler = async () => {
-          const dropBox = document.getElementById("dropBox");
-          const loadingOverlay = document.getElementById("loadingOverlay");
+            const dropBox = document.getElementById("dropBox");
+            const loadingOverlay = document.getElementById("loadingOverlay");
 
-          dropBox.style.display = 'none';
+            dropBox.style.display = 'none';
 
-          if (dropBox) {
-            const token = dropBox.getAttribute("data-token");
-            const idForm = dropBox.getAttribute("data-idform");
-            const typeservice = dropBox.getAttribute("data-typeservice");
+            if (dropBox) {
+              const token = dropBox.getAttribute("data-token");
+              const idForm = dropBox.getAttribute("data-idform");
+              const typeservice = dropBox.getAttribute("data-typeservice");
 
-            window.registersData = null;
-            const cypherKey = await getToken();
+              window.registersData = null;
+              const cypherKey = await getToken();
 
-            const currentPath = window.location.pathname;
-            const isPreview = currentPath.includes('/preview') || !idForm;
-            
-            let apiUrl;
-            if (isPreview) {
-              apiUrl = \`${BASE_URL}/forms/default-building\`;
-            } else {
-              apiUrl = \`${BASE_URL}/forms/\${idForm}\`;
-            }
-        
-            fetch(apiUrl, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: \`Bearer \${token}\`,
-                cypherKey: cypherKey,
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                const parsedData = JSON.parse(data.data.objects);
-                window.registersData = Array.isArray(parsedData.registers)
-                  ? parsedData.registers
-                  : [];
+              const currentPath = window.location.pathname;
+              const isPreview = currentPath.includes('/preview') || !idForm;
+              
+              let apiUrl;
+              if (!idForm || idForm === 'default' || idForm === '') {
+                  apiUrl = \`${BASE_URL}/forms/default -building\`;
+                  // console.log('📍 Loading DEFAULT form');
+                } else {
+                  apiUrl = \`${BASE_URL}/forms/\${idForm}\`;
+                  // console.log('📍 Loading SPECIFIC form:', idForm);
+                }
+              fetch(apiUrl, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: \`Bearer \${token}\`,
+                  cypherKey: cypherKey,
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  const parsedData = JSON.parse(data.data.objects);
+                  window.registersData = Array.isArray(parsedData.registers)
+                    ? parsedData.registers
+                    : [];
+                    
+                    /*console.log('window.registersData', window.registersData)
+                    console.log('parsedData', parsedData)*/
 
-                // console.log(window.registersData)
+                  const buttonRegisters = window.registersData.filter(
+                    (item) => item.type === "button"
+                  );
 
-              const buttonRegisters = window.registersData.filter(
-              (item) => item.type === "button"
-              );
+                  buttonRegisters.forEach((item) => {
+                    const element = document.getElementById(item.id);
 
-              buttonRegisters.forEach((item) => {
-                const element = document.getElementById(item.id);
+                    if (element) {
+                      element.onclick = async () => {
+                        const buttonData = buttonRegisters.find(
+                          (btn) => btn.id === item.id
+                        );
+                        
+                        // console.log("buttonData", buttonData);
 
-                if (element) {
-                  element.onclick = async () => {
-                    const buttonData = buttonRegisters.find(
-                      (btn) => btn.id === item.id
-                    );
-
-                    if (buttonData) {
-                      if (buttonData.path) {
-                        window.open(buttonData.path, "_blank");
-                        return;
-                      }
-
-                      if (buttonData.idForm) {
-                      const cypherKey = await getToken();
-                      fetch("${BASE_URL}/forms", {
-                        method: "GET",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: \`Bearer \${token}\`,
-                          cypherKey: cypherKey,
-                        },
-                      })
-                        .then((response) => {
-                          if (!response.ok) {
-                            throw new Error("Error receiving information");
+                        if (buttonData) {
+                          if (buttonData.path) {
+                            window.open(buttonData.path, "_blank");
+                            return;
                           }
-                          return response.json();
-                        })
-                        .then((data) => {
-                          if (data && data.data.length > 0) {
-                            const foundItem = data.data.find(
-                              (item) => item.uuid === buttonData.idForm
-                            );
-                            if (foundItem) {
-                              const parser = new DOMParser();
-                              const doc = parser.parseFromString(
-                                foundItem.content,
-                                "text/html"
-                              );
-                              const dragDropDiv = doc.querySelector(
-                                ".dragdrop-container"
-                              );
-                              
-                              if (dragDropDiv) {
-                                  dragDropDiv.setAttribute('data-token', token);
-                                  dragDropDiv.setAttribute('data-idform', foundItem.uuid);
-                                  dragDropDiv.setAttribute('data-typeservice', typeservice || 'echo');
-                                  dragDropDiv.id = 'dropBox';
-                              }
-                              
-                              const formContainer =
-                                document.querySelector("#form-container");
 
-                              if (buttonData.typeDisplay === "form") {
-                                if (dragDropDiv && formContainer) {
-                                  formContainer.innerHTML = "";
-                                  formContainer.appendChild(
-                                    dragDropDiv.cloneNode(true)
+                          if (buttonData.idForm) {
+                            const cypherKey = await getToken();
+                            
+                            fetch(\`\${BASE_URL}/forms/\${buttonData.idForm}\`, {
+                              method: "GET",
+                              headers: {
+                                "Content-Type": "application/json",
+                                Authorization: \`Bearer \${token}\`,
+                                cypherKey: cypherKey,
+                              },
+                            })
+                              .then((response) => {
+                                if (!response.ok) {
+                                  throw new Error("Error receiving information");
+                                }
+                                return response.json();
+                              })
+                              .then((formData) => {
+                                if (formData && formData.data && formData.data.content) {
+                                  const parser = new DOMParser();
+                                  const doc = parser.parseFromString(
+                                    formData.data.content,
+                                    "text/html"
                                   );
+                                  const dragDropDiv = doc.querySelector(".dragdrop-container");
                                   
-                                  setTimeout(() => {
-                                    initializeFormHandler();
-                                  }, 5);
+                                  if (dragDropDiv) {
+                                    dragDropDiv.setAttribute('data-token', token);
+                                    dragDropDiv.setAttribute('data-idform', buttonData.idForm);
+                                    dragDropDiv.setAttribute('data-typeservice', typeservice || 'echo');
+                                    dragDropDiv.id = 'dropBox';
+                                  }
                                   
-                                  /*console.log('dragDropDiv', dragDropDiv)
-                                  console.log('buttonData', buttonData)*/
-                                  
+                                  const formContainer = document.querySelector("#form-container");
+
+                                  if (buttonData.typeDisplay === "form") {
+                                    if (dragDropDiv && formContainer) {
+                                      formContainer.innerHTML = "";
+                                      formContainer.appendChild(dragDropDiv.cloneNode(true));
+                                      
+                                      setTimeout(() => {
+                                        initializeFormHandler();
+                                      }, 150);
+                                    }
+                                  } else if (buttonData.typeDisplay === "modal") {
+                                    if (dragDropDiv) {
+                                      openModal(dragDropDiv);
+                                      
+                                      setTimeout(() => {
+                                        initializeFormHandler();
+                                      }, 150);
+                                    }
+                                  }
                                 }
-                              } else if (buttonData.typeDisplay === "modal") {
-                                if (dragDropDiv) {
-                                  openModal(dragDropDiv);
-                                  
-                                  setTimeout(() => {
-                                    initializeFormHandler();
-                                  }, 5);
-                                  
-                                }
-                              }
-                            }
+                              })
+                              .catch((error) => {
+                                console.error(error);
+                              });
+                            return;
                           }
-                        })
-                        .catch((error) => {
-                          console.error(error);
-                        });
-                      return;
-                    }
 
                       let currentValue = 0;
                         const registerData = window.updatedRegistersData.find(
