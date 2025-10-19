@@ -61,6 +61,15 @@ const FormDetail = () => {
       iframeDocument.write(form.content);
       iframeDocument.close();
 
+      const width =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+      const height =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight;
+
       const shouldAddOverflow =
         containerDimensions.width > 550 || containerDimensions.height > 550;
 
@@ -85,9 +94,8 @@ const FormDetail = () => {
         }
         
         #form-container > div > div > div {
-          overflow: ${
-            shouldAddOverflow ? "auto !important" : "hidden !important"
-          }
+          overflow: ${shouldAddOverflow && width <= 1100 && height <= 900 ? "auto !important" : "hidden !important"}
+        }
         
         #dropBox {
           position: absolute !important;
