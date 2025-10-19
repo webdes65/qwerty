@@ -107,6 +107,15 @@ const FormPreview = () => {
     iframeDocument.write(form?.content);
     iframeDocument.close();
 
+    const width =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
+    const height =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+
     const shouldAddOverflow =
       containerDimensions.width > 550 || containerDimensions.height > 550;
 
@@ -131,7 +140,7 @@ const FormPreview = () => {
       }
       
       #form-container > div > div > div {
-        overflow: ${shouldAddOverflow ? "auto !important" : "hidden !important"}
+        overflow: ${shouldAddOverflow && width <= 1100 && height <= 900 ? "auto !important" : "hidden !important"}
       }
       
       #dropBox {
@@ -254,7 +263,7 @@ const FormPreview = () => {
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
-        <div className="spinner border-6 h-12 w-12 animate-spin rounded-full border-gray-300 border-t-blue-500"></div>
+        <div className="spinner border-6 h-12 w-12 animate-spin rounded-full border-gray-300 border-t-blue-500" />
       </div>
     );
   }
@@ -264,7 +273,7 @@ const FormPreview = () => {
       <div className="flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
         <div className="text-center">
           <p className="text-xl font-bold text-red-500">Error Loading Form</p>
-          <p className="mt-2 text-gray-600">{error}</p>
+          <p className="mt-2 text-dark-100 dark:text-white">{error}</p>
         </div>
       </div>
     );
