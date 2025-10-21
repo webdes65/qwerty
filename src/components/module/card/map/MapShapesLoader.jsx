@@ -165,7 +165,7 @@ export default function MapShapesLoader({
       const currentServerIds = new Set();
 
       result.data.forEach((featureGroup) => {
-        const featureName = featureGroup.feature;
+        const featureName = featureGroup.collection_name;
 
         const isHidden = hiddenCollections.has(featureName);
 
