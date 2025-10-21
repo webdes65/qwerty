@@ -346,7 +346,7 @@ const FormHTML = (container) => {
                                       
                                       setTimeout(() => {
                                         initializeFormHandler();
-                                      }, 150);
+                                      }, 1);
                                     }
                                   } else if (buttonData.typeDisplay === "modal") {
                                     if (dragDropDiv) {
@@ -354,7 +354,7 @@ const FormHTML = (container) => {
                                       
                                       setTimeout(() => {
                                         initializeFormHandler();
-                                      }, 150);
+                                      }, 1);
                                     }
                                   }
                                 }
@@ -875,7 +875,7 @@ const FormHTML = (container) => {
                 
                  if (idForm) {
                   client.publish('forms/watchers', idForm);
-                  // console.log("Published formId to forms/request:", idForm);
+                  console.log("Published formId to forms/watchers:", idForm);
                  }
 
                 client.on("connect", () => {

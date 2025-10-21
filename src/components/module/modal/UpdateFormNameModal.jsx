@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { Modal, Form, Button, Select } from "antd";
+import { Modal, Form, Button, Select, Checkbox } from "antd";
 import { Formik, Field, ErrorMessage } from "formik";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
@@ -22,6 +23,10 @@ export default function UpdateFormNameModal({
   const [categoryDescription, setCategoryDescription] = useState("");
   const [loadingCreateCategory, setLoadingCreateCategory] = useState(false);
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+  const [isDefaultForm, setIsDefaultForm] = useState(false);
+
+  const location = useLocation();
+  const formId = location.state.id;
 
   const processedOptions = (optionsCategories ?? []).map((option) => ({
     ...option,
@@ -46,6 +51,25 @@ export default function UpdateFormNameModal({
       },
       onSettled: () => {
         setLoadingCreateCategory(false);
+      },
+    },
+  );
+
+  const setDefaultMutation = useMutation(
+    (data) =>
+      request({
+        method: "POST",
+        url: `api/forms/default-building/${formId}`,
+        data,
+      }),
+    {
+      onSuccess: (data) => {
+        toast.success(data.data.message);
+        queryClient.invalidateQueries("setDefaultForm");
+      },
+      onError: (error) => {
+        logger.error(error);
+        toast.error("Failed to set default form");
       },
     },
   );
@@ -110,9 +134,17 @@ export default function UpdateFormNameModal({
       return;
     }
 
+    if (isDefaultForm) {
+      const setDefaultData = {
+        hide: 1,
+      };
+      setDefaultMutation.mutate(setDefaultData);
+    }
+
     if (onConfirm) onConfirm(values.updatedName, selectedCategory);
     setUpdatedName(values.updatedName);
     resetForm();
+    setIsDefaultForm(false);
     setOpenUpdateModal(false);
   };
 
@@ -205,6 +237,13 @@ export default function UpdateFormNameModal({
                 </div>
               </div>
             )}
+
+            <Checkbox
+              checked={isDefaultForm}
+              onChange={(e) => setIsDefaultForm(e.target.checked)}
+            >
+              Set default
+            </Checkbox>
 
             <div className="flex flex-row justify-end items-center gap-2 mt-2">
               <Button

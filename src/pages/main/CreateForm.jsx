@@ -85,19 +85,21 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="h-[110vh] w-full flex flex-row gap-3 justify-center items-center xl:items-start overflow-auto max-xl:flex-col max-xl:justify-start bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
-      {isLoading && <Spinner />}
-      {error && <p className="text-red-500">{error.message}</p>}
-      {!isLoading && !error && (
-        <>
-          <div className="w-full md:w-9/12 xl:w-7/12 2xl:w-8/12 h-full">
-            <DragDrop {...dragDropProps} />
-          </div>
-          <div className="w-full md:w-9/12 xl:w-5/12 2xl:w-4/12 h-full 2xl:mr-2">
-            <DragDropOption {...dragDropOptionProps} />
-          </div>
-        </>
-      )}
+    <div className="h-[100vh]">
+      <div className="w-full min-h-full flex flex-row gap-3 justify-center items-center xl:items-start overflow-auto max-xl:flex-col max-xl:justify-start bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+        {isLoading && <Spinner />}
+        {error && <p className="text-red-500">{error.message}</p>}
+        {!isLoading && !error && (
+          <>
+            <div className="w-full md:w-9/12 xl:w-7/12 2xl:w-8/12 h-full">
+              <DragDrop {...dragDropProps} />
+            </div>
+            <div className="w-full md:w-9/12 xl:w-5/12 2xl:w-4/12 h-full 2xl:mr-2">
+              <DragDropOption {...dragDropOptionProps} />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
