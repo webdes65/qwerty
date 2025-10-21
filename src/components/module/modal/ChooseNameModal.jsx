@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Modal, Form, Button, Select } from "antd";
-import { Formik, Field, ErrorMessage } from "formik";
-import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
+import { Modal, Form, Button, Select, Checkbox } from "antd";
+import { Formik, Field, ErrorMessage } from "formik";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
 
@@ -19,8 +20,11 @@ const ChooseNameModal = ({
   const [categoryDescription, setCategoryDescription] = useState("");
   const [loadingCreateCategory, setLoadingCreateCategory] = useState(false);
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+  const [isDefaultForm, setIsDefaultForm] = useState(false);
 
-  // این local state رو اضافه کن
+  const location = useLocation();
+  const formId = location.hostname;
+
   const [localSelectedCategory, setLocalSelectedCategory] = useState(
     initialCategory || null,
   );
@@ -62,6 +66,25 @@ const ChooseNameModal = ({
     },
   );
 
+  const setDefaultMutation = useMutation(
+    (data) =>
+      request({
+        method: "POST",
+        url: `api/forms/default-building/${formId}`,
+        data,
+      }),
+    {
+      onSuccess: (data) => {
+        toast.success(data.data.message);
+        queryClient.invalidateQueries("setDefaultForm");
+      },
+      onError: (error) => {
+        logger.error(error);
+        toast.error("Failed to set default form");
+      },
+    },
+  );
+
   const handleCreateCategory = () => {
     if (!categoryTitle) {
       toast.error("Title is required!");
@@ -79,7 +102,6 @@ const ChooseNameModal = ({
   };
 
   const handleCategoryChange = (value) => {
-    console.log("handleCategoryChange - value:", value);
     setLocalSelectedCategory(value);
     setSelectedCategory(value);
   };
@@ -95,9 +117,17 @@ const ChooseNameModal = ({
       return;
     }
 
+    if (isDefaultForm) {
+      const setDefaultData = {
+        hide: 1,
+      };
+      setDefaultMutation.mutate(setDefaultData);
+    }
+
     setName(values.name);
     setSelectedCategory(localSelectedCategory);
     resetForm();
+    setIsDefaultForm(false);
     setIsOpenChooseNameModal(false);
   };
 
@@ -194,6 +224,13 @@ const ChooseNameModal = ({
                 </div>
               </div>
             )}
+
+            <Checkbox
+              checked={isDefaultForm}
+              onChange={(e) => setIsDefaultForm(e.target.checked)}
+            >
+              Set default
+            </Checkbox>
 
             <Button
               htmlType="submit"
