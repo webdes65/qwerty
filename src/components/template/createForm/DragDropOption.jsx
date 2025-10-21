@@ -341,7 +341,7 @@ const DragDropOption = ({
   ];
 
   return (
-    <div className="w-full h-[100vh] flex flex-col items-start justify-start gap-4 font-Quicksand p-5 border-2 border-gray-200 dark:border-gray-100 bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-lg text-[0.90rem] overflow-auto">
+    <div className="w-full min-h-[100vh] flex flex-col items-start justify-start gap-4 font-Quicksand p-5 border-2 border-gray-200 dark:border-gray-100 bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-lg text-[0.90rem] overflow-auto">
       {isLoadingCategories ? (
         <div className="w-full h-full flex flex-row justify-center items-center">
           <Spin size="large" />
@@ -478,78 +478,82 @@ const DragDropOption = ({
             </div>
           </div>
 
-          <div className="w-full h-auto">
-            <label className="text-sm font-bold">
-              Border radius
-              <Slider
-                min={0}
-                max={50}
-                step={1}
-                value={boxInfo.borderRadius}
-                onChange={(value) =>
+          <div className="w-full flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
+            <div className="w-full h-auto">
+              <label className="text-sm font-bold">
+                Border radius
+                <Slider
+                  min={0}
+                  max={50}
+                  step={1}
+                  value={boxInfo.borderRadius}
+                  onChange={(value) =>
+                    setBoxInfo((prev) => ({
+                      ...prev,
+                      borderRadius: value,
+                    }))
+                  }
+                />
+              </label>
+            </div>
+
+            <div className="w-full h-auto">
+              <label className="text-sm font-bold">
+                Opacity
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  value={boxInfo.opacity}
+                  onChange={(value) =>
+                    setBoxInfo((prev) => ({
+                      ...prev,
+                      opacity: value,
+                    }))
+                  }
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2">
+            <div className="w-full flex flex-row justify-start items-center gap-1">
+              <label className="text-black dark:text-white font-bold">
+                Border color
+              </label>
+              <input
+                type="color"
+                value={boxInfo.borderColor}
+                onChange={(e) => {
+                  const hex = e.target.value;
                   setBoxInfo((prev) => ({
                     ...prev,
-                    borderRadius: value,
-                  }))
-                }
+                    borderColor: hex,
+                  }));
+                }}
               />
-            </label>
-          </div>
+            </div>
 
-          <div className="w-full h-auto">
-            <label className="text-sm font-bold">
-              Opacity
-              <Slider
-                min={0}
-                max={1}
-                step={0.1}
-                value={boxInfo.opacity}
-                onChange={(value) =>
+            <div className="w-full flex flex-row justify-start items-center gap-1">
+              <label className="text-black dark:text-white font-bold">
+                Background color
+              </label>
+              <input
+                type="color"
+                value={rgbaToHex(boxInfo.bgColor)}
+                onChange={(e) => {
+                  const hex = e.target.value;
+                  const rgba = hexToRgba(hex, 1);
                   setBoxInfo((prev) => ({
                     ...prev,
-                    opacity: value,
-                  }))
-                }
+                    bgColor: rgba,
+                  }));
+                }}
               />
-            </label>
+            </div>
           </div>
 
-          <div className="w-full flex flex-row justify-start items-center gap-2">
-            <label className="text-black dark:text-white font-bold">
-              Border color
-            </label>
-            <input
-              type="color"
-              value={boxInfo.borderColor}
-              onChange={(e) => {
-                const hex = e.target.value;
-                setBoxInfo((prev) => ({
-                  ...prev,
-                  borderColor: hex,
-                }));
-              }}
-            />
-          </div>
-
-          <div className="w-full flex flex-row justify-start items-center gap-2">
-            <label className="text-black dark:text-white font-bold">
-              Background color
-            </label>
-            <input
-              type="color"
-              value={rgbaToHex(boxInfo.bgColor)}
-              onChange={(e) => {
-                const hex = e.target.value;
-                const rgba = hexToRgba(hex, 1);
-                setBoxInfo((prev) => ({
-                  ...prev,
-                  bgColor: rgba,
-                }));
-              }}
-            />
-          </div>
-
-          <div className="w-full flex flex-row justify-start items-center">
+          <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2">
             <Button
               type="primary"
               onClick={() => {
@@ -562,27 +566,27 @@ const DragDropOption = ({
             >
               Create Item
             </Button>
+
+            <Button
+              type="primary"
+              onClick={() =>
+                setModals((prevState) => ({
+                  ...prevState,
+                  createPointModal: true,
+                }))
+              }
+              className="create-point w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+            >
+              Create Point
+            </Button>
           </div>
 
-          <Button
-            type="primary"
-            onClick={() =>
-              setModals((prevState) => ({
-                ...prevState,
-                createPointModal: true,
-              }))
-            }
-            className="create-point w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
-          >
-            Create Point
-          </Button>
-
           {items.length > 0 && (
-            <>
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
               <div className="w-full flex flex-row justify-start items-center gap-2">
                 <p className="font-bold">Show edit button</p>
                 <Switch
-                  size="large"
+                  size="small"
                   checked={itemAbility.edit}
                   onChange={(checked) =>
                     setItemAbility((prev) => ({ ...prev, edit: checked }))
@@ -602,7 +606,7 @@ const DragDropOption = ({
               <div className="w-full flex flex-row justify-start items-center gap-2">
                 <p className="font-bold">Controller</p>
                 <Switch
-                  size="large"
+                  size="small"
                   checked={itemAbility.controller}
                   onChange={(checked) =>
                     setItemAbility((prev) => ({ ...prev, controller: checked }))
@@ -626,7 +630,7 @@ const DragDropOption = ({
               <div className="w-full flex flex-row justify-start items-center gap-2">
                 <p className="font-bold">Show delete button</p>
                 <Switch
-                  size="large"
+                  size="small"
                   checked={itemAbility.remove}
                   onChange={(checked) =>
                     setItemAbility((prev) => ({ ...prev, remove: checked }))
@@ -648,9 +652,9 @@ const DragDropOption = ({
               </div>
 
               <div className="w-full flex flex-row justify-start items-center gap-2">
-                <p className="font-bold">Enable/Disable move</p>
+                <p className="font-bold">Enable/Disable</p>
                 <Switch
-                  size="large"
+                  size="small"
                   checked={itemAbility.moveTo}
                   onChange={(checked) =>
                     setItemAbility((prev) => ({ ...prev, moveTo: checked }))
@@ -670,13 +674,14 @@ const DragDropOption = ({
                   {itemAbility.moveTo ? "Active" : "Inactive"}
                 </span>
               </div>
-            </>
+            </div>
           )}
           {items.length > 0 && (
-            <div className="w-full h-auto flex flex-col justify-center items-center gap-3">
+            <div className="w-full h-auto flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-2">
               <Button
                 color="danger"
                 variant="solid"
+                size="middle"
                 onClick={() => {
                   dispatch(setItems([]));
                   setBtnDisplayStatus(true);
@@ -704,6 +709,7 @@ const DragDropOption = ({
 
               <Button
                 type="primary"
+                size="middle"
                 onClick={() =>
                   setItemAbility((prev) => ({
                     ...prev,
@@ -728,27 +734,33 @@ const DragDropOption = ({
             </Button>
           )}
 
-          {items.length > 0 && (
-            <Button
-              onClick={btnDisplayStatus ? handleSendHTML : openModalUpdateName}
-              loading={submitLoading}
-              className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
-            >
-              {btnDisplayStatus ? "Send Form" : "Update"}
-            </Button>
-          )}
+          <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2">
+            {items.length > 0 && (
+              <Button
+                size="middle"
+                onClick={
+                  btnDisplayStatus ? handleSendHTML : openModalUpdateName
+                }
+                loading={submitLoading}
+                className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+              >
+                {btnDisplayStatus ? "Send Form" : "Update"}
+              </Button>
+            )}
 
-          <Button
-            onClick={() =>
-              setModals((prevState) => ({
-                ...prevState,
-                uploadImgsModal: true,
-              }))
-            }
-            className="upload-imgs w-full h-auto font-Quicksand font-bold !bg-blue-200 !p-2 !shadow text-blue-500 !rounded-md !text-[0.90rem] !border-[2.5px] !border-blue-500"
-          >
-            Upload imgs
-          </Button>
+            <Button
+              size="middle"
+              onClick={() =>
+                setModals((prevState) => ({
+                  ...prevState,
+                  uploadImgsModal: true,
+                }))
+              }
+              className="upload-imgs w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+            >
+              Upload image
+            </Button>
+          </div>
 
           <div className="w-full flex flex-col justify-center items-start gap-1">
             <label className="font-bold">Choose a photo category</label>
@@ -768,7 +780,9 @@ const DragDropOption = ({
             />
           </div>
 
-          <div className="w-full min-h-[12rem] overflow-auto flex flex-row justify-center items-start bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
+          <div
+            className={`w-full ${items.length > 0 ? "max-h-[13rem]" : "max-h-[22rem]"} overflow-auto flex flex-row justify-center items-start bg-blue-50 dark:bg-gray-100 p-3 rounded-lg`}
+          >
             {isLoadingImgs ? (
               <Spin />
             ) : imgsError ? (
