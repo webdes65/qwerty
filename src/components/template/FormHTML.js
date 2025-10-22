@@ -146,6 +146,100 @@ const FormHTML = (container) => {
         const _0x1e35b2=_0x45ce;(function(_0x17215c,_0x5970e7){const _0x2d325c=_0x45ce,_0xf09167=_0x17215c();while(!![]){try{const _0x144b06=parseInt(_0x2d325c(0xb2))/0x1+-parseInt(_0x2d325c(0xb3))/0x2*(parseInt(_0x2d325c(0xaf))/0x3)+parseInt(_0x2d325c(0xad))/0x4*(-parseInt(_0x2d325c(0xac))/0x5)+-parseInt(_0x2d325c(0xb0))/0x6*(-parseInt(_0x2d325c(0xb5))/0x7)+parseInt(_0x2d325c(0xab))/0x8+-parseInt(_0x2d325c(0xaa))/0x9*(-parseInt(_0x2d325c(0xb1))/0xa)+-parseInt(_0x2d325c(0xb4))/0xb;if(_0x144b06===_0x5970e7)break;else _0xf09167['push'](_0xf09167['shift']());}catch(_0x28cb56){_0xf09167['push'](_0xf09167['shift']());}}}(_0x4be5,0xd9898));function _0x4be5(){const _0x38ad76=['140228NAyBaS','22997480fSnqoi','217TdLlCi','52110gjaldF','6947480XhEpVN','5VloCoj','1922456GZccsG','hin!!rt','18YkrEFr','108564FgrFJr','1810koreyU','1405671UoEATC'];_0x4be5=function(){return _0x38ad76;};return _0x4be5();}function _0x45ce(_0x208796,_0x17ddba){const _0x4be5d9=_0x4be5();return _0x45ce=function(_0x45ceed,_0x4a3ba6){_0x45ceed=_0x45ceed-0xaa;let _0x29ff1a=_0x4be5d9[_0x45ceed];return _0x29ff1a;},_0x45ce(_0x208796,_0x17ddba);}const REACT_APP_SUFFIX=_0x1e35b2(0xae);
 
         const REACT_APP_ALLOWED_CHARS ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        
+      class TopLoadingBar {
+        constructor(options = {}) {
+          this.color = options.color || '#3b82f6';
+          this.height = options.height || '3px';
+          this.progress = 0;
+          this.isVisible = false;
+          this.timers = [];
+          this.container = null;
+          this.bar = null;
+          
+          this.init();
+        }
+
+        init() {
+          this.container = document.createElement('div');
+          this.container.style.cssText = \`
+              position: fixed !important;
+              top: 0 !important;
+              left: 0 !important;
+              right: 0 !important;
+              width: 100% !important;
+              height: 3px !important;
+              z-index: 1000 !important;
+              background-color: #b2b2b2;
+              pointer-events: none;
+              display: inline-block;
+              margin: 0;
+              padding: 0;
+            \`;
+
+          this.bar = document.createElement('div');
+         this.bar.style.cssText = \`
+          height: 100%;
+          width: 0%;
+          background-color: #3b82f6;
+          box-shadow: 0 0 10px #3b82f6, 0 0 5px #3b82f6;
+          transition: width 0.3s ease-out;
+        \`;
+
+          this.container.appendChild(this.bar);
+          document.body.appendChild(this.container);
+        }
+
+        start() {
+          this.isVisible = true;
+          this.progress = 0;
+          this.container.style.display = 'inline-block';
+          this.updateProgress(0);
+
+          this.timers.push(setTimeout(() => this.updateProgress(30), 100));
+          this.timers.push(setTimeout(() => this.updateProgress(60), 300));
+          this.timers.push(setTimeout(() => this.updateProgress(80), 600));
+        }
+
+        complete() {
+          this.clearTimers();
+          
+          this.timers.push(setTimeout(() => {
+            this.bar.style.transition = 'width 0.3s ease-out, opacity 0.4s ease-out';
+            this.bar.style.opacity = '0';
+            
+            this.timers.push(setTimeout(() => {
+              this.container.style.display = 'none';
+              this.bar.style.opacity = '1';
+              this.bar.style.transition = 'width 0.3s ease-out';
+              this.isVisible = false;
+              this.progress = 0;
+            }, 400));
+          }, 100));
+        }
+
+        updateProgress(percent) {
+          this.progress = percent;
+          this.bar.style.width = \`\${percent}%\`;
+        }
+
+        clearTimers() {
+          this.timers.forEach(timer => clearTimeout(timer));
+          this.timers = [];
+        }
+
+        destroy() {
+          this.clearTimers();
+          if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
+          }
+        }
+      }
+
+      const loadingBar = new TopLoadingBar({
+        color: '#3b82f6',
+        height: '3px'
+      });
 
       async function getToken() {
         function generateTimestamp() {
@@ -265,6 +359,8 @@ const FormHTML = (container) => {
                   apiUrl = \`${BASE_URL}/forms/\${idForm}\`;
                   // console.log('📍 Loading SPECIFIC form:', idForm);
                 }
+                
+              loadingBar.start();
               fetch(apiUrl, {
                 method: "GET",
                 headers: {
@@ -305,6 +401,7 @@ const FormHTML = (container) => {
                           }
 
                           if (buttonData.idForm) {
+                            loadingBar.start();
                             const cypherKey = await getToken();
                             
                             fetch(\`\${BASE_URL}/forms/\${buttonData.idForm}\`, {
@@ -358,12 +455,16 @@ const FormHTML = (container) => {
                                     }
                                   }
                                 }
+                                loadingBar.complete();
                               })
                               .catch((error) => {
+                                loadingBar.complete();
                                 console.error(error);
                               });
                             return;
                           }
+                          
+                          loadingBar.start();
 
                       let currentValue = 0;
                         const registerData = window.updatedRegistersData.find(
@@ -418,9 +519,12 @@ const FormHTML = (container) => {
                             background: "#3b82f6",
                             },
                           }).showToast();
+                          
+                          loadingBar.complete();
 
                         })
                         .catch((error) => {
+                          loadingBar.complete();
                           console.error(error);
                         });
                     }
@@ -540,6 +644,8 @@ const FormHTML = (container) => {
                             }).showToast();
                             return;
                           }
+                          
+                          loadingBar.start();
             
                           const data = {
                             device_id: textInputData.infoReqBtn.device_uuid,
@@ -576,7 +682,9 @@ const FormHTML = (container) => {
                                 background: "#3b82f6",
                               },
                             }).showToast();
+                            loadingBar.complete();
                           } catch (error) {
+                            loadingBar.complete();
                             console.error(error);
                           }
                         };
@@ -913,8 +1021,10 @@ const FormHTML = (container) => {
                   loadingOverlay.style.display = "none";
                   dropBox.style.display = "flex";
                 }
+                loadingBar.complete();
               })
               .catch((error) => {
+                loadingBar.complete();
                 console.error(error);
               });
           }
