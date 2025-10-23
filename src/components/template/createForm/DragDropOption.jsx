@@ -38,18 +38,12 @@ const DragDropOption = ({
   const items = useSelector((state) => state.items);
   const { darkMode } = UseDarkModeStore();
 
-  const [submitLoading, setSubmitLoading] = useState(false);
-
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [optionsCategories, setOptionsCategories] = useState([]);
   const [imgs, setImgs] = useState([]);
-
-  // Form Name
   const [name, setName] = useState("");
-
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [updatedName, setUpdatedName] = useState(formName);
-
   const [modals, setModals] = useState({
     createItemModal: false,
     createPointModal: false,
@@ -57,6 +51,7 @@ const DragDropOption = ({
     chooseNameModal: false,
     copyModal: false,
   });
+  const [isDefault, setIsDefault] = useState(0);
 
   const {
     data: categoriesData,
@@ -168,10 +163,7 @@ const DragDropOption = ({
         setName("");
       },
       onError: (error) => {
-        toast.error(error.response.data.message);
-      },
-      onSettled: () => {
-        setSubmitLoading(false);
+        toast.error(error.data.message);
       },
     },
   );
@@ -205,12 +197,11 @@ const DragDropOption = ({
         registers,
       });
 
-      setSubmitLoading(true);
-
       postForm.mutate({
         name,
         objects,
         category: selectedCategory === 0 ? null : selectedCategory,
+        default_building: isDefault,
       });
     }
   }, [name]);
@@ -244,10 +235,7 @@ const DragDropOption = ({
         setName("");
       },
       onError: (error) => {
-        toast.error(error.response.data.message);
-      },
-      onSettled: () => {
-        setSubmitLoading(false);
+        toast.error(error.data.message);
       },
     },
   );
@@ -273,7 +261,6 @@ const DragDropOption = ({
           registers,
         });
 
-        setSubmitLoading(true);
         updateForm.mutate({
           name: formName || updatedName,
           content,
@@ -289,6 +276,7 @@ const DragDropOption = ({
         });
       } else {
         logger.log("dragdrop-container element not found.");
+        toast.error("dragdrop-container element not found.");
       }
     }
   };
@@ -741,7 +729,6 @@ const DragDropOption = ({
                 onClick={
                   btnDisplayStatus ? handleSendHTML : openModalUpdateName
                 }
-                loading={submitLoading}
                 className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
               >
                 {btnDisplayStatus ? "Send Form" : "Update"}
@@ -905,6 +892,7 @@ const DragDropOption = ({
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
               title={"Form"}
+              setDefault={setIsDefault}
             />
           )}
 
