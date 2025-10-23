@@ -136,7 +136,7 @@ export default function UpdateFormNameModal({
 
     if (isDefaultForm) {
       const setDefaultData = {
-        hide: 1,
+        default_building: 1,
       };
       setDefaultMutation.mutate(setDefaultData);
     }
