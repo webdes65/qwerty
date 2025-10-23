@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { Modal, Form, Button, Select, Checkbox } from "antd";
@@ -15,15 +14,13 @@ const ChooseNameModal = ({
   title,
   selectedCategory: initialCategory,
   setSelectedCategory = () => {},
+  setDefault = 0,
 }) => {
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [loadingCreateCategory, setLoadingCreateCategory] = useState(false);
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
   const [isDefaultForm, setIsDefaultForm] = useState(false);
-
-  const location = useLocation();
-  const formId = location.hostname;
 
   const [localSelectedCategory, setLocalSelectedCategory] = useState(
     initialCategory || null,
@@ -66,25 +63,6 @@ const ChooseNameModal = ({
     },
   );
 
-  const setDefaultMutation = useMutation(
-    (data) =>
-      request({
-        method: "POST",
-        url: `api/forms/default-building/${formId}`,
-        data,
-      }),
-    {
-      onSuccess: (data) => {
-        toast.success(data.data.message);
-        queryClient.invalidateQueries("setDefaultForm");
-      },
-      onError: (error) => {
-        logger.error(error);
-        toast.error("Failed to set default form");
-      },
-    },
-  );
-
   const handleCreateCategory = () => {
     if (!categoryTitle) {
       toast.error("Title is required!");
@@ -117,12 +95,8 @@ const ChooseNameModal = ({
       return;
     }
 
-    if (isDefaultForm) {
-      const setDefaultData = {
-        hide: 1,
-      };
-      setDefaultMutation.mutate(setDefaultData);
-    }
+    const defaultValue = isDefaultForm ? 1 : 0;
+    setDefault(defaultValue);
 
     setName(values.name);
     setSelectedCategory(localSelectedCategory);
