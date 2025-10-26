@@ -5,6 +5,7 @@ import { Modal, Form, Button, Select, Checkbox } from "antd";
 import { Formik, Field, ErrorMessage } from "formik";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
+import { useLocation } from "react-router-dom";
 
 const ChooseNameModal = ({
   isOpenChooseNameModal,
@@ -25,6 +26,8 @@ const ChooseNameModal = ({
   const [localSelectedCategory, setLocalSelectedCategory] = useState(
     initialCategory || null,
   );
+
+  const location = useLocation();
 
   const initialValues = {
     name: "",
@@ -95,8 +98,10 @@ const ChooseNameModal = ({
       return;
     }
 
-    const defaultValue = isDefaultForm ? 1 : 0;
-    setDefault(defaultValue);
+    if (location.pathname !== "/createcomponent") {
+      const defaultValue = isDefaultForm ? 1 : 0;
+      setDefault(defaultValue);
+    }
 
     setName(values.name);
     setSelectedCategory(localSelectedCategory);
@@ -199,12 +204,15 @@ const ChooseNameModal = ({
               </div>
             )}
 
-            <Checkbox
-              checked={isDefaultForm}
-              onChange={(e) => setIsDefaultForm(e.target.checked)}
-            >
-              Set default
-            </Checkbox>
+            {location.pathname !== "/createcomponent" && (
+              <Checkbox
+                className="w-[100px]"
+                checked={isDefaultForm}
+                onChange={(e) => setIsDefaultForm(e.target.checked)}
+              >
+                Set default
+              </Checkbox>
+            )}
 
             <Button
               htmlType="submit"
