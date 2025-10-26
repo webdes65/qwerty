@@ -59,7 +59,8 @@
     "format": "prettier --write .",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
-    "build": "vite build",
+    "clean": "node src/utils/clean.js",
+    "build": "pnpm run clean && vite build",
     "preview": "vite preview"
   },
   "eslintConfig": {
