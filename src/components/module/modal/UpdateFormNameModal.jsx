@@ -239,6 +239,7 @@ export default function UpdateFormNameModal({
             )}
 
             <Checkbox
+              className="w-[100px]"
               checked={isDefaultForm}
               onChange={(e) => setIsDefaultForm(e.target.checked)}
             >
