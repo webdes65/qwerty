@@ -202,8 +202,14 @@ export default function MapShapesLoader({
           ]);
 
           const shape =
-            item.type === "polyline"
-              ? L.polyline(latlngs, { color: item.properties?.color || "blue" })
+            item.geometry_type === "Polyline"
+              ? L.polyline(latlngs, {
+                  color: "",
+                  fillColor: "",
+                  weight: 4,
+                  opacity: 1,
+                  fillOpacity: 0,
+                })
               : L.polygon(latlngs, {
                   color: item.properties?.color || "red",
                   fillColor: item.properties?.color || "red",
