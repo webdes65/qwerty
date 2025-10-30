@@ -173,7 +173,7 @@ export default function MapCard({
         <MapContainer
           center={position}
           zoom={currentZoom}
-          minZoom={15}
+          minZoom={5}
           scrollWheelZoom
           style={{ height: "100%", width: "100%" }}
         >
@@ -183,7 +183,7 @@ export default function MapCard({
               onCreated={onCreated}
               draw={{
                 rectangle: false,
-                circle: false,
+                circle: true,
                 circlemarker: false,
                 marker: false,
                 polygon: {
@@ -192,7 +192,13 @@ export default function MapCard({
                   shapeOptions: { color: "#3388ff", weight: 3 },
                   repeatMode: true,
                 },
-                polyline: true,
+                polyline: {
+                  shapeOptions: {
+                    color: "#3388ff",
+                    weight: 4,
+                  },
+                  repeatMode: true,
+                },
               }}
               edit={{
                 edit: false,
