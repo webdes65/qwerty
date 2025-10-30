@@ -49,7 +49,7 @@ export default function MapCard({
   const [shapesList, setShapesList] = useState([]);
   const [hiddenCollections, setHiddenCollections] = useState(new Set());
   const [loading, setLoading] = useState(false);
-  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(true);
   const [isCordEditModalOpen, setIsCordEditModalOpen] = useState(false);
   const [cordEditShapeData, setCordEditShapeData] = useState(null);
 
@@ -233,15 +233,11 @@ export default function MapCard({
             maxWidth: "300px",
             transition: "all 0.3s ease",
           }}
+          onMouseEnter={() => setIsPanelCollapsed(false)}
+          onMouseLeave={() => setIsPanelCollapsed(true)}
         >
-          <div
-            className="flex items-center justify-between gap-1 p-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-t-lg cursor-pointer"
-            onClick={() => setIsPanelCollapsed(!isPanelCollapsed)}
-          >
-            <h3 className="text-sm font-semibold flex items-center gap-2">
-              Collections ({shapesList.length})
-            </h3>
-            <button className="hover:bg-white/20 rounded p-1 transition-colors">
+          <div className="flex items-center justify-between gap-1 p-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-t-lg cursor-pointer">
+            <button className="hover:bg-transparent rounded p-1 transition-colors">
               <svg
                 className={`w-4 h-4 transition-transform ${isPanelCollapsed ? "rotate-180" : ""}`}
                 fill="none"
