@@ -50,7 +50,14 @@ export const useMapDrawHandlers = () => {
     let coordinates;
     let shapeType;
 
-    if (e.layerType === "circle") {
+    if (e.layerType === "marker") {
+      const latlng = layer.getLatLng();
+      coordinates = [
+          latlng.lat,
+          latlng.lng,
+      ];
+      shapeType = "marker";
+    } else if (e.layerType === "circle") {
       const radius = layer.getRadius();
       const center = layer.getLatLng();
 
@@ -93,12 +100,10 @@ export const useMapDrawHandlers = () => {
 
   const handleCreateSubmit = async (formData) => {
     if (!tempLayer || !modalData) {
-      // logger.error("❌ tempLayer یا modalData موجود نیست");
       return;
     }
 
     if (!collection_Name) {
-      // logger.error("❌ collection_Name خالی است! لطفاً یک Collection انتخاب کنید");
       return;
     }
 
@@ -107,7 +112,18 @@ export const useMapDrawHandlers = () => {
         ? formData.color
         : formData.color?.toHexString?.() || "#ff0000";
 
-    if (modalData.type === "circle") {
+    if (modalData.type === "marker") {
+      const customIcon = L.divIcon({
+        className: "custom-marker",
+        html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+                    border: 3px solid white;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+      });
+
+      tempLayer.setIcon(customIcon);
+    } else if (modalData.type === "circle") {
       tempLayer.setStyle({
         color: color,
         fillColor: color,
@@ -121,23 +137,9 @@ export const useMapDrawHandlers = () => {
       });
     }
 
-    const center =
-      modalData.type === "circle"
-        ? tempLayer.getLatLng()
-        : tempLayer.getBounds().getCenter();
-
-    const label = L.marker(center, {
-      icon: L.divIcon({
-        className: "polygon-label",
-        html: `<div style="color:white; font-weight:bold; padding:20px 12px; border-radius:4px; position: absolute">${formData.name}</div>`,
-      }),
-    }).addTo(tempLayer._map);
-
-    tempLayer._label = label;
     tempLayer._text = formData.name;
     tempLayer._description = formData.description;
     tempLayer.collection_id = formData.collection_id;
-    tempLayer._color = color;
 
     tempLayer.addTo(tempLayer._map);
 
@@ -151,11 +153,6 @@ export const useMapDrawHandlers = () => {
       type: modalData.type,
       zoom: tempLayer._map.getZoom(),
       collection_name: collection_Name,
-
-      ...(modalData.type === "circle" && {
-        radius: modalData.radius,
-        center: modalData.center,
-      }),
     };
 
     logger.log("📤 ارسال به بکاند:", {

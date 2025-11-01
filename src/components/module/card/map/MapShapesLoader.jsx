@@ -68,8 +68,9 @@ export default function MapShapesLoader({
         icon: L.divIcon({
           className: "polygon-label",
           html: `
-          <div class="group flex items-center text-white font-bold px-2 py-1 rounded">
-              <span>${shape._text}</span>
+          <div class="group flex flex-col items-center justify-center text-white text-lg font-bold px-2 py-1 min-w-40 min-h-16">
+              <h1 class="text-start min-w-full">${shape._text}</h1>
+              <p class="text-start min-w-full">${item.properties.ProvinDesc ?? ""}</p>
               <div class="ml-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex gap-1">
                   <button class="edit-btn bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm whitespace-nowrap">
                       Edit
@@ -86,6 +87,7 @@ export default function MapShapesLoader({
       const shapeData = {
         id: item.id,
         name: shape._text,
+        description: item.properties?.ProvinDesc,
         type: item.type,
         coordinates: item.coordinates,
         properties: item.properties,
@@ -129,7 +131,6 @@ export default function MapShapesLoader({
       if (result.collections_basic) {
         setCollections(result.collections_basic);
         collectionsLoadedRef.current = true;
-        // logger.log("✅ Collections loaded:", result.collections_basic);
       }
     } catch (err) {
       logger.error("❌ خطا در بارگذاری collections:", err);
@@ -139,7 +140,6 @@ export default function MapShapesLoader({
   const loadAllShapes = useCallback(async () => {
     try {
       if (!token) {
-        // logger.error("❌ توکن یافت نشد!");
         return;
       }
 
@@ -153,23 +153,16 @@ export default function MapShapesLoader({
       });
 
       if (!res.ok) {
-        // const errorText = await res.text();
-        // logger.error("خطای سرور:", errorText);
-        // logger.error(`خطا در واکشی اشکال از سرور: ${res.status}`);
         return;
       }
 
       const result = await res.json();
-      // logger.log("✅ داده دریافتی:", result);
-
       const currentServerIds = new Set();
 
       result.data.forEach((featureGroup) => {
         const featureName = featureGroup.collection_name;
 
         const isHidden = hiddenCollections.has(featureName);
-
-        // logger.log(`🔍 Feature: ${featureName}, Hidden: ${isHidden}`);
 
         if (isHidden) {
           (featureGroup.data || []).forEach((item) => {
@@ -180,7 +173,6 @@ export default function MapShapesLoader({
                 map.removeLayer(layers.label);
                 layersRef.current.delete(item.id);
                 loadedShapesRef.current.delete(item.id);
-                // logger.log(`🚫 شکل حذف شد (collection مخفی): ${item.id} - ${featureName}`);
               }
             }
           });
@@ -198,7 +190,26 @@ export default function MapShapesLoader({
 
           let shape;
 
-          if (item.geometry_type === "circle") {
+          if (item.geometry_type === "marker") {
+            if (item.coordinates.length >= 1) {
+              const point = item.coordinates[0];
+
+              shape = L.marker([point.latitude, point.longitude], {
+                icon: L.icon({
+                  iconUrl:
+                    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+                  iconRetinaUrl:
+                    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+                  shadowUrl:
+                    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  shadowSize: [41, 41],
+                }),
+              });
+            }
+          } else if (item.geometry_type === "circle") {
             if (item.coordinates.length >= 2) {
               const center = item.coordinates[0];
               const radius = item.coordinates[1];
@@ -246,9 +257,6 @@ export default function MapShapesLoader({
 
           loadedShapesRef.current.add(item.id);
           layersRef.current.set(item.id, { shape, label, item });
-          // logger.log(
-          //   `✅ شکل جدید اضافه شد: ${item.id} (Feature: ${featureName})`,
-          // );
         });
       });
 
@@ -260,7 +268,6 @@ export default function MapShapesLoader({
             map.removeLayer(layers.label);
             layersRef.current.delete(loadedId);
             loadedShapesRef.current.delete(loadedId);
-            // logger.log(`🗑️ شکل حذف شد: ${loadedId}`);
           }
         }
       });
