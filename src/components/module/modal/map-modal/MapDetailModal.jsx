@@ -19,7 +19,7 @@ const MapDetailModal = ({
   const [form] = Form.useForm();
   const cookies = new Cookies();
   const token = cookies.get("bms_access_token");
-  const [color, setColor] = useState("#ff0000");
+  const [color, setColor] = useState("");
   const [AllCollections, setAllCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
 
@@ -194,7 +194,7 @@ const MapDetailModal = ({
       logger.log("✅ شکل با موفقیت حذف شد");
 
       form.resetFields();
-      setColor("#ff0000");
+      setColor("");
       setSelectedCollection(null);
       setCollection(null);
       setIsOpenModal(false);

@@ -46,8 +46,8 @@ export default function MapToolbar({
           <label className="labelStyle">Zoom</label>
           <input
             type="number"
-            min="10"
-            max="25"
+            min="5"
+            max="18"
             value={zoom}
             onChange={(e) => onZoomChange(parseInt(e.target.value))}
             className="inputStyle"
