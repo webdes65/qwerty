@@ -74,13 +74,10 @@ export default function MapCard({
       });
 
       if (!response.ok) {
-        // const errorText = await response.text();
-        // logger.error("خطا در دریافت لیست:", errorText);
         return;
       }
 
       const result = await response.json();
-      // logger.log("✅ داده‌های لیست با موفقیت دریافت شد", result);
       setShapesList(result.data || result);
     } catch (error) {
       logger.error("❌ خطا در دریافت لیست:", error);
@@ -98,10 +95,8 @@ export default function MapCard({
       const newSet = new Set(prev);
       if (newSet.has(collectionName)) {
         newSet.delete(collectionName);
-        // logger.log(`✅ Collection نمایش داده می‌شود: ${collectionName}`);
       } else {
         newSet.add(collectionName);
-        // logger.log(`🚫 Collection مخفی می‌شود: ${collectionName}`);
       }
       return newSet;
     });
@@ -117,7 +112,6 @@ export default function MapCard({
   };
 
   const handleEditCoordinates = (shapeData) => {
-    // logger.log("Opening coordinate editor for:", shapeData);
     setCordEditShapeData(shapeData);
     setIsCordEditModalOpen(true);
   };
@@ -144,15 +138,9 @@ export default function MapCard({
       );
 
       if (!response.ok) {
-        /*const errorText = await response.text();
-        logger.error("خطا در آپدیت کوردینیت‌ها:", errorText);*/
         return;
       }
 
-      /*const result = await response.json();
-      logger.log('✅ کوردینیت‌ها با موفقیت آپدیت شدند:', result);*/
-
-      // رفرش مپ
       triggerMapRefresh();
     } catch (error) {
       logger.error("❌ خطا در آپدیت کوردینیت‌ها:", error);
@@ -185,7 +173,7 @@ export default function MapCard({
                 rectangle: false,
                 circle: true,
                 circlemarker: false,
-                marker: false,
+                marker: true,
                 polygon: {
                   allowIntersection: true,
                   showArea: true,
@@ -208,14 +196,14 @@ export default function MapCard({
           </FeatureGroup>
 
           <TileLayer
-              attribution="Tiles &copy; Esri"
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              maxZoom={18}
+            attribution="Tiles &copy; Esri"
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={18}
           />
 
           <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
-              maxZoom={18}
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={18}
           />
 
           <Marker position={position}>
@@ -245,6 +233,7 @@ export default function MapCard({
             maxWidth: "300px",
             transition: "all 0.3s ease",
           }}
+          onClick={() => setIsPanelCollapsed((prevState) => !prevState)}
           onMouseEnter={() => setIsPanelCollapsed(false)}
           onMouseLeave={() => setIsPanelCollapsed(true)}
         >
