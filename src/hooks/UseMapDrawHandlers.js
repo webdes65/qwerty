@@ -49,14 +49,21 @@ export const useMapDrawHandlers = () => {
 
     let coordinates;
     let shapeType;
-    let radius;
-    let center;
 
     if (e.layerType === "circle") {
-      center = layer.getLatLng();
-      radius = layer.getRadius();
+      const radius = layer.getRadius();
+      const center = layer.getLatLng();
 
-      coordinates = [center.lng, center.lat];
+      coordinates = [
+        {
+          lat: center.lat,
+          lng: center.lng,
+        },
+        {
+          lat: radius,
+          lng: radius,
+        },
+      ];
       shapeType = "circle";
     } else if (e.layerType === "polygon") {
       const latlngs = layer
@@ -78,10 +85,6 @@ export const useMapDrawHandlers = () => {
       coordinates,
       type: shapeType,
       zoom: layer._map.getZoom(),
-      ...(shapeType === "circle" && {
-        radius,
-        center: { lat: center.lat, lng: center.lng },
-      }),
     };
 
     setModalData(data);
