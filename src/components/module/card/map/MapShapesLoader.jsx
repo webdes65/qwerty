@@ -196,25 +196,43 @@ export default function MapShapesLoader({
             return;
           }
 
-          const latlngs = item.coordinates.map((c) => [
-            c.latitude,
-            c.longitude,
-          ]);
+          let shape;
 
-          const shape =
-            item.geometry_type === "Polyline"
-              ? L.polyline(latlngs, {
-                  color: "",
-                  fillColor: "",
-                  weight: 4,
-                  opacity: 1,
-                  fillOpacity: 0,
-                })
-              : L.polygon(latlngs, {
-                  color: item.properties?.color || "red",
-                  fillColor: item.properties?.color || "red",
-                  fillOpacity: 0.4,
-                });
+          if (item.geometry_type === "circle") {
+            if (item.coordinates.length >= 2) {
+              const center = item.coordinates[0];
+              const radius = item.coordinates[1];
+
+              shape = L.circle([center.latitude, center.longitude], {
+                radius: radius,
+                color: item.properties?.color || "blue",
+                fillColor: item.properties?.color || "blue",
+                fillOpacity: 0.4,
+              });
+            }
+          } else {
+            const latlngs = item.coordinates.map((coordinate) => [
+              coordinate.latitude,
+              coordinate.longitude,
+            ]);
+
+            shape =
+              item.geometry_type === "Polyline"
+                ? L.polyline(latlngs, {
+                    color: item.properties?.color || "red",
+                    fillColor: item.properties?.color || "red",
+                    weight: 4,
+                    opacity: 1,
+                    fillOpacity: 0,
+                  })
+                : L.polygon(latlngs, {
+                    color: item.properties?.color || "red",
+                    fillColor: item.properties?.color || "red",
+                    fillOpacity: 0.4,
+                  });
+          }
+
+          if (!shape) return;
 
           shape._serverId = item.id;
           shape._text =
