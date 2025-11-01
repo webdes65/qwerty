@@ -45,24 +45,43 @@ export const useMapDrawHandlers = () => {
 
   const onCreated = (e) => {
     const layer = e.layer;
-
     setTempLayer(layer);
 
-    const latlngs =
-      layer.getLatLngs()[0]?.map?.((p) => ({ lat: p.lat, lng: p.lng })) ||
-      layer.getLatLngs().map((p) => ({ lat: p.lat, lng: p.lng }));
+    let coordinates;
+    let shapeType;
 
-    const coordinates = latlngs.map((point) => [point.lng, point.lat]);
+    if (e.layerType === "circle") {
+      const radius = layer.getRadius();
+      const center = layer.getLatLng();
 
-    const shapeType =
-      e.layerType === "polygon"
-        ? "polygon"
-        : e.layerType === "polyline"
-          ? "polyline"
-          : "unknown";
+      coordinates = [
+        {
+          lat: center.lat,
+          lng: center.lng,
+        },
+        {
+          lat: radius,
+          lng: radius,
+        },
+      ];
+      shapeType = "circle";
+    } else if (e.layerType === "polygon") {
+      const latlngs = layer
+        .getLatLngs()[0]
+        .map((p) => ({ lat: p.lat, lng: p.lng }));
+      coordinates = latlngs.map((point) => [point.lng, point.lat]);
+      shapeType = "polygon";
+    } else if (e.layerType === "polyline") {
+      const latlngs = layer
+        .getLatLngs()
+        .map((p) => ({ lat: p.lat, lng: p.lng }));
+      coordinates = latlngs.map((point) => [point.lng, point.lat]);
+      shapeType = "polyline";
+    } else {
+      shapeType = "unknown";
+    }
 
     const data = {
-      latlngs,
       coordinates,
       type: shapeType,
       zoom: layer._map.getZoom(),
@@ -88,13 +107,25 @@ export const useMapDrawHandlers = () => {
         ? formData.color
         : formData.color?.toHexString?.() || "#ff0000";
 
-    tempLayer.setStyle({
-      color: color,
-      fillColor: color,
-      fillOpacity: 0.4,
-    });
+    if (modalData.type === "circle") {
+      tempLayer.setStyle({
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.4,
+      });
+    } else {
+      tempLayer.setStyle({
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.4,
+      });
+    }
 
-    const center = tempLayer.getBounds().getCenter();
+    const center =
+      modalData.type === "circle"
+        ? tempLayer.getLatLng()
+        : tempLayer.getBounds().getCenter();
+
     const label = L.marker(center, {
       icon: L.divIcon({
         className: "polygon-label",
@@ -117,9 +148,14 @@ export const useMapDrawHandlers = () => {
       collection_id: isNewCollection ? "" : collection,
       color: color,
       coordinates: modalData.coordinates,
-      type: modalData.type || "polygon",
+      type: modalData.type,
       zoom: tempLayer._map.getZoom(),
       collection_name: collection_Name,
+
+      ...(modalData.type === "circle" && {
+        radius: modalData.radius,
+        center: modalData.center,
+      }),
     };
 
     logger.log("📤 ارسال به بکاند:", {
@@ -143,13 +179,8 @@ export const useMapDrawHandlers = () => {
       });
 
       if (!response.ok) {
-        // const errorText = await response.text();
-        // logger.error("❌ خطا از سرور:", errorText);
         return;
       }
-
-      // const result = await response.json();
-      // logger.log("✅ پاسخ موفق از سرور:", result);
 
       triggerMapRefresh();
 
