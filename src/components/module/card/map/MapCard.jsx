@@ -233,11 +233,15 @@ export default function MapCard({
             maxWidth: "300px",
             transition: "all 0.3s ease",
           }}
-          onClick={() => setIsPanelCollapsed((prevState) => !prevState)}
           onMouseEnter={() => setIsPanelCollapsed(false)}
           onMouseLeave={() => setIsPanelCollapsed(true)}
         >
-          <div className="flex items-center justify-between gap-1 p-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-t-lg cursor-pointer">
+          <div
+            className="flex items-center justify-between gap-1 p-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-t-lg cursor-pointer"
+            onClick={() => {
+              setIsPanelCollapsed((prevState) => !prevState);
+            }}
+          >
             <button className="hover:bg-transparent rounded p-1 transition-colors">
               <svg
                 className={`w-4 h-4 transition-transform ${isPanelCollapsed ? "rotate-180" : ""}`}
