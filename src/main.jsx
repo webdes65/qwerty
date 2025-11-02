@@ -10,8 +10,10 @@ import "./styles/toggleListen.css";
 import "./styles/joyride.css";
 import { MqttProvider } from "./context/MqttProvider.jsx";
 
-const originalWarn = console.warn;
-console.warn = (...args) => {
+const nativeConsole = console;
+
+const originalWarn = nativeConsole.warn;
+nativeConsole.warn = (...args) => {
   const message = args.join(" ");
   if (
     message.includes("React Router Future Flag Warning") ||
@@ -24,8 +26,8 @@ console.warn = (...args) => {
   originalWarn(...args);
 };
 
-const originalError = console.error;
-console.error = (...args) => {
+const originalError = nativeConsole.error;
+nativeConsole.error = (...args) => {
   const message = args.join(" ");
   if (
     message.includes("Source map error") ||
