@@ -4,6 +4,7 @@ import L from "leaflet";
 import Cookies from "universal-cookie";
 import logger from "@utils/logger.js";
 import { UseSetCollection } from "@store/UseSetCollection.js";
+import { getBorderStyle } from "@store/UseShapeStyle.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
@@ -137,6 +138,30 @@ export default function MapShapesLoader({
     }
   }, [token, setCollections]);
 
+  const getStyleOptions = useCallback((item) => {
+    const color = item.properties?.color || "red";
+    const borderType = item.properties?.borderType || "solid";
+    const borderWidth = item.properties?.borderWidth || 3;
+    const dashArray = getBorderStyle(borderType, borderWidth);
+
+    logger.log("🎨 Style for shape:", {
+      id: item.id,
+      borderType,
+      borderWidth,
+      dashArray,
+      color,
+    });
+
+    return {
+      color: color,
+      weight: borderWidth,
+      opacity: 1,
+      dashArray: dashArray,
+      lineCap: borderType === "dotted" ? "round" : "butt",
+      lineJoin: borderType === "dotted" ? "round" : "miter",
+    };
+  }, []);
+
   const loadAllShapes = useCallback(async () => {
     try {
       if (!token) {
@@ -213,12 +238,11 @@ export default function MapShapesLoader({
             if (item.coordinates.length >= 2) {
               const center = item.coordinates[0];
               const radius = item.coordinates[1];
+              const styleOptions = getStyleOptions(item);
 
               shape = L.circle([center.latitude, center.longitude], {
                 radius: radius,
-                color: item.properties?.color || "blue",
-                fillColor: item.properties?.color || "blue",
-                fillOpacity: 0.4,
+                ...styleOptions,
               });
             }
           } else {
@@ -227,19 +251,15 @@ export default function MapShapesLoader({
               coordinate.longitude,
             ]);
 
+            const styleOptions = getStyleOptions(item);
+
             shape =
               item.geometry_type === "Polyline"
                 ? L.polyline(latlngs, {
-                    color: item.properties?.color || "red",
-                    fillColor: item.properties?.color || "red",
-                    weight: 4,
-                    opacity: 1,
-                    fillOpacity: 0,
+                    ...styleOptions,
                   })
                 : L.polygon(latlngs, {
-                    color: item.properties?.color || "red",
-                    fillColor: item.properties?.color || "red",
-                    fillOpacity: 0.4,
+                    ...styleOptions,
                   });
           }
 
@@ -274,7 +294,7 @@ export default function MapShapesLoader({
     } catch (err) {
       logger.error("❌ خطا در بارگذاری اشکال:", err);
     }
-  }, [map, token, createLabel, hiddenCollections]);
+  }, [map, token, createLabel, hiddenCollections, getStyleOptions]);
 
   useEffect(() => {
     loadCollections();

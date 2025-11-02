@@ -18,7 +18,7 @@ import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const showMap = import.meta.env.VITE_SHOW_MAP === "true";
 
-const MobileDrawer = ({ open, onClose, setIsDrawerOpen }) => {
+const MobileDrawer = ({ open, onClose }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const cookies = new Cookies();

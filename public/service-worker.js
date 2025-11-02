@@ -2,6 +2,8 @@
 // cache the original app resources without requiring the application to be installed
 // runs when the service worker is first installed or updated
 
+import logger from "@utils/logger.js";
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     fetch("/asset-manifest.json")
@@ -18,12 +20,12 @@ self.addEventListener("install", (event) => {
           .then((cache) => cache.addAll(urlsToCache));
       })
       .then(() => {
-        // console.log("SW - Cache the original app resources!");
-        // console.log("SW - Activating the service worker.");
+        // logger.log("SW - Cache the original app resources!");
+        // logger.log("SW - Activating the service worker.");
         self.skipWaiting();
       })
       .catch((error) => {
-        console.error("SW - Error cache the original app resources.", error);
+        logger.error("SW - Error cache the original app resources.", error);
       }),
   );
 });
@@ -34,6 +36,6 @@ self.addEventListener("message", (event) => {
   const { type } = event.data || {};
   if (type === "SKIP_WAITING") {
     self.skipWaiting();
-    // console.log("SW - Activating the service worker.");
+    // logger.log("SW - Activating the service worker.");
   }
 });
