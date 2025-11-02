@@ -74,7 +74,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
       <Formik
         initialValues={initialValues}
         validate={validate}
-        onSubmit={async (values, { setFieldValue }) => {
+        onSubmit={async (values) => {
           try {
             setSubmitPending(true);
 
@@ -97,7 +97,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
               formData.append("mindFile", mindFile, "mindfile.mind");
 
               // Add original uploaded files
-              values.files.forEach((file, index) => {
+              values.files.forEach((file) => {
                 // Use the original file object
                 const actualFile = file.originFileObj || file;
                 formData.append("files[]", actualFile, actualFile.name);

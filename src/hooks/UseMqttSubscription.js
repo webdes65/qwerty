@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { UseMqttContext } from "../context/MqttProvider.jsx";
-import logger from "@utils/logger.js";
 
 const UseMqttSubscription = (
   topics,

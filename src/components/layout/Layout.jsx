@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
 
   const notificationTopics = [`notifications/${userId}`];
 
-  const { messages: notificationMessages } = UseMqttSubscription(
+  UseMqttSubscription(
     notificationTopics,
     (message) => {
       try {
@@ -183,7 +183,6 @@ const Layout = ({ children }) => {
               <MobileDrawer
                 open={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
-                setIsDrawerOpen={setIsDrawerOpen}
               />
             </div>
             <ToastContainer

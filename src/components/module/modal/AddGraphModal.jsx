@@ -26,7 +26,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
     const newGrid = Array(maxRows)
       .fill(null)
       .map(() => Array(maxColumns).fill(null));
-    const newShowFields = Array(maxRows)
+    Array(maxRows)
       .fill(null)
       .map(() => Array(maxColumns).fill(false));
     setGrid(newGrid);
