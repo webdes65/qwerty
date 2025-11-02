@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
 import logger from "@utils/logger.js";
 import { UseSetCollection } from "@store/UseSetCollection.js";
+import { UseShapeStyle, getBorderStyle } from "@store/UseShapeStyle.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
@@ -17,6 +18,8 @@ export const useMapDrawHandlers = () => {
 
   const collections = UseSetCollection((state) => state.collections);
   const collection = UseSetCollection((state) => state.collection);
+  const borderType = UseShapeStyle((state) => state.borderType);
+  const borderWidth = UseShapeStyle((state) => state.borderWidth);
 
   const collection_Name = useMemo(() => {
     if (!collection) {
@@ -42,6 +45,26 @@ export const useMapDrawHandlers = () => {
     const found = collections?.find((item) => item.uuid === collection);
     return !found;
   }, [collections, collection]);
+
+  const getBorderStyleOptions = (color, bType, bWidth) => {
+    const dashArray = getBorderStyle(bType, bWidth);
+
+    logger.log("🎨 Applying style:", {
+      borderType: bType,
+      borderWidth: bWidth,
+      dashArray,
+      color,
+    });
+
+    return {
+      color: color,
+      weight: bWidth,
+      opacity: 1,
+      dashArray: dashArray,
+      lineCap: bType === "dotted" ? "round" : "butt",
+      lineJoin: bType === "dotted" ? "round" : "miter",
+    };
+  };
 
   const onCreated = (e) => {
     const layer = e.layer;
@@ -123,18 +146,13 @@ export const useMapDrawHandlers = () => {
       });
 
       tempLayer.setIcon(customIcon);
-    } else if (modalData.type === "circle") {
-      tempLayer.setStyle({
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.4,
-      });
     } else {
-      tempLayer.setStyle({
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.4,
-      });
+      const styleOptions = getBorderStyleOptions(
+        color,
+        borderType,
+        borderWidth,
+      );
+      tempLayer.setStyle(styleOptions);
     }
 
     tempLayer._text = formData.name;
@@ -153,12 +171,18 @@ export const useMapDrawHandlers = () => {
       type: modalData.type,
       zoom: tempLayer._map.getZoom(),
       collection_name: collection_Name,
+      ...(modalData.type !== "marker" && {
+        borderType: borderType,
+        borderWidth: borderWidth,
+      }),
     };
 
     logger.log("📤 ارسال به بکاند:", {
       isNewCollection,
       collection_id: data.collection_id,
       collection_name: data.collection_name,
+      borderType: data.borderType,
+      borderWidth: data.borderWidth,
       fullData: data,
     });
 
