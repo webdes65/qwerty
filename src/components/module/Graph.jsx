@@ -188,7 +188,7 @@ const TemperatureChart = ({ data }) => {
       ? allowedIds.map((id) => `registers/${id}`)
       : [];
 
-  const { messages: register } = UseMqttSubscription(
+  UseMqttSubscription(
     mqttTopics,
     (message) => {
       try {

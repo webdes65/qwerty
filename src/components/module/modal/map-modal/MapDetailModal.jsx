@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-import { Modal, Form, Input, Button, ColorPicker, Select } from "antd";
+import { Modal, Form, Input, Button, ColorPicker, Select, Slider } from "antd";
 import Cookies from "universal-cookie";
 import logger from "@utils/logger.js";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
 import { UseSetCollection } from "@store/UseSetCollection.js";
+import { UseShapeStyle } from "@store/UseShapeStyle.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
@@ -23,9 +24,14 @@ const MapDetailModal = ({
   const [AllCollections, setAllCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
 
-  const collections = UseSetCollection((state) => state.collections);
   const setCollection = UseSetCollection((state) => state.setCollection);
+  const collections = UseSetCollection((state) => state.collections);
   const collection = UseSetCollection((state) => state.collection);
+
+  const borderType = UseShapeStyle((state) => state.borderType);
+  const setBorderType = UseShapeStyle((state) => state.setBorderType);
+  const borderWidth = UseShapeStyle((state) => state.borderWidth);
+  const setBorderWidth = UseShapeStyle((state) => state.setBorderWidth);
 
   const collection_Name = useMemo(() => {
     if (!collection) {
@@ -62,13 +68,13 @@ const MapDetailModal = ({
 
       setAllCollections(formattedCollections);
 
-      // logger.info("formattedCollections", formattedCollections);
-
       form.setFieldsValue({
         title: initialData.name ?? "",
         description: initialData.description ?? "",
         type: "polygon",
         collections: initialData.collection_id ?? null,
+        borderType: initialData.properties?.borderType || "solid",
+        borderWidth: initialData.properties?.borderWidth || 3,
       });
 
       setColor(initialData.properties?.color || initialData.color || "#ff0000");
@@ -77,6 +83,13 @@ const MapDetailModal = ({
         setSelectedCollection(initialData.collection_id);
         setCollection(initialData.collection_id);
       }
+
+      if (initialData.properties?.borderType) {
+        setBorderType(initialData.properties.borderType);
+      }
+      if (initialData.properties?.borderWidth) {
+        setBorderWidth(initialData.properties.borderWidth);
+      }
     } else if (!isOpenModal) {
       form.resetFields();
       setColor("#ff0000");
@@ -84,7 +97,15 @@ const MapDetailModal = ({
       setSelectedCollection(null);
       setCollection(null);
     }
-  }, [isOpenModal, initialData, form, collections, setCollection]);
+  }, [
+    isOpenModal,
+    initialData,
+    form,
+    collections,
+    setCollection,
+    setBorderType,
+    setBorderWidth,
+  ]);
 
   const handleCancel = () => {
     form.resetFields();
@@ -97,13 +118,6 @@ const MapDetailModal = ({
   const handleCollectionChange = (value) => {
     setSelectedCollection(value);
     setCollection(value);
-
-    /*const isUUID = collections?.some((item) => item.uuid === value);
-    logger.log("Collection:", {
-      value,
-      isUUID,
-      type: isUUID ? "Existing (UUID)" : "New (String)",
-    });*/
   };
 
   const handleSubmit = async (values) => {
@@ -114,6 +128,8 @@ const MapDetailModal = ({
       description: values.description,
       type: values.type || "polygon",
       color: hexColor,
+      borderType: values.borderType || borderType,
+      borderWidth: values.borderWidth || borderWidth,
     };
 
     if (!edit) {
@@ -143,6 +159,8 @@ const MapDetailModal = ({
               description: values.description,
               type: values.type || "polygon",
               color: hexColor,
+              borderType: values.borderType || borderType,
+              borderWidth: values.borderWidth || borderWidth,
               collection_id: isNewCollection ? null : collection,
               collection_name: collection_Name,
             },
@@ -279,38 +297,95 @@ const MapDetailModal = ({
           />
         </Form.Item>
 
-        <Form.Item label="Color" required>
-          <div className="flex items-center gap-3">
-            <ColorPicker
-              value={color}
-              onChange={setColor}
-              showText
-              size="middle"
-              presets={[
-                {
-                  label: "Suggested colors",
-                  colors: [
-                    "#ff0000",
-                    "#00ff00",
-                    "#0000ff",
-                    "#ffff00",
-                    "#ff00ff",
-                    "#00ffff",
-                    "#ff8800",
-                    "#8800ff",
-                  ],
-                },
-              ]}
-            />
-            <div
-              className="w-8 h-8 rounded border-2 border-gray-300"
-              style={{
-                backgroundColor:
-                  typeof color === "string" ? color : color.toHexString(),
-              }}
-            />
-          </div>
-        </Form.Item>
+        {initialData?.type !== "marker" && (
+          <>
+            <div className="grid grid-cols-2 gap-4">
+              <Form.Item
+                label="Border Style"
+                name="borderType"
+                initialValue="solid"
+              >
+                <Select
+                  value={borderType}
+                  onChange={setBorderType}
+                  size="middle"
+                  options={[
+                    { label: "Solid", value: "solid" },
+                    { label: "Dotted", value: "dotted" },
+                    { label: "Dashed", value: "dashed" },
+                    { label: "Double", value: "double" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label={`Border Width (${borderWidth}px)`}
+                name="borderWidth"
+                initialValue={3}
+              >
+                <Slider
+                  min={1}
+                  max={10}
+                  value={borderWidth}
+                  onChange={setBorderWidth}
+                  marks={{
+                    1: "1",
+                    5: "5",
+                    10: "10",
+                  }}
+                />
+              </Form.Item>
+            </div>
+          </>
+        )}
+
+        <div
+          className={`flex items-center justify-between w-full ${initialData?.type !== "marker" ? "flex-row" : "flex-col"}`}
+        >
+          <Form.Item
+            label="Color"
+            required
+            className={initialData?.type !== "marker" ? "w-2/4" : "w-full"}
+          >
+            <div className="flex items-center gap-3">
+              <ColorPicker
+                value={color}
+                onChange={setColor}
+                showText
+                size="middle"
+                presets={[
+                  {
+                    label: "Suggested colors",
+                    colors: [
+                      "#ff0000",
+                      "#00ff00",
+                      "#0000ff",
+                      "#ffff00",
+                      "#ff00ff",
+                      "#00ffff",
+                      "#ff8800",
+                      "#8800ff",
+                    ],
+                  },
+                ]}
+              />
+            </div>
+          </Form.Item>
+
+          {initialData?.type !== "marker" && (
+            <div className="mb-4 bg-white dark:bg-dark-100 rounded w-2/4">
+              <p className="text-dark-100 dark:text-white mb-2">
+                Border Preview:
+              </p>
+              <div
+                className="w-full h-12 rounded"
+                style={{
+                  border: `${borderWidth}px ${borderType} ${typeof color === "string" ? color : color.toHexString()}`,
+                }}
+              />
+            </div>
+          )}
+        </div>
 
         {initialData?.latlngs ? (
           <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded">

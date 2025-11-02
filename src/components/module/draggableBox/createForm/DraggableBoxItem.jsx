@@ -99,7 +99,7 @@ const DraggableBoxItem = ({
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
 
-  const { messages: register } = UseMqttSubscription(
+  UseMqttSubscription(
     mqttTopics,
     (message) => {
       try {
@@ -121,7 +121,7 @@ const DraggableBoxItem = ({
       : null,
   );
 
-  const [{ isDragging }, drag] = useDrag(
+  const [drag] = useDrag(
     () => ({
       type: ItemType.BOX,
       item: () => {

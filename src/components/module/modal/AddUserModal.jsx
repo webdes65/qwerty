@@ -176,7 +176,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
             await mutation.mutateAsync(values);
             resetForm();
           } catch (error) {
-            // خطا در mutation handle شده
+            logger.error(error);
           }
         }}
       >
