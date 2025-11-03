@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { IoLogoDropbox } from "react-icons/io5";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -8,47 +7,14 @@ import AugmentedRealitiesCard from "@components/module/card/AugmentedRealitiesCa
 import AddProject from "@components/module/modal/AddProject";
 import ProjectCard from "@components/module/card/ProjectCard";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import ARIndexHandlers from "@module/container/main/argument-realities/ARIndexHandlers.js";
 
 const AugmentedRealities = () => {
   const [isModalOpenAR, setIsModalOpenAR] = useState(false);
   const [isModalOpenAddProject, setIsModalOpenOpenAddProject] = useState(false);
 
-  const {
-    data: dataAR,
-    isLoading: loadingAR,
-    error: errAR,
-  } = useQuery(["ARList"], () =>
-    request({
-      method: "GET",
-      url: "/api/augmented-realities",
-    }),
-  );
-
-  const {
-    data: dataProject,
-    isLoading: loadingProject,
-    error: errProject,
-  } = useQuery(["getProject"], () =>
-    request({
-      method: "GET",
-      url: "/api/projects",
-    }),
-  );
-
-  if (errAR) {
-    logger.error(errAR);
-    return <div>{errAR.message}</div>;
-  }
-
-  if (errProject) {
-    logger.error(errProject);
-    return <div>{errProject.message}</div>;
-  }
-
-  const dataAugmentedRealities = dataAR?.data || [];
-  const dataListProject = dataProject?.data || [];
+  const { dataAugmentedRealities, dataListProject, loadingAR, loadingProject } =
+    ARIndexHandlers();
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 font-Poppins pt-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">

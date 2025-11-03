@@ -1,29 +1,21 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { request } from "@services/apiService.js";
 import DeviceCard from "@components/module/card/DeviceCard";
 import AddDeviceModal from "@components/module/modal/AddDeviceModal";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
+import DeviceIndexHandler from "@module/container/main/device/DeviceIndexHandler.js";
 import logger from "@utils/logger.js";
 
 const Devices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, error } = useQuery(["fetchDevices"], () =>
-    request({
-      method: "GET",
-      url: "/api/devices",
-    }),
-  );
+  const { devices, isLoading, error } = DeviceIndexHandler();
 
   if (error) {
     logger.error(error);
     return <div>{error.message}</div>;
   }
-
-  const devices = data?.data || [];
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2 pr-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">

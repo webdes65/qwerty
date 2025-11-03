@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { Button, message } from "antd";
+import { Button } from "antd";
 import { Formik, Form, Field } from "formik";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import EditDeviceHandlers from "@module/container/main/device/EditDeviceHandlers.js";
 
 const EditDevice = () => {
   const location = useLocation();
   const { device } = location.state || {};
-  const [id, setId] = useState(device.uuid);
 
-  const queryClient = useQueryClient();
+  const [id, setId] = useState(device.uuid);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     setId(device.uuid);
@@ -24,32 +22,10 @@ const EditDevice = () => {
     description: device?.description ?? "Empty",
   };
 
-  const [isEditable, setIsEditable] = useState(false);
-
-  const updateDeviceMutation = useMutation(
-    (values) =>
-      request({
-        method: "PATCH",
-        url: `/api/devices/${id}`,
-        data: values,
-      }),
-    {
-      onSuccess: () => {
-        message.success("Device updated successfully!");
-        setIsEditable(false);
-        queryClient.invalidateQueries(["device", id]);
-      },
-      onError: (error) => {
-        message.error("Failed to update device!");
-        logger.error("Update error:", error);
-      },
-    },
-  );
-
-  const onSubmit = (values) => {
-    logger.error("Submitting values:", values);
-    updateDeviceMutation.mutate(values);
-  };
+  const { updateDeviceMutation, onSubmit } = EditDeviceHandlers({
+    id,
+    setIsEditable,
+  });
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">

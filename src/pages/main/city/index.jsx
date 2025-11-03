@@ -1,27 +1,19 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CityCard from "@components/module/card/CityCard";
 import AddCityModal from "@components/module/modal/AddCityModal";
 import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
-import { request } from "@services/apiService.js";
+import CityIndexHandler from "@module/container/main/city/CityIndexHandler.js";
 
 const Cities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, error } = useQuery(["fetchCities"], () =>
-    request({
-      method: "GET",
-      url: "/api/cities",
-    }),
-  );
+  const { cities, isLoading, error } = CityIndexHandler();
 
   if (error) {
     return <div>{error.message}</div>;
   }
-
-  const citys = data?.data || [];
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Quicksand pr-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
@@ -46,7 +38,7 @@ const Cities = () => {
             <ARProjectSubprojectSkeleton />
           </>
         ) : (
-          citys.map((city) => <CityCard key={city.uuid} city={city} />)
+          cities.map((city) => <CityCard key={city.uuid} city={city} />)
         )}
       </ul>
 
