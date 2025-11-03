@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, InputNumber, Tooltip, Space } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
-import CardHandlers from "@module/container/main/map/CardHandlers.js";
+import MapCardHandlers from "@module/container/main/map/MapCardHandlers.js";
 
 export default function CoordinateEditorModal({
   isOpenModal,
   setIsOpenModal,
   shapeData,
 }) {
-  const { handleSaveCoordinates } = CardHandlers();
+  const { handleSaveCoordinates } = MapCardHandlers();
   const [coordinates, setCoordinates] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 

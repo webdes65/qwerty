@@ -5,7 +5,7 @@ import logger from "@utils/logger.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
-export default function CardHandlers() {
+export default function MapCardHandlers() {
   const cookies = new Cookies();
   const token = cookies.get("bms_access_token");
 

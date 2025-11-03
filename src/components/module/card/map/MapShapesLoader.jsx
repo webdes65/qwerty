@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
-import ShapeHandlers from "@module/container/main/map/ShapeHandlers.js";
+import MapShapeHandlers from "@module/container/main/map/MapShapeHandlers.js";
 import logger from "@utils/logger.js";
 
 let globalRefreshShapes = null;
@@ -91,7 +91,7 @@ export default function MapShapesLoader({
     [attachButtonEvents],
   );
 
-  const { loadCollections, loadAllShapes } = ShapeHandlers({
+  const { loadCollections, loadAllShapes } = MapShapeHandlers({
     createLabel,
     hiddenCollections,
     layersRef,

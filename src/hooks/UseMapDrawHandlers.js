@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import logger from "@utils/logger.js";
 import { UseSetCollection } from "@store/UseSetCollection.js";
 import { getBorderStyle } from "@store/UseShapeStyle.js";
-import DrawHandlers from "@module/container/main/map/DrawHandlers.js";
+import MapDrawHandlers from "@module/container/main/map/MapDrawHandlers.js";
 
 export const useMapDrawHandlers = () => {
   const [tempLayer, setTempLayer] = useState(null);
@@ -50,7 +50,7 @@ export const useMapDrawHandlers = () => {
     };
   };
 
-  const { handleCreateSubmit, onCreated } = DrawHandlers({
+  const { handleCreateSubmit, onCreated } = MapDrawHandlers({
     setIsModalOpen,
     collection_Name,
     getBorderStyleOptions,

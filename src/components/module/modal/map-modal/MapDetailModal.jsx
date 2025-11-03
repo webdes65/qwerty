@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { Modal, Form, Button, Slider } from "antd";
 import { UseShapeStyle } from "@store/UseShapeStyle.js";
-import DetailModalHandlers from "@module/container/main/map/DetailModalHandlers.js";
+import MapDetailModalHandlers from "@module/container/main/map/MapDetailModalHandlers.js";
 import DynamicColorPicker from "@module/field/DynamicColorPicker.jsx";
 import DynamicInput from "@module/field/DynamicInput.jsx";
 import DynamicTextArea from "@module/field/DynamicTextArea.jsx";
@@ -31,7 +31,7 @@ const MapDetailModal = ({
     handleCollectionChange,
     handleDeleteConfirm,
     handleSubmit,
-  } = DetailModalHandlers({
+  } = MapDetailModalHandlers({
     color,
     setColor,
     initialData,

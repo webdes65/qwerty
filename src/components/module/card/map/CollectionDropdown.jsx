@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import CardHandlers from "@module/container/main/map/CardHandlers.js";
+import MapCardHandlers from "@module/container/main/map/MapCardHandlers.js";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
 
 export default function CollectionDropdown({
   hiddenCollections,
   setHiddenCollections,
 }) {
-  const { fetchShapesList, shapesList, loading } = CardHandlers();
+  const { fetchShapesList, shapesList, loading } = MapCardHandlers();
 
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(true);
 

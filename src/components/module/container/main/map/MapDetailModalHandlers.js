@@ -6,7 +6,7 @@ import { UseSetCollection } from "@store/UseSetCollection.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
-export default function DetailModalHandlers({
+export default function MapDetailModalHandlers({
   color,
   setColor,
   initialData,
