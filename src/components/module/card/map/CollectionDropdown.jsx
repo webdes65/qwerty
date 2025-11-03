@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CardHandlers from "@module/container/map/CardHandlers.js";
+import CardHandlers from "@module/container/main/map/CardHandlers.js";
 import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
 
 export default function CollectionDropdown({

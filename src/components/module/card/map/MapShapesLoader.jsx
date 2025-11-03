@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
-import ShapeHandlers from "@module/container/map/ShapeHandlers.js";
+import ShapeHandlers from "@module/container/main/map/ShapeHandlers.js";
 import logger from "@utils/logger.js";
 
 let globalRefreshShapes = null;

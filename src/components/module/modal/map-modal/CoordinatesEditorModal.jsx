@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, InputNumber, Tooltip, Space } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
-import CardHandlers from "@module/container/map/CardHandlers.js";
+import CardHandlers from "@module/container/main/map/CardHandlers.js";
 
 export default function CoordinateEditorModal({
   isOpenModal,

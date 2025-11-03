@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import logger from "@utils/logger.js";
 import { UseSetCollection } from "@store/UseSetCollection.js";
 import { getBorderStyle } from "@store/UseShapeStyle.js";
-import DrawHandlers from "@module/container/map/DrawHandlers.js";
+import DrawHandlers from "@module/container/main/map/DrawHandlers.js";
 
 export const useMapDrawHandlers = () => {
   const [tempLayer, setTempLayer] = useState(null);
