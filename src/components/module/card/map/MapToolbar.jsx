@@ -6,17 +6,7 @@ export default function MapToolbar({
   onLatChange,
   onLngChange,
   onZoomChange,
-  // onGoToLocation,
 }) {
-  /*const cities = [
-        { name: "تهران", lat: 35.6892, lng: 51.389 },
-        { name: "مشهد", lat: 36.2974, lng: 59.6061 },
-        { name: "اصفهان", lat: 32.6546, lng: 51.668 },
-        { name: "شیراز", lat: 29.5918, lng: 52.5836 },
-        { name: "تبریز", lat: 38.0736, lng: 46.2919 },
-        { name: "رودسر", lat: 37.1378, lng: 50.2856 },
-    ];*/
-
   return (
     <div className="p-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white border-b">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -54,21 +44,6 @@ export default function MapToolbar({
           />
         </div>
       </div>
-
-      {/*<div className="mt-4">
-                <p className="text-sm font-medium text-gray-700 mb-2">مکان‌های پیشنهادی:</p>
-                <div className="flex flex-wrap gap-2">
-                    {cities.map((city) => (
-                        <button
-                            key={city.name}
-                            onClick={() => onGoToLocation(city.lat, city.lng)}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
-                        >
-                            {city.name}
-                        </button>
-                    ))}
-                </div>
-            </div>*/}
     </div>
   );
 }
