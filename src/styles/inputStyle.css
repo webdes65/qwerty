@@ -5,3 +5,11 @@
 .labelStyle {
   @apply block text-sm font-medium text-dark-100 dark:text-white mb-2;
 }
+
+.employeeLabelStyle {
+  @apply text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase;
+}
+
+.employeeMainTagStyle {
+  @apply w-full flex flex-row justify-center items-center gap-2 max-md:flex-col;
+}
