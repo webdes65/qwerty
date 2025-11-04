@@ -1,7 +1,7 @@
 import MaskedInput from "react-maskedinput";
 import { Select } from "antd";
 import { Field } from "formik";
-import "@styles/inputStyle.css";
+import "@styles/employeeStyles.css";
 
 export default function EditEmployeesCard({
   isEditable,
