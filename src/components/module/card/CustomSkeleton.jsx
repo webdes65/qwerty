@@ -1,4 +1,4 @@
-const ARProjectSubprojectSkeleton = () => {
+const CustomSkeleton = () => {
   return (
     <div className="w-1/2 h-auto p-1 font-bold cursor-pointer animate-pulse max-lg:w-full">
       <div className="h-full w-full flex flex-col gap-2 rounded-md bg-gray-200 shadow p-3 hover:shadow-xl">
@@ -13,4 +13,4 @@ const ARProjectSubprojectSkeleton = () => {
   );
 };
 
-export default ARProjectSubprojectSkeleton;
+export default CustomSkeleton;
