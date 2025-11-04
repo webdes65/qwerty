@@ -4,8 +4,8 @@ import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import AddSubProjectModal from "@components/module/modal/AddSubProjectModal";
 import SubprojectCard from "@components/module/card/SubprojectCard";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import ARSubProjectHandler from "@module/container/main/argument-realities/ARSubProjectHandler.js";
+import SkeletonList from "@module/SkeletonList.jsx";
 
 const SubProject = () => {
   const { id } = useParams();
@@ -28,14 +28,7 @@ const SubProject = () => {
       </div>
       <ul className="w-full h-auto flex flex-row justify-start items-start flex-wrap">
         {loadingSub ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={6} />
         ) : dataSub?.data?.length > 0 ? (
           dataSub.data.map((index) => (
             <SubprojectCard key={index.uuid} data={index} idProject={id} />

@@ -6,15 +6,32 @@ import AddAugmentedRealitiesModal from "@components/module/modal/AddAugmentedRea
 import AugmentedRealitiesCard from "@components/module/card/AugmentedRealitiesCard";
 import AddProject from "@components/module/modal/AddProject";
 import ProjectCard from "@components/module/card/ProjectCard";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import ARIndexHandlers from "@module/container/main/argument-realities/ARIndexHandlers.js";
+import SkeletonList from "@module/SkeletonList.jsx";
+import logger from "@utils/logger.js";
 
 const AugmentedRealities = () => {
   const [isModalOpenAR, setIsModalOpenAR] = useState(false);
   const [isModalOpenAddProject, setIsModalOpenOpenAddProject] = useState(false);
 
-  const { dataAugmentedRealities, dataListProject, loadingAR, loadingProject } =
-    ARIndexHandlers();
+  const {
+    dataAugmentedRealities,
+    dataListProject,
+    loadingAR,
+    loadingProject,
+    errProject,
+    errAR,
+  } = ARIndexHandlers();
+
+  if (errAR) {
+    logger.error(errAR);
+    return <div>{errAR.message}</div>;
+  }
+
+  if (errProject) {
+    logger.error(errProject);
+    return <div>{errProject.message}</div>;
+  }
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 font-Poppins pt-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
@@ -34,11 +51,7 @@ const AugmentedRealities = () => {
 
         <ul className="w-full h-full flex flex-row justify-start items-center gap-y-2 flex-wrap overflow-auto">
           {loadingAR ? (
-            <>
-              <ARProjectSubprojectSkeleton />
-              <ARProjectSubprojectSkeleton />
-              <ARProjectSubprojectSkeleton />
-            </>
+            <SkeletonList count={3} />
           ) : dataAugmentedRealities.length > 0 ? (
             dataAugmentedRealities.map((index) => (
               <AugmentedRealitiesCard key={index.uuid} index={index} />
@@ -77,11 +90,7 @@ const AugmentedRealities = () => {
 
         <ul className="w-full h-full flex flex-row justify-start items-center flex-wrap overflow-auto">
           {loadingProject ? (
-            <>
-              <ARProjectSubprojectSkeleton />
-              <ARProjectSubprojectSkeleton />
-              <ARProjectSubprojectSkeleton />
-            </>
+            <SkeletonList count={3} />
           ) : dataListProject.length > 0 ? (
             dataListProject.map((index) => (
               <ProjectCard key={index.uuid} index={index} />

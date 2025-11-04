@@ -3,8 +3,8 @@ import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import DeviceCard from "@components/module/card/DeviceCard";
 import AddDeviceModal from "@components/module/modal/AddDeviceModal";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import DeviceIndexHandler from "@module/container/main/device/DeviceIndexHandler.js";
+import SkeletonList from "@module/SkeletonList.jsx";
 import logger from "@utils/logger.js";
 
 const Devices = () => {
@@ -32,14 +32,7 @@ const Devices = () => {
 
       <ul className="w-full flex flex-row justify-start items-center flex-wrap">
         {isLoading ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={6} />
         ) : (
           devices.map((device) => (
             <DeviceCard key={device.uuid} device={device} />

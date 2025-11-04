@@ -3,8 +3,8 @@ import { useQuery } from "react-query";
 import { Input, Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { IoLogoDropbox } from "react-icons/io5";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import FormCard from "@components/module/card/FormCard";
+import SkeletonList from "@module/SkeletonList.jsx";
 import { request } from "@services/apiService.js";
 
 const Forms = () => {
@@ -162,16 +162,7 @@ const Forms = () => {
 
       <ul className="w-full h-auto mb-20 lg:mb-0 flex flex-row justify-start items-start flex-wrap">
         {isLoading ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={8} />
         ) : forms.length === 0 ? (
           <div className="w-full h-full flex flex-col justify-center items-center font-Quicksand uppercase font-bold bg-gray-200 dark:bg-gray-100 rounded-md shadow">
             <IoLogoDropbox className="text-[5rem] text-gray-400" />

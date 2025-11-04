@@ -4,8 +4,8 @@ import { IoLogoDropbox } from "react-icons/io5";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import AddGraphModal from "@components/module/modal/AddGraphModal";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import GraphCard from "@components/module/card/GraphCard";
+import SkeletonList from "@module/SkeletonList.jsx";
 import { request } from "@services/apiService.js";
 
 const Graphs = () => {
@@ -38,12 +38,7 @@ const Graphs = () => {
       </div>
       <ul className="w-full h-auto flex flex-row justify-start items-start flex-wrap">
         {isLoading ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={4} />
         ) : graphs.length === 0 ? (
           <div className="w-full h-full flex flex-col justify-center items-center font-Quicksand uppercase font-bold bg-gray-200 rounded-md shadow">
             <IoLogoDropbox className="text-[5rem] text-dark-100 dark:text-white" />

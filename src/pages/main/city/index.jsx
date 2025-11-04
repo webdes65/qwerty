@@ -3,8 +3,8 @@ import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CityCard from "@components/module/card/CityCard";
 import AddCityModal from "@components/module/modal/AddCityModal";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import CityIndexHandler from "@module/container/main/city/CityIndexHandler.js";
+import SkeletonList from "@module/SkeletonList.jsx";
 
 const Cities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,14 +29,7 @@ const Cities = () => {
       </div>
       <ul className="w-full flex flex-row justify-start items-center flex-wrap">
         {isLoading ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={6} />
         ) : (
           cities.map((city) => <CityCard key={city.uuid} city={city} />)
         )}
