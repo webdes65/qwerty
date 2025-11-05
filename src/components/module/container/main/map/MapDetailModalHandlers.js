@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+import { triggerMapRefresh } from "@module/container/main/map/MapShapesLoader.jsx";
 import logger from "@utils/logger.js";
 import { useEffect, useMemo } from "react";
 import { UseSetCollection } from "@store/UseSetCollection.js";

@@ -3,7 +3,7 @@ import L from "leaflet";
 import Cookies from "universal-cookie";
 import { UseSetCollection } from "@store/UseSetCollection.js";
 import { UseShapeStyle } from "@store/UseShapeStyle.js";
-import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+import { triggerMapRefresh } from "@module/container/main/map/MapShapesLoader.jsx";
 import logger from "@utils/logger.js";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";

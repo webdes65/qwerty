@@ -13,7 +13,7 @@ import "leaflet-draw/dist/leaflet.draw.css";
 import { useMapDrawHandlers } from "@hooks/UseMapDrawHandlers.js";
 import UseMapEvents from "@hooks/UseMapEvents.js";
 import MapToolbar from "@module/card/map/MapToolbar.jsx";
-import MapShapesLoader from "@module/card/map/MapShapesLoader.jsx";
+import MapShapesLoader from "@module/container/main/map/MapShapesLoader.jsx";
 import MapDetailModal from "@module/modal/map-modal/MapDetailModal.jsx";
 import CoordinateEditorModal from "@module/modal/map-modal/CoordinatesEditorModal.jsx";
 import CollectionDropdown from "@module/card/map/CollectionDropdown.jsx";

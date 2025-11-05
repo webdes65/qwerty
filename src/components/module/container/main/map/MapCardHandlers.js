@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Cookies from "universal-cookie";
-import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
 import logger from "@utils/logger.js";
+import { triggerMapRefresh } from "@module/container/main/map/MapShapesLoader.jsx";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 

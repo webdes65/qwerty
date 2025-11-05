@@ -127,6 +127,7 @@ const MapDetailModal = ({
                   { label: "Dashed", value: "dashed" },
                   { label: "Double", value: "double" },
                 ]}
+                item={true}
               />
 
               <Form.Item

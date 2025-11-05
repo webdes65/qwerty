@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MapCardHandlers from "@module/container/main/map/MapCardHandlers.js";
-import { triggerMapRefresh } from "@module/card/map/MapShapesLoader.jsx";
+import { triggerMapRefresh } from "@module/container/main/map/MapShapesLoader.jsx";
 
 export default function CollectionDropdown({
   hiddenCollections,
