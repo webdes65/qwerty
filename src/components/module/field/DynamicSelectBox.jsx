@@ -1,6 +1,7 @@
 import { Form, Select } from "antd";
 
 export default function DynamicSelectBox({
+  item,
   label,
   name,
   rules,
@@ -8,6 +9,7 @@ export default function DynamicSelectBox({
   mode,
   maxCount,
   showSearch,
+  className,
   placeholder,
   optionFilterProp,
   allowClear,
@@ -18,7 +20,7 @@ export default function DynamicSelectBox({
   filterOption,
   tokenSeparators,
 }) {
-  return (
+  return item ? (
     <Form.Item
       label={label}
       name={name}
@@ -29,7 +31,7 @@ export default function DynamicSelectBox({
         mode={mode}
         maxCount={maxCount}
         showSearch={showSearch}
-        className="customSelect w-full font-Quicksand"
+        className={className ?? "customSelect w-full font-Quicksand"}
         placeholder={placeholder}
         optionFilterProp={optionFilterProp}
         allowClear={allowClear}
@@ -41,5 +43,21 @@ export default function DynamicSelectBox({
         tokenSeparators={tokenSeparators}
       />
     </Form.Item>
+  ) : (
+    <Select
+      mode={mode}
+      maxCount={maxCount}
+      showSearch={showSearch}
+      className={className ?? "customSelect w-full font-Quicksand"}
+      placeholder={placeholder}
+      optionFilterProp={optionFilterProp}
+      allowClear={allowClear}
+      options={options}
+      value={value}
+      onChange={onChange}
+      suffixIcon={suffixIcon}
+      filterOption={filterOption}
+      tokenSeparators={tokenSeparators}
+    />
   );
 }
