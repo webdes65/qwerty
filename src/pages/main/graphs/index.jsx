@@ -1,28 +1,20 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { IoLogoDropbox } from "react-icons/io5";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import AddGraphModal from "@components/module/modal/AddGraphModal";
 import GraphCard from "@components/module/card/GraphCard";
 import SkeletonList from "@module/SkeletonList.jsx";
-import { request } from "@services/apiService.js";
+import GraphIndexHandler from "@module/container/main/graphs/GraphIndexHandler.js";
 
 const Graphs = () => {
   const [isOpenAddGraphModal, setIsOpenAddGraphModal] = useState(false);
 
-  const { data, isLoading, error } = useQuery(["fetchGraphs"], () =>
-    request({
-      method: "GET",
-      url: "/api/templates",
-    }),
-  );
+  const { graphs, isLoading, error } = GraphIndexHandler();
 
   if (error) {
     return <div>{error.message}</div>;
   }
-
-  const graphs = data?.data || [];
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Quicksand pr-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
