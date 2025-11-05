@@ -23,7 +23,7 @@ import Employees from "@pages/main/employess/employees";
 import EmployeesDetail from "@pages/main/employess/EmployeesDetail";
 import EditEmployees from "@pages/main/employess/EditEmployees.jsx";
 import CreateComponent from "@pages/main/CreateComponent";
-import Settings from "@pages/main/Settings";
+import Setting from "@pages/main/Setting.jsx";
 import NotFound from "@pages/404";
 import ForgetPassword from "@pages/auth/ForgetPassword.jsx";
 import Map from "@pages/main/Map.jsx";
@@ -63,7 +63,7 @@ const App = () => {
         <Route path="/employees/editEmployess" element={<EditEmployees />} />
         <Route path="/createcomponent" element={<CreateComponent />} />
         {showMap && <Route path="/map" element={<Map />} />}
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings" element={<Setting />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
