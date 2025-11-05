@@ -1,35 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useMutation } from "react-query";
-import { setRealtimeService } from "@redux_toolkit/features/realtimeServiceSlice.js";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import { useSelector } from "react-redux";
+import SettingHandler from "@module/container/main/setting/SettingHandler.js";
 
-const Settings = () => {
-  const dispatch = useDispatch();
+const Setting = () => {
   const realtimeService = useSelector((state) => state.realtimeService);
-  const userId = localStorage.getItem("user_id");
 
-  const handleChange = (event) => {
-    const value = event.target.value;
-    mutation.mutate(value);
-  };
-
-  const mutation = useMutation(
-    (data) =>
-      request({
-        method: "POST",
-        url: `/api/users/${userId}/service`,
-        data: { service: data },
-      }),
-    {
-      onSuccess: (data) => {
-        dispatch(setRealtimeService(data.data));
-      },
-      onError: (error) => {
-        logger.error(error);
-      },
-    },
-  );
+  const { handleChange } = SettingHandler();
 
   return (
     <div className="h-full w-full flex flex-col gap-2 bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow p-5 cursor-default">
@@ -70,4 +45,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Setting;
