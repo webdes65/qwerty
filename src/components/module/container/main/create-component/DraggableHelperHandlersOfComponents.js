@@ -1,4 +1,4 @@
-export default function DraggableHandlersOfComponents({
+export default function DraggableHelperHandlersOfComponents({
   dispatch,
   components,
   index,

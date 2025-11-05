@@ -11,7 +11,7 @@ import {
 } from "react-icons/io";
 import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import EditComponentModal from "@module/modal/EditComponentModal";
-import DraggableHandlersOfComponents from "@module/container/main/create-component/DraggableHandlersOfComponents.js";
+import DraggableHelperHandlersOfComponents from "@module/container/main/create-component/DraggableHelperHandlersOfComponents.js";
 
 const ItemType = {
   BOX: "box",
@@ -51,7 +51,7 @@ const DraggableBoxComponent = ({
       : { backgroundColor: item.bg };
 
   const { moveUp, moveDown, moveLeft, moveRight } =
-    DraggableHandlersOfComponents({
+    DraggableHelperHandlersOfComponents({
       dispatch,
       components,
       index,
