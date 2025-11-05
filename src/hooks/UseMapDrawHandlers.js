@@ -75,10 +75,7 @@ export const useMapDrawHandlers = () => {
 
     if (e.layerType === "marker") {
       const latlng = layer.getLatLng();
-      coordinates = [
-          latlng.lat,
-          latlng.lng,
-      ];
+      coordinates = [latlng.lat, latlng.lng];
       shapeType = "marker";
     } else if (e.layerType === "circle") {
       const radius = layer.getRadius();
