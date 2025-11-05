@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { itemsHome } from "@data/Items.js";
+import { itemsHome } from "@mock/Items.js";
 
 const Home = () => {
   const navigate = useNavigate();
