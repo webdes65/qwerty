@@ -1,15 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useQuery } from "react-query";
 import DragDropOption from "@components/template/createForm/DragDropOption";
 import DragDrop from "@components/template/createForm/DragDrop";
 import Spinner from "@components/template/Spinner";
-import { request } from "@services/apiService.js";
+import CreateFormHandlers from "@module/container/main/create-form/CreateFormHandlers.js";
 import UseFormData from "@hooks/UseFormEditor.js";
 
 const CreateForm = () => {
   const location = useLocation();
   const { id, name } = location.state || {};
+
+  const [componentsList, setComponentsList] = useState([]);
+  const [points, setPoints] = useState([]);
+  const [btnDisplayStatus, setBtnDisplayStatus] = useState(true);
+
+  const [itemAbility, setItemAbility] = useState({
+    edit: false,
+    remove: false,
+    controller: false,
+    dragDisabled: false,
+    moveTo: false,
+  });
 
   const [boxInfo, setBoxInfo] = useState(() => {
     const savedBoxInfo = localStorage.getItem("boxInfo");
@@ -30,38 +41,7 @@ const CreateForm = () => {
         };
   });
 
-  const prevBoxInfo = useRef(boxInfo);
-
-  useEffect(() => {
-    if (JSON.stringify(prevBoxInfo.current) !== JSON.stringify(boxInfo)) {
-      localStorage.setItem("boxInfo", JSON.stringify(boxInfo));
-      prevBoxInfo.current = boxInfo;
-    }
-  }, [boxInfo]);
-
-  const [itemAbility, setItemAbility] = useState({
-    edit: false,
-    remove: false,
-    controller: false,
-    dragDisabled: false,
-    moveTo: false,
-  });
-
-  const [componentsList, setComponentsList] = useState([]);
-  const [points, setPoints] = useState([]);
-
-  // For manage the send button and update button the form
-  const [btnDisplayStatus, setBtnDisplayStatus] = useState(true);
-
-  const { data, isLoading, error } = useQuery(
-    ["GetForms"],
-    () =>
-      request({
-        method: "GET",
-        url: "/api/forms",
-      }),
-    { enabled: !!id && !!name },
-  );
+  const { data, isLoading, error } = CreateFormHandlers({ id, boxInfo });
 
   UseFormData(data, id, setBoxInfo, setBtnDisplayStatus);
 
