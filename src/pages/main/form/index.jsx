@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import { Input, Select } from "antd";
+import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { IoLogoDropbox } from "react-icons/io5";
 import FormCard from "@components/module/card/FormCard";
 import SkeletonList from "@module/SkeletonList.jsx";
-import { request } from "@services/apiService.js";
+import FormIndexHandlers from "@module/container/main/form/FormIndexHandlers.js";
+import DynamicSelectBox from "@module/field/DynamicSelectBox.jsx";
 
 const Forms = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState(null);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [optionsCategories, setOptionsCategories] = useState([]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -24,90 +22,12 @@ const Forms = () => {
     };
   }, [searchTerm]);
 
-  const { data: allFormsData, isLoading: allFormsLoading } = useQuery(
-    ["GetForms"],
-    () =>
-      request({
-        method: "GET",
-        url: "/api/forms",
-      }),
-    {
-      enabled:
-        searchTerm.length === 0 &&
-        (selectedCategory === null || selectedCategory === 0),
-    },
-  );
-
-  const { data: searchData, isLoading: searchLoading } = useQuery(
-    ["searchForms", debouncedSearchTerm, selectedCategory],
-    () => {
-      let url = "/api/forms/search?";
-      const params = new URLSearchParams();
-
-      if (debouncedSearchTerm) {
-        params.append("q", debouncedSearchTerm);
-      }
-
-      if (selectedCategory && selectedCategory !== 0) {
-        params.append("category", selectedCategory);
-      }
-
-      return request({
-        method: "GET",
-        url: url + params.toString(),
-      });
-    },
-    {
-      enabled:
-        debouncedSearchTerm.length > 0 ||
-        (selectedCategory !== null && selectedCategory !== 0),
-    },
-  );
-
-  useEffect(() => {
-    if (
-      debouncedSearchTerm.length === 0 &&
-      (selectedCategory === null || selectedCategory === 0)
-    ) {
-      setSearchResults(null);
-    } else if (searchData) {
-      setSearchResults(searchData.data);
-    }
-  }, [searchData, debouncedSearchTerm, selectedCategory]);
-
-  const forms =
-    searchResults !== null ? searchResults : allFormsData?.data || [];
-  const isLoading =
-    searchTerm || (selectedCategory && selectedCategory !== 0)
-      ? searchLoading
-      : allFormsLoading;
+  const { forms, isLoading, processedOptions, setSearchResults } =
+    FormIndexHandlers({ debouncedSearchTerm, searchTerm, selectedCategory });
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
   };
-
-  const { data: categoriesData } = useQuery(["getCategories"], () =>
-    request({
-      method: "GET",
-      url: "/api/categories",
-    }),
-  );
-
-  useEffect(() => {
-    if (categoriesData) {
-      const newOptions = categoriesData.data.map((item) => ({
-        label: item.title,
-        value: item.uuid,
-      }));
-      const allOption = { label: "All", value: 0 };
-      setOptionsCategories([allOption, ...newOptions]);
-    }
-  }, [categoriesData]);
-
-  const processedOptions = (optionsCategories ?? []).map((option) => ({
-    ...option,
-    value: option.value,
-  }));
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -136,8 +56,8 @@ const Forms = () => {
         </div>
 
         <div className="w-full md:w-1/3 flex flex-row gap-2 items-center">
-          <Select
-            className="customSelect w-full !h-10 md:mr-2 font-Quicksand font-medium placeholder:font-medium"
+          <DynamicSelectBox
+            className="customSelect w-full !min-h-[46px] md:mr-2 font-Quicksand font-medium placeholder:font-medium"
             options={processedOptions}
             value={selectedCategory}
             onChange={handleCategoryChange}
