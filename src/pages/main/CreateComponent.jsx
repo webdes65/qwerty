@@ -13,9 +13,6 @@ const CreateComponent = () => {
   });
 
   const [itemAbility, setItemAbility] = useState({
-    // edit: false,
-    // remove: false,
-    // dragDisabled: false,
     controller: false,
   });
 

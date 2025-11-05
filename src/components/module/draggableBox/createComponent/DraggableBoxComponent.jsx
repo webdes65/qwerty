@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { TiDelete } from "react-icons/ti";
-import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
-import EditComponentModal from "@module/modal/EditComponentModal";
 import {
   IoMdSettings,
   IoIosArrowBack,
@@ -11,6 +9,9 @@ import {
   IoIosArrowDown,
   IoIosArrowUp,
 } from "react-icons/io";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import EditComponentModal from "@module/modal/EditComponentModal";
+import DraggableHandlersOfComponents from "@module/container/main/create-component/DraggableHandlersOfComponents.js";
 
 const ItemType = {
   BOX: "box",
@@ -49,58 +50,13 @@ const DraggableBoxComponent = ({
       ? { backgroundImage: `url(${item.bgImg})`, backgroundSize: "cover" }
       : { backgroundColor: item.bg };
 
-  const moveUp = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, y: item.position.y - 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-      // localStorage.setItem("registers", JSON.stringify(updatedPositions));
+  const { moveUp, moveDown, moveLeft, moveRight } =
+    DraggableHandlersOfComponents({
+      dispatch,
+      components,
+      index,
+      setComponents,
     });
-  };
-
-  const moveDown = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, y: item.position.y + 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-    });
-  };
-
-  const moveLeft = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, x: item.position.x - 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-    });
-  };
-
-  const moveRight = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, x: item.position.x + 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-    });
-  };
 
   const isNew = item.position?.x === 0 && item.position?.y === 0;
   const offset = isNew ? index * 20 : 0;
