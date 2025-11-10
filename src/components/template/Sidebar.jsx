@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
-import Joyride from "react-joyride";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TbDoorExit } from "react-icons/tb";
 import { IoHome, IoCreateOutline, IoSettingsOutline } from "react-icons/io5";
@@ -33,16 +32,16 @@ const Sidebar = () => {
   } = UseDarkModeStore();
   const systemTheme = useSystemTheme();
 
-  const [run, setRun] = useState(false);
+  // const [run, setRun] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const hasShown = localStorage.getItem("sidebar-guide-shown");
     if (!hasShown) {
       setRun(true);
       localStorage.setItem("sidebar-guide-shown", "true");
     }
-  }, []);
+  }, []);*/
 
   const handleNavigation = (route) => {
     navigate(route);
@@ -81,7 +80,7 @@ const Sidebar = () => {
     setDarkMode(systemTheme, true);
   };
 
-  const steps = [
+  /*const steps = [
     {
       target: ".create-component",
       content: "Help text",
@@ -106,7 +105,7 @@ const Sidebar = () => {
       target: ".device",
       content: "Help text",
     },
-  ];
+  ];*/
 
   const themeMenuItems = [
     {
@@ -152,7 +151,7 @@ const Sidebar = () => {
 
   return (
     <aside className="max-w-64 h-full flex flex-col justify-between items-start p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200 dark:border-gray-600 font-Quicksand font-medium max-lg:hidden !overflow-auto">
-      <Joyride
+      {/*<Joyride
         className="!font-Quicksand"
         steps={steps}
         run={run}
@@ -185,7 +184,7 @@ const Sidebar = () => {
           skip: "Skip",
           last: "End",
         }}
-      />
+      />*/}
       <ul className="w-full h-full flex flex-col justify-start items-start gap-2 font-medium text-[0.85rem]">
         <div
           className="flex flex-row justify-start items-center cursor-pointer"
@@ -337,52 +336,51 @@ const Sidebar = () => {
           <IoSettingsOutline className="text-[1.5rem]" />
           Settings
         </li>
+        <li className="flex flex-col items-center justify-end gap-1 w-full h-full mb-4">
+          <div className="flex items-center gap-1 flex-row-reverse">
+            <Dropdown
+              menu={{ items: themeMenuItems }}
+              trigger={["click"]}
+              className="mb-2"
+            >
+              <Button type="text" className="flex items-center gap-2">
+                <Space>
+                  {useSystemThemeMode ? (
+                    <AiOutlineDesktop />
+                  ) : darkMode ? (
+                    <AiOutlineMoon />
+                  ) : (
+                    <AiOutlineSun />
+                  )}
+                </Space>
+              </Button>
+            </Dropdown>
+            <p className="text-dark-100 dark:text-white mb-2.5">
+              {useSystemThemeMode
+                ? "System mode"
+                : darkMode
+                  ? "Dark mode"
+                  : "Light mode"}
+            </p>
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              className="flex flex-row justify-center items-center gap-2 text-red-500 font-bold"
+              onClick={() => setIsLogoutModalOpen(true)}
+            >
+              <TbDoorExit className="text-red-500 text-[25px]" />
+              Logout
+            </button>
+
+            <LogoutModal
+              title="Do you want to log out of your account?"
+              isOpenModal={isLogoutModalOpen}
+              setIsOpenModal={setIsLogoutModalOpen}
+              onLogout={handleLogout}
+            />
+          </div>
+        </li>
       </ul>
-
-      <div className="flex flex-col items-center justify-center gap-1 w-full">
-        <div className="flex items-center gap-1 flex-row-reverse">
-          <Dropdown
-            menu={{ items: themeMenuItems }}
-            trigger={["click"]}
-            className="mb-2"
-          >
-            <Button type="text" className="flex items-center gap-2">
-              <Space>
-                {useSystemThemeMode ? (
-                  <AiOutlineDesktop />
-                ) : darkMode ? (
-                  <AiOutlineMoon />
-                ) : (
-                  <AiOutlineSun />
-                )}
-              </Space>
-            </Button>
-          </Dropdown>
-          <p className="text-dark-100 dark:text-white mb-2.5">
-            {useSystemThemeMode
-              ? "System mode"
-              : darkMode
-                ? "Dark mode"
-                : "Light mode"}
-          </p>
-        </div>
-        <div className="flex items-center gap-1">
-          <button
-            className="flex flex-row justify-center items-center gap-2 text-red-500 font-bold"
-            onClick={() => setIsLogoutModalOpen(true)}
-          >
-            <TbDoorExit className="text-red-500 text-[25px]" />
-            Logout
-          </button>
-
-          <LogoutModal
-            title="Do you want to log out of your account?"
-            isOpenModal={isLogoutModalOpen}
-            setIsOpenModal={setIsLogoutModalOpen}
-            onLogout={handleLogout}
-          />
-        </div>
-      </div>
     </aside>
   );
 };
