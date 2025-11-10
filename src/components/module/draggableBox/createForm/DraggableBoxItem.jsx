@@ -50,6 +50,8 @@ const DraggableBoxItem = ({
   const mqttTopics =
     realtimeService === "mqtt" && allowedIds ? [`registers/${allowedIds}`] : [];
 
+  const payload = JSON.stringify({ uuid: formId });
+
   UseMqttSubscription(
     mqttTopics,
     (message) => {
@@ -63,8 +65,8 @@ const DraggableBoxItem = ({
     realtimeService === "mqtt",
     formId
       ? {
-          publishTopic: "forms/watchers",
-          publishMessage: formId,
+          publishTopic: "watchers/form",
+          publishMessage: payload,
         }
       : null,
   );

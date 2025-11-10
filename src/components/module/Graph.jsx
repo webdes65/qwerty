@@ -188,6 +188,8 @@ const TemperatureChart = ({ data }) => {
       ? allowedIds.map((id) => `registers/${id}`)
       : [];
 
+  const payload = JSON.stringify({ uuid: graphId });
+
   UseMqttSubscription(
     mqttTopics,
     (message) => {
@@ -215,8 +217,8 @@ const TemperatureChart = ({ data }) => {
 
     graphId
       ? {
-          publishTopic: "graphs/watchers",
-          publishMessage: graphId,
+          publishTopic: "watchers/graph",
+          publishMessage: payload,
         }
       : null,
   );
