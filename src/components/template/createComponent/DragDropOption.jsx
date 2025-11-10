@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import Joyride from "react-joyride";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateBoardModal from "@module/modal/CreateBoardModal";
 import UploadImgsModal from "@module/modal/UploadImgsModal";
@@ -7,7 +6,6 @@ import CreatePointModal from "@module/modal/CreatePointModal";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import DragOptionHandlersOfComponents from "@module/container/main/create-component/DragOptionHandlersOfComponents.js";
 import DragOptionCard from "@module/card/DragOptionCard.jsx";
-import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const DragDropOption = ({
   dropBoxRef,
@@ -22,22 +20,20 @@ const DragDropOption = ({
   const dispatch = useDispatch();
   const components = useSelector((state) => state.components);
 
-  const { darkMode } = UseDarkModeStore();
-
   const [isOpenModalCreatePoint, setIsOpenModalCreatePoint] = useState(false);
   const [isOpenModalCreateBoard, setIsOpenModalCreateBoard] = useState(false);
   const [isOpenChooseNameModal, setIsOpenChooseNameModal] = useState(false);
   const [isOpenUploadImgsModal, setIsOpenUploadImgsModal] = useState(false);
   const [optionsCategories, setOptionsCategories] = useState([]);
-  const [run, setRun] = useState(false);
+  // const [run, setRun] = useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const hasShown = localStorage.getItem("createComponents-guide-shown");
     if (!hasShown) {
       setRun(true);
       localStorage.setItem("createComponents-guide-shown", "true");
     }
-  }, []);
+  }, []);*/
 
   const { setName, submitComponent, RemoveAll } =
     DragOptionHandlersOfComponents({
@@ -49,7 +45,7 @@ const DragDropOption = ({
       components,
     });
 
-  const steps = [
+  /*const steps = [
     {
       target: ".create-board",
       content: "Help text",
@@ -62,11 +58,11 @@ const DragDropOption = ({
       target: ".upload-imgs",
       content: "Help text",
     },
-  ];
+  ];*/
 
   return (
     <div className="w-full h-auto flex flex-col items-start justify-start gap-4 font-Quicksand p-5 border-2 border-gray-200 dark:border-gray-100 bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-lg text-[0.90rem] overflow-auto">
-      <Joyride
+      {/*<Joyride
         className="!font-Quicksand"
         steps={steps}
         run={run}
@@ -90,7 +86,7 @@ const DragDropOption = ({
           skip: "Skip",
           last: "End",
         }}
-      />
+      />*/}
 
       <DragOptionCard
         isFixed={isFixed}

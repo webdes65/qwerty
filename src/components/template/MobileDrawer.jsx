@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Joyride from "react-joyride";
 import { useQueryClient } from "react-query";
 import { TbAugmentedReality, TbChartDots, TbDoorExit } from "react-icons/tb";
 import { FaListOl } from "react-icons/fa6";
@@ -31,10 +30,10 @@ const MobileDrawer = ({ open, onClose }) => {
   } = UseDarkModeStore();
   const systemTheme = useSystemTheme();
 
-  const [run, setRun] = useState(false);
+  // const [run, setRun] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (open && !localStorage.getItem("mobileDrawer-guide-shown")) {
       setTimeout(() => {
         setRun(true);
@@ -44,7 +43,7 @@ const MobileDrawer = ({ open, onClose }) => {
     if (!open) {
       setRun(false);
     }
-  }, [open]);
+  }, [open]);*/
 
   const resetToSystemTheme = () => {
     enableSystemTheme();
@@ -67,7 +66,7 @@ const MobileDrawer = ({ open, onClose }) => {
     return location.pathname === route;
   };
 
-  const steps = [
+  /*const steps = [
     {
       target: ".create-component-step",
       content: "Help text",
@@ -92,7 +91,7 @@ const MobileDrawer = ({ open, onClose }) => {
       target: ".devices-step",
       content: "Help text",
     },
-  ];
+  ];*/
 
   const themeMenuItems = [
     {
@@ -159,7 +158,7 @@ const MobileDrawer = ({ open, onClose }) => {
 
   return (
     <>
-      <Joyride
+      {/*<Joyride
         className="!font-Quicksand"
         steps={steps}
         run={run}
@@ -188,7 +187,7 @@ const MobileDrawer = ({ open, onClose }) => {
           skip: "Skip",
           last: "End",
         }}
-      />
+      />*/}
       <Drawer
         className="font-Poppins text-[1rem] font-bold bg-white text-dark-100 dark:bg-dark-100 dark:text-white border-r border-r-gray200 dark:border-gray-600"
         title="BMS"

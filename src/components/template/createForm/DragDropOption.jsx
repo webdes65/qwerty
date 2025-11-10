@@ -4,7 +4,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { setItems } from "@redux_toolkit/features/itemsSlice.js";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import Joyride from "react-joyride";
 import { Button, Select, Slider, Spin, Switch } from "antd";
 import { request } from "@services/apiService.js";
 import UploadImgsModal from "@module/modal/UploadImgsModal";
@@ -16,7 +15,6 @@ import CopyModal from "@module/modal/CopyModal.jsx";
 import FormHTML from "@template/FormHTML";
 import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
 import logger from "@utils/logger.js";
-import UseDarkModeStore from "@store/UseDarkMode.js";
 
 const DragDropOption = ({
   boxInfo,
@@ -37,7 +35,6 @@ const DragDropOption = ({
   const location = useLocation();
   const queryClient = useQueryClient();
   const items = useSelector((state) => state.items);
-  const { darkMode } = UseDarkModeStore();
 
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [optionsCategories, setOptionsCategories] = useState([]);
@@ -304,17 +301,17 @@ const DragDropOption = ({
     setOpenUpdateModal(false);
   };
 
-  const [run, setRun] = useState(false);
+  // const [run, setRun] = useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const hasShown = localStorage.getItem("createForm-guide-shown");
     if (!hasShown) {
       setRun(true);
       localStorage.setItem("createForm-guide-shown", "true");
     }
-  }, []);
+  }, []);*/
 
-  const steps = [
+  /*const steps = [
     {
       target: ".create-item",
       content: "Help text",
@@ -327,7 +324,7 @@ const DragDropOption = ({
       target: ".upload-imgs",
       content: "Help text",
     },
-  ];
+  ];*/
 
   return (
     <div className="w-full min-h-[100vh] flex flex-col items-start justify-start gap-4 font-Quicksand p-5 border-2 border-gray-200 dark:border-gray-100 bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-lg text-[0.90rem] overflow-auto">
@@ -340,7 +337,7 @@ const DragDropOption = ({
       ) : (
         <>
           <div className="w-full flex flex-col justify-center items-start gap-2">
-            <Joyride
+            {/*<Joyride
               className="!font-Quicksand"
               steps={steps}
               run={run}
@@ -373,7 +370,7 @@ const DragDropOption = ({
                 skip: "Skip",
                 last: "End",
               }}
-            />
+            />*/}
             <label className="text-black dark:text-white font-bold">
               Box size
             </label>
