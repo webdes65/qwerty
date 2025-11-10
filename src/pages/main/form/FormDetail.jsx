@@ -1,20 +1,36 @@
 import { useRef, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useFormIframe } from "@hooks/useFormIframe";
+import logger from "@utils/logger.js";
 
 const FormDetail = () => {
   const location = useLocation();
   const { form } = location.state || {};
 
+  const newForm = useMemo(() => {
+    if (!form?.objects) return null;
+
+    try {
+      if (typeof form.objects === "object") {
+        return form.objects;
+      }
+      return JSON.parse(form.objects);
+    } catch (error) {
+      logger.error("Error parsing form.objects:", error);
+      return null;
+    }
+  }, [form?.objects]);
+
   const iframeRef = useRef();
   const outerContainerRef = useRef(null);
   const [containerDimensions, setContainerDimensions] = useState({
-    width: form?.width || 800,
-    height: form?.height || 600,
+    width: (newForm?.boxInfo?.width || 800) + 100,
+    height: (newForm?.boxInfo?.height || 600) + 50,
   });
 
   useFormIframe({
     form,
+    newForm,
     containerDimensions,
     iframeRef,
     outerContainerRef,
@@ -23,12 +39,6 @@ const FormDetail = () => {
       checkFormContent: false,
     },
   });
-
-  const width = useMemo(() => {
-    return containerDimensions.width > 500
-      ? containerDimensions.width + 200
-      : 500;
-  }, [containerDimensions.width]);
 
   if (!form) {
     return (
@@ -54,22 +64,22 @@ const FormDetail = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          padding: "16px",
           minHeight: "100vh",
           boxSizing: "border-box",
           overflow: "hidden",
         }}
       >
         <iframe
+          key={form.uuid ?? newForm.registers?.[0]?.id}
           ref={iframeRef}
-          className="bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
           title="Form Content"
           style={{
-            width: `${width}px`,
-            height: `${containerDimensions.height}px`,
+            width: `100%`,
+            height: `${containerDimensions.height + 20}px`,
             maxWidth: "100%",
             border: "none",
             overflow: "auto",
+            minHeight: `${containerDimensions.height}px`,
           }}
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
         />
