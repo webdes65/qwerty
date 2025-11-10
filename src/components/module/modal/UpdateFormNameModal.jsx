@@ -18,6 +18,7 @@ export default function UpdateFormNameModal({
   selectedCategory,
   setSelectedCategory,
   setUpdatedName,
+  category,
 }) {
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
@@ -98,6 +99,10 @@ export default function UpdateFormNameModal({
     setLoadingCreateCategory(true);
     mutation.mutate(newCategory);
   };
+
+  if (category) {
+    setSelectedCategory(category.uuid);
+  }
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
@@ -184,7 +189,7 @@ export default function UpdateFormNameModal({
             <Select
               className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
               options={processedOptions}
-              value={selectedCategory}
+              value={category.title ?? selectedCategory}
               onChange={handleCategoryChange}
               placeholder="Categories"
               allowClear

@@ -8,7 +8,7 @@ import UseFormData from "@hooks/UseFormEditor.js";
 
 const CreateForm = () => {
   const location = useLocation();
-  const { id, name } = location.state || {};
+  const { id, name, category } = location.state || {};
 
   const [componentsList, setComponentsList] = useState([]);
   const [points, setPoints] = useState([]);
@@ -62,6 +62,7 @@ const CreateForm = () => {
     setBtnDisplayStatus,
     formId: id,
     formName: name,
+    category: category,
   };
 
   return (

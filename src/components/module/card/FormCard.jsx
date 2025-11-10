@@ -39,6 +39,7 @@ const FormCard = ({ form }) => {
 
   const name = form.name;
   const id = form.uuid;
+  const category = form.category;
 
   const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(form);
 
@@ -73,7 +74,7 @@ const FormCard = ({ form }) => {
               className="w-1/2 font-Quicksand font-medium !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/createform", { state: { id, name } });
+                navigate("/createform", { state: { id, name, category } });
               }}
             >
               <EditOutlined style={{ fontSize: "18px" }} />

@@ -30,6 +30,7 @@ const DragDropOption = ({
   setBtnDisplayStatus,
   formId,
   formName,
+  category,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -908,6 +909,7 @@ const DragDropOption = ({
               optionsCategories={optionsCategories}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
+              category={category}
             />
           )}
         </>
