@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Spin } from "antd";
-import UploadImgsModal from "@module/modal/UploadImgsModal";
+import UploadImagesModal from "@module/modal/UploadImagesModal.jsx";
 import CreatePointModalInRegisEditor from "@module/modal/CreatePointModalInRegisEditor";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
@@ -158,9 +158,9 @@ const DragDropOption = ({
           )}
 
           {modals.uploadImgsModal && (
-            <UploadImgsModal
-              isOpenUploadImgsModal={modals.uploadImgsModal}
-              setIsOpenUploadImgsModal={(value) =>
+            <UploadImagesModal
+              isOpenUploadImagesModal={modals.uploadImgsModal}
+              setIsOpenUploadImagesModal={(value) =>
                 setModals((prevState) => ({
                   ...prevState,
                   uploadImgsModal: value,

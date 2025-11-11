@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateBoardModal from "@module/modal/CreateBoardModal";
-import UploadImgsModal from "@module/modal/UploadImgsModal";
+import UploadImagesModal from "@module/modal/UploadImagesModal.jsx";
 import CreatePointModal from "@module/modal/CreatePointModal";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import DragOptionHandlersOfComponents from "@module/container/main/create-component/DragOptionHandlersOfComponents.js";
@@ -119,9 +119,9 @@ const DragDropOption = ({
         setName={setName}
         title={"Component"}
       />
-      <UploadImgsModal
-        isOpenUploadImgsModal={isOpenUploadImgsModal}
-        setIsOpenUploadImgsModal={setIsOpenUploadImgsModal}
+      <UploadImagesModal
+        isOpenUploadImagesModal={isOpenUploadImgsModal}
+        setIsOpenUploadImagesModal={setIsOpenUploadImgsModal}
         optionsCategories={optionsCategories}
       />
     </div>

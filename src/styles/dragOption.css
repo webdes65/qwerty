@@ -11,9 +11,17 @@
 }
 
 .dragButtonPrimaryStyle {
-  @apply w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500;
+  @apply font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500;
+}
+
+.dragButtonSecondaryStyle {
+  @apply font-Quicksand font-bold !bg-red-200 !p-5 !shadow !text-red-500 !text-[0.90rem] !border-[2.5px] !border-red-500;
 }
 
 .dragParentSwitchStyle {
   @apply w-full flex flex-row justify-start items-center gap-2;
+}
+
+.uploadInputStyle {
+  @apply border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md text-dark-100  dark:bg-dark-100 dark:text-white;
 }
