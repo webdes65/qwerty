@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Spin } from "antd";
 import UploadImagesModal from "@module/modal/UploadImagesModal.jsx";
 import CreatePointModalOfForm from "@module/modal/CreatePointModalOfForm.jsx";
-import ChooseNameModal from "@module/modal/ChooseNameModal";
+import SubmitModal from "@module/modal/SubmitModal.jsx";
 import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
 import UpdateFormNameModal from "@module/modal/UpdateFormNameModal";
 import CopyFormModal from "@module/modal/CopyFormModal.jsx";
@@ -201,7 +201,7 @@ const DragDropOption = ({
           )}
 
           {modals.chooseNameModal && (
-            <ChooseNameModal
+            <SubmitModal
               isOpenChooseNameModal={modals.chooseNameModal}
               setIsOpenChooseNameModal={(value) =>
                 setModals((prevState) => ({
