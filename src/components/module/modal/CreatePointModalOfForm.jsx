@@ -1,7 +1,7 @@
 import { Button, Modal, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import "@styles/dragOption.css"
+import "@styles/dragOption.css";
 
 const CreatePointModalOfForm = ({
   isOpenModalCreatePoint,
@@ -52,10 +52,7 @@ const CreatePointModalOfForm = ({
         {({ setFieldValue, values }) => (
           <Form className="w-full flex flex-col gap-4">
             <div className="flex flex-col justify-center items-start">
-              <label
-                htmlFor="name"
-                className="text-sm dragLabelStyle"
-              >
+              <label htmlFor="name" className="text-sm dragLabelStyle">
                 Name
               </label>
               <Field
@@ -74,10 +71,7 @@ const CreatePointModalOfForm = ({
 
             <div className="w-full h-auto flex flex-row justify-center items-center gap-2">
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label
-                  htmlFor="width"
-                  className="text-sm dragLabelStyle"
-                >
+                <label htmlFor="width" className="text-sm dragLabelStyle">
                   Width
                 </label>
                 <Field
@@ -89,10 +83,7 @@ const CreatePointModalOfForm = ({
                 />
               </div>
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label
-                  htmlFor="height"
-                  className="text-sm dragLabelStyle"
-                >
+                <label htmlFor="height" className="text-sm dragLabelStyle">
                   Height
                 </label>
                 <Field
@@ -106,10 +97,7 @@ const CreatePointModalOfForm = ({
             </div>
 
             <div className="flex flex-row justify-start items-center gap-2">
-              <label
-                htmlFor="bg"
-                className="text-sm dragLabelStyle"
-              >
+              <label htmlFor="bg" className="text-sm dragLabelStyle">
                 Background Color
               </label>
               <Field
@@ -122,10 +110,7 @@ const CreatePointModalOfForm = ({
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label
-                htmlFor="bg"
-                className="text-sm dragLabelStyle"
-              >
+              <label htmlFor="bg" className="text-sm dragLabelStyle">
                 Border Radius
               </label>
               <Slider
@@ -138,10 +123,7 @@ const CreatePointModalOfForm = ({
               />
             </div>
 
-            <Button
-              htmlType="submit"
-              className="w-full dragButtonPrimaryStyle"
-            >
+            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
               Submit
             </Button>
           </Form>
