@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Switch } from "antd";
 import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import "@styles/dragOption.css";
 
 export default function ControlMainOfForm({
   setModals,
@@ -30,7 +31,7 @@ export default function ControlMainOfForm({
               createItemModal: true,
             }));
           }}
-          className="create-item w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="dragButtonPrimaryStyle"
         >
           Create Item
         </Button>
@@ -43,7 +44,7 @@ export default function ControlMainOfForm({
               createPointModal: true,
             }))
           }
-          className="create-point w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="dragButtonPrimaryStyle"
         >
           Create Point
         </Button>
@@ -51,7 +52,7 @@ export default function ControlMainOfForm({
 
       {items.length > 0 && (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
-          <div className="w-full flex flex-row justify-start items-center gap-2">
+          <div className="dragParentSwitchStyle">
             <p className="font-bold">Show edit button</p>
             <Switch
               size="small"
@@ -71,7 +72,7 @@ export default function ControlMainOfForm({
               {itemAbility.edit ? "Active" : "Inactive"}
             </span>
           </div>
-          <div className="w-full flex flex-row justify-start items-center gap-2">
+          <div className="dragParentSwitchStyle">
             <p className="font-bold">Controller</p>
             <Switch
               size="small"
@@ -95,7 +96,7 @@ export default function ControlMainOfForm({
             </span>
           </div>
 
-          <div className="w-full flex flex-row justify-start items-center gap-2">
+          <div className="dragParentSwitchStyle">
             <p className="font-bold">Show delete button</p>
             <Switch
               size="small"
@@ -117,7 +118,7 @@ export default function ControlMainOfForm({
             </span>
           </div>
 
-          <div className="w-full flex flex-row justify-start items-center gap-2">
+          <div className="dragParentSwitchStyle">
             <p className="font-bold">Enable/Disable</p>
             <Switch
               size="small"
@@ -180,7 +181,7 @@ export default function ControlMainOfForm({
                 dragDisabled: !itemAbility.dragDisabled,
               }))
             }
-            className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+            className="dragButtonPrimaryStyle"
           >
             {itemAbility.dragDisabled ? "Enable Dragging" : "Disable Dragging"}
           </Button>
@@ -188,10 +189,7 @@ export default function ControlMainOfForm({
       )}
 
       {items.length > 0 && formId && (
-        <Button
-          onClick={handleCopyHTML}
-          className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
-        >
+        <Button onClick={handleCopyHTML} className="dragButtonPrimaryStyle">
           Copy Form
         </Button>
       )}
@@ -201,7 +199,7 @@ export default function ControlMainOfForm({
           <Button
             size="middle"
             onClick={btnDisplayStatus ? handleSendHTML : openModalUpdateName}
-            className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+            className="dragButtonPrimaryStyle"
           >
             {btnDisplayStatus ? "Send Form" : "Update"}
           </Button>
@@ -215,7 +213,7 @@ export default function ControlMainOfForm({
               uploadImgsModal: true,
             }))
           }
-          className="upload-imgs w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="dragButtonPrimaryStyle"
         >
           Upload image
         </Button>

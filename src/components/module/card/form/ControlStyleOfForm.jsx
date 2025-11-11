@@ -1,17 +1,18 @@
 import { Slider } from "antd";
 import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
+import "@styles/dragOption.css";
 
 export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
   return (
     <>
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="text-black dark:text-white font-bold">Box size</label>
+        <label className="dragLabelStyle">Box size</label>
         <div className="w-full flex flex-col justify-center items-start gap-2 max-xl:flex-col max-xl:items-start">
-          <div className="w-full flex flex-row justify-center items-center">
+          <div className="dragParentInputStyle">
             <input
               type="number"
               placeholder={`Width ${boxInfo.width}`}
-              className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="dragInputStyle"
               onChange={(e) => {
                 const value = e.target.value ? Number(e.target.value) : 300;
                 setBoxInfo((prev) => ({
@@ -23,7 +24,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
             <input
               type="number"
               placeholder={`Height ${boxInfo.height}`}
-              className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="dragInputStyle"
               onChange={(e) => {
                 const value = e.target.value ? Number(e.target.value) : 300;
                 setBoxInfo((prev) => ({
@@ -37,9 +38,9 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
       </div>
 
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="text-black dark:text-white font-bold">Border</label>
+        <label className="dragLabelStyle">Border</label>
         <div className="w-full flex flex-col justify-center items-start gap-2 max-xl:flex-col max-xl:items-start">
-          <div className="w-full flex flex-row justify-center items-center">
+          <div className="dragParentInputStyle">
             <input
               type="number"
               onChange={(e) => {
@@ -50,7 +51,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
                 }));
               }}
               placeholder={`Top ${boxInfo.borderTop}`}
-              className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="dragInputStyle"
             />
             <input
               type="number"
@@ -62,10 +63,10 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
                 }));
               }}
               placeholder={`Bottom ${boxInfo.borderTop}`}
-              className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="dragInputStyle"
             />
           </div>
-          <div className="w-full flex flex-row justify-center items-center">
+          <div className="dragParentInputStyle">
             <input
               type="number"
               onChange={(e) => {
@@ -76,7 +77,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
                 }));
               }}
               placeholder={`Left ${boxInfo.borderLeft}`}
-              className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="dragInputStyle"
             />
             <input
               type="number"
@@ -88,7 +89,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
                 }));
               }}
               placeholder={`Right ${boxInfo.borderRight}`}
-              className="w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="dragInputStyle"
             />
           </div>
         </div>
@@ -134,9 +135,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
 
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2">
         <div className="w-full flex flex-row justify-start items-center gap-1">
-          <label className="text-black dark:text-white font-bold">
-            Border color
-          </label>
+          <label className="dragLabelStyle">Border color</label>
           <input
             type="color"
             value={boxInfo.borderColor}
@@ -151,9 +150,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
         </div>
 
         <div className="w-full flex flex-row justify-start items-center gap-1">
-          <label className="text-black dark:text-white font-bold">
-            Background color
-          </label>
+          <label className="dragLabelStyle">Background color</label>
           <input
             type="color"
             value={rgbaToHex(boxInfo.bgColor)}

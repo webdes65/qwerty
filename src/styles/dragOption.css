@@ -1,0 +1,19 @@
+.dragInputStyle {
+  @apply w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white;
+}
+
+.dragLabelStyle {
+  @apply text-black dark:text-white font-bold;
+}
+
+.dragParentInputStyle {
+  @apply w-full flex flex-row justify-center items-center;
+}
+
+.dragButtonPrimaryStyle {
+  @apply w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500;
+}
+
+.dragParentSwitchStyle {
+  @apply w-full flex flex-row justify-start items-center gap-2;
+}
