@@ -23,5 +23,5 @@
 }
 
 .uploadInputStyle {
-  @apply border-2 border-gray-200 dark:border-gray-600 outline-none p-3 rounded-md text-dark-100  dark:bg-dark-100 dark:text-white;
+  @apply border-2 border-gray-200 dark:border-gray-600 !outline-none p-3 rounded-md text-dark-100  dark:bg-dark-100 dark:text-white;
 }

@@ -1,8 +1,9 @@
 import { Button, Modal, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
+import "@styles/dragOption.css"
 
-const CreatePointModalInRegisEditor = ({
+const CreatePointModalOfForm = ({
   isOpenModalCreatePoint,
   setIsOpenModalCreatePoint,
   points,
@@ -53,14 +54,14 @@ const CreatePointModalInRegisEditor = ({
             <div className="flex flex-col justify-center items-start">
               <label
                 htmlFor="name"
-                className="text-sm text-dark-100 dark:text-white font-bold"
+                className="text-sm dragLabelStyle"
               >
                 Name
               </label>
               <Field
                 type="text"
                 name="name"
-                className="border-2  border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
+                className="w-full uploadInputStyle"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -75,14 +76,14 @@ const CreatePointModalInRegisEditor = ({
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="width"
-                  className="text-sm text-dark-100 dark:text-white font-bold"
+                  className="text-sm dragLabelStyle"
                 >
                   Width
                 </label>
                 <Field
                   type="number"
                   name="width"
-                  className="border-2  border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
+                  className="w-full uploadInputStyle"
                   onChange={(e) => setFieldValue("width", e.target.value)}
                   value={values.width}
                 />
@@ -90,14 +91,14 @@ const CreatePointModalInRegisEditor = ({
               <div className="w-1/2 flex flex-col justify-center items-start">
                 <label
                   htmlFor="height"
-                  className="text-sm text-dark-100 dark:text-white font-bold"
+                  className="text-sm dragLabelStyle"
                 >
                   Height
                 </label>
                 <Field
                   type="number"
                   name="height"
-                  className="border-2  border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none text-dark-100  dark:bg-dark-100 dark:text-white"
+                  className="w-full uploadInputStyle"
                   onChange={(e) => setFieldValue("height", e.target.value)}
                   value={values.height}
                 />
@@ -107,7 +108,7 @@ const CreatePointModalInRegisEditor = ({
             <div className="flex flex-row justify-start items-center gap-2">
               <label
                 htmlFor="bg"
-                className="text-sm text-dark-100 dark:text-white font-bold"
+                className="text-sm dragLabelStyle"
               >
                 Background Color
               </label>
@@ -123,7 +124,7 @@ const CreatePointModalInRegisEditor = ({
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
               <label
                 htmlFor="bg"
-                className="text-sm text-dark-100 dark:text-white font-bold"
+                className="text-sm dragLabelStyle"
               >
                 Border Radius
               </label>
@@ -139,7 +140,7 @@ const CreatePointModalInRegisEditor = ({
 
             <Button
               htmlType="submit"
-              className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+              className="w-full dragButtonPrimaryStyle"
             >
               Submit
             </Button>
@@ -150,4 +151,4 @@ const CreatePointModalInRegisEditor = ({
   );
 };
 
-export default CreatePointModalInRegisEditor;
+export default CreatePointModalOfForm;
