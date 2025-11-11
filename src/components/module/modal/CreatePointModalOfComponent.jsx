@@ -5,7 +5,7 @@ import { Button, Modal, Select, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
 
-const CreatePointModal = ({
+const CreatePointModalOfComponent = ({
   isOpenModalCreatePoint,
   setIsOpenModalCreatePoint,
 }) => {
@@ -202,4 +202,4 @@ const CreatePointModal = ({
   );
 };
 
-export default CreatePointModal;
+export default CreatePointModalOfComponent;

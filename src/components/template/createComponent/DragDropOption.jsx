@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateBoardModal from "@module/modal/CreateBoardModal";
 import UploadImagesModal from "@module/modal/UploadImagesModal.jsx";
-import CreatePointModal from "@module/modal/CreatePointModal";
+import CreatePointModalOfComponent from "@module/modal/CreatePointModalOfComponent.jsx";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import DragOptionHandlersOfComponents from "@module/container/main/create-component/DragOptionHandlersOfComponents.js";
 import DragOptionCard from "@module/card/DragOptionCard.jsx";
@@ -104,7 +104,7 @@ const DragDropOption = ({
         submitComponent={submitComponent}
       />
 
-      <CreatePointModal
+      <CreatePointModalOfComponent
         isOpenModalCreatePoint={isOpenModalCreatePoint}
         setIsOpenModalCreatePoint={setIsOpenModalCreatePoint}
       />
