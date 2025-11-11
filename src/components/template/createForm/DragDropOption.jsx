@@ -6,7 +6,7 @@ import CreatePointModalOfForm from "@module/modal/CreatePointModalOfForm.jsx";
 import ChooseNameModal from "@module/modal/ChooseNameModal";
 import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
 import UpdateFormNameModal from "@module/modal/UpdateFormNameModal";
-import CopyModal from "@module/modal/CopyModal.jsx";
+import CopyFormModal from "@module/modal/CopyFormModal.jsx";
 import DragOptionHandlersOfForm from "@module/container/main/create-form/DragOprionHandlersOfForm.js";
 import FormHTML from "@template/FormHTML";
 import ControlStyleOfForm from "@module/card/form/ControlStyleOfForm.jsx";
@@ -185,7 +185,7 @@ const DragDropOption = ({
           )}
 
           {modals.copyModal && formId && (
-            <CopyModal
+            <CopyFormModal
               isOpenChooseNameModal={modals.copyModal}
               setIsOpenChooseNameModal={(value) =>
                 setModals((prevState) => ({
