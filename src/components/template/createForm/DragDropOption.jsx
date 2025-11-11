@@ -5,7 +5,7 @@ import UploadImagesModal from "@module/modal/UploadImagesModal.jsx";
 import CreatePointModalOfForm from "@module/modal/CreatePointModalOfForm.jsx";
 import SubmitModal from "@module/modal/SubmitModal.jsx";
 import CreateItemModal from "@module/modal/createItemModal/CreateItemModal";
-import UpdateFormNameModal from "@module/modal/UpdateFormNameModal";
+import UpdateFormModal from "@module/modal/UpdateFormModal.jsx";
 import CopyFormModal from "@module/modal/CopyFormModal.jsx";
 import DragOptionHandlersOfForm from "@module/container/main/create-form/DragOprionHandlersOfForm.js";
 import FormHTML from "@template/FormHTML";
@@ -219,7 +219,7 @@ const DragDropOption = ({
           )}
 
           {openUpdateModal && (
-            <UpdateFormNameModal
+            <UpdateFormModal
               name={formName}
               updatedName={updatedName}
               setUpdatedName={setUpdatedName}
