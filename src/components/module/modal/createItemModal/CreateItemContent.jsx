@@ -9,6 +9,7 @@ import FieldComparison from "@template/FieldComparison";
 import LabelSection from "@module/modal/createItemModal/LabelSection.jsx";
 import CreateItemHelperHandlers from "@module/container/main/create-form/modal-handlers/CreateItemHelperHandlers.js";
 import CreateItemHandlers from "@module/container/main/create-form/modal-handlers/CreateItemHandlers.js";
+import "@styles/dragOption.css";
 
 const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
   const dispatch = useDispatch();
@@ -205,13 +206,13 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
                       betList: [],
                     }));
                   }}
-                  className="w-1/2 bg-red-200 text-red-500 p-2 uppercase rounded-md hover:bg-red-500 hover:text-red-200"
+                  className="w-1/2 !p-2 dragButtonPrimaryStyle"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="w-1/2 bg-blue-200 text-blue-500 p-2 uppercase rounded-md hover:bg-blue-500 hover:text-blue-200"
+                  className="w-1/2 !p-2 dragButtonSecondaryStyle"
                 >
                   Save
                 </button>

@@ -3,7 +3,7 @@
 }
 
 .dragLabelStyle {
-  @apply text-black dark:text-white font-bold;
+  @apply text-dark-100 dark:text-white font-bold;
 }
 
 .dragParentInputStyle {
