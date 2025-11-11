@@ -206,13 +206,13 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
                       betList: [],
                     }));
                   }}
-                  className="w-1/2 !p-2 dragButtonPrimaryStyle"
+                  className="w-1/2 !p-2 dragButtonSecondaryStyle"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="w-1/2 !p-2 dragButtonSecondaryStyle"
+                  className="w-1/2 !p-2 dragButtonPrimaryStyle"
                 >
                   Save
                 </button>
