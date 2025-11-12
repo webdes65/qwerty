@@ -24,8 +24,8 @@ const FormDetail = () => {
   const iframeRef = useRef();
   const outerContainerRef = useRef(null);
   const [containerDimensions, setContainerDimensions] = useState({
-    width: (newForm?.boxInfo?.width || 800) + 100,
-    height: (newForm?.boxInfo?.height || 600) + 50,
+    width: newForm?.boxInfo?.width,
+    height: newForm?.boxInfo?.height,
   });
 
   useFormIframe({

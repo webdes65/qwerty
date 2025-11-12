@@ -15,8 +15,8 @@ export const useFormIframe = ({
   useEffect(() => {
     if (newForm?.boxInfo) {
       setContainerDimensions({
-        width: (newForm.boxInfo.width || 800) + 100,
-        height: (newForm.boxInfo.height || 600) + 50,
+        width: newForm.boxInfo.width,
+        height: newForm.boxInfo.height,
       });
     }
   }, [form?.uuid, newForm?.boxInfo?.width, newForm?.boxInfo?.height]);
@@ -30,15 +30,12 @@ export const useFormIframe = ({
       if (isCurrentlyMobile && outerContainerRef.current) {
         const parentElement = outerContainerRef.current.parentElement;
         if (parentElement) {
-          const availableWidth = parentElement.clientWidth + 50;
+          const availableWidth = parentElement.clientWidth;
           const availableHeight = window.innerHeight - 200;
 
-          const finalWidth = Math.min(
-            (newForm?.boxInfo?.width || 800) + 100,
-            availableWidth,
-          );
+          const finalWidth = Math.min(newForm?.boxInfo?.width, availableWidth);
           const finalHeight = Math.min(
-            newForm?.boxInfo?.height || 600,
+            newForm?.boxInfo?.height,
             availableHeight,
           );
 
@@ -49,8 +46,8 @@ export const useFormIframe = ({
         }
       } else {
         setContainerDimensions({
-          width: (newForm?.boxInfo?.width || 800) + 100,
-          height: newForm?.boxInfo?.height || 600,
+          width: newForm?.boxInfo?.width,
+          height: newForm?.boxInfo?.height,
         });
       }
     };
@@ -111,8 +108,36 @@ export const useFormIframe = ({
         position: relative !important;
       }
       
+      #form-container > div {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      #form-container > div > div {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+      }
+      
       #form-container > div > div > div {
         overflow: ${shouldAddOverflow && width <= 1100 && height <= 900 ? "auto !important" : "hidden !important"}
+      }
+      
+      #form-container > div > div > div:not(#dropBox) {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+      }
+      
+      #dropBox {
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        border-radius: ${newForm?.boxInfo?.borderRadius || 0}%;
       }
       
       #myModal {
@@ -142,36 +167,19 @@ export const useFormIframe = ({
       setTimeout(() => {
         const dropBoxParent = dropBox.parentElement;
         if (dropBoxParent) {
-          dropBoxParent.style.cssText = `
-          position: relative !important;
-          left: 0 !important;
-          top: 0 !important;
-          transform: none !important;
-          width: 100% !important;
-          height: 100% !important;
-          min-width: 100% !important;
-          margin: 0 auto !important;
-          display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
-          background-color: transparent !important;
-          border: none !important;
-        `;
-
-          dropBoxParent.style.backgroundColor = "transparent";
-          dropBoxParent.style.border = "none";
+          dropBoxParent.replaceWith(dropBox);
 
           let availableWidth = containerDimensions.width;
           let availableHeight = containerDimensions.height;
 
-          const originalFormWidth = newForm?.boxInfo?.width ?? 800;
-          const originalFormHeight = newForm?.boxInfo?.height ?? 600;
+          const originalFormWidth = newForm?.boxInfo?.width;
+          const originalFormHeight = newForm?.boxInfo?.height;
 
           const needsHorizontalScroll = originalFormWidth > availableWidth;
           const needsVerticalScroll = originalFormHeight > availableHeight;
           const needsScroll = needsHorizontalScroll || needsVerticalScroll;
 
-          dropBoxParent.style.overflow = needsScroll ? "auto" : "hidden";
+          dropBox.style.overflow = needsScroll ? "auto" : "hidden";
         }
       }, 1000);
 

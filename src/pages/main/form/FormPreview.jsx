@@ -35,8 +35,8 @@ const FormPreview = () => {
   }, [form?.objects]);
 
   const [containerDimensions, setContainerDimensions] = useState({
-    width: (newForm?.boxInfo?.width || 800) + 100,
-    height: (newForm?.boxInfo?.height || 600) + 50,
+    width: newForm?.boxInfo?.width,
+    height: newForm?.boxInfo?.height,
   });
 
   FormPreviewHandler({
