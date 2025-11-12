@@ -415,7 +415,9 @@ const FormHTML = (container) => {
                                   if (buttonData.typeDisplay === "form") {
                                     if (dragDropDiv && formContainer) {
                                       formContainer.innerHTML = "";
-                                      formContainer.appendChild(dragDropDiv.cloneNode(true));
+                                      const clonedDiv = dragDropDiv.cloneNode(true);
+                                      clonedDiv.removeAttribute('id');
+                                      formContainer.appendChild(clonedDiv);
                                       
                                       setTimeout(() => {
                                         initializeFormHandler();
