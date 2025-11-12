@@ -119,7 +119,7 @@ export const useFormIframe = ({
         padding: 0 !important;
       }
       
-      #form-container > div > div > div {
+      #form-container > div > div > div:not(#dropBox) {
         overflow: ${shouldAddOverflow && width <= 1100 && height <= 900 ? "auto !important" : "hidden !important"}
       }
       
