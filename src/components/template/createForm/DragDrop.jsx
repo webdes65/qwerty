@@ -4,7 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import EditItemModal from "@module/modal/EditItemModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "@redux_toolkit/features/itemsSlice.js";
-import EditLine from "@module/modal/EditLine";
+import EditLineModal from "@module/modal/EditLineModal.jsx";
 import DraggablePoint from "@module/draggableBox/createComponent/DraggablePoint";
 import DraggableBoxItem from "@module/draggableBox/createForm/DraggableBoxItem";
 import DraggableBoxComponent from "@module/draggableBox/createForm/DraggableBoxComponent";
@@ -187,7 +187,7 @@ const DragDrop = ({
         </DropBox>
       </div>
       {isOpenEditLineModal && (
-        <EditLine
+        <EditLineModal
           isOpenEditLineModal={isOpenEditLineModal}
           setIsOpenEditLineModal={setIsOpenEditLineModal}
           lineInfo={lineInfo}
