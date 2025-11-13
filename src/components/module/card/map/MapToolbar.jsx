@@ -1,4 +1,4 @@
-import "@styles/inputStyle.css";
+import "@styles/inputStyles.css";
 
 export default function MapToolbar({
   position,

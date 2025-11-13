@@ -1,6 +1,6 @@
 import { Slider } from "antd";
 import { hexToRgba, rgbaToHex } from "@utils/colorConverters.js";
-import "@styles/dragOption.css";
+import "@styles/dragOptionStyles.css";
 
 export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
   return (
