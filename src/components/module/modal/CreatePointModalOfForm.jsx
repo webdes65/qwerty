@@ -1,7 +1,7 @@
 import { Button, Modal, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import "@styles/dragOption.css";
+import "@styles/dragOptionStyles.css";
 
 const CreatePointModalOfForm = ({
   isOpenModalCreatePoint,

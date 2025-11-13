@@ -9,7 +9,7 @@ import FieldComparison from "@template/FieldComparison";
 import LabelSection from "@module/modal/createItemModal/LabelSection.jsx";
 import CreateItemHelperHandlers from "@module/container/main/create-form/modal-handlers/CreateItemHelperHandlers.js";
 import CreateItemHandlers from "@module/container/main/create-form/modal-handlers/CreateItemHandlers.js";
-import "@styles/dragOption.css";
+import "@styles/dragOptionStyles.css";
 
 const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
   const dispatch = useDispatch();
