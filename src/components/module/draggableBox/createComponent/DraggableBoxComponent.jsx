@@ -12,6 +12,7 @@ import {
 import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import EditComponentModal from "@module/modal/EditComponentModal";
 import DraggableHelperHandlersOfComponents from "@module/container/main/create-component/DraggableHelperHandlersOfComponents.js";
+import "@styles/dragOptionStyles.css";
 
 const ItemType = {
   BOX: "box",
@@ -94,7 +95,7 @@ const DraggableBoxComponent = ({
     >
       {showBtnDeleteComponent && (
         <TiDelete
-          className="absolute -bottom-3 -right-3 cursor-pointer text-red-500 bg-gray-200 rounded-full shadow p-1"
+          className="detectButtonsStyle"
           size={28}
           onClick={(e) => {
             e.stopPropagation();
@@ -107,7 +108,7 @@ const DraggableBoxComponent = ({
       )}
       {editEnabledComponent && (
         <IoMdSettings
-          className="absolute -bottom-2 -left-2 cursor-pointer text-black bg-gray-200 rounded-full shadow p-1"
+          className="settingButtonsStyle"
           size={24}
           onClick={(e) => {
             e.stopPropagation();
@@ -119,25 +120,25 @@ const DraggableBoxComponent = ({
         <div className="controls">
           <button
             onClick={moveUp}
-            className="absolute -top-[2.5rem] left-[1.25rem] bg-white shadow uppercase text-black p-2 rounded-md"
+            className="-top-[2.5rem] left-[1.25rem] controlButtonsStyle"
           >
             <IoIosArrowUp />
           </button>
           <button
             onClick={moveDown}
-            className="absolute -bottom-[2.5rem] left-[1.25rem] bg-white shadow uppercase text-black p-2 rounded-md"
+            className="-bottom-[2.5rem] left-[1.25rem] controlButtonsStyle"
           >
             <IoIosArrowDown />
           </button>
           <button
             onClick={moveLeft}
-            className="absolute top-[1rem] -left-[2.5rem] bg-white  shadow uppercase text-black p-2 rounded-md"
+            className="top-[1rem] -left-[2.5rem] controlButtonsStyle"
           >
             <IoIosArrowBack />
           </button>
           <button
             onClick={moveRight}
-            className="absolute  top-[1rem] -right-[2.5rem] bg-white shadow uppercase text-black p-2 rounded-md"
+            className="top-[1rem] -right-[2.5rem] controlButtonsStyle"
           >
             <IoIosArrowForward />
           </button>

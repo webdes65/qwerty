@@ -202,7 +202,7 @@ const DraggableBoxItem = ({
 
       {itemAbility.controller && (
         <BsArrowsMove
-          className="absolute -top-3 -right-3 cursor-pointer text-black-500 bg-gray-200 rounded-full shadow p-1 z-[1001]"
+          className="absolute -top-3 -right-3 cursor-pointer text-dark-100 bg-white dark:bg-gray-100 dark:text-white rounded-full shadow p-1 z-[1001]"
           size={28}
           onClick={(e) => {
             e.stopPropagation();

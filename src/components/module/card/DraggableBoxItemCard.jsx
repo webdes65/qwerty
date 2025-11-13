@@ -6,6 +6,7 @@ import {
   IoMdSettings,
 } from "react-icons/io";
 import { TiDelete } from "react-icons/ti";
+import "@styles/dragOptionStyles.css";
 
 export default function DraggableBoxItemCard({
   item,
@@ -97,7 +98,7 @@ export default function DraggableBoxItemCard({
       )}
       {itemAbility.edit && (
         <IoMdSettings
-          className="absolute -bottom-2 -left-2 cursor-pointer text-black bg-gray-200 rounded-full shadow p-1"
+          className="settingButtonsStyle"
           size={24}
           onClick={(e) => {
             e.stopPropagation();
@@ -107,7 +108,7 @@ export default function DraggableBoxItemCard({
       )}
       {itemAbility.remove && (
         <TiDelete
-          className="absolute -bottom-3 -right-3 cursor-pointer text-red-500 bg-gray-200 rounded-full shadow p-1"
+          className="detectButtonsStyle"
           size={28}
           onClick={handleDelete}
         />
@@ -116,25 +117,25 @@ export default function DraggableBoxItemCard({
         <div className="controls">
           <button
             onClick={moveUp}
-            className="absolute -top-[2.5rem] left-[1.25rem] bg-[#7e7e7e] shadow uppercase text-black p-2 rounded-md z-[1001]"
+            className="-top-[2.5rem] left-[1.25rem] z-[1001] controlButtonsStyle"
           >
             <IoIosArrowUp />
           </button>
           <button
             onClick={moveDown}
-            className="absolute -bottom-[2.5rem] left-[1.25rem] bg-[#7e7e7e] shadow uppercase text-black p-2 rounded-md"
+            className="-bottom-[2.5rem] left-[1.25rem] controlButtonsStyle"
           >
             <IoIosArrowDown />
           </button>
           <button
             onClick={moveLeft}
-            className="absolute top-[1rem] -left-[2.5rem] bg-[#7e7e7e] shadow uppercase text-black p-2 rounded-md"
+            className="top-[1rem] -left-[2.5rem] controlButtonsStyle"
           >
             <IoIosArrowBack />
           </button>
           <button
             onClick={moveRight}
-            className="absolute top-[1rem] -right-[2.5rem] bg-[#7e7e7e] shadow uppercase text-black p-2 rounded-md"
+            className="top-[1rem] -right-[2.5rem] controlButtonsStyle"
           >
             <IoIosArrowForward />
           </button>
