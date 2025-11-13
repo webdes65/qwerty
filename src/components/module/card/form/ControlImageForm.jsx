@@ -10,6 +10,8 @@ export default function ControlImageForm({
   images,
   setBoxInfo,
   boxInfo,
+  setFieldValue,
+  values,
 }) {
   return (
     <>
@@ -41,14 +43,19 @@ export default function ControlImageForm({
         ) : images.length === 0 ? (
           <div className="w-full flex flex-row flex-wrap justify-center items-center gap-2">
             <div
-              onClick={() =>
-                setBoxInfo((prev) => ({
-                  ...prev,
-                  bgImg: "",
-                }))
-              }
+              onClick={() => {
+                if (setBoxInfo) {
+                  setBoxInfo((prev) => ({
+                    ...prev,
+                    bgImg: "",
+                  }));
+                }
+
+                setFieldValue("backgroundImage", "");
+              }}
               className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
-                boxInfo.bgImg === ""
+                (boxInfo && boxInfo.bgImg === "") ||
+                (values && values.backgroundImage === "")
                   ? "border-blue-500 shadow-xl"
                   : "border-transparent"
               } flex items-center justify-center bg-gray-200 shadow p-1`}
@@ -64,13 +71,18 @@ export default function ControlImageForm({
               <div
                 key={index}
                 onClick={() => {
-                  setBoxInfo((prev) => ({
-                    ...prev,
-                    bgImg: img.path,
-                  }));
+                  if (setBoxInfo) {
+                    setBoxInfo((prev) => ({
+                      ...prev,
+                      bgImg: img.path,
+                    }));
+                  }
+
+                  setFieldValue("backgroundImage", img.path);
                 }}
                 className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
-                  boxInfo.bgImg === img.path
+                  (boxInfo && boxInfo.bgImg === img.path) ||
+                  (values && values.backgroundImage === img.path)
                     ? "border-blue-500 shadow-xl"
                     : "border-transparent"
                 }`}
