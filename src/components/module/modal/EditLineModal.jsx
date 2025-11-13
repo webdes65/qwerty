@@ -1,8 +1,9 @@
 import { Button, Modal } from "antd";
 import { Formik, Form, Field } from "formik";
 import logger from "@utils/logger.js";
+import "@styles/dragOptionStyles.css";
 
-const EditLine = ({
+const EditLineModal = ({
   isOpenEditLineModal,
   setIsOpenEditLineModal,
   lineInfo,
@@ -76,10 +77,7 @@ const EditLine = ({
                 value={values.width}
               />
             </div>
-            <Button
-              htmlType="submit"
-              className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
-            >
+            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
               Save
             </Button>
           </Form>
@@ -89,4 +87,4 @@ const EditLine = ({
   );
 };
 
-export default EditLine;
+export default EditLineModal;
