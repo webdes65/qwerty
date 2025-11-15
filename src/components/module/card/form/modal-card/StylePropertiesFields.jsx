@@ -1,6 +1,6 @@
 import { Field } from "formik";
 import { Select } from "antd";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 export default function StylePropertiesField({
   values,

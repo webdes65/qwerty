@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Form, Button, Select } from "antd";
 import { Formik, Field, ErrorMessage } from "formik";
 import CopyFormHandlers from "@module/container/main/create-form/modal-handlers/CopyFormHandlers.js";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 const CopyFormModal = ({
   isOpenChooseNameModal,

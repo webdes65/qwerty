@@ -6,7 +6,7 @@ import {
   IoMdSettings,
 } from "react-icons/io";
 import { TiDelete } from "react-icons/ti";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 export default function DraggableBoxItemCard({
   item,

@@ -1,7 +1,7 @@
 import { Button, Modal } from "antd";
 import { Formik, Form, Field } from "formik";
 import logger from "@utils/logger.js";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 const EditLineModal = ({
   isOpenEditLineModal,

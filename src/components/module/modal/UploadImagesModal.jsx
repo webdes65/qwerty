@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Select, Modal } from "antd";
 import UploadImagesHandlers from "@module/container/main/create-form/modal-handlers/UploadImagesHandlers.js";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 const UploadImagesModal = ({
   isOpenUploadImagesModal,

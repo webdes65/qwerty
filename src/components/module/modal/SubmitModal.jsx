@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Modal, Form, Button, Select, Checkbox } from "antd";
 import { Formik, Field, ErrorMessage } from "formik";
 import SubmitHandler from "@module/container/main/create-form/modal-handlers/SubmitHandler.js";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 const SubmitModal = ({
   isOpenChooseNameModal,

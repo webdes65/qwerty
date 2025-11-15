@@ -37,3 +37,11 @@
 .settingButtonsStyle {
   @apply absolute -bottom-2 -left-2 cursor-pointer text-dark-100 bg-gray-200 rounded-full shadow p-1;
 }
+
+.formNotResponseStyle {
+  @apply flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white;
+}
+
+.formResponseStyle {
+  @apply flex flex-col justify-center gap-10 p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white;
+}

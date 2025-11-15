@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import CreateBoardHandlers from "@module/container/main/create-component/CreateBoardHandlers.js";
 import ControlImageForm from "@module/card/form/ControlImageForm.jsx";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 const CreateBoardModal = ({
   isOpenModalCreateBoard,

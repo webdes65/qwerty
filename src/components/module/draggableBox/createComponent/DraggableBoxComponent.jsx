@@ -12,7 +12,7 @@ import {
 import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import EditComponentModal from "@module/modal/EditComponentModal";
 import DraggableHelperHandlersOfComponents from "@module/container/main/create-component/DraggableHelperHandlersOfComponents.js";
-import "@styles/dragOptionStyles.css";
+import "@styles/formAndComponentStyles.css";
 
 const ItemType = {
   BOX: "box",
