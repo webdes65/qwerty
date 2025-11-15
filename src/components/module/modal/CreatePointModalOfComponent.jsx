@@ -4,6 +4,7 @@ import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import { Button, Modal, Select, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
+import "@styles/dragOptionStyles.css";
 
 const CreatePointModalOfComponent = ({
   isOpenModalCreatePoint,
@@ -68,16 +69,13 @@ const CreatePointModalOfComponent = ({
         {({ setFieldValue, values }) => (
           <Form className="w-full flex flex-col gap-4">
             <div className="flex flex-col justify-center items-start">
-              <label
-                htmlFor="name"
-                className="text-sm text-dark-100 dark:text-white font-bold"
-              >
+              <label htmlFor="name" className="text-sm dragLabelStyle">
                 Name
               </label>
               <Field
                 type="text"
                 name="name"
-                className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                className="w-full bg-white uploadInputStyle"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -89,9 +87,7 @@ const CreatePointModalOfComponent = ({
             </div>
 
             <div className="w-full flex flex-col justify-center items-start">
-              <label className="text-sm text-dark-100 dark:text-white font-bold">
-                Choose Board ID
-              </label>
+              <label className="text-sm dragLabelStyle">Choose Board ID</label>
               <Select
                 showSearch
                 className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
@@ -125,31 +121,25 @@ const CreatePointModalOfComponent = ({
 
             <div className="w-full h-auto flex flex-row justify-center items-center gap-2">
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label
-                  htmlFor="width"
-                  className="text-sm text-dark-100 dark:text-white font-bold"
-                >
+                <label htmlFor="width" className="text-sm dragLabelStyle">
                   Width
                 </label>
                 <Field
                   type="number"
                   name="width"
-                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                  className="w-full bg-white uploadInputStyle"
                   onChange={(e) => setFieldValue("width", e.target.value)}
                   value={values.width}
                 />
               </div>
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label
-                  htmlFor="height"
-                  className="text-sm text-dark-100 dark:text-white font-bold"
-                >
+                <label htmlFor="height" className="text-sm dragLabelStyle">
                   Height
                 </label>
                 <Field
                   type="number"
                   name="height"
-                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                  className="w-full bg-white uploadInputStyle"
                   onChange={(e) => setFieldValue("height", e.target.value)}
                   value={values.height}
                 />
@@ -157,10 +147,7 @@ const CreatePointModalOfComponent = ({
             </div>
 
             <div className="flex flex-row justify-start items-center gap-2">
-              <label
-                htmlFor="bg"
-                className="text-sm text-dark-100 dark:text-white font-bold"
-              >
+              <label htmlFor="bg" className="text-sm dragLabelStyle">
                 Background Color
               </label>
               <Field
@@ -173,10 +160,7 @@ const CreatePointModalOfComponent = ({
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label
-                htmlFor="bg"
-                className="text-sm text-dark-100 dark:text-white font-bold"
-              >
+              <label htmlFor="bg" className="text-sm dragLabelStyle">
                 Border Radius
               </label>
               <Slider
@@ -189,10 +173,7 @@ const CreatePointModalOfComponent = ({
               />
             </div>
 
-            <Button
-              htmlType="submit"
-              className="w-full font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
-            >
+            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
               Submit
             </Button>
           </Form>
