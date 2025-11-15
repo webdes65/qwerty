@@ -4,6 +4,7 @@ import mqtt from "mqtt";
 import logger from "@utils/logger.js";
 
 const MQTTContext = createContext();
+const intervalValue = Number(import.meta.env.VITE_INTERVAL_VALUE);
 
 export const MqttProvider = ({ children }) => {
   const realtimeService = useSelector((state) => state.realtimeService);
@@ -155,7 +156,7 @@ export const MqttProvider = ({ children }) => {
               `Published repeated request to ${options.publishTopic}:`,
               options.publishMessage,
             );
-          }, 30000);
+          }, intervalValue);
 
           return () => clearInterval(intervalId);
         }

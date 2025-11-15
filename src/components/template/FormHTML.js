@@ -13,6 +13,7 @@ const VITE_ECHO_PORT_WS = import.meta.env.VITE_ECHO_PORT_WS;
 const VITE_ECHO_AUTH_ENDPOINT_WS = import.meta.env.VITE_ECHO_AUTH_ENDPOINT_WS;
 const VITE_ECHO_AUTH_ENDPOINT_WSS = import.meta.env.VITE_ECHO_AUTH_ENDPOINT_WSS;
 const VITE_ECHO_FORCE_TLS = import.meta.env.VITE_ECHO_FORCE_TLS;
+const intervalValue = Number(import.meta.env.VITE_INTERVAL_VALUE);
 
 const FormHTML = (container) => {
   let HTML_OUTPUT = `<!DOCTYPE html>
@@ -196,6 +197,7 @@ const FormHTML = (container) => {
             MQTT_URL: "${BROKER_MQTT_URL}",
             USER_NAME: "${BROKER_MQTT_USERNAME}",
             PASSWORD: "${BROKER_MQTT_PASSWORD}",
+            INTERVAL_VALUE: ${intervalValue},
         };
       
       class TopLoadingBar {
@@ -983,17 +985,23 @@ const FormHTML = (container) => {
                     password: "${BROKER_MQTT_PASSWORD}",
                   });
                   
-                  if (idForm) {
-                    const payload = JSON.stringify({uuid: idForm});
-                    client.publish('watchers/form', payload);
-                    console.log("Published formId to watchers/form:", payload);
-                  }
-                
                   client.on("connect", () => {
                     console.log("MQTT connected");
                     loadingOverlay.style.display = "none";
                     dropBox.style.display = "flex";
-                
+                    
+                    if (idForm) {
+                      const payload = JSON.stringify({uuid: idForm});
+                      
+                      client.publish('watchers/form', payload);
+                      console.log("Published formId to watchers/form:", payload);
+                      
+                      const intervalId = setInterval(() => {
+                        client.publish('watchers/form', payload);
+                        console.log("Published repeated formId to watchers/form:", payload);
+                      }, API_ENDPOINTS.INTERVAL_VALUE);
+                      
+                    }
                     registersId.forEach((id) => {
                       const topic = \`registers/\${id}\`;
                       console.log("Subscribing to:", topic);
