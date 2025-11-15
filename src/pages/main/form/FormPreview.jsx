@@ -3,6 +3,7 @@ import Cookies from "universal-cookie";
 import { useFormIframe } from "@hooks/useFormIframe";
 import FormPreviewHandler from "@module/container/main/form/FormPreviewHandler.js";
 import logger from "@utils/logger.js";
+import "@styles/formAndComponentStyles.css";
 
 const FormPreview = () => {
   const iframeRef = useRef();
@@ -61,7 +62,7 @@ const FormPreview = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+      <div className="formNotResponseStyle">
         <div className="spinner border-6 h-12 w-12 animate-spin rounded-full border-gray-300 border-t-blue-500" />
       </div>
     );
@@ -69,7 +70,7 @@ const FormPreview = () => {
 
   if (error) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+      <div className="formNotResponseStyle">
         <div className="text-center">
           <p className="text-xl font-bold text-red-500">Error Loading Form</p>
           <p className="mt-2 text-dark-100 dark:text-white">{error}</p>
@@ -80,14 +81,14 @@ const FormPreview = () => {
 
   if (!form) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+      <div className="formNotResponseStyle">
         <p className="text-xl font-bold">No form found</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col justify-center gap-10 p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+    <div className="formResponseStyle">
       <div className="flex flex-col font-bold">
         <p className="text-[0.90rem] text-dark-100 dark:text-white">
           Default Form Preview:

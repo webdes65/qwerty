@@ -2,6 +2,7 @@ import { useRef, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useFormIframe } from "@hooks/useFormIframe";
 import logger from "@utils/logger.js";
+import "@styles/formAndComponentStyles.css";
 
 const FormDetail = () => {
   const location = useLocation();
@@ -42,14 +43,14 @@ const FormDetail = () => {
 
   if (!form) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
+      <div className="formNotResponseStyle">
         <p className="text-xl font-bold">No form data provided</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col justify-center gap-10 p-2 bg-white text-dark-100  dark:bg-dark-100 dark:text-white">
+    <div className="formResponseStyle">
       <div className="flex flex-col font-bold">
         <p className="text-[0.90rem] text-dark-100 dark:text-white">
           Form Name:
