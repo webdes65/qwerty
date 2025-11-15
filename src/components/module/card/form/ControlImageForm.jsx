@@ -34,7 +34,7 @@ export default function ControlImageForm({
       </div>
 
       <div
-        className={`w-full ${items.length > 0 ? "max-h-[13rem]" : "max-h-[22rem]"} overflow-auto flex flex-row justify-center items-start bg-blue-50 dark:bg-gray-100 p-3 rounded-lg`}
+        className={`w-full ${items && items.length > 0 ? "max-h-[13rem]" : "max-h-[22rem]"} overflow-auto flex flex-row justify-center items-start bg-blue-50 dark:bg-gray-100 p-3 rounded-lg`}
       >
         {isLoadingImages ? (
           <Spin />
