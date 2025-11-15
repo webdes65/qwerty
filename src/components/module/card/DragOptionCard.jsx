@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Button, Switch } from "antd";
 import { setShowBtnDeleteComponent } from "@redux_toolkit/features/showBtnDeleteComponentSlice.js";
 import { setEditEnabledComponent } from "@redux_toolkit/features/editEnabledComponentSlice.js";
+import "@styles/dragOptionStyles.css";
 
 export default function DragOptionCard({
   containerSize,
@@ -29,7 +30,7 @@ export default function DragOptionCard({
   return (
     <>
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="text-black dark:text-white font-bold">Box size</label>
+        <label className="dragLabelStyle">Box size</label>
         <div className="w-full flex flex-row justify-center items-start gap-2">
           <input
             type="number"
@@ -41,7 +42,7 @@ export default function DragOptionCard({
                 width: value,
               }));
             }}
-            className="w-1/2 border-2 border-gray-200 dark:border-gray-600 p-2 rounded outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+            className="w-1/2 uploadInputStyle"
           />
           <input
             type="number"
@@ -53,7 +54,7 @@ export default function DragOptionCard({
                 height: value,
               }));
             }}
-            className="w-1/2 border-2 border-gray-200 dark:border-gray-600 p-2 rounded outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+            className="w-1/2 uploadInputStyle"
           />
         </div>
       </div>
@@ -61,14 +62,14 @@ export default function DragOptionCard({
         <Button
           type="primary"
           onClick={() => setIsOpenModalCreateBoard(true)}
-          className="create-board w-1/2 font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="create-board w-1/2 dragButtonPrimaryStyle"
         >
           Create Board
         </Button>
         <Button
           type="primary"
           onClick={() => setIsOpenModalCreatePoint(true)}
-          className="create-point w-1/2 font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="create-point w-1/2 dragButtonPrimaryStyle"
         >
           Create Point
         </Button>
@@ -77,13 +78,13 @@ export default function DragOptionCard({
         <div className="w-full flex flex-row justify-center items-center gap-2">
           <Button
             onClick={submitComponent}
-            className="w-1/2 h-auto font-Quicksand font-bold !bg-blue-200 !p-2 !shadow text-blue-500 !rounded-md !text-[0.90rem] !border-[2.5px] !border-blue-500"
+            className="w-1/2 h-auto !p-2 !rounded-md dragButtonPrimaryStyle"
           >
             Sent Component
           </Button>
           <Button
             onClick={RemoveAll}
-            className="w-1/2 h-auto font-Quicksand font-bold !bg-red-200 !p-2 !shadow text-red-500 !rounded-md !text-[0.90rem] !border-[2.5px] !border-red-500 hover:!text-red-500"
+            className="w-1/2 h-auto !p-2 !rounded-md hover:!text-red-500 dragButtonSecondaryStyle"
           >
             Remove all
           </Button>
@@ -92,14 +93,14 @@ export default function DragOptionCard({
       {components.length > 0 && (
         <Button
           onClick={() => setIsFixed(!isFixed)}
-          className="w-full h-auto font-Quicksand font-bold !bg-blue-200 !p-2 !shadow text-blue-500 !rounded-md !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="w-full h-auto !p-2 !rounded-md dragButtonPrimaryStyle"
         >
           {isFixed ? "Unfix" : "Fix"}
         </Button>
       )}
       <Button
         onClick={() => setIsOpenUploadImgsModal(true)}
-        className="upload-imgs w-full h-auto font-Quicksand font-bold !bg-blue-200 !p-2 !shadow text-blue-500 !rounded-md !text-[0.90rem] !border-[2.5px] !border-blue-500"
+        className="upload-imgs w-full h-auto !p-2 !rounded-md dragButtonPrimaryStyle"
       >
         Upload images
       </Button>
