@@ -1,37 +1,20 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
-import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
+import DeleteHandler from "@module/container/main/delete/DeleteHandler.js";
+import "@styles/formAndComponentStyles.css";
 
 const CityCard = ({ city }) => {
-  const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-  const deleteMutation = useMutation(
-    (id) => request({ method: "DELETE", url: `/api/cities/${id}` }),
-    {
-      onSuccess: (data) => {
-        toast.success(data.message);
-        queryClient.invalidateQueries(["fetchCities"]);
-      },
-      onError: (error) => {
-        logger.error(error);
-      },
-    },
-  );
-
-  // const handleEdit = () => {
-  //   navigate("/citys/editcity", { state: { city } });
-  // };
-
-  const handleRemove = (id) => {
-    deleteMutation.mutate(id);
-  };
+  const { deleteMutation, handleRemove } = DeleteHandler({
+    url: "/api/cities/",
+    queryKey: "fetchCities",
+    setSubmitLoading,
+  });
 
   const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(city);
 
@@ -57,18 +40,11 @@ const CityCard = ({ city }) => {
           </p>
         </div>
         <div className="w-full h-auto flex flex-row gap-2 pt-2">
-          {/* <Button
-            type="primary"
-            className="w-1/2 font-Quicksan font-bold"
-            // onClick={() => navigate("/createform", { state: { id, name } })}
-          >
-            Edit
-            <EditOutlined style={{ fontSize: "18px" }} />
-          </Button> */}
           <Button
-            className="w-full font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600"
+            className="w-full dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 dragButtonSecondaryStyle"
             color="danger"
             variant="solid"
+            loading={submitLoading}
             onClick={(e) => {
               e.stopPropagation();
               setIsDeleteModalOpen(true);
