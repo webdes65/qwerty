@@ -113,7 +113,7 @@ const Header = ({
               boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
             }}
           />
-          <p className="text-[1rem] text-dark-100 dark:text-white font-bold cursor-default">
+          <p className="text-[1rem] dragLabelStyle cursor-default">
             {userName}
           </p>
         </div>

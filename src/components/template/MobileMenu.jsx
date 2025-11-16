@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import UseDarkModeStore from "@store/UseDarkMode.js";
+import "@styles/mobileMenuStyles.css";
 
 const MobileMenu = () =>
   // {
@@ -29,11 +30,11 @@ const MobileMenu = () =>
     return (
       <div className="h-[4rem] hidden flex-row justify-between items-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white shadow rounded-xl font-Quicksand relative max-lg:flex">
         <div className="w-full flex flex-row justify-around items-center">
-          <div className="w-1/2 h-full flex flex-row justify-center items-center">
+          <div className="parentTagStyle">
             <button
               onClick={() => navigate("/")}
-              className={`w-14 h-14 flex flex-row justify-center items-center text-black-500 rounded-full ${
-                location.pathname === "/" ? "bg-gray-200" : " "
+              className={`childTagStyle ${
+                location.pathname === "/" ? "bg-gray-200 dark:bg-gray-100" : " "
               }`}
             >
               <img
@@ -47,11 +48,11 @@ const MobileMenu = () =>
               />
             </button>
           </div>
-          <div className="w-1/2 h-full flex flex-row justify-center items-center">
+          <div className="parentTagStyle">
             <button
               onClick={() => navigate("/createform")}
-              className={`w-14 h-14 flex flex-row justify-center items-center text-black-500 rounded-full ${
-                location.pathname === "/createform" ? "bg-gray-200" : " "
+              className={`childTagStyle ${
+                location.pathname === "/createform" ? "bg-gray-200 dark:bg-gray-100" : " "
               }`}
             >
               <img
@@ -98,11 +99,11 @@ const MobileMenu = () =>
           </label>
         </div> */}
         <div className="w-full flex flex-row justify-around items-center">
-          <div className="w-1/2 h-full flex flex-row justify-center items-center">
+          <div className="parentTagStyle">
             <button
               onClick={() => navigate("/devices")}
-              className={`w-14 h-14 flex flex-row justify-center items-center text-black-500 rounded-full ${
-                location.pathname === "/devices" ? "bg-gray-200" : " "
+              className={`childTagStyle ${
+                location.pathname === "/devices" ? "bg-gray-200 dark:bg-gray-100" : " "
               }`}
             >
               <img
@@ -116,11 +117,11 @@ const MobileMenu = () =>
               />
             </button>
           </div>
-          <div className="w-1/2 h-full flex flex-row justify-center items-center">
+          <div className="parentTagStyle">
             <button
               onClick={() => navigate("/graphs")}
-              className={`w-14 h-14 flex flex-row justify-center items-center text-black-500 rounded-full ${
-                location.pathname === "/graphs" ? "bg-gray-200" : " "
+              className={`childTagStyle ${
+                location.pathname === "/graphs" ? "bg-gray-200 dark:bg-gray-100" : " "
               }`}
             >
               <img
