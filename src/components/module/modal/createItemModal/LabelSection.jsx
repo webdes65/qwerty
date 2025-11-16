@@ -36,35 +36,19 @@ const LabelSection = ({
             className="border-2 border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
           />
 
-          <div className="flex items-center gap-2">
-            <Field
-              type="checkbox"
-              id="selectDevice"
-              name="selectDevice"
-              checked={selectDevice}
-              onChange={() => setSelectDevice(!selectDevice)}
-              className="w-4 h-4"
-            />
-            <label
-              htmlFor="selectDevice"
-              className="text-sm cursor-pointer font-bold"
-            >
-              Choose Device
-            </label>
-          </div>
-
           <DeviceOfLabelCard
             selectDevice={selectDevice}
-            selectedDeviceId={selectedDeviceId}
-            setSelectedDeviceId={setSelectedDeviceId}
-            optionsDevices={optionsDevices}
+            setSelectDevice={setSelectDevice}
             isLoadingDevices={isLoadingDevices}
-            registersError={registersError}
-            setFieldValue={setFieldValue}
-            isLoadingRegisters={isLoadingRegisters}
             devicesError={devicesError}
+            optionsDevices={optionsDevices}
+            setSelectedDeviceId={setSelectedDeviceId}
+            selectedDeviceId={selectedDeviceId}
+            isLoadingRegisters={isLoadingRegisters}
+            registersError={registersError}
             registersData={registersData}
             optionsRegisters={optionsRegisters}
+            setFieldValue={setFieldValue}
           />
 
           {values.temp && (
