@@ -43,6 +43,13 @@ export default function DeviceOfLabelCard({
             className="customSelect ant-select-selector w-full"
             placeholder="Select device"
             options={optionsDevices}
+            showSearch={true}
+            optionFilterProp="label"
+            filterSort={(optionA, optionB) =>
+              (optionA?.label ?? "")
+                .toLowerCase()
+                .localeCompare((optionB?.label ?? "").toLowerCase())
+            }
             onChange={(value) => {
               setSelectedDeviceId(value);
             }}
@@ -66,6 +73,13 @@ export default function DeviceOfLabelCard({
                 className="customSelect ant-select-selector w-full"
                 placeholder="Select register"
                 options={optionsRegisters}
+                showSearch={true}
+                optionFilterProp="label"
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
                 onChange={(value) => setFieldValue("temp", value)}
               />
             )

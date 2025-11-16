@@ -31,7 +31,7 @@ export const MqttProvider = ({ children }) => {
       return;
     }
 
-    const brokerUrl = import.meta.env.VITE_BROKER_URL;
+    const brokerUrl = import.meta.env.VITE_MQTT_URL;
 
     if (!brokerUrl) {
       // logger.error("MQTT broker URL not found");

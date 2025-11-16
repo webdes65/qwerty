@@ -1,7 +1,7 @@
 .parentTagStyle {
-    @apply w-1/2 h-full flex flex-row justify-center items-center;
+  @apply w-1/2 h-full flex flex-row justify-center items-center;
 }
 
 .childTagStyle {
-    @apply w-14 h-14 flex flex-row justify-center items-center rounded-full;
+  @apply w-14 h-14 flex flex-row justify-center items-center rounded-full;
 }

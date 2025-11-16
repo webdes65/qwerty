@@ -52,7 +52,9 @@ const MobileMenu = () =>
             <button
               onClick={() => navigate("/createform")}
               className={`childTagStyle ${
-                location.pathname === "/createform" ? "bg-gray-200 dark:bg-gray-100" : " "
+                location.pathname === "/createform"
+                  ? "bg-gray-200 dark:bg-gray-100"
+                  : " "
               }`}
             >
               <img
@@ -103,7 +105,9 @@ const MobileMenu = () =>
             <button
               onClick={() => navigate("/devices")}
               className={`childTagStyle ${
-                location.pathname === "/devices" ? "bg-gray-200 dark:bg-gray-100" : " "
+                location.pathname === "/devices"
+                  ? "bg-gray-200 dark:bg-gray-100"
+                  : " "
               }`}
             >
               <img
@@ -121,7 +125,9 @@ const MobileMenu = () =>
             <button
               onClick={() => navigate("/graphs")}
               className={`childTagStyle ${
-                location.pathname === "/graphs" ? "bg-gray-200 dark:bg-gray-100" : " "
+                location.pathname === "/graphs"
+                  ? "bg-gray-200 dark:bg-gray-100"
+                  : " "
               }`}
             >
               <img
