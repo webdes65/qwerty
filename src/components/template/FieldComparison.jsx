@@ -1,56 +1,19 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { Select, Spin } from "antd";
-import { request } from "@services/apiService.js";
+import FieldComparisonHandlers from "@module/container/main/create-form/modal-handlers/FieldComparisonHandlers.js";
+import "@styles/formAndComponentStyles.css";
 
 const FieldComparison = ({ betData, setBetData }) => {
   const [optionsCategories, setOptionsCategories] = useState([]);
-  const [selectedCategorie, setSelectedCategorie] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(0);
   const [categoryImages, setCategoryImages] = useState({});
 
-  const { data: categoriesData } = useQuery(["getCategories"], () =>
-    request({
-      method: "GET",
-      url: "/api/categories",
-    }),
-  );
-
-  useEffect(() => {
-    if (categoriesData) {
-      const newOptions = categoriesData.data.map((item) => ({
-        label: item.title,
-        value: item.uuid,
-      }));
-      const allOption = { label: "All", value: 0 };
-      setOptionsCategories([allOption, ...newOptions]);
-    }
-  }, [categoriesData]);
-
-  const {
-    data: imgsData,
-    isLoading: isLoadingImgs,
-    error: imgsError,
-  } = useQuery(
-    ["fetchImgsCategory", selectedCategorie],
-    () =>
-      request({
-        method: "GET",
-        url: `/api/files?category=${selectedCategorie}`,
-      }),
-    {
-      enabled: !!categoriesData,
-    },
-  );
-
-  useEffect(() => {
-    if (imgsData) {
-      setCategoryImages((prev) => ({
-        ...prev,
-        [selectedCategorie]: imgsData.data,
-      }));
-    }
-  }, [imgsData, selectedCategorie]);
+  const { isLoadingImages, imagesError } = FieldComparisonHandlers({
+    setOptionsCategories,
+    selectedCategory,
+    setCategoryImages,
+  });
 
   const handleAddField = () => {
     const newField = {
@@ -97,7 +60,7 @@ const FieldComparison = ({ betData, setBetData }) => {
             className="w-full flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-md p-2"
           >
             <input
-              className="w-full h-full border-2  border-gray-200 dark:border-gray-600 rounded-md py-[0.20rem] px-3 outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white"
+              className="w-full h-full !py-[0.20rem] !px-3 bg-white uploadInputStyle"
               type="text"
               placeholder={field.key}
               value={field.value}
@@ -108,9 +71,7 @@ const FieldComparison = ({ betData, setBetData }) => {
 
             <div className="w-full flex flex-row justify-center items-center">
               <div className="w-1/2 h-auto flex flex-row justify-start items-center gap-2">
-                <p className="w-auto h-full text-sm text-black dark:text-white font-bold">
-                  Color :
-                </p>
+                <p className="w-auto h-full text-sm dragLabelStyle">Color :</p>
                 <input
                   type="color"
                   value={field.color}
@@ -127,9 +88,7 @@ const FieldComparison = ({ betData, setBetData }) => {
                     handleFieldChange(index, "visibility", e.target.checked)
                   }
                 />
-                <span className="text-sm text-black dark:text-white font-bold">
-                  Visibility
-                </span>
+                <span className="text-sm dragLabelStyle">Visibility</span>
               </label>
             </div>
 
@@ -147,15 +106,15 @@ const FieldComparison = ({ betData, setBetData }) => {
               options={optionsCategories}
               onChange={(value) => {
                 handleFieldChange(index, "category", value);
-                setSelectedCategorie(value);
+                setSelectedCategory(value);
               }}
             />
 
             <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
-              {isLoadingImgs ? (
+              {isLoadingImages ? (
                 <Spin />
-              ) : imgsError ? (
-                <div>{imgsError}</div>
+              ) : imagesError ? (
+                <div>{imagesError}</div>
               ) : (
                 <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-1 overflow-auto">
                   <div
