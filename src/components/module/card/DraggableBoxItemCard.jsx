@@ -25,9 +25,11 @@ export default function DraggableBoxItemCard({
   moveLeft,
   moveRight,
 }) {
+
+  console.log('item', item);
   return (
     <>
-      {item.indexType === "label" && (
+      {item.type === "label" && (
         <>
           <p
             style={{
@@ -55,7 +57,7 @@ export default function DraggableBoxItemCard({
         </>
       )}
 
-      {item.indexType === "text input" && (
+      {item.type === "text input" && (
         <>
           {isEditing ? (
             <input
@@ -85,7 +87,7 @@ export default function DraggableBoxItemCard({
         </>
       )}
 
-      {item.indexType === "button" && (
+      {item.type === "button" && (
         <p
           style={{
             fontSize: `${item.fontSize}rem`,
