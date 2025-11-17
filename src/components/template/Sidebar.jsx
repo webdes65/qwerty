@@ -4,7 +4,7 @@ import { TbDoorExit } from "react-icons/tb";
 import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
 import { Button, Dropdown, Space } from "antd";
 import LogoutModal from "@module/modal/LogoutModal.jsx";
-import MenuHelperHandlers from "@module/container/main/MenuHelperHandlers.jsx";
+import MenuHelperHandlers from "@module/container/main/menu/MenuHelperHandlers.jsx";
 import UseDarkModeStore from "@store/UseDarkMode.js";
 import "@styles/sidebarStyles.css";
 
