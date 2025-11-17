@@ -29,10 +29,10 @@ export default function UpdateFormModal({
   }));
 
   useEffect(() => {
-    if (category) {
+    if (category && category.uuid) {
       setSelectedCategory(category.uuid);
     }
-  }, []);
+  }, [category, setSelectedCategory]);
 
   const initialValues = {
     updatedName: updatedName || "",
