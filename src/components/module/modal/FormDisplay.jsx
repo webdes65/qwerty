@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useState } from "react";
 import { Modal, Spin } from "antd";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import FormDisplayHandler from "@module/container/main/create-form/FormDisplayHandler.js";
 
 function FormDisplay({
   showModalFormDisplay,
@@ -10,26 +8,8 @@ function FormDisplay({
   idForm,
 }) {
   const [formInfo, setFormInfo] = useState("");
-  const { data, isLoading, error } = useQuery(
-    ["GetForms"],
-    () =>
-      request({
-        method: "GET",
-        url: "/api/forms",
-      }),
-    { enabled: !!idForm },
-  );
 
-  useEffect(() => {
-    if (data?.data && idForm) {
-      const formInfo = data.data.find((form) => form.id === idForm);
-      if (formInfo) {
-        setFormInfo(formInfo.content);
-      } else {
-        logger.log("A form was not found with this ID.");
-      }
-    }
-  }, [data, idForm]);
+  const {isLoading, error} = FormDisplayHandler({idForm, setFormInfo})
 
   return (
     <Modal
