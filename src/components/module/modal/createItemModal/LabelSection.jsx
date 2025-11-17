@@ -2,29 +2,7 @@ import { Select, Spin } from "antd";
 import { Field } from "formik";
 import DeviceOfLabelCard from "@module/card/DeviceOfLabelCard.jsx";
 
-const LabelSection = ({
-  values,
-  optionsDevices,
-  selectedDeviceId,
-  setSelectedDeviceId,
-  selectDevice,
-  setSelectDevice,
-  setFieldValue,
-  isLoadingDevices,
-  optionsRegisters,
-  devicesError,
-  registersData,
-  showImgsOrColors,
-  setShowImgsOrColors,
-  optionsCategories,
-  setSelectedCategorie,
-  isLoadingImgs,
-  imgsError,
-  imgs,
-  setBetData,
-  isLoadingRegisters,
-  registersError,
-}) => {
+const LabelSection = ({ values, setFieldValue, props }) => {
   return (
     <>
       {values.type === "label" && (
@@ -37,17 +15,17 @@ const LabelSection = ({
           />
 
           <DeviceOfLabelCard
-            selectDevice={selectDevice}
-            setSelectDevice={setSelectDevice}
-            isLoadingDevices={isLoadingDevices}
-            devicesError={devicesError}
-            optionsDevices={optionsDevices}
-            setSelectedDeviceId={setSelectedDeviceId}
-            selectedDeviceId={selectedDeviceId}
-            isLoadingRegisters={isLoadingRegisters}
-            registersError={registersError}
-            registersData={registersData}
-            optionsRegisters={optionsRegisters}
+            selectDevice={props.selectDevice}
+            setSelectDevice={props.setSelectDevice}
+            isLoadingDevices={props.isLoadingDevices}
+            devicesError={props.devicesError}
+            optionsDevices={props.optionsDevices}
+            setSelectedDeviceId={props.setSelectedDeviceId}
+            selectedDeviceId={props.selectedDeviceId}
+            isLoadingRegisters={props.isLoadingRegisters}
+            registersError={props.registersError}
+            registersData={props.registersData}
+            optionsRegisters={props.optionsRegisters}
             setFieldValue={setFieldValue}
           />
 
@@ -99,8 +77,8 @@ const LabelSection = ({
                   id="chooseColorsForBg"
                   name="bgOption"
                   value="colors"
-                  checked={showImgsOrColors === "colors"}
-                  onChange={() => setShowImgsOrColors("colors")}
+                  checked={props.showImagesOrColors === "colors"}
+                  onChange={() => props.setShowImagesOrColors("colors")}
                   className="w-4 h-4"
                 />
                 <label
@@ -117,8 +95,8 @@ const LabelSection = ({
                   id="chooseImgsForBg"
                   name="bgOption"
                   value="images"
-                  checked={showImgsOrColors === "images"}
-                  onChange={() => setShowImgsOrColors("images")}
+                  checked={props.showImagesOrColors === "images"}
+                  onChange={() => props.setShowImagesOrColors("images")}
                   className="w-4 h-4"
                 />
                 <label
@@ -132,7 +110,7 @@ const LabelSection = ({
           )}
 
           {values.typeDataRegister === "boolean" &&
-            showImgsOrColors === "colors" && (
+            props.showImagesOrColors === "colors" && (
               <div className="w-full flex flex-row justify-center items-center gap-1">
                 <label className="w-1/2 flex flex-row justify-start items-center gap-1 text-sm font-bold bg-blue-50 dark:bg-gray-100 runded-md p-2">
                   Color in true :
@@ -149,7 +127,7 @@ const LabelSection = ({
                   />
                 </label>
                 <label className="w-1/2 flex flex-row justify-start items-center gap-1 text-sm font-bold bg-blue-50 dark:bg-gray-100 runded-md p-2">
-                  Color in fasle :
+                  Color in false :
                   <input
                     type="color"
                     name="backgroundColorBooleanFalse"
@@ -166,7 +144,7 @@ const LabelSection = ({
             )}
 
           {values.typeDataRegister === "binary" &&
-            showImgsOrColors === "colors" && (
+            props.showImagesOrColors === "colors" && (
               <div className="w-full h-auto flex flex-row justify-center items-center gap-1">
                 <label className="w-1/2 text-sm font-bold flex flex-row justify-start items-center gap-1 bg-blue-50 dark:bg-gray-100 rounded-md p-2">
                   Color in 0 :
@@ -193,7 +171,7 @@ const LabelSection = ({
               </div>
             )}
 
-          {showImgsOrColors === "images" &&
+          {props.showImagesOrColors === "images" &&
             (values.typeDataRegister === "boolean" ||
               values.typeDataRegister === "binary") && (
               <Select
@@ -206,18 +184,18 @@ const LabelSection = ({
                     .localeCompare((optionB?.label ?? "").toLowerCase())
                 }
                 placeholder="Choose category"
-                options={optionsCategories}
-                onChange={(value) => setSelectedCategorie(value)}
+                options={props.optionsCategories}
+                onChange={(value) => props.setSelectedCategory(value)}
               />
             )}
 
           {values.typeDataRegister === "boolean" &&
-            showImgsOrColors === "images" && (
+            props.showImagesOrColors === "images" && (
               <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
-                {isLoadingImgs ? (
+                {props.isLoadingImgs ? (
                   <Spin />
-                ) : imgsError ? (
-                  <div>{imgsError}</div>
+                ) : props.imgsError ? (
+                  <div>{props.imgsError}</div>
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in true</p>
@@ -236,7 +214,7 @@ const LabelSection = ({
                           No Image
                         </span>
                       </div>
-                      {imgs.map((img, index) => (
+                      {props.images.map((img, index) => (
                         <div
                           key={index}
                           onClick={() =>
@@ -265,12 +243,12 @@ const LabelSection = ({
             )}
 
           {values.typeDataRegister === "boolean" &&
-            showImgsOrColors === "images" && (
+            props.showImagesOrColors === "images" && (
               <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
-                {isLoadingImgs ? (
+                {props.isLoadingImages ? (
                   <Spin />
-                ) : imgsError ? (
-                  <div>{imgsError}</div>
+                ) : props.imagesError ? (
+                  <div>{props.imagesError}</div>
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in false</p>
@@ -289,7 +267,7 @@ const LabelSection = ({
                           No Image
                         </span>
                       </div>
-                      {imgs.map((img, index) => (
+                      {props.images.map((img, index) => (
                         <div
                           key={index}
                           onClick={() =>
@@ -318,12 +296,12 @@ const LabelSection = ({
             )}
 
           {values.typeDataRegister === "binary" &&
-            showImgsOrColors === "images" && (
+            props.showImagesOrColors === "images" && (
               <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
-                {isLoadingImgs ? (
+                {props.isLoadingImages ? (
                   <Spin />
-                ) : imgsError ? (
-                  <div>{imgsError}</div>
+                ) : props.imagesError ? (
+                  <div>{props.imagesError}</div>
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in 0</p>
@@ -342,7 +320,7 @@ const LabelSection = ({
                           No Image
                         </span>
                       </div>
-                      {imgs.map((img, index) => (
+                      {props.images.map((img, index) => (
                         <div
                           key={index}
                           onClick={() =>
@@ -368,12 +346,12 @@ const LabelSection = ({
             )}
 
           {values.typeDataRegister === "binary" &&
-            showImgsOrColors === "images" && (
+            props.showImagesOrColors === "images" && (
               <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
-                {isLoadingImgs ? (
+                {props.isLoadingImages ? (
                   <Spin />
-                ) : imgsError ? (
-                  <div>{imgsError}</div>
+                ) : props.imagesError ? (
+                  <div>{props.imagesError}</div>
                 ) : (
                   <div className="w-full flex flex-col justify-center items-start gap-2">
                     <p className="font-bold text-sm">Img in 1</p>
@@ -392,7 +370,7 @@ const LabelSection = ({
                           No Image
                         </span>
                       </div>
-                      {imgs.map((img, index) => (
+                      {props.images.map((img, index) => (
                         <div
                           key={index}
                           onClick={() =>
@@ -464,7 +442,7 @@ const LabelSection = ({
                   className="customSelect w-full"
                   placeholder="Condition definition"
                   onChange={(value) => {
-                    setBetData((prevState) => ({
+                    props.setBetData((prevState) => ({
                       ...prevState,
                       bet: value,
                     }));

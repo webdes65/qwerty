@@ -20,7 +20,7 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
   const [selectDevice, setSelectDevice] = useState(false);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
-  const [showImgsOrColors, setShowImgsOrColors] = useState("colors");
+  const [showImagesOrColors, setShowImagesOrColors] = useState("colors");
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [optionsCategories, setOptionsCategories] = useState([]);
   const [images, setImages] = useState([]);
@@ -58,6 +58,28 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
     setIsOpenCreateModal,
     setBetData,
   });
+
+  const labelProps = {
+    imagesError,
+    setSelectedDeviceId,
+    selectDevice,
+    setSelectDevice,
+    optionsRegisters,
+    optionsCategories,
+    optionsDevices,
+    isLoadingDevices,
+    images,
+    registersData,
+    setBetData,
+    devicesError,
+    isLoadingImages,
+    selectedDeviceId,
+    setSelectedCategory,
+    setShowImagesOrColors,
+    showImagesOrColors,
+    isLoadingRegisters,
+    registersError,
+  };
 
   return (
     <div className="h-auto w-full flex flex-col justify-start items-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white  font-Poppins overflow-auto">
@@ -113,27 +135,9 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
             />
 
             <LabelSection
-              imgsError={imagesError}
-              setSelectedDeviceId={setSelectedDeviceId}
-              selectDevice={selectDevice}
-              setSelectDevice={setSelectDevice}
-              optionsRegisters={optionsRegisters}
-              optionsCategories={optionsCategories}
-              optionsDevices={optionsDevices}
-              isLoadingDevices={isLoadingDevices}
-              imgs={images}
-              registersData={registersData}
-              setBetData={setBetData}
               values={values}
-              devicesError={devicesError}
-              isLoadingImgs={isLoadingImages}
-              selectedDeviceId={selectedDeviceId}
               setFieldValue={setFieldValue}
-              setSelectedCategorie={setSelectedCategory}
-              setShowImgsOrColors={setShowImgsOrColors}
-              showImgsOrColors={showImgsOrColors}
-              isLoadingRegisters={isLoadingRegisters}
-              registersError={registersError}
+              props={labelProps}
             />
 
             {values.temp && betData.bet && (
