@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
