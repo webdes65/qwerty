@@ -22,7 +22,7 @@ const ButtonSection = ({
   const [displayTypeButton, setDisplayTypeButton] = useState("externallink");
   const [optionsForm, setOptionsForm] = useState([]);
 
-  const {dataForms} = ButtonSectionHandler({setOptionsForm});
+  const { dataForms } = ButtonSectionHandler({ setOptionsForm });
 
   const processedOptions = optionsForm.map((option) => ({
     ...option,

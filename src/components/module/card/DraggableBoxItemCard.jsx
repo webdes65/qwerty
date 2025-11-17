@@ -25,7 +25,6 @@ export default function DraggableBoxItemCard({
   moveLeft,
   moveRight,
 }) {
-
   return (
     <>
       {item.type === "label" && (

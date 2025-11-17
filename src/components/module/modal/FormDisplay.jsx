@@ -9,7 +9,7 @@ function FormDisplay({
 }) {
   const [formInfo, setFormInfo] = useState("");
 
-  const {isLoading, error} = FormDisplayHandler({idForm, setFormInfo})
+  const { isLoading, error } = FormDisplayHandler({ idForm, setFormInfo });
 
   return (
     <Modal
@@ -30,7 +30,6 @@ function FormDisplay({
               className="w-full h-full overflow-hidden"
               srcDoc={formInfo}
               title="Content Preview"
-              scrolling="no"
             />
           </div>
         )}
