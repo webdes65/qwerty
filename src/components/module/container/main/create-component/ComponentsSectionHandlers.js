@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { request } from "@services/apiService.js";
 import { toast } from "react-toastify";
+import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
 
 export default function ComponentsSectionHandlers({ setDeletingId }) {
