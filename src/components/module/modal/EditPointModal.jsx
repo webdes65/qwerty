@@ -1,7 +1,8 @@
 import { Modal, Slider } from "antd";
 import { Field, Formik, Form } from "formik";
+import "@styles/formAndComponentStyles.css";
 
-const EditPointModalInRegisEditor = ({
+const EditPointModal = ({
   isOpenEditModal,
   setIsOpenEditModal,
   item,
@@ -108,13 +109,13 @@ const EditPointModalInRegisEditor = ({
               <button
                 type="button"
                 onClick={() => setIsOpenEditModal(false)}
-                className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500"
+                className="py-2 px-4 dragButtonSecondaryStyle"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                className="py-2 px-4 dragButtonPrimaryStyle"
               >
                 Save
               </button>
@@ -126,4 +127,4 @@ const EditPointModalInRegisEditor = ({
   );
 };
 
-export default EditPointModalInRegisEditor;
+export default EditPointModal;

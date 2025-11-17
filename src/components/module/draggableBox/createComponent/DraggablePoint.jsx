@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { toast } from "react-toastify";
-import { TiDelete } from "react-icons/ti";
-import { useSelector } from "react-redux";
 import { IoMdSettings } from "react-icons/io";
-import EditPointModalInRegisEditor from "@module/modal/EditPointModalInRegisEditor";
+import { TiDelete } from "react-icons/ti";
 import { v4 as uuidv4 } from "uuid";
+import EditPointModal from "@module/modal/EditPointModal.jsx";
 
 const ItemType = {
   POINT: "point",
@@ -108,7 +108,7 @@ const DraggablePoint = ({
           }}
         />
       )}
-      <EditPointModalInRegisEditor
+      <EditPointModal
         isOpenEditModal={isOpenEditModal}
         setIsOpenEditModal={setIsOpenEditModal}
         item={point}
