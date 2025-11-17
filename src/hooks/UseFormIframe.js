@@ -131,6 +131,10 @@ export const useFormIframe = ({
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
+        border-radius: none !important;
+        border-width: none !important;
+        border-style: none !important;
+        border-color: none !important;
       }
       
       #dropBox {
@@ -138,6 +142,9 @@ export const useFormIframe = ({
         justify-content: center !important;
         align-items: center !important;
         border-radius: ${newForm?.boxInfo?.borderRadius || 0}%;
+        border-width: ${newForm?.boxInfo?.borderTop || 0}px ${newForm?.boxInfo?.borderRight || 0}px ${newForm?.boxInfo?.borderBottom || 0}px ${newForm?.boxInfo?.borderLeft || 0}px;
+        border-style: solid;
+        border-color: ${newForm?.boxInfo?.borderColor || "transparent"};
       }
       
       #myModal {
