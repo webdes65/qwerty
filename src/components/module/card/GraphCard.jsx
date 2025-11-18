@@ -51,7 +51,7 @@ const GraphCard = ({ data }) => {
           </div>
           <div className="w-full h-auto flex flex-row  gap-2 pt-2">
             <Button
-              className="w-full dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 dragButtonSecondaryStyle"
+              className="w-full dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 buttonSecondaryStyle"
               color="danger"
               variant="solid"
               loading={submitLoading}

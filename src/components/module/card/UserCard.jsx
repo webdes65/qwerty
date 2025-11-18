@@ -66,7 +66,7 @@ const UserCard = (data) => {
           <div className="w-full h-auto flex flex-row gap-2 pt-2">
             <Button
               type="primary"
-              className="w-full max-sm:!px-3 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 dragButtonPrimaryStyle"
+              className="w-full max-sm:!px-3 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
               onClick={(e) => {
                 e.stopPropagation();
                 handleEdit();
@@ -77,7 +77,7 @@ const UserCard = (data) => {
             </Button>
             {data.data.self === false ? (
               <Button
-                className="w-full max-sm:!px-3 dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 dragButtonSecondaryStyle"
+                className="w-full max-sm:!px-3 dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 buttonSecondaryStyle"
                 color="danger"
                 variant="solid"
                 loading={submitLoading}

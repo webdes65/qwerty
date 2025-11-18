@@ -123,7 +123,7 @@ export default function UpdateFormModal({
             {!isCreatingCategory && (
               <Button
                 onClick={() => setIsCreatingCategory(true)}
-                className="w-full dragButtonPrimaryStyle"
+                className="w-full buttonPrimaryStyle"
               >
                 Create Category
               </Button>
@@ -147,14 +147,14 @@ export default function UpdateFormModal({
                 <div className="w-full flex flex-row justify-center items-center gap-2">
                   <Button
                     onClick={() => setIsCreatingCategory(false)}
-                    className="w-1/2 dragButtonSecondaryStyle"
+                    className="w-1/2 buttonSecondaryStyle"
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={handleCreateCategory}
                     loading={loadingCreateCategory}
-                    className="w-1/2 dragButtonPrimaryStyle"
+                    className="w-1/2 buttonPrimaryStyle"
                   >
                     Create
                   </Button>
@@ -174,7 +174,7 @@ export default function UpdateFormModal({
               <Button
                 key="cancel"
                 onClick={() => setOpenUpdateModal(false)}
-                className="dragButtonSecondaryStyle"
+                className="buttonSecondaryStyle"
               >
                 Cancel
               </Button>
@@ -182,7 +182,7 @@ export default function UpdateFormModal({
               <Button
                 key="download"
                 onClick={handleDownloadHTML}
-                className="font-Quicksand font-bold !bg-green-200 !p-5 !shadow text-green-500 !border-[2.5px] !border-green-500"
+                className="buttonTertiaryStyle"
               >
                 Download
               </Button>
@@ -191,7 +191,7 @@ export default function UpdateFormModal({
                 key="confirm"
                 htmlType="submit"
                 type="primary"
-                className="dragButtonPrimaryStyle"
+                className="buttonPrimaryStyle"
               >
                 Confirm
               </Button>

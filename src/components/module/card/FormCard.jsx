@@ -52,7 +52,7 @@ const FormCard = ({ form }) => {
           <div className="w-full h-auto flex flex-row gap-2 pt-2">
             <Button
               type="primary"
-              className="w-1/2 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 dragButtonPrimaryStyle"
+              className="w-1/2 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate("/createform", { state: { id, name, category } });
@@ -62,7 +62,7 @@ const FormCard = ({ form }) => {
               Edit
             </Button>
             <Button
-              className="w-1/2 dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 dragButtonSecondaryStyle"
+              className="w-1/2 dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 buttonSecondaryStyle"
               color="danger"
               variant="solid"
               loading={submitLoading}

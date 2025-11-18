@@ -31,7 +31,7 @@ export default function ControlMainOfForm({
               createItemModal: true,
             }));
           }}
-          className="w-full dragButtonPrimaryStyle"
+          className="w-full buttonPrimaryStyle"
         >
           Create Item
         </Button>
@@ -44,7 +44,7 @@ export default function ControlMainOfForm({
               createPointModal: true,
             }))
           }
-          className="w-full dragButtonPrimaryStyle"
+          className="w-full buttonPrimaryStyle"
         >
           Create Point
         </Button>
@@ -167,7 +167,7 @@ export default function ControlMainOfForm({
               localStorage.removeItem("registers");
               navigate(location.pathname, { replace: true });
             }}
-            className="w-full dragButtonSecondaryStyle"
+            className="w-full buttonSecondaryStyle"
           >
             Form Reset
           </Button>
@@ -181,7 +181,7 @@ export default function ControlMainOfForm({
                 dragDisabled: !itemAbility.dragDisabled,
               }))
             }
-            className="w-full dragButtonPrimaryStyle"
+            className="w-full buttonPrimaryStyle"
           >
             {itemAbility.dragDisabled ? "Enable Dragging" : "Disable Dragging"}
           </Button>
@@ -189,10 +189,7 @@ export default function ControlMainOfForm({
       )}
 
       {items.length > 0 && formId && (
-        <Button
-          onClick={handleCopyHTML}
-          className="w-full dragButtonPrimaryStyle"
-        >
+        <Button onClick={handleCopyHTML} className="w-full buttonPrimaryStyle">
           Copy Form
         </Button>
       )}
@@ -202,7 +199,7 @@ export default function ControlMainOfForm({
           <Button
             size="middle"
             onClick={btnDisplayStatus ? handleSendHTML : openModalUpdateName}
-            className="w-full dragButtonPrimaryStyle"
+            className="w-full buttonPrimaryStyle"
           >
             {btnDisplayStatus ? "Send Form" : "Update"}
           </Button>
@@ -216,7 +213,7 @@ export default function ControlMainOfForm({
               uploadImgsModal: true,
             }))
           }
-          className="w-full dragButtonPrimaryStyle"
+          className="w-full buttonPrimaryStyle"
         >
           Upload image
         </Button>

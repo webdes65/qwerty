@@ -62,14 +62,14 @@ export default function DragOptionCard({
         <Button
           type="primary"
           onClick={() => setIsOpenModalCreateBoard(true)}
-          className="create-board w-1/2 dragButtonPrimaryStyle"
+          className="create-board w-1/2 buttonPrimaryStyle"
         >
           Create Board
         </Button>
         <Button
           type="primary"
           onClick={() => setIsOpenModalCreatePoint(true)}
-          className="create-point w-1/2 dragButtonPrimaryStyle"
+          className="create-point w-1/2 buttonPrimaryStyle"
         >
           Create Point
         </Button>
@@ -78,13 +78,13 @@ export default function DragOptionCard({
         <div className="w-full flex flex-row justify-center items-center gap-2">
           <Button
             onClick={submitComponent}
-            className="w-1/2 h-auto !p-2 !rounded-md dragButtonPrimaryStyle"
+            className="w-1/2 h-auto !p-2 !rounded-md buttonPrimaryStyle"
           >
             Sent Component
           </Button>
           <Button
             onClick={RemoveAll}
-            className="w-1/2 h-auto !p-2 !rounded-md hover:!text-red-500 dragButtonSecondaryStyle"
+            className="w-1/2 h-auto !p-2 !rounded-md hover:!text-red-500 buttonSecondaryStyle"
           >
             Remove all
           </Button>
@@ -93,14 +93,14 @@ export default function DragOptionCard({
       {components.length > 0 && (
         <Button
           onClick={() => setIsFixed(!isFixed)}
-          className="w-full h-auto !p-2 !rounded-md dragButtonPrimaryStyle"
+          className="w-full h-auto !p-2 !rounded-md buttonPrimaryStyle"
         >
           {isFixed ? "Unfix" : "Fix"}
         </Button>
       )}
       <Button
         onClick={() => setIsOpenUploadImgsModal(true)}
-        className="upload-imgs w-full h-auto !p-2 !rounded-md dragButtonPrimaryStyle"
+        className="upload-imgs w-full h-auto !p-2 !rounded-md buttonPrimaryStyle"
       >
         Upload images
       </Button>

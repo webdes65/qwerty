@@ -65,7 +65,7 @@ const RegisterCard = ({ data }) => {
         </div>
         <div className="w-full h-auto flex flex-row gap-2 pt-2">
           <Button
-            className="w-full dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 dragButtonPrimaryStyle"
+            className="w-full dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
             variant="solid"
             onClick={() => {
               setIsModalOpen(true);

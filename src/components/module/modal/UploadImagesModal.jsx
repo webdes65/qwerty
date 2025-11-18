@@ -91,15 +91,15 @@ const UploadImagesModal = ({
         <Button
           onClick={handleUploadClick}
           loading={submitLoadingImages}
-          className="w-full dragButtonPrimaryStyle"
+          className="w-full buttonPrimaryStyle"
         >
-          Upload imgs
+          Upload images
         </Button>
 
         <div className="w-full h-px bg-gray-300 my-4" />
         <Button
           onClick={() => setIsCreatingCategory(true)}
-          className="w-full dragButtonPrimaryStyle"
+          className="w-full buttonPrimaryStyle"
         >
           Create Category
         </Button>
@@ -122,14 +122,14 @@ const UploadImagesModal = ({
             <div className="w-full flex flex-row justify-center items-center gap-2">
               <Button
                 onClick={() => setIsCreatingCategory(false)}
-                className="w-1/2 dragButtonSecondaryStyle"
+                className="w-1/2 buttonSecondaryStyle"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleCreateCategory}
                 loading={loadingCreateCategory}
-                className="w-1/2 dragButtonPrimaryStyle"
+                className="w-1/2 buttonPrimaryStyle"
               >
                 Create
               </Button>

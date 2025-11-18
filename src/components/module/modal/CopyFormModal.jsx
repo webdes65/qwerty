@@ -116,7 +116,7 @@ const CopyFormModal = ({
             {!isCreatingCategory && (
               <Button
                 onClick={() => setIsCreatingCategory(true)}
-                className="w-full dragButtonPrimaryStyle"
+                className="w-full buttonPrimaryStyle"
               >
                 Create Category
               </Button>
@@ -140,14 +140,14 @@ const CopyFormModal = ({
                 <div className="w-full flex flex-row justify-center items-center gap-2">
                   <Button
                     onClick={() => setIsCreatingCategory(false)}
-                    className="w-1/2 dragButtonSecondaryStyle"
+                    className="w-1/2 buttonSecondaryStyle"
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={handleCreateCategory}
                     loading={loadingCreateCategory}
-                    className="w-1/2 dragButtonPrimaryStyle"
+                    className="w-1/2 buttonPrimaryStyle"
                   >
                     Create
                   </Button>
@@ -158,7 +158,7 @@ const CopyFormModal = ({
             <Button
               htmlType="submit"
               loading={copyFormMutation.isLoading}
-              className="w-full dragButtonPrimaryStyle"
+              className="w-full buttonPrimaryStyle"
             >
               Copy Form
             </Button>

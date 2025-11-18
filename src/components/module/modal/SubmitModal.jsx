@@ -131,7 +131,7 @@ const SubmitModal = ({
             {!isCreatingCategory && (
               <Button
                 onClick={() => setIsCreatingCategory(true)}
-                className="w-full dragButtonPrimaryStyle"
+                className="w-full buttonPrimaryStyle"
               >
                 Create Category
               </Button>
@@ -155,7 +155,7 @@ const SubmitModal = ({
                 <div className="w-full flex flex-row justify-center items-center gap-2">
                   <Button
                     onClick={() => setIsCreatingCategory(false)}
-                    className="w-1/2 dragButtonSecondaryStyle"
+                    className="w-1/2 buttonSecondaryStyle"
                   >
                     Cancel
                   </Button>
@@ -163,7 +163,7 @@ const SubmitModal = ({
                     onClick={handleCreateCategory}
                     loading={loadingCreateCategory}
                     htmlType="button"
-                    className="w-1/2 dragButtonPrimaryStyle"
+                    className="w-1/2 buttonPrimaryStyle"
                   >
                     Create
                   </Button>
@@ -181,7 +181,7 @@ const SubmitModal = ({
               </Checkbox>
             )}
 
-            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
+            <Button htmlType="submit" className="w-full buttonPrimaryStyle">
               Submit
             </Button>
           </Form>

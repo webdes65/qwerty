@@ -93,14 +93,14 @@ const ComponentsSection = ({
 
                           setIsOpenCreateModal(false);
                         }}
-                        className="w-1/2 font-medium dragButtonPrimaryStyle"
+                        className="w-1/2 font-medium buttonPrimaryStyle"
                         loading={deletingId === item.uuid}
                       >
                         Add
                       </Button>
                       <Button
                         onClick={() => removeComponent(item.uuid)}
-                        className="w-1/2 font-medium dragButtonSecondaryStyle"
+                        className="w-1/2 font-medium buttonSecondaryStyle"
                         loading={deletingId === item.uuid}
                       >
                         Remove

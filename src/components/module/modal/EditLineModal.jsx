@@ -77,7 +77,7 @@ const EditLineModal = ({
                 value={values.width}
               />
             </div>
-            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
+            <Button htmlType="submit" className="w-full buttonPrimaryStyle">
               Save
             </Button>
           </Form>

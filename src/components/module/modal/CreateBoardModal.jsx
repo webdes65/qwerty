@@ -151,7 +151,7 @@ const CreateBoardModal = ({
               setFieldValue={setFieldValue}
               values={values}
             />
-            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
+            <Button htmlType="submit" className="w-full buttonPrimaryStyle">
               Submit
             </Button>
           </Form>

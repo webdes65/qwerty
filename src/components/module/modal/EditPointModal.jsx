@@ -109,14 +109,11 @@ const EditPointModal = ({
               <button
                 type="button"
                 onClick={() => setIsOpenEditModal(false)}
-                className="py-2 px-4 dragButtonSecondaryStyle"
+                className="py-2 px-4 buttonSecondaryStyle"
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                className="py-2 px-4 dragButtonPrimaryStyle"
-              >
+              <button type="submit" className="py-2 px-4 buttonPrimaryStyle">
                 Save
               </button>
             </div>

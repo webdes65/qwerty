@@ -173,7 +173,7 @@ const CreatePointModalOfComponent = ({
               />
             </div>
 
-            <Button htmlType="submit" className="w-full dragButtonPrimaryStyle">
+            <Button htmlType="submit" className="w-full buttonPrimaryStyle">
               Submit
             </Button>
           </Form>
