@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineDesktop, AiOutlineMoon, AiOutlineSun } from "react-icons/ai";
 import Cookies from "universal-cookie";
 import { useSystemTheme } from "@hooks/UseSystemTheme.js";
-import { menuItems } from "@mock/menuItems.js";
+import { menuItems } from "/src/mock/menuItems.js";
 
 export default function MenuHelperHandlers({
   onClose,
