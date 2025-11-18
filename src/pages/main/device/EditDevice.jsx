@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Button } from "antd";
 import { Formik, Form, Field } from "formik";
 import EditDeviceHandlers from "@module/container/main/device/EditDeviceHandlers.js";
+import "@styles/formAndComponentStyles.css";
 
 const EditDevice = () => {
   const location = useLocation();
@@ -28,7 +29,7 @@ const EditDevice = () => {
   });
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
+    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins">
       <div className="w-full h-full  text-dark-100 dark:bg-gray-100 dark:text-white">
         <div className="w-full grid grid-cols-2 gap-4 p-4 rounded shadow">
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -39,7 +40,7 @@ const EditDevice = () => {
                     id="name"
                     name="name"
                     disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -47,7 +48,7 @@ const EditDevice = () => {
                     id="brand"
                     name="brand"
                     disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -55,7 +56,7 @@ const EditDevice = () => {
                     id="model"
                     name="model"
                     disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -63,7 +64,7 @@ const EditDevice = () => {
                     id="description"
                     name="description"
                     disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="w-full flex gap-4">
@@ -79,7 +80,7 @@ const EditDevice = () => {
                     <Button
                       type="primary"
                       onClick={handleSubmit}
-                      className="w-1/2 font-Poppins border-2 border-green-200 dark:border-green-300 font-bold !p-4 text-dark-100  bg-green-200 dark:bg-green-300"
+                      className="w-1/2 !p-4 buttonTertiaryStyle"
                       loading={updateDeviceMutation.isLoading}
                     >
                       Save
