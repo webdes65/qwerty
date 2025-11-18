@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoLogoDropbox } from "react-icons/io5";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import AddAugmentedRealitiesModal from "@components/module/modal/AddAugmentedRealitiesModal";
+import AddARModal from "@module/modal/AddARModal.jsx";
 import AugmentedRealitiesCard from "@components/module/card/AugmentedRealitiesCard";
 import AddProject from "@components/module/modal/AddProject";
 import ProjectCard from "@components/module/card/ProjectCard";
@@ -67,7 +67,7 @@ const AugmentedRealities = () => {
         </ul>
 
         {isModalOpenAR && (
-          <AddAugmentedRealitiesModal
+          <AddARModal
             isModalOpenAR={isModalOpenAR}
             setIsModalOpenAR={setIsModalOpenAR}
           />

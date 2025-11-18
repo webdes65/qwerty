@@ -1,21 +1,14 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "react-query";
 import { Button, Modal, Progress, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import CustomField from "@components/module/CustomField";
-import generateMindFile from "@utils/generateMindFile";
-import logger from "@utils/logger.js";
-import { request } from "@services/apiService.js";
+import AddARHandler from "@module/container/main/argument-realities/AddARHandler.js";
 
 const { Dragger } = Upload;
 
-const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
-  const queryClient = useQueryClient();
-  const [submitPending, setSubmitPending] = useState(false);
+const AddARModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
   const [fileList, setFileList] = useState([]);
-  const [progress, setProgress] = useState(0);
 
   const initialValues = {
     name: "",
@@ -34,34 +27,10 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
     return errors;
   };
 
-  const mutation = useMutation(
-    (formData) => {
-      return request({
-        method: "POST",
-        url: "/api/augmented-realities",
-        data: formData,
-        contentType: "multipart/form-data",
-      });
-    },
-    {
-      onSuccess: (data) => {
-        toast.success(data.data.message);
-        queryClient.invalidateQueries("ARList");
-        setIsModalOpenAR(false);
-        setProgress(0);
-        setFileList([]);
-        // logger.error('data', data)
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-      onSettled: () => {
-        setSubmitPending(false);
-      },
-    },
-  );
-
-  // logger.log('fileList', fileList)
+  const { progress, submitPending, handlerSubmit } = AddARHandler({
+    setIsModalOpenAR,
+    setFileList,
+  });
 
   return (
     <Modal
@@ -74,55 +43,7 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
       <Formik
         initialValues={initialValues}
         validate={validate}
-        onSubmit={async (values) => {
-          try {
-            setSubmitPending(true);
-
-            const mindFile = await generateMindFile(
-              values.files,
-              (progress) => {
-                setProgress(progress);
-              },
-            );
-
-            if (mindFile) {
-              // Create FormData to handle file uploads
-              const formData = new FormData();
-
-              // Add text fields
-              formData.append("name", values.name);
-              formData.append("description", values.description);
-
-              // Add the generated mind file
-              formData.append("mindFile", mindFile, "mindfile.mind");
-
-              // Add original uploaded files
-              values.files.forEach((file) => {
-                // Use the original file object
-                const actualFile = file.originFileObj || file;
-                formData.append("files[]", actualFile, actualFile.name);
-                // logger.log(`Adding file ${index}:`, actualFile.name, actualFile.size, actualFile.type)
-              });
-
-              // Log FormData contents for debugging
-              /* logger.log(pair[0], pair[1])
-                  for (let pair of formData.entries()) {
-                    logger.log(pair[0], pair[1])
-                  }*/
-
-              // logger.log("formData", formData);
-
-              mutation.mutate(formData);
-            } else {
-              toast.error("Failed to generate mind file.");
-            }
-          } catch (error) {
-            logger.log(error);
-            toast.error("An error occurred while processing files.");
-          } finally {
-            setSubmitPending(false);
-          }
-        }}
+        onSubmit={handlerSubmit}
       >
         {({ setFieldValue }) => (
           <Form className="w-full flex flex-col justify-center items-start gap-2 pt-6">
@@ -189,4 +110,4 @@ const AddAugmentedRealitiesModal = ({ isModalOpenAR, setIsModalOpenAR }) => {
   );
 };
 
-export default AddAugmentedRealitiesModal;
+export default AddARModal;
