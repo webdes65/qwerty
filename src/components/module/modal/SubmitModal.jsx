@@ -102,7 +102,7 @@ const SubmitModal = ({
               <Field
                 type="text"
                 name="name"
-                className="w-full !p-2  bg-white uploadInputStyle"
+                className="w-full !p-2  bg-white inputStyle"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -140,14 +140,14 @@ const SubmitModal = ({
             {isCreatingCategory && (
               <div className="w-full flex flex-col gap-2">
                 <input
-                  className="placeholder:font-medium bg-white uploadInputStyle"
+                  className="placeholder:font-medium bg-white inputStyle"
                   placeholder="Title"
                   value={categoryTitle}
                   onChange={(e) => setCategoryTitle(e.target.value)}
                   required
                 />
                 <input
-                  className="placeholder:font-medium bg-white mb-2 uploadInputStyle"
+                  className="placeholder:font-medium bg-white mb-2 inputStyle"
                   placeholder="Description"
                   value={categoryDescription}
                   onChange={(e) => setCategoryDescription(e.target.value)}

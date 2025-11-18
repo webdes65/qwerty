@@ -40,7 +40,7 @@ const EditDevice = () => {
                     id="name"
                     name="name"
                     disabled={!isEditable}
-                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
+                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -48,7 +48,7 @@ const EditDevice = () => {
                     id="brand"
                     name="brand"
                     disabled={!isEditable}
-                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
+                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -56,7 +56,7 @@ const EditDevice = () => {
                     id="model"
                     name="model"
                     disabled={!isEditable}
-                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
+                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -64,7 +64,7 @@ const EditDevice = () => {
                     id="description"
                     name="description"
                     disabled={!isEditable}
-                    className={`w-full bg-white uploadInputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
+                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
                   />
                 </div>
                 <div className="w-full flex gap-4">

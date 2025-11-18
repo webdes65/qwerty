@@ -55,14 +55,14 @@ const TextInputSection = ({
                   type="number"
                   name="title"
                   placeholder="Title"
-                  className="py-[0.20rem] px-3 w-full bg-white uploadInputStyle"
+                  className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                 />
               ) : (
                 <Field
                   type="text"
                   name="title"
                   placeholder="Title"
-                  className="py-[0.20rem] px-3 w-full bg-white uploadInputStyle"
+                  className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                 />
               )}
             </div>
@@ -72,7 +72,7 @@ const TextInputSection = ({
             <div className="w-full flex flex-col justify-start items-start gap-2">
               <div className="w-full">
                 <input
-                  className="py-[0.20rem] px-3 w-full bg-white uploadInputStyle"
+                  className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                   type="text"
                   placeholder="Title req"
                   value={infoReqBtn.title}
@@ -87,7 +87,7 @@ const TextInputSection = ({
               <div className="w-full flex flex-row justify-center items-center gap-1">
                 <div className="w-1/2">
                   <input
-                    className="py-[0.20rem] px-3 w-full bg-white uploadInputStyle"
+                    className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                     type="text"
                     value={infoReqBtn.startRange}
                     placeholder="Start range"
@@ -101,7 +101,7 @@ const TextInputSection = ({
                 </div>
                 <div className="w-1/2">
                   <input
-                    className="py-[0.20rem] px-3 w-full bg-white uploadInputStyle"
+                    className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                     type="text"
                     placeholder="End range"
                     value={infoReqBtn.endRange}

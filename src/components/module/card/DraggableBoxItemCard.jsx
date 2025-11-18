@@ -108,7 +108,7 @@ export default function DraggableBoxItemCard({
       )}
       {itemAbility.remove && (
         <TiDelete
-          className="detectButtonsStyle"
+          className="deleteButtonsStyle"
           size={28}
           onClick={handleDelete}
         />

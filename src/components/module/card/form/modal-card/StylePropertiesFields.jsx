@@ -31,7 +31,7 @@ export default function StylePropertiesField({
             placeholder="#ffffff"
             value={values.backgroundColor}
             onChange={(e) => setFieldValue("backgroundColor", e.target.value)}
-            className="w-full mt-1 text-center cursor-text uploadInputStyle"
+            className="w-full mt-1 text-center cursor-text inputStyle"
           />
         </label>
 
@@ -49,7 +49,7 @@ export default function StylePropertiesField({
             placeholder="#ffffff"
             value={values.borderColor}
             onChange={(e) => setFieldValue("borderColor", e.target.value)}
-            className="w-full mt-1 text-center cursor-text uploadInputStyle"
+            className="w-full mt-1 text-center cursor-text inputStyle"
           />
         </label>
 
@@ -67,7 +67,7 @@ export default function StylePropertiesField({
             placeholder="#ffffff"
             value={values.textColor}
             onChange={(e) => setFieldValue("textColor", e.target.value)}
-            className="w-full mt-1 text-center cursor-text uploadInputStyle"
+            className="w-full mt-1 text-center cursor-text inputStyle"
           />
         </label>
       </div>
@@ -79,7 +79,7 @@ export default function StylePropertiesField({
             name="fontSize"
             type="number"
             placeholder="Enter font size"
-            className="w-full mt-1 cursor-text uploadInputStyle"
+            className="w-full mt-1 cursor-text inputStyle"
             value={values.fontSize}
             onChange={handleChange}
           />

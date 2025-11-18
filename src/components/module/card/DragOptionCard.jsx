@@ -42,7 +42,7 @@ export default function DragOptionCard({
                 width: value,
               }));
             }}
-            className="w-1/2 uploadInputStyle"
+            className="w-1/2 inputStyle"
           />
           <input
             type="number"
@@ -54,7 +54,7 @@ export default function DragOptionCard({
                 height: value,
               }));
             }}
-            className="w-1/2 uploadInputStyle"
+            className="w-1/2 inputStyle"
           />
         </div>
       </div>

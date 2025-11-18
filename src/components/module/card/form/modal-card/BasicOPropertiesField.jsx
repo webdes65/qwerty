@@ -29,7 +29,7 @@ export default function BasicOPropertiesField({
             name="titlebtn"
             type="text"
             placeholder="Enter button title"
-            className="w-full mt-1 uploadInputStyle"
+            className="w-full mt-1 inputStyle"
             value={values.titlebtn}
             onChange={handleChange}
           />
@@ -45,7 +45,7 @@ export default function BasicOPropertiesField({
             name="title"
             type="text"
             placeholder="Title"
-            className="w-full mt-1 uploadInputStyle"
+            className="w-full mt-1 inputStyle"
             value={values.title}
             onChange={handleChange}
           />
@@ -59,7 +59,7 @@ export default function BasicOPropertiesField({
             name="height"
             type="number"
             placeholder="Enter height"
-            className="w-full mt-1 uploadInputStyle"
+            className="w-full mt-1 inputStyle"
             value={values.height}
             onChange={handleChange}
           />
@@ -70,7 +70,7 @@ export default function BasicOPropertiesField({
             name="width"
             type="number"
             placeholder="Enter width"
-            className="w-full mt-1 uploadInputStyle"
+            className="w-full mt-1 inputStyle"
             value={values.width}
             onChange={handleChange}
           />

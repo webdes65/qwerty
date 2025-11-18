@@ -87,7 +87,7 @@ const CopyFormModal = ({
               <Field
                 type="text"
                 name="name"
-                className="w-full uploadInputStyle"
+                className="w-full inputStyle"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -125,14 +125,14 @@ const CopyFormModal = ({
             {isCreatingCategory && (
               <div className="w-full flex flex-col gap-2">
                 <input
-                  className="placeholder:font-medium uploadInputStyle"
+                  className="placeholder:font-medium inputStyle"
                   placeholder="Title"
                   value={categoryTitle}
                   onChange={(e) => setCategoryTitle(e.target.value)}
                   required
                 />
                 <input
-                  className="placeholder:font-medium uploadInputStyle"
+                  className="placeholder:font-medium inputStyle"
                   placeholder="Description"
                   value={categoryDescription}
                   onChange={(e) => setCategoryDescription(e.target.value)}

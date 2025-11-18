@@ -58,7 +58,7 @@ const CreatePointModalOfForm = ({
               <Field
                 type="text"
                 name="name"
-                className="w-full uploadInputStyle"
+                className="w-full inputStyle"
                 onChange={(e) => setFieldValue("name", e.target.value)}
                 value={values.name}
               />
@@ -77,7 +77,7 @@ const CreatePointModalOfForm = ({
                 <Field
                   type="number"
                   name="width"
-                  className="w-full uploadInputStyle"
+                  className="w-full inputStyle"
                   onChange={(e) => setFieldValue("width", e.target.value)}
                   value={values.width}
                 />
@@ -89,7 +89,7 @@ const CreatePointModalOfForm = ({
                 <Field
                   type="number"
                   name="height"
-                  className="w-full uploadInputStyle"
+                  className="w-full inputStyle"
                   onChange={(e) => setFieldValue("height", e.target.value)}
                   value={values.height}
                 />

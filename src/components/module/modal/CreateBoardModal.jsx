@@ -79,7 +79,7 @@ const CreateBoardModal = ({
               <Field
                 type="text"
                 name="name"
-                className="w-full bg-white uploadInputStyle"
+                className="w-full bg-white inputStyle"
                 onChange={(e) => setFieldValue("name", e.target.value)}
               />
               <ErrorMessage
@@ -96,7 +96,7 @@ const CreateBoardModal = ({
                 <Field
                   type="number"
                   name="width"
-                  className="w-full bg-white uploadInputStyle"
+                  className="w-full bg-white inputStyle"
                   onChange={(e) => setFieldValue("width", e.target.value)}
                   value={values.width}
                 />
@@ -108,7 +108,7 @@ const CreateBoardModal = ({
                 <Field
                   type="number"
                   name="height"
-                  className="w-full bg-white uploadInputStyle"
+                  className="w-full bg-white inputStyle"
                   onChange={(e) => setFieldValue("height", e.target.value)}
                   value={values.height}
                 />

@@ -107,14 +107,14 @@ const UploadImagesModal = ({
         {isCreatingCategory && (
           <div className="w-full flex flex-col gap-2">
             <input
-              className="uploadInputStyle placeholder:font-mediumbg-white"
+              className="inputStyle placeholder:font-mediumbg-white"
               placeholder="Title"
               value={categoryTitle}
               onChange={(e) => setCategoryTitle(e.target.value)}
               required
             />
             <input
-              className="uploadInputStyle placeholder:font-mediumbg-white mb-2"
+              className="inputStyle placeholder:font-mediumbg-white mb-2"
               placeholder="Description"
               value={categoryDescription}
               onChange={(e) => setCategoryDescription(e.target.value)}

@@ -73,7 +73,7 @@ export default function EditEmployeesCard({
           <span className="employeeLabelStyle">Birthday : </span>
           {isEditable ? (
             <MaskedInput
-              className="w-full !p-2 bg-white uploadInputStyle"
+              className="w-full !p-2 bg-white inputStyle"
               id="birthday"
               mask="1111-11-11"
               placeholder="yyyy-mm-dd"

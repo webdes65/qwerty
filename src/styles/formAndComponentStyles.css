@@ -26,7 +26,7 @@
   @apply w-full flex flex-row justify-start items-center gap-2;
 }
 
-.uploadInputStyle {
+.inputStyle {
   @apply border-2 border-gray-200 dark:border-gray-600 !outline-none p-3 rounded-md text-dark-100  dark:bg-dark-100 dark:text-white;
 }
 
@@ -34,7 +34,7 @@
   @apply absolute shadow uppercase text-dark-100 bg-white dark:bg-gray-100 dark:text-white p-2 rounded-md;
 }
 
-.detectButtonsStyle {
+.deleteButtonsStyle {
   @apply absolute -bottom-3 -right-3 cursor-pointer text-red-500 bg-gray-200 rounded-full shadow p-1;
 }
 

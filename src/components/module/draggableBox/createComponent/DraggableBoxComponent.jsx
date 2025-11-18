@@ -95,7 +95,7 @@ const DraggableBoxComponent = ({
     >
       {showBtnDeleteComponent && (
         <TiDelete
-          className="detectButtonsStyle"
+          className="deleteButtonsStyle"
           size={28}
           onClick={(e) => {
             e.stopPropagation();

@@ -65,7 +65,7 @@ const ButtonSection = ({
             type="text"
             name="titlebtn"
             placeholder="Button Title"
-            className="py-[0.20rem] w-full uploadInputStyle"
+            className="py-[0.20rem] w-full inputStyle"
           />
 
           {displayTypeButton === "externallink" && (
@@ -73,7 +73,7 @@ const ButtonSection = ({
               type="text"
               name="path"
               placeholder="External link"
-              className="px-3 py-[0.20rem] w-full uploadInputStyle"
+              className="px-3 py-[0.20rem] w-full inputStyle"
             />
           )}
 
@@ -171,7 +171,7 @@ const ButtonSection = ({
 
                 <div className="flex flex-col justify-center items-center gap-2 pt-2">
                   <input
-                    className="px-3 py-[0.20rem] w-full uploadInputStyle"
+                    className="px-3 py-[0.20rem] w-full inputStyle"
                     type="text"
                     value={infoReqBtn.title}
                     placeholder="Title req"
@@ -184,7 +184,7 @@ const ButtonSection = ({
                   />
 
                   <input
-                    className="px-3 py-[0.20rem] w-full uploadInputStyle"
+                    className="px-3 py-[0.20rem] w-full inputStyle"
                     placeholder="Value req"
                     type="text"
                     value={infoReqBtn.value}

@@ -60,7 +60,7 @@ const FieldComparison = ({ betData, setBetData }) => {
             className="w-full flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-md p-2"
           >
             <input
-              className="w-full h-full !py-[0.20rem] !px-3 bg-white uploadInputStyle"
+              className="w-full h-full !py-[0.20rem] !px-3 bg-white inputStyle"
               type="text"
               placeholder={field.key}
               value={field.value}
