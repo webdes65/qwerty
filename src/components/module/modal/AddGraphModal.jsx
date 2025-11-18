@@ -3,7 +3,7 @@ import { Button, Modal, Select, Spin } from "antd";
 import { Formik, Form, Field } from "formik";
 import CustomField from "@module/CustomField";
 import AddGraphHandlers from "@module/container/main/graphs/AddGraphHandlers.js";
-import "@styles/formAndComponentStyles.css;";
+import "@styles/formAndComponentStyles.css";
 
 const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
   const [optionsDevices, setOptionsDevices] = useState([]);
@@ -191,7 +191,7 @@ const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
                                 e.target.value,
                               )
                             }
-                            className="w-full bg-white border-2 py-2 px-3 font-medium inputStyle placeholder:text-gray-400 dark:placeholder:text-white focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                            className="w-full bg-white border-2 py-2 px-3 font-medium inputStyle placeholder:text-gray-400 dark:placeholder:text-white"
                             min="0"
                           />
                         </div>
