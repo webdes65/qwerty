@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import AddARModal from "@module/modal/AddARModal.jsx";
 import AugmentedRealitiesCard from "@components/module/card/AugmentedRealitiesCard";
-import AddProject from "@components/module/modal/AddProject";
+import AddProjectModal from "@module/modal/AddProjectModal.jsx";
 import ProjectCard from "@components/module/card/ProjectCard";
 import ARIndexHandlers from "@module/container/main/argument-realities/ARIndexHandlers.js";
 import SkeletonList from "@module/SkeletonList.jsx";
@@ -106,7 +106,7 @@ const AugmentedRealities = () => {
         </ul>
 
         {isModalOpenAddProject && (
-          <AddProject
+          <AddProjectModal
             isModalOpenAddProject={isModalOpenAddProject}
             setIsModalOpenAddProject={setIsModalOpenOpenAddProject}
           />
