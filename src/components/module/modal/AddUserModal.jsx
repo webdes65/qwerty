@@ -127,7 +127,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {
               </div>
               <div className="childTagStyle">
                 <DatePicker
-                  className="w-full h-[3rem] border-2 border-gray-200 dark:border-gray-600 outline-none"
+                  className="w-full h-[3rem] border-2 border-gray-200 dark:border-gray-600 dark:bg-dark-100 outline-none"
                   placeholder="Birthday"
                   onChange={(date) => setFieldValue("birthday", date)}
                 />
