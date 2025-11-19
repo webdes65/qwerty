@@ -1,6 +1,8 @@
-import { useQuery } from "react-query";
-import { request } from "@services/apiService.js";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import { request } from "@services/apiService.js";
 
 export default function EditItemHandlers({
   setOptionsCategories,
@@ -9,7 +11,11 @@ export default function EditItemHandlers({
   setOptionsDevices,
   selectedDeviceId,
   setOptionsRegisters,
+  items,
+  item,
+  setIsOpenEditModal,
 }) {
+  const dispatch = useDispatch();
   const {
     data: categoriesData,
     isLoading: isLoadingCategories,
@@ -85,6 +91,17 @@ export default function EditItemHandlers({
     }
   }, [registersData]);
 
+  const handlerSubmit = (values) => {
+    const updatedItems = items.map((i) =>
+      i.position.x === item.position.x && i.position.y === item.position.y
+        ? { ...i, ...values }
+        : i,
+    );
+    dispatch(setItems(updatedItems));
+    localStorage.setItem("registers", JSON.stringify(updatedItems));
+    setIsOpenEditModal(false);
+  };
+
   return {
     isLoadingCategories,
     categoriesError,
@@ -95,5 +112,6 @@ export default function EditItemHandlers({
     registersData,
     isLoadingRegisters,
     registersError,
+    handlerSubmit,
   };
 }

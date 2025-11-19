@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { setItems } from "@redux_toolkit/features/itemsSlice.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Tabs } from "antd";
 import { Formik, Form } from "formik";
 import Spinner from "@template/Spinner";
@@ -16,7 +15,6 @@ import StylePropertiesField from "@module/card/form/modal-card/StylePropertiesFi
 Modal.setAppElement("#root");
 
 const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
-  const dispatch = useDispatch();
   const items = useSelector((state) => state.items);
 
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -39,6 +37,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     registersData,
     isLoadingRegisters,
     registersError,
+    handlerSubmit,
   } = EditItemHandlers({
     setOptionsCategories,
     selectedCategory,
@@ -46,6 +45,9 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
     setOptionsDevices,
     selectedDeviceId,
     setOptionsRegisters,
+    items,
+    item,
+    setIsOpenEditModal,
   });
 
   if (!item) return null;
@@ -91,20 +93,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                   },
                   temp: item.temp || "",
                 }}
-                onSubmit={(values) => {
-                  const updatedItems = items.map((i) =>
-                    i.position.x === item.position.x &&
-                    i.position.y === item.position.y
-                      ? { ...i, ...values }
-                      : i,
-                  );
-                  dispatch(setItems(updatedItems));
-                  localStorage.setItem(
-                    "registers",
-                    JSON.stringify(updatedItems),
-                  );
-                  setIsOpenEditModal(false);
-                }}
+                onSubmit={handlerSubmit}
               >
                 {({ values, setFieldValue, handleChange }) => (
                   <Form className="flex flex-col gap-4 w-full h-full">
