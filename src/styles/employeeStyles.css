@@ -13,3 +13,15 @@
 .detailChildStyle {
   @apply text-[0.90rem] text-dark-100 dark:text-white;
 }
+
+.parentTagStyle {
+  @apply w-full h-auto flex flex-row justify-center items-center gap-2;
+}
+
+.childTagStyle {
+  @apply w-1/2 h-full flex flex-col justify-start items-start;
+}
+
+.mainTagStyle {
+  @apply w-full h-[3rem] font-Quicksand font-medium;
+}
