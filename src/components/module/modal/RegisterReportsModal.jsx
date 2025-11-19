@@ -3,7 +3,7 @@ import { DatePicker, Modal, Button, Pagination } from "antd";
 import { format } from "date-fns";
 import ChartModal from "@module/modal/ChartModal";
 import RegisterReportsHandlers from "@module/container/main/argument-realities/RegisterReportsHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const RegisterReportsModal = ({
   isModalOpen,

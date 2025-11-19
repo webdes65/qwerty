@@ -9,7 +9,7 @@ import FieldComparison from "@template/FieldComparison";
 import LabelSection from "@module/modal/createItemModal/LabelSection.jsx";
 import CreateItemHelperHandlers from "@module/container/main/create-form/modal-handlers/CreateItemHelperHandlers.js";
 import CreateItemHandlers from "@module/container/main/create-form/modal-handlers/CreateItemHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
   const dispatch = useDispatch();

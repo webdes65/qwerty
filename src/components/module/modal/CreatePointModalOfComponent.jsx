@@ -4,7 +4,7 @@ import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import { Button, Modal, Select, Slider } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const CreatePointModalOfComponent = ({
   isOpenModalCreatePoint,

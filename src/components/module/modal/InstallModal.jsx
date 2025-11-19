@@ -1,5 +1,5 @@
 import "@styles/installModalStyles.css";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const CURRENT_VERSION = import.meta.env.VITE_VERSION;
 

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Button } from "antd";
 import { Formik, Form, Field } from "formik";
 import EditDeviceHandlers from "@module/container/main/device/EditDeviceHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const EditDevice = () => {
   const location = useLocation();

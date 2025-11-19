@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Spin } from "antd";
 import ComponentsSectionHandlers from "@module/container/main/create-component/ComponentsSectionHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const ComponentsSection = ({
   values,

@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 import { useFormIframe } from "@hooks/useFormIframe";
 import FormPreviewHandler from "@module/container/main/form/FormPreviewHandler.js";
 import logger from "@utils/logger.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const FormPreview = () => {
   const iframeRef = useRef();

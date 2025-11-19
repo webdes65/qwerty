@@ -1,7 +1,7 @@
 import { Button, Modal } from "antd";
 import { Formik, Form, Field } from "formik";
 import logger from "@utils/logger.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const EditLineModal = ({
   isOpenEditLineModal,

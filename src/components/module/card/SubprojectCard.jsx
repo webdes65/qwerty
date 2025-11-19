@@ -5,7 +5,7 @@ import { formatTimestamps } from "@utils/formatDate.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
 import DeleteHandler from "@module/container/main/delete/DeleteHandler.js";
 import SubProjectScanHandler from "@module/container/main/argument-realities/SubProjectScanHandler.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const SubprojectCard = ({ data, idProject }) => {
   const [scanLoading, setScanLoading] = useState(false);

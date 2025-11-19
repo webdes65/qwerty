@@ -3,7 +3,7 @@ import { Button, Modal, Select, Spin } from "antd";
 import { Formik, Form, Field } from "formik";
 import CustomField from "@module/CustomField";
 import AddGraphHandlers from "@module/container/main/graphs/AddGraphHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const AddGraphModal = ({ isOpenAddGraphModal, setIsOpenAddGraphModal }) => {
   const [optionsDevices, setOptionsDevices] = useState([]);

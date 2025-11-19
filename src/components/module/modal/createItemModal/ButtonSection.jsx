@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Select, Spin } from "antd";
 import { Field } from "formik";
 import ButtonSectionHandler from "@module/container/main/create-form/modal-handlers/ButtonSectionHandler.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const ButtonSection = ({
   values,

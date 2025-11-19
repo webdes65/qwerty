@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Button, Switch } from "antd";
 import { setShowBtnDeleteComponent } from "@redux_toolkit/features/showBtnDeleteComponentSlice.js";
 import { setEditEnabledComponent } from "@redux_toolkit/features/editEnabledComponentSlice.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 export default function DragOptionCard({
   containerSize,

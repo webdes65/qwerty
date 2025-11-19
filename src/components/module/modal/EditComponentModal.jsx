@@ -5,7 +5,7 @@ import { Field, Formik, Form } from "formik";
 import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
 import EditComponentHandlers from "@module/container/main/create-component/EditComponentHandlers.js";
 import ControlImageForm from "@module/card/form/ControlImageForm.jsx";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
   const dispatch = useDispatch();

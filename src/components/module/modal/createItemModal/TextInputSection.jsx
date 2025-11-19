@@ -1,7 +1,7 @@
 import { Select } from "antd";
 import { Field } from "formik";
 import DeviceOfInputCard from "@module/card/DeviceOfInputCard.jsx";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const TextInputSection = ({
   values,

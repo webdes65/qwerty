@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Switch } from "antd";
 import { setItems } from "@redux_toolkit/features/itemsSlice.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 export default function ControlMainOfForm({
   setModals,

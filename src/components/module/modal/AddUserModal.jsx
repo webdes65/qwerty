@@ -3,7 +3,7 @@ import { Button, DatePicker, Modal, Select } from "antd";
 import { Formik, Form, ErrorMessage } from "formik";
 import CustomField from "@components/module/CustomField";
 import AddUserHandlers from "@module/container/main/employees/AddUserHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 import "@styles/employeeStyles.css";
 
 const AddUserModal = ({ isModalOpen, setIsModalOpen }) => {

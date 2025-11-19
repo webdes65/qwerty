@@ -14,7 +14,7 @@ import {
 } from "chart.js";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 ChartJS.register(
   CategoryScale,

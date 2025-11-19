@@ -1,6 +1,6 @@
 import { Modal, Slider } from "antd";
 import { Field, Formik, Form } from "formik";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const EditPointModal = ({
   isOpenEditModal,

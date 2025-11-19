@@ -5,7 +5,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { formatTimestamps } from "@utils/formatDate.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
 import DeleteHandler from "@module/container/main/delete/DeleteHandler.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const AugmentedRealitiesCard = ({ index }) => {
   const navigate = useNavigate();

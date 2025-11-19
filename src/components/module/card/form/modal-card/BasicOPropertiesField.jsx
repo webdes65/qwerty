@@ -1,6 +1,6 @@
 import { Field } from "formik";
 import { Select, Slider } from "antd";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 export default function BasicOPropertiesField({
   values,

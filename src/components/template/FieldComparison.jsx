@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { Select, Spin } from "antd";
 import FieldComparisonHandlers from "@module/container/main/create-form/modal-handlers/FieldComparisonHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const FieldComparison = ({ betData, setBetData }) => {
   const [optionsCategories, setOptionsCategories] = useState([]);

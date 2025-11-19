@@ -2,7 +2,7 @@ import { useRef, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useFormIframe } from "@hooks/useFormIframe";
 import logger from "@utils/logger.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const FormDetail = () => {
   const location = useLocation();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "antd";
 import RegisterReportsModal from "@module/modal/RegisterReportsModal";
 import { formatTimestamps } from "@utils/formatDate.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 const RegisterCard = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

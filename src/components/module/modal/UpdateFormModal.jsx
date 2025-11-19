@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Form, Button, Select, Checkbox } from "antd";
 import { Formik, Field, ErrorMessage } from "formik";
 import UpdateFormHandlers from "@module/container/main/create-form/modal-handlers/UpdateFormHandlers.js";
-import "@styles/formAndComponentStyles.css";
+import "@styles/allRepeatStyles.css";
 
 export default function UpdateFormModal({
   name,
