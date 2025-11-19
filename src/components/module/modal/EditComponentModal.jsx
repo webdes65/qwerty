@@ -1,56 +1,37 @@
-import { useEffect, useState } from "react";
+import {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "react-query";
-import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
-import { Modal, Select, Slider, Spin } from "antd";
+import { Modal, Slider } from "antd";
 import { Field, Formik, Form } from "formik";
-import { request } from "@services/apiService.js";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import EditComponentHandlers from "@module/container/main/create-component/EditComponentHandlers.js";
+import ControlImageForm from "@module/card/form/ControlImageForm.jsx";
+import "@styles/formAndComponentStyles.css";
 
 const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
   const dispatch = useDispatch();
   const components = useSelector((state) => state.components);
 
-  const [selectedCategorie, setSelectedCategorie] = useState(0);
-  const [imgs, setImgs] = useState([]);
-  const [optionsCategories, setOptionsCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
-  const { data: categoriesData } = useQuery(["getCategories"], () =>
-    request({
-      method: "GET",
-      url: "/api/categories",
-    }),
-  );
+  const { images, isLoadingImages, imagesError, processedOptions } =
+    EditComponentHandlers({ selectedCategory });
 
-  const processedOptions = optionsCategories.map((option) => ({
-    ...option,
-    value: option.value,
-  }));
+  const handlerSubmit = (values) => {
+    const updatedComponents = [...components];
+    const index = updatedComponents.findIndex(
+        (index) => index.id === item.id,
+    );
 
-  useEffect(() => {
-    if (categoriesData) {
-      const newOptions = categoriesData.data.map((item) => ({
-        label: item.title,
-        value: item.uuid,
-      }));
-      const allOption = { label: "All", value: 0 };
-      setOptionsCategories([allOption, ...newOptions]);
+    if (index !== -1) {
+      updatedComponents[index] = {
+        ...updatedComponents[index],
+        ...values,
+      };
     }
-  }, [categoriesData]);
 
-  const { data: imgsData, isLoading: isLoadingImgs } = useQuery(
-    ["fetchImgsCategory", selectedCategorie],
-    () =>
-      request({
-        method: "GET",
-        url: `/api/files?category=${selectedCategorie}`,
-      }),
-  );
-
-  useEffect(() => {
-    if (imgsData) {
-      setImgs(imgsData.data);
-    }
-  }, [imgsData]);
+    dispatch(setComponents(updatedComponents));
+    setIsOpenEditModal(false);
+  }
 
   return (
     <Modal
@@ -68,52 +49,31 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
           height: item?.height,
           borderRadius: item?.borderRadius,
         }}
-        onSubmit={(values) => {
-          const updatedComponents = [...components];
-          const index = updatedComponents.findIndex(
-            (index) => index.id === item.id,
-          );
-
-          if (index !== -1) {
-            updatedComponents[index] = {
-              ...updatedComponents[index],
-              ...values,
-            };
-          }
-
-          dispatch(setComponents(updatedComponents));
-          setIsOpenEditModal(false);
-        }}
+        onSubmit={handlerSubmit}
       >
         {({ values, handleChange, setFieldValue }) => (
           <Form className="flex flex-col gap-4 w-full">
             <div className="w-full h-auto flex flex-row justify-center items-center gap-2">
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label
-                  htmlFor="width"
-                  className="text-sm text-dark-100 dark:text-white font-bold"
-                >
+                <label htmlFor="width" className="text-sm labelStyle">
                   Width
                 </label>
                 <Field
                   type="number"
                   name="width"
-                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                  className="w-full bg-white inputStyle"
                   onChange={handleChange}
                   value={values.width}
                 />
               </div>
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label
-                  htmlFor="height"
-                  className="text-sm text-dark-100 dark:text-white font-bold"
-                >
+                <label htmlFor="height" className="text-sm labelStyle">
                   Height
                 </label>
                 <Field
                   type="number"
                   name="height"
-                  className="border-2 border-gray-200 dark:border-gray-600 p-2 rounded w-full outline-none bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
+                  className="w-full bg-white inputStyle"
                   onChange={handleChange}
                   value={values.height}
                 />
@@ -121,10 +81,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label
-                htmlFor="bg"
-                className="text-sm text-dark-100 dark:text-white font-bold"
-              >
+              <label htmlFor="bg" className="text-sm labelStyle">
                 Border Radius
               </label>
               <Slider
@@ -140,10 +97,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
             </div>
 
             <div className="flex flex-row justify-start items-center gap-2">
-              <label
-                htmlFor="bg"
-                className="text-sm text-dark-100 dark:text-white font-bold"
-              >
+              <label htmlFor="bg" className="text-sm labelStyle">
                 Background Color
               </label>
 
@@ -157,59 +111,16 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
             </div>
 
             {item?.type === "board" && (
-              <>
-                <Select
-                  showSearch
-                  className="customSelect w-full font-Quicksand font-medium placeholder:font-medium"
-                  placeholder="Choose Category"
-                  optionFilterProp="label"
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                  value={selectedCategorie}
-                  options={processedOptions}
-                  onChange={(value) => setSelectedCategorie(value)}
-                />
-                <div className="w-full flex flex-row justify-center items-center bg-blue-50 dark:bg-gray-100 p-3 rounded-lg">
-                  {isLoadingImgs ? (
-                    <Spin />
-                  ) : (
-                    <div className="w-full max-h-44 flex flex-row flex-wrap justify-start items-start gap-2 overflow-auto">
-                      <div
-                        onClick={() => setFieldValue("bgImg", "")}
-                        className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
-                          values.bgImg === ""
-                            ? "border-blue-500 shadow-xl"
-                            : "border-transparent"
-                        } flex items-center justify-center bg-gray-200 shadow p-1`}
-                      >
-                        <span className="w-full h-full flex flex-row justify-center items-center text-gray-500 bg-gray-300 font-bold text-[0.70rem] rounded-md">
-                          No Image
-                        </span>
-                      </div>
-                      {imgs.map((img, index) => (
-                        <div
-                          key={index}
-                          onClick={() => setFieldValue("bgImg", img.path)}
-                          className={`w-20 h-20 rounded-lg cursor-pointer border-2 ${
-                            values.bgImg === img.path
-                              ? "border-blue-500 shadow-xl"
-                              : "border-transparent"
-                          }`}
-                        >
-                          <img
-                            src={img.path}
-                            alt={index}
-                            className="w-full h-full object-cover rounded-lg p-1"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </>
+              <ControlImageForm
+                images={images}
+                values={values}
+                setFieldValue={setFieldValue}
+                setSelectedCategory={setSelectedCategory}
+                isLoadingImages={isLoadingImages}
+                optionsCategories={processedOptions}
+                selectedCategory={selectedCategory}
+                imagesError={imagesError}
+              />
             )}
 
             <div className="flex justify-end gap-2 pt-2">
