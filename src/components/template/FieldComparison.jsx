@@ -71,7 +71,7 @@ const FieldComparison = ({ betData, setBetData }) => {
 
             <div className="w-full flex flex-row justify-center items-center">
               <div className="w-1/2 h-auto flex flex-row justify-start items-center gap-2">
-                <p className="w-auto h-full text-sm dragLabelStyle">Color :</p>
+                <p className="w-auto h-full text-sm labelStyle">Color :</p>
                 <input
                   type="color"
                   value={field.color}
@@ -88,7 +88,7 @@ const FieldComparison = ({ betData, setBetData }) => {
                     handleFieldChange(index, "visibility", e.target.checked)
                   }
                 />
-                <span className="text-sm dragLabelStyle">Visibility</span>
+                <span className="text-sm labelStyle">Visibility</span>
               </label>
             </div>
 

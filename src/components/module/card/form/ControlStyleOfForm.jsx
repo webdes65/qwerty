@@ -6,7 +6,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
   return (
     <>
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="dragLabelStyle">Box size</label>
+        <label className="labelStyle">Box size</label>
         <div className="w-full flex flex-col justify-center items-start gap-2 max-xl:flex-col max-xl:items-start">
           <div className="dragParentInputStyle">
             <input
@@ -38,7 +38,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
       </div>
 
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="dragLabelStyle">Border</label>
+        <label className="labelStyle">Border</label>
         <div className="w-full flex flex-col justify-center items-start gap-2 max-xl:flex-col max-xl:items-start">
           <div className="dragParentInputStyle">
             <input
@@ -135,7 +135,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
 
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2">
         <div className="w-full flex flex-row justify-start items-center gap-1">
-          <label className="dragLabelStyle">Border color</label>
+          <label className="labelStyle">Border color</label>
           <input
             type="color"
             value={boxInfo.borderColor}
@@ -150,7 +150,7 @@ export default function ControlStyleOfForm({ boxInfo, setBoxInfo }) {
         </div>
 
         <div className="w-full flex flex-row justify-start items-center gap-1">
-          <label className="dragLabelStyle">Background color</label>
+          <label className="labelStyle">Background color</label>
           <input
             type="color"
             value={rgbaToHex(boxInfo.bgColor)}

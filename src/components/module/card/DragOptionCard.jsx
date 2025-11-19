@@ -30,7 +30,7 @@ export default function DragOptionCard({
   return (
     <>
       <div className="w-full flex flex-col justify-center items-start gap-2">
-        <label className="dragLabelStyle">Box size</label>
+        <label className="labelStyle">Box size</label>
         <div className="w-full flex flex-row justify-center items-start gap-2">
           <input
             type="number"

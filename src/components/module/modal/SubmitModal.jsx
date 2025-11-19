@@ -96,7 +96,7 @@ const SubmitModal = ({
         {({ handleSubmit, setFieldValue, values }) => (
           <Form onFinish={handleSubmit} className="w-full flex flex-col gap-4">
             <div className="flex flex-col justify-center items-start">
-              <label htmlFor="name" className="text-sm dragLabelStyle">
+              <label htmlFor="name" className="text-sm labelStyle">
                 Name
               </label>
               <Field

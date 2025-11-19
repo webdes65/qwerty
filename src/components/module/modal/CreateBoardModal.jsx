@@ -73,7 +73,7 @@ const CreateBoardModal = ({
         {({ setFieldValue, values }) => (
           <Form className="w-full flex flex-col gap-4">
             <div className="flex flex-col justify-center items-start pb-2">
-              <label htmlFor="title" className="text-sm dragLabelStyle">
+              <label htmlFor="title" className="text-sm labelStyle">
                 Name
               </label>
               <Field
@@ -90,7 +90,7 @@ const CreateBoardModal = ({
             </div>
             <div className="w-full h-auto flex flex-row justify-center items-center gap-2">
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label htmlFor="width" className="text-sm dragLabelStyle">
+                <label htmlFor="width" className="text-sm labelStyle">
                   Width
                 </label>
                 <Field
@@ -102,7 +102,7 @@ const CreateBoardModal = ({
                 />
               </div>
               <div className="w-1/2 flex flex-col justify-center items-start">
-                <label htmlFor="height" className="text-sm dragLabelStyle">
+                <label htmlFor="height" className="text-sm labelStyle">
                   Height
                 </label>
                 <Field
@@ -115,7 +115,7 @@ const CreateBoardModal = ({
               </div>
             </div>
             <div className="flex flex-row justify-start items-center gap-2">
-              <label htmlFor="bg" className="text-sm dragLabelStyle">
+              <label htmlFor="bg" className="text-sm labelStyle">
                 Background Color
               </label>
               <Field
@@ -128,7 +128,7 @@ const CreateBoardModal = ({
             </div>
 
             <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
-              <label htmlFor="bg" className="text-sm dragLabelStyle">
+              <label htmlFor="bg" className="text-sm labelStyle">
                 Border Radius
               </label>
               <Slider

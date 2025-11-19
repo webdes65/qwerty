@@ -90,7 +90,7 @@ export default function UpdateFormModal({
         {({ handleSubmit: formikSubmit, setFieldValue, values }) => (
           <Form onFinish={formikSubmit} className="w-full flex flex-col gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-sm dragLabelStyle">New Name</label>
+              <label className="text-sm labelStyle">New Name</label>
               <Field
                 type="text"
                 name="updatedName"
