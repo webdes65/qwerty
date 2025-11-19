@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { LuDownload } from "react-icons/lu";
 import { Line } from "react-chartjs-2";
+import { LuDownload } from "react-icons/lu";
 import { Button, Modal } from "antd";
 import {
   Chart as ChartJS,
@@ -14,7 +14,7 @@ import {
 } from "chart.js";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
-// import zoomPlugin from "chartjs-plugin-zoom";
+import "@styles/formAndComponentStyles.css";
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +24,6 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  //   zoomPlugin
 );
 
 const ChartModal = ({
@@ -95,8 +94,10 @@ const ChartModal = ({
       onCancel={() => setIsChartModalOpen(false)}
       footer={null}
       width={1200}
-      maskStyle={{
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
+      style={{
+        mask: {
+          backgroundColor: "rgba(0, 0, 0, 0.9)",
+        },
       }}
     >
       <div className="w-full h-full flex flex-col justify-center items-center gap-4">
@@ -113,20 +114,6 @@ const ChartModal = ({
               legend: {
                 display: false,
               },
-              //   zoom: {
-              //     pan: {
-              //       enabled: true,
-              //       mode: "xy",
-              //       threshold: 10,
-              //     },
-              //     zoom: {
-              //       enabled: true,
-              //       mode: "xy",
-              //       speed: 0.1,
-              //       sensitivity: 3,
-              //       threshold: 2,
-              //     },
-              //   },
             },
 
             scales: {
@@ -149,10 +136,6 @@ const ChartModal = ({
                   },
                 },
               },
-              //   onHover: (event, chartElement) => {
-              //     // جلوگیری از تاثیر اسکرول بر روی مدال
-              //     event.native.preventDefault();
-              //   },
             },
           }}
         />
@@ -160,7 +143,7 @@ const ChartModal = ({
       <div className="w-full h-auto flex flex-row justify-end items-center p-2 gap-2">
         <Button
           type="primary"
-          className="w-auto font-Quicksand font-medium !bg-blue-200 !p-4 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500"
+          className="w-auto buttonPrimaryStyle"
           onClick={handleExport}
         >
           Export as JPG
@@ -168,7 +151,7 @@ const ChartModal = ({
         </Button>
         <Button
           type="primary"
-          className="w-auto font-Quicksand font-medium !bg-green-200 !p-4 !shadow !text-green-500 !text-[0.90rem] !border-[2.5px] !border-green-500"
+          className="w-auto buttonTertiaryStyle"
           onClick={handleExportExcel}
         >
           Export as Excel
