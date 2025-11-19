@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, Slider } from "antd";
 import { Field, Formik, Form } from "formik";
@@ -18,9 +18,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
 
   const handlerSubmit = (values) => {
     const updatedComponents = [...components];
-    const index = updatedComponents.findIndex(
-        (index) => index.id === item.id,
-    );
+    const index = updatedComponents.findIndex((index) => index.id === item.id);
 
     if (index !== -1) {
       updatedComponents[index] = {
@@ -31,7 +29,7 @@ const EditComponentModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
 
     dispatch(setComponents(updatedComponents));
     setIsOpenEditModal(false);
-  }
+  };
 
   return (
     <Modal
