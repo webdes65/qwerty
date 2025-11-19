@@ -20,7 +20,6 @@ export default defineConfig({
       "@template": path.resolve(__dirname, "./src/components/template"),
       "@module": path.resolve(__dirname, "./src/components/module"),
       "@config": path.resolve(__dirname, "./src/config"),
-      "@data": path.resolve(__dirname, "./src/data"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
       "@pages": path.resolve(__dirname, "./src/pages"),
       "@redux_toolkit": path.resolve(__dirname, "./src/redux_toolkit"),

@@ -1,37 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
-import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
+import DeleteHandler from "@module/container/main/delete/DeleteHandler.js";
+import "@styles/allRepeatStyles.css";
 
 const GraphCard = ({ data }) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+  const { deleteMutation, handleRemove } = DeleteHandler({
+    url: "/api/templates/",
+    queryKey: "fetchGraphs",
+    setSubmitLoading,
+  });
 
   const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(data);
-
-  const deleteMutation = useMutation(
-    (id) => request({ method: "DELETE", url: `/api/templates/${id}` }),
-    {
-      onSuccess: (res) => {
-        toast.success(res.message);
-        queryClient.invalidateQueries(["fetchGraphs"]);
-      },
-      onError: (error) => {
-        logger.error(error);
-      },
-    },
-  );
-
-  const handleRemove = (id) => {
-    deleteMutation.mutate(id);
-  };
 
   return (
     <>
@@ -64,9 +51,10 @@ const GraphCard = ({ data }) => {
           </div>
           <div className="w-full h-auto flex flex-row  gap-2 pt-2">
             <Button
-              className="w-full font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600"
+              className="w-full dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 buttonSecondaryStyle"
               color="danger"
               variant="solid"
+              loading={submitLoading}
               onClick={(e) => {
                 e.stopPropagation();
                 setIsDeleteModalOpen(true);

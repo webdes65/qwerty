@@ -1,50 +1,21 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Button, Spin } from "antd";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import ComponentsSectionHandlers from "@module/container/main/create-component/ComponentsSectionHandlers.js";
+import "@styles/allRepeatStyles.css";
 
 const ComponentsSection = ({
   values,
   setComponentsList,
   setIsOpenCreateModal,
 }) => {
-  const queryClient = useQueryClient();
   const [deletingId, setDeletingId] = useState(null);
 
   const {
-    data: dataComponents,
-    isLoading: isLoadingFetchComponents,
-    error: imgsErrorFetchComponents,
-  } = useQuery(["fetchComponents"], () =>
-    request({
-      method: "GET",
-      url: "/api/components",
-    }),
-  );
-
-  const removeComponent = (id) => {
-    setDeletingId(id);
-    deleteMutation.mutate(id, {
-      onSettled: () => {
-        setDeletingId(null);
-      },
-    });
-  };
-
-  const deleteMutation = useMutation(
-    (id) => request({ method: "DELETE", url: `/api/components/${id}` }),
-    {
-      onSuccess: (data) => {
-        toast.success(data.message);
-        queryClient.invalidateQueries(["fetchComponents"]);
-      },
-      onError: (error) => {
-        logger.error(error);
-      },
-    },
-  );
+    dataComponents,
+    isLoadingComponents,
+    isErrorComponents,
+    removeComponent,
+  } = ComponentsSectionHandlers({ setDeletingId });
 
   const modifyContent = (content) => {
     const tempDiv = document.createElement("div");
@@ -76,11 +47,11 @@ const ComponentsSection = ({
   return (
     <>
       {values.type === "components" ? (
-        isLoadingFetchComponents ? (
+        isLoadingComponents ? (
           <div className="text-center text-gray-500 py-5">
             <Spin />
           </div>
-        ) : imgsErrorFetchComponents ? (
+        ) : isErrorComponents ? (
           <div className="text-start text-red-500 font-bold py-5">
             Error fetching components. Please try again later.
           </div>
@@ -88,24 +59,23 @@ const ComponentsSection = ({
           dataComponents.data &&
           dataComponents.data.length > 0 ? (
           <div className="flex flex-row justify-center items-center flex-wrap pb-5">
-            {dataComponents?.data?.map((index) => {
+            {dataComponents?.data?.map((item) => {
               const modifiedContent = modifyBackground(
-                modifyContent(index.content),
+                modifyContent(item.content),
               );
               return (
-                <div key={index.uuid} className="w-full p-1">
+                <div key={item.uuid} className="w-full p-1">
                   <div className="w-full h-auto rounded-lg p-2 shadow-lg bg-gray-200">
                     <h3 className="font-semibold text-[1rem] px-2">
                       <span className="text-gray-500 text-sm">Name : </span>
-                      {index.name}
+                      {item.name}
                     </h3>
 
                     <div className="w-full h-full flex flex-row justify-center items-center">
                       <iframe
-                        className="w-1/2 h-full p-5 overflow-hidden "
+                        className="w-1/2 h-full p-5 overflow-hidden"
                         srcDoc={modifiedContent}
                         title="Content Preview"
-                        scrolling="no"
                       />
                     </div>
 
@@ -113,7 +83,7 @@ const ComponentsSection = ({
                       <Button
                         onClick={() => {
                           const updatedIndex = {
-                            ...index,
+                            ...item,
                             position: { x: 0, y: 0 },
                           };
                           setComponentsList((componentsList) => [
@@ -123,15 +93,15 @@ const ComponentsSection = ({
 
                           setIsOpenCreateModal(false);
                         }}
-                        className="w-1/2 font-Quicksand font-medium !bg-blue-200 !p-5 !shadow !text-[#3b82f6] !text-[0.90rem] !border-[2.5px] !border-blue-500"
-                        loading={deletingId === index.uuid}
+                        className="w-1/2 font-medium buttonPrimaryStyle"
+                        loading={deletingId === item.uuid}
                       >
                         Add
                       </Button>
                       <Button
-                        onClick={() => removeComponent(index.uuid)}
-                        className="w-1/2 font-Quicksand font-medium !bg-red-200 !p-5 !shadow !text-[#ef4444] !text-[0.90rem] !border-[2.5px] !border-red-500"
-                        loading={deletingId === index.uuid}
+                        onClick={() => removeComponent(item.uuid)}
+                        className="w-1/2 font-medium buttonSecondaryStyle"
+                        loading={deletingId === item.uuid}
                       >
                         Remove
                       </Button>

@@ -1,21 +1,15 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import AddUserModal from "@components/module/modal/AddUserModal";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
 import UserCard from "@components/module/card/UserCard";
-import { request } from "@services/apiService.js";
+import EmployeesHandler from "@module/container/main/employees/EmployeesHandler.js";
+import SkeletonList from "@module/SkeletonList.jsx";
 
 const Employees = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, error, refetch } = useQuery(["fetchUsers"], () =>
-    request({
-      method: "GET",
-      url: "/api/users",
-    }),
-  );
+  const { users, refetch, isLoading, error } = EmployeesHandler();
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -25,8 +19,6 @@ const Employees = () => {
   if (error) {
     return <div>{error.message}</div>;
   }
-
-  const users = data?.data || [];
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Quicksand pr-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
@@ -42,14 +34,7 @@ const Employees = () => {
       </div>
       <ul className="w-full flex flex-row justify-start items-center flex-wrap">
         {isLoading ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={6} />
         ) : (
           users.map((user) => <UserCard key={user.uuid} data={user} />)
         )}

@@ -4,11 +4,12 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import store from "./redux_toolkit/store";
 import App from "./App";
-import "./index.css";
-import "./styles/customSelect.css";
-import "./styles/toggleListen.css";
-import "./styles/joyride.css";
 import { MqttProvider } from "./context/MqttProvider.jsx";
+import "./index.css";
+import "@styles/customSelectStyles.css";
+import "@styles/toggleListenStyles.css";
+import "@styles/joyrideStyles.css";
+import "@styles/antdStyles.css";
 
 const nativeConsole = console;
 

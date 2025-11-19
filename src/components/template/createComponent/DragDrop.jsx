@@ -1,12 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import { useSelector } from "react-redux";
 import DraggableBoxComponent from "@module/draggableBox/createComponent/DraggableBoxComponent";
-import EditLine from "@module/modal/EditLine";
-import { v4 as uuidv4 } from "uuid";
+import EditLineModal from "@module/modal/EditLineModal.jsx";
+import DragHandlersOfComponents from "@module/container/main/create-component/DragHandlersOfComponents.js";
 
 const ItemType = {
   BOX: "box",
@@ -63,147 +61,19 @@ const DragDrop = ({
   containerSize,
   itemAbility,
 }) => {
-  const dispatch = useDispatch();
   const components = useSelector((state) => state.components);
 
-  const [movedItem, setMovedItem] = useState(null);
   const [blinkingItemId, setBlinkingItemId] = useState(null);
   const [isOpenEditLineModal, setIsOpenEditLineModal] = useState(false);
-  const [lineInfo, setLineInfo] = useState({
-    color: "",
-    width: "",
-    index: "",
-  });
 
-  const isFixedRef = useRef(isFixed);
-
-  useEffect(() => {
-    isFixedRef.current = isFixed;
-  }, [isFixed]);
-
-  const handleDoubleClick = (point) => {
-    if (point.type === "point") {
-      setBlinkingItemId(point.id);
-
-      setTimeout(() => {
-        setBlinkingItemId(null);
-      }, 3000);
-
-      const isPointAlreadyAdded = lines.some((line) =>
-        line.some((item) => item.uuid === point.uuid),
-      );
-
-      if (isPointAlreadyAdded) {
-        toast.info("Please select the second point");
-        return;
-      }
-
-      if (lines.length === 0 || lines[lines.length - 1].length === 3) {
-        setLines([...lines, [point]]);
-      } else {
-        const updatedLines = [...lines];
-        updatedLines[updatedLines.length - 1].push(point);
-
-        if (updatedLines[updatedLines.length - 1].length === 2) {
-          updatedLines[updatedLines.length - 1].push({
-            id: uuidv4(),
-            color: "#000",
-            width: 2,
-          });
-        }
-        setLines(updatedLines);
-      }
-    }
-  };
-
-  const handleLineClick = (e) => {
-    const clickedLine = e.target;
-    const style = getComputedStyle(clickedLine);
-    const strokeColor = style.stroke;
-    const strokeWidth = style.strokeWidth;
-    const strokeWidthValue = parseInt(strokeWidth, 10);
-
-    const lineIndex = e.target.getAttribute("data-line-index");
-
-    setLineInfo({
-      color: strokeColor,
-      strokeWidth: strokeWidthValue,
-      index: lineIndex,
+  const { lineInfo, handleDrop, handleDoubleClick, handleLineClick } =
+    DragHandlersOfComponents({
+      isFixed,
+      lines,
+      setLines,
+      setBlinkingItemId,
+      setIsOpenEditLineModal,
     });
-
-    setIsOpenEditLineModal(true);
-  };
-
-  const handleDrop = (index, newPosition) => {
-    dispatch((dispatch, getState) => {
-      const { components } = getState();
-      const boardItem = components.find((item) => item.type === "board");
-      const oldPosition = boardItem ? boardItem.position : null;
-
-      let updatedComponents = components.map((item, i) =>
-        i === index ? { ...item, position: newPosition } : item,
-      );
-
-      const updatedItem = updatedComponents[index];
-
-      let movedItems = [];
-
-      if (updatedItem.type === "board" && isFixedRef.current) {
-        const newBoardPosition = { x: newPosition.x, y: newPosition.y };
-        const deltaX = newBoardPosition.x - oldPosition.x;
-        const deltaY = newBoardPosition.y - oldPosition.y;
-
-        const relatedPoints = components.filter(
-          (point) => point.type === "point" && point.boardId === updatedItem.id,
-        );
-
-        const updatedPoints = relatedPoints.map((point) => ({
-          ...point,
-          position: {
-            x: point.position.x + deltaX,
-            y: point.position.y + deltaY,
-          },
-        }));
-
-        movedItems = [...updatedPoints];
-
-        updatedComponents = updatedComponents.map((item) => {
-          const updatedPoint = updatedPoints.find((p) => p.id === item.id);
-          return updatedPoint ? updatedPoint : item;
-        });
-      } else {
-        movedItems = [updatedItem];
-      }
-
-      dispatch(setComponents(updatedComponents));
-      setMovedItem(movedItems);
-    });
-  };
-
-  useEffect(() => {
-    if (!movedItem || movedItem.length === 0) return;
-
-    const movedPoints = Array.isArray(movedItem) ? movedItem : [movedItem];
-
-    setLines((prevLines) => {
-      return prevLines.map(([point1, point2, lineProperties]) => {
-        const updatedPoint1 = { ...point1 };
-        const updatedPoint2 = { ...point2 };
-
-        const foundPoint1 = movedPoints.find((p) => p.id === updatedPoint1.id);
-        if (foundPoint1) {
-          updatedPoint1.position = { ...foundPoint1.position };
-        }
-
-        const foundPoint2 = movedPoints.find((p) => p.id === updatedPoint2.id);
-        if (foundPoint2) {
-          updatedPoint2.position = { ...foundPoint2.position };
-        }
-
-        return [updatedPoint1, updatedPoint2, lineProperties];
-      });
-    });
-  }, [movedItem]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -305,7 +175,7 @@ const DragDrop = ({
         </DropBox>
       </div>
       {isOpenEditLineModal && (
-        <EditLine
+        <EditLineModal
           isOpenEditLineModal={isOpenEditLineModal}
           setIsOpenEditLineModal={setIsOpenEditLineModal}
           lineInfo={lineInfo}

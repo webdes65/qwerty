@@ -1,53 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
-import { useMutation } from "react-query";
-import { toast } from "react-toastify";
 import { Button } from "antd";
-import Cookies from "universal-cookie";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomField from "@components/module/CustomField";
-import { request } from "@services/apiService.js";
 import logo from "/assets/images/logo.webp";
-import logger from "@utils/logger.js";
 import UseDarkModeStore from "@store/UseDarkMode.js";
+import LoginHandlers from "@module/container/aurh/LoginHandlers.js";
 
 const Login = () => {
   const navigate = useNavigate();
-  const cookies = new Cookies();
   const { darkMode } = UseDarkModeStore();
   const [showPassword, setShowPassword] = useState(false);
   const [submitPending, setSubmitPending] = useState(false);
 
-  const mutation = useMutation(
-    (data) => request({ method: "POST", url: "/api/login", data }),
-    {
-      onSuccess: (data) => {
-        toast.success(`Welcome ${data.data.profile.first_name}`);
-        localStorage.setItem("user_id", data.data.profile.user_uuid);
-        localStorage.setItem("user_name", data.data.user.name);
-
-        const token = data.access_token;
-
-        let expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + 6);
-        cookies.set("bms_access_token", token, {
-          expires: expirationDate,
-        });
-
-        setTimeout(() => {
-          navigate("/");
-        }, 5000);
-      },
-      onError: (error) => {
-        logger.log("error", error);
-        toast.error(error.response.data.message);
-      },
-      onSettled: () => {
-        setSubmitPending(false);
-      },
-    },
-  );
+  const { onSubmit } = LoginHandlers({ setSubmitPending });
 
   const initialValues = {
     email: "",
@@ -74,11 +41,6 @@ const Login = () => {
     }
 
     return errors;
-  };
-
-  const onSubmit = async (values) => {
-    setSubmitPending(true);
-    mutation.mutate(values);
   };
 
   return (

@@ -1,36 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
 import { Spin } from "antd";
 import Graph from "@components/module/Graph";
-import { request } from "@services/apiService.js";
+import GraphIdHandler from "@module/container/main/graphs/GraphIdHandler.js";
 
 const GraphId = () => {
   const { id } = useParams();
   const [processedData, setProcessedData] = useState([]);
 
-  const { data: dataGraph, isLoading: loadingGraph } = useQuery(
-    ["subsList", id],
-    () =>
-      request({
-        method: "GET",
-        url: `/api/templates/${id}`,
-      }),
-  );
-
-  useEffect(() => {
-    if (dataGraph?.data?.items) {
-      const formattedData = dataGraph.data.items.map((item) =>
-        item.registers.map((register) => ({
-          id: register.uuid,
-          title: register.title,
-          color: register.border_color,
-          logs: register.logs,
-        })),
-      );
-      setProcessedData(formattedData);
-    }
-  }, [dataGraph]);
+  const { loadingGraph } = GraphIdHandler({ id, setProcessedData });
 
   return (
     <div className="w-full h-full">

@@ -1,28 +1,18 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import AddSubProjectModal from "@components/module/modal/AddSubProjectModal";
 import SubprojectCard from "@components/module/card/SubprojectCard";
-import ARProjectSubprojectSkeleton from "@components/module/card/ARProjectSubprojectSkeleton";
-import { request } from "@services/apiService.js";
+import ARSubProjectHandler from "@module/container/main/argument-realities/ARSubProjectHandler.js";
+import SkeletonList from "@module/SkeletonList.jsx";
 
 const SubProject = () => {
   const { id } = useParams();
 
   const [isModalOpenAddSub, setIsModalOpenAddSub] = useState(false);
 
-  const {
-    data: dataSub,
-    isLoading: loadingSub,
-    // error: errSub,
-  } = useQuery(["subsList", id], () =>
-    request({
-      method: "GET",
-      url: `/api/projects/${id}/subs`,
-    }),
-  );
+  const { dataSub, loadingSub } = ARSubProjectHandler({ id });
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white">
@@ -38,14 +28,7 @@ const SubProject = () => {
       </div>
       <ul className="w-full h-auto flex flex-row justify-start items-start flex-wrap">
         {loadingSub ? (
-          <>
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-            <ARProjectSubprojectSkeleton />
-          </>
+          <SkeletonList count={6} />
         ) : dataSub?.data?.length > 0 ? (
           dataSub.data.map((index) => (
             <SubprojectCard key={index.uuid} data={index} idProject={id} />

@@ -1,0 +1,7 @@
+.sidebarItemsStyles {
+  @apply w-full flex flex-row justify-start items-center gap-2 cursor-pointer p-2 rounded;
+}
+
+.mobileDrawerStyles {
+  @apply flex flex-row justify-start items-center gap-2 text-[0.90rem] w-full p-2 rounded-md text-black dark:text-white font-medium cursor-pointer;
+}

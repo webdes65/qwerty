@@ -1,6 +1,7 @@
 import { Select } from "antd";
 import { Field } from "formik";
 import DeviceOfInputCard from "@module/card/DeviceOfInputCard.jsx";
+import "@styles/allRepeatStyles.css";
 
 const TextInputSection = ({
   values,
@@ -54,14 +55,14 @@ const TextInputSection = ({
                   type="number"
                   name="title"
                   placeholder="Title"
-                  className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
+                  className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                 />
               ) : (
                 <Field
                   type="text"
                   name="title"
                   placeholder="Title"
-                  className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
+                  className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                 />
               )}
             </div>
@@ -71,7 +72,7 @@ const TextInputSection = ({
             <div className="w-full flex flex-col justify-start items-start gap-2">
               <div className="w-full">
                 <input
-                  className="w-full border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
+                  className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                   type="text"
                   placeholder="Title req"
                   value={infoReqBtn.title}
@@ -86,7 +87,7 @@ const TextInputSection = ({
               <div className="w-full flex flex-row justify-center items-center gap-1">
                 <div className="w-1/2">
                   <input
-                    className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
+                    className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                     type="text"
                     value={infoReqBtn.startRange}
                     placeholder="Start range"
@@ -100,7 +101,7 @@ const TextInputSection = ({
                 </div>
                 <div className="w-1/2">
                   <input
-                    className="border-2  border-gray-200 dark:border-gray-600 py-[0.20rem] px-3 rounded-md w-full outline-none text-dark-100 bg-white dark:bg-dark-100 dark:text-white"
+                    className="py-[0.20rem] px-3 w-full bg-white inputStyle"
                     type="text"
                     placeholder="End range"
                     value={infoReqBtn.endRange}
