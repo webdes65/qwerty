@@ -208,6 +208,7 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                       }}
                                       setFieldValue={setFieldValue}
                                       forceShow={true}
+                                      showDefinition={false}
                                     />
                                   ),
                                 },

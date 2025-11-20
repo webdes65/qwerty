@@ -16,6 +16,8 @@ const ButtonSection = ({
   optionsRegisters,
   setFieldValue,
   forceShow = false,
+  setBackground,
+  showDefinition = false,
 }) => {
   const { isLoadingRegisters, registersError } = registersStatus;
   const { isLoading, error } = deviceStatus;
@@ -245,6 +247,35 @@ const ButtonSection = ({
                 </div>
               </div>
             )}
+
+          {displayTypeButton === "selectdevice" && showDefinition && (
+            <>
+              <div className="h-auto flex flex-row justify-center items-end gap-1">
+                <Select
+                  className="customSelect w-full"
+                  placeholder="Condition definition"
+                  onChange={(value) => {
+                    setBackground((prevState) => ({
+                      ...prevState,
+                      bet: value,
+                    }));
+                  }}
+                >
+                  <Select.Option value="bigger">
+                    greater than &gt;
+                  </Select.Option>
+                  <Select.Option value="smaller">less than &lt;</Select.Option>
+                  <Select.Option value="equal">equal =</Select.Option>
+                  <Select.Option value="GreaterThanOrEqual">
+                    greater than or equal &gt;=
+                  </Select.Option>
+                  <Select.Option value="LessThanOrEqual">
+                    less than or equal &lt;=
+                  </Select.Option>
+                </Select>
+              </div>
+            </>
+          )}
         </>
       )}
     </>

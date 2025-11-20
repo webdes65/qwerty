@@ -88,7 +88,7 @@ const DataTypeSettings = ({ values, setFieldValue, props }) => {
             className="customSelect w-full"
             placeholder="Condition definition"
             onChange={(value) => {
-              props.setBetData((prevState) => ({
+              props.setLabelBetData((prevState) => ({
                 ...prevState,
                 bet: value,
               }));
