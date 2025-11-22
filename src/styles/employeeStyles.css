@@ -6,14 +6,6 @@
   @apply w-full flex flex-row justify-center items-center gap-2 max-md:flex-col;
 }
 
-.detailParentStyle {
-  @apply flex flex-col sm:flex-row justify-center items-start sm:items-center gap-2;
-}
-
-.detailChildStyle {
-  @apply text-[0.90rem] text-dark-100 dark:text-white;
-}
-
 .parentTagStyle {
   @apply w-full h-auto flex flex-row justify-center items-center gap-2;
 }
