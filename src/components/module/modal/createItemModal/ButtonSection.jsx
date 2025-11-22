@@ -18,7 +18,7 @@ const ButtonSection = ({
   forceShow = false,
   setBackground,
   showDefinition = false,
-  setButtonBetData
+  setButtonBetData,
 }) => {
   const { isLoadingRegisters, registersError } = registersStatus;
   const { isLoading, error } = deviceStatus;
@@ -259,7 +259,7 @@ const ButtonSection = ({
                     setBackground(true);
                     setButtonBetData({
                       bet: value,
-                      betList: []
+                      betList: [],
                     });
                   }}
                 >
