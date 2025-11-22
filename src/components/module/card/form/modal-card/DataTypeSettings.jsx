@@ -2,7 +2,7 @@ import { Select } from "antd";
 import { Field } from "formik";
 const { Option } = Select;
 
-const DataTypeSettings = ({ values, setFieldValue, props }) => {
+const DataTypeSettings = ({ values, setFieldValue, props, setLabelBet }) => {
   if (!values.temp) return null;
 
   return (
@@ -88,10 +88,17 @@ const DataTypeSettings = ({ values, setFieldValue, props }) => {
             className="customSelect w-full"
             placeholder="Condition definition"
             onChange={(value) => {
-              props.setLabelBetData((prevState) => ({
-                ...prevState,
-                bet: value,
-              }));
+              if (setLabelBet) {
+                  setLabelBet((prevState) => ({
+                    ...prevState,
+                    bet: value,
+                 }))
+              }else {
+                  props.setLabelBetData((prevState) => ({
+                      ...prevState,
+                      bet: value,
+                  }));
+              }
             }}
           >
             <Option value="bigger">greater than &gt;</Option>

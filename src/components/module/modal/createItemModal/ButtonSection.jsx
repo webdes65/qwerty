@@ -17,7 +17,6 @@ const ButtonSection = ({
   setFieldValue,
   forceShow = false,
   setBackground,
-  showDefinition = false,
   setButtonBetData,
 }) => {
   const { isLoadingRegisters, registersError } = registersStatus;
@@ -249,7 +248,7 @@ const ButtonSection = ({
               </div>
             )}
 
-          {displayTypeButton === "selectdevice" && showDefinition && (
+          {displayTypeButton === "selectdevice" && (
             <>
               <div className="h-auto flex flex-row justify-center items-end gap-1">
                 <Select
