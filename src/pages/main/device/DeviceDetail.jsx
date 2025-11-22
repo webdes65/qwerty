@@ -19,7 +19,7 @@ const DeviceDetail = () => {
   const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(device);
 
   return (
-    <div className="flex flex-col gap-2 h-auto 2xl:h-full shadow bg-white text-dark-100 dark:bg-gray-100 dark:text-white px-5 cursor-default font-bold">
+    <div className="flex flex-col gap-2 min-h-full shadow bg-white text-dark-100 dark:bg-gray-100 dark:text-white px-5 cursor-default font-bold">
       <div className="mb-6 w-full">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 lg:mb-6 flex items-center gap-2">
           <FaUserCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -93,7 +93,7 @@ const DeviceDetail = () => {
             return (
               <div
                 key={i}
-                className={`w-full h-auto flex flex-row justify-between items-center p-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 max-lg:flex-col max-lg:items-start max-lg:w-auto `}
+                className={`w-full flex flex-row flex-wrap justify-between items-center p-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-dark-100 max-lg:items-star `}
               >
                 <div className="flex flex-row justify-center items-center gap-2">
                   <p className="text-[0.90rem] text-dark-100 dark:text-white">
