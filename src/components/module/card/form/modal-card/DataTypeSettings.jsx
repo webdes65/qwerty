@@ -89,15 +89,15 @@ const DataTypeSettings = ({ values, setFieldValue, props, setLabelBet }) => {
             placeholder="Condition definition"
             onChange={(value) => {
               if (setLabelBet) {
-                  setLabelBet((prevState) => ({
-                    ...prevState,
-                    bet: value,
-                 }))
-              }else {
-                  props.setLabelBetData((prevState) => ({
-                      ...prevState,
-                      bet: value,
-                  }));
+                setLabelBet((prevState) => ({
+                  ...prevState,
+                  bet: value,
+                }));
+              } else {
+                props.setLabelBetData((prevState) => ({
+                  ...prevState,
+                  bet: value,
+                }));
               }
             }}
           >

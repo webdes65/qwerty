@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { formatTimestamps } from "@utils/formatDate.js";
 import {
   FaUser,
   FaEnvelope,
@@ -9,6 +8,7 @@ import {
   FaUserCircle,
   FaClock,
 } from "react-icons/fa";
+import { formatTimestamps } from "@utils/formatDate.js";
 import InfoCard from "@module/card/InfoCard.jsx";
 import "@styles/employeeStyles.css";
 

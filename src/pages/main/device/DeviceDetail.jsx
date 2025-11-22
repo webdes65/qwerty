@@ -1,6 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { formatTimestamps } from "@utils/formatDate.js";
-import InfoCard from "@module/card/InfoCard.jsx";
 import { FaClock, FaUserCircle } from "react-icons/fa";
 import {
   MdOutlineBrandingWatermark,
@@ -11,6 +9,8 @@ import {
   MdOutlineTopic,
   MdOutlineWifi,
 } from "react-icons/md";
+import { formatTimestamps } from "@utils/formatDate.js";
+import InfoCard from "@module/card/InfoCard.jsx";
 
 const DeviceDetail = () => {
   const location = useLocation();
@@ -79,9 +79,9 @@ const DeviceDetail = () => {
         </div>
       </div>
 
-      <div className="w-full h-auto flex flex-col justify-center items-start gap-2">
+      <div className="w-full h-auto flex flex-col justify-center items-start gap-2 mt-8 lg:mt-12">
         {device.patterns.length !== 0 && (
-          <p className="text-[0.90rem] text-dark-100 dark:text-white">
+          <p className="text-[0.90rem] md:text-lg text-dark-100 dark:text-white">
             Patterns :{" "}
           </p>
         )}

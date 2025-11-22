@@ -175,29 +175,31 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                   children: (
                                     <>
                                       <DeviceOfLabelCard
-                                          selectDevice={selectDevice}
-                                          setSelectDevice={setSelectDevice}
-                                          isLoadingDevices={isLoadingDevices}
-                                          devicesError={devicesError}
-                                          optionsDevices={optionsDevices}
-                                          setSelectedDeviceId={setSelectedDeviceId}
-                                          selectedDeviceId={selectedDeviceId}
-                                          isLoadingRegisters={isLoadingRegisters}
-                                          registersError={registersError}
-                                          registersData={registersData}
-                                          optionsRegisters={optionsRegisters}
-                                          setFieldValue={setFieldValue}
+                                        selectDevice={selectDevice}
+                                        setSelectDevice={setSelectDevice}
+                                        isLoadingDevices={isLoadingDevices}
+                                        devicesError={devicesError}
+                                        optionsDevices={optionsDevices}
+                                        setSelectedDeviceId={
+                                          setSelectedDeviceId
+                                        }
+                                        selectedDeviceId={selectedDeviceId}
+                                        isLoadingRegisters={isLoadingRegisters}
+                                        registersError={registersError}
+                                        registersData={registersData}
+                                        optionsRegisters={optionsRegisters}
+                                        setFieldValue={setFieldValue}
                                       />
                                       <DataTypeSettings
-                                          values={values}
-                                          setFieldValue={setFieldValue}
-                                          setLabelBet={setLabelBetData}
+                                        values={values}
+                                        setFieldValue={setFieldValue}
+                                        setLabelBet={setLabelBetData}
                                       />
                                       {values.temp && labelBetData.bet && (
-                                          <FieldComparison
-                                              betData={labelBetData}
-                                              setBetData={setLabelBetData}
-                                          />
+                                        <FieldComparison
+                                          betData={labelBetData}
+                                          setBetData={setLabelBetData}
+                                        />
                                       )}
                                     </>
                                   ),
@@ -208,33 +210,36 @@ const EditItemModal = ({ isOpenEditModal, setIsOpenEditModal, item }) => {
                                   children: (
                                     <>
                                       <ButtonSection
-                                          values={values}
-                                          infoReqBtn={values.infoReqBtn}
-                                          setInfoReqBtn={(newValue) =>
-                                              setFieldValue("infoReqBtn", newValue)
-                                          }
-                                          selectedDeviceId={selectedDeviceId}
-                                          setSelectedDeviceId={setSelectedDeviceId}
-                                          optionsDevices={optionsDevices}
-                                          deviceStatus={{
-                                            isLoading: isLoadingDevices,
-                                            error: devicesError,
-                                          }}
-                                          optionsRegisters={optionsRegisters}
-                                          registersStatus={{
-                                            isLoadingRegisters: isLoadingRegisters,
-                                            registersError: registersError,
-                                          }}
-                                          setFieldValue={setFieldValue}
-                                          forceShow={true}
-                                          setBackground={setButtonBackground}
-                                          setButtonBetData={setButtonBetData}
+                                        values={values}
+                                        infoReqBtn={values.infoReqBtn}
+                                        setInfoReqBtn={(newValue) =>
+                                          setFieldValue("infoReqBtn", newValue)
+                                        }
+                                        selectedDeviceId={selectedDeviceId}
+                                        setSelectedDeviceId={
+                                          setSelectedDeviceId
+                                        }
+                                        optionsDevices={optionsDevices}
+                                        deviceStatus={{
+                                          isLoading: isLoadingDevices,
+                                          error: devicesError,
+                                        }}
+                                        optionsRegisters={optionsRegisters}
+                                        registersStatus={{
+                                          isLoadingRegisters:
+                                            isLoadingRegisters,
+                                          registersError: registersError,
+                                        }}
+                                        setFieldValue={setFieldValue}
+                                        forceShow={true}
+                                        setBackground={setButtonBackground}
+                                        setButtonBetData={setButtonBetData}
                                       />
                                       {buttonBackground && (
-                                          <FieldComparison
-                                              betData={buttonBetData}
-                                              setBetData={setButtonBetData}
-                                          />
+                                        <FieldComparison
+                                          betData={buttonBetData}
+                                          setBetData={setButtonBetData}
+                                        />
                                       )}
                                     </>
                                   ),
