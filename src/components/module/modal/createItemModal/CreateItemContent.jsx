@@ -193,6 +193,7 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
               }}
               setFieldValue={setFieldValue}
               setBackground={setButtonBackground}
+              setButtonBetData={setButtonBetData}
               showDefinition={true}
             />
 

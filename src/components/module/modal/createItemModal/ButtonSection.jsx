@@ -18,6 +18,7 @@ const ButtonSection = ({
   forceShow = false,
   setBackground,
   showDefinition = false,
+  setButtonBetData
 }) => {
   const { isLoadingRegisters, registersError } = registersStatus;
   const { isLoading, error } = deviceStatus;
@@ -255,10 +256,11 @@ const ButtonSection = ({
                   className="customSelect w-full"
                   placeholder="Condition definition"
                   onChange={(value) => {
-                    setBackground((prevState) => ({
-                      ...prevState,
+                    setBackground(true);
+                    setButtonBetData({
                       bet: value,
-                    }));
+                      betList: []
+                    });
                   }}
                 >
                   <Select.Option value="bigger">
