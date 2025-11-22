@@ -70,7 +70,7 @@ const EditEmployees = () => {
                 <Button
                   type="primary"
                   onClick={() => setIsEditable(!isEditable)}
-                  className={`font-Quicksand font-bold !bg-blue-200 dark:bg-blue-300 !p-5 !shadow !text-blue-500 dark:text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:border-blue-600 ${
+                  className={`dark:bg-blue-300 dark:text-blue-600 dark:border-blue-600 buttonPrimaryStyle ${
                     isEditable ? "w-full" : "w-1/2"
                   } transition-all duration-500 ease-in-out`}
                 >
@@ -79,7 +79,7 @@ const EditEmployees = () => {
                 {isEditable && (
                   <Button
                     onClick={handleSubmit}
-                    className="w-full font-Quicksand font-bold !bg-green-200 dark:!bg-green-300 !p-5 !shadow !text-green-500 dark:!text-green-600 !text-[0.90rem] !border-[2.5px] !border-green-500 dark:!border-green-600"
+                    className="w-full dark:!bg-green-300 dark:!text-green-600 dark:!border-green-600 buttonTertiaryStyle"
                     loading={updateLoading}
                   >
                     Save
