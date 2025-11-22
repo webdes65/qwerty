@@ -24,10 +24,9 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [optionsCategories, setOptionsCategories] = useState([]);
   const [images, setImages] = useState([]);
-  const [betData, setBetData] = useState({
-    bet: "",
-    betList: [],
-  });
+  const [buttonBackground, setButtonBackground] = useState(false);
+  const [labelBetData, setLabelBetData] = useState({ bet: "", betList: [] });
+  const [buttonBetData, setButtonBetData] = useState({ bet: "", betList: [] });
 
   const {
     isLoadingDevices,
@@ -50,13 +49,15 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
     selectedDeviceId,
     uuidv4,
     selectDevice,
-    betData,
+    labelBetData,
+    buttonBetData,
     items,
     dispatch,
     setSelectedDeviceId,
     setSelectDevice,
     setIsOpenCreateModal,
-    setBetData,
+    setLabelBetData,
+    setButtonBetData,
   });
 
   const labelProps = {
@@ -70,7 +71,7 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
     isLoadingDevices,
     images,
     registersData,
-    setBetData,
+    setLabelBetData,
     devicesError,
     isLoadingImages,
     selectedDeviceId,
@@ -140,8 +141,11 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
               props={labelProps}
             />
 
-            {values.temp && betData.bet && (
-              <FieldComparison betData={betData} setBetData={setBetData} />
+            {values.temp && values.type === "label" && labelBetData.bet && (
+              <FieldComparison
+                betData={labelBetData}
+                setBetData={setLabelBetData}
+              />
             )}
 
             {values.temp && (
@@ -188,7 +192,17 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
                 registersError: registersError,
               }}
               setFieldValue={setFieldValue}
+              setBackground={setButtonBackground}
+              setButtonBetData={setButtonBetData}
+              showDefinition={true}
             />
+
+            {values.type === "button" && buttonBackground && (
+              <FieldComparison
+                betData={buttonBetData}
+                setBetData={setButtonBetData}
+              />
+            )}
 
             <ComponentsSection
               values={values}
@@ -204,11 +218,17 @@ const CreateItemContent = ({ setIsOpenCreateModal, setComponentsList }) => {
                     setSelectedDeviceId(null);
                     setIsOpenCreateModal(false);
                     setSelectDevice(false);
-                    setBetData((prevState) => ({
-                      ...prevState,
-                      bet: "",
-                      betList: [],
-                    }));
+                    if (values.type === "label") {
+                      setLabelBetData({
+                        bet: "",
+                        betList: [],
+                      });
+                    } else if (values.type === "button") {
+                      setButtonBetData({
+                        bet: "",
+                        betList: [],
+                      });
+                    }
                   }}
                   className="w-1/2 !p-2 buttonSecondaryStyle"
                 >

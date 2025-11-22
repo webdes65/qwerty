@@ -4,13 +4,15 @@ export default function CreateItemHelperHandlers({
   selectedDeviceId,
   uuidv4,
   selectDevice,
-  betData,
+  labelBetData,
+  buttonBetData,
   items,
   dispatch,
   setSelectedDeviceId,
   setSelectDevice,
   setIsOpenCreateModal,
-  setBetData,
+  setLabelBetData,
+  setButtonBetData,
 }) {
   const initialValues = {
     title: "",
@@ -115,7 +117,15 @@ export default function CreateItemHelperHandlers({
       selectDevice,
     };
 
-    const FieldComparison = { ...betData.betList };
+    let FieldComparison = {};
+
+    if (values.type === "label") {
+      FieldComparison =
+        labelBetData.betList.length > 0 ? { ...labelBetData.betList } : {};
+    } else if (values.type === "button") {
+      FieldComparison =
+        buttonBetData.betList.length > 0 ? { ...buttonBetData.betList } : {};
+    }
 
     const finalItem = { ...newItem, FieldComparison };
 
@@ -127,11 +137,17 @@ export default function CreateItemHelperHandlers({
     setSelectDevice(false);
     setIsOpenCreateModal(false);
 
-    setBetData((prevState) => ({
-      ...prevState,
-      bet: "",
-      betList: [],
-    }));
+    if (values.type === "label") {
+      setLabelBetData({
+        bet: "",
+        betList: [],
+      });
+    } else if (values.type === "button") {
+      setButtonBetData({
+        bet: "",
+        betList: [],
+      });
+    }
   };
 
   return { initialValues, handleSubmit };

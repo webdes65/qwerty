@@ -293,6 +293,13 @@ const FormHTML = (container) => {
         color: '#3b82f6',
         height: '3px'
       });
+          function waitForToastify(callback) {
+            if (typeof Toastify !== 'undefined') {
+              callback();
+            } else {
+              setTimeout(() => waitForToastify(callback), 100);
+            }
+          }
 
           function openModal(contentElement) {
           const modal = document.getElementById("myModal");
@@ -488,16 +495,18 @@ const FormHTML = (container) => {
                       )
                         .then((response) => response.json())
                         .then((data) => {
-                          Toastify({
-                            text: data.message,
-                            duration: 3000,
-                            close: false,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                            background: "#3b82f6",
-                            },
-                          }).showToast();
+                          waitForToastify(() => {
+                            Toastify({
+                              text: data.message,
+                              duration: 3000,
+                              close: false,
+                              gravity: "top",
+                              position: "right",
+                              style: {
+                              background: "#3b82f6",
+                              },
+                            }).showToast();
+                          });
                           
                           loadingBar.complete();
 
@@ -596,30 +605,34 @@ const FormHTML = (container) => {
                           const end = parseFloat(textInputData.infoReqBtn.endRange);
             
                           if (isNaN(numericValue)) {
-                            Toastify({
-                              text: "The entered value is not a number!",
-                              duration: 3000,
-                              close: false,
-                              gravity: "top",
-                              position: "right",
-                              style: {
-                                background: "#3b82f6",
-                              },
-                            }).showToast();
+                            waitForToastify(() => {
+                              Toastify({
+                                text: "The entered value is not a number!",
+                                duration: 3000,
+                                close: false,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                  background: "#3b82f6",
+                                },
+                              }).showToast();
+                            });
                             return;
                           }
             
                           if (numericValue < start || numericValue > end) {
-                            Toastify({
-                              text: \`The value must be between \${start} and \${end}.\`,
-                              duration: 3000,
-                              close: false,
-                              gravity: "top",
-                              position: "right",
-                              style: {
-                                background: "#3b82f6",
-                              },
-                            }).showToast();
+                            waitForToastify(() => {
+                              Toastify({
+                                text: \`The value must be between \${start} and \${end}.\`,
+                                duration: 3000,
+                                close: false,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                  background: "#3b82f6",
+                                },
+                              }).showToast();
+                            });
                             return;
                           }
                           
@@ -649,16 +662,18 @@ const FormHTML = (container) => {
                             }
             
                             const result = await response.json();
-                            Toastify({
-                              text: result.message,
-                              duration: 3000,
-                              close: false,
-                              gravity: "top",
-                              position: "right",
-                              style: {
-                                background: "#3b82f6",
-                              },
-                            }).showToast();
+                            waitForToastify(() => {
+                              Toastify({
+                                text: result.message,
+                                duration: 3000,
+                                close: false,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                  background: "#3b82f6",
+                                },
+                              }).showToast();
+                            });
                             loadingBar.complete();
                           } catch (error) {
                             loadingBar.complete();
