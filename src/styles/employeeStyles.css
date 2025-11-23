@@ -1,5 +1,5 @@
 .employeeLabelStyle {
-  @apply text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase;
+  @apply text-dark-100 dark:text-white text-[0.80rem] font-bold;
 }
 
 .employeeMainTagStyle {
