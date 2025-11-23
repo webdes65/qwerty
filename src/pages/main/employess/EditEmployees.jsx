@@ -54,7 +54,7 @@ const EditEmployees = () => {
   });
 
   return (
-    <div className="w-full h-auto flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins">
+    <div className="w-full h-auto flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins cursor-default">
       <div className="w-full min-h-[100vh] p-4 bg-white text-dark-100 dark:bg-gray-100 dark:text-white shadow">
         <div className="mb-8 p-3 bg-gray-200 dark:bg-dark-100 rounded-lg">
           <div className="flex items-center gap-3 mb-2">
