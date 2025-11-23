@@ -11,6 +11,7 @@ const EditEmployees = () => {
   const { data } = location.state || {};
 
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
 
   const [id, setId] = useState(data.data.uuid);
 
@@ -31,21 +32,6 @@ const EditEmployees = () => {
     calendar: data?.data?.profile?.calendar || "",
     language: data?.data?.profile?.language || "",
   };
-
-  const [isEditable, setIsEditable] = useState(false);
-
-  const optionsLanguages = [
-    { value: "en", label: "English" },
-    { value: "ar", label: "Arabic" },
-    { value: "tr", label: "Turkish" },
-    { value: "fa", label: "Persian" },
-  ];
-
-  const optionsCalendar = [
-    { value: "Hijri", label: "Hijri" },
-    { value: "Jalali", label: "Jalali" },
-    { value: "Gregorian", label: "Gregorian" },
-  ];
 
   const { onSubmit, timezonesOptions } = EditEmployeesHandlers({
     id,
@@ -86,8 +72,6 @@ const EditEmployees = () => {
                     isEditable={isEditable}
                     timezonesOptions={timezonesOptions}
                     setFieldValue={setFieldValue}
-                    optionsCalendar={optionsCalendar}
-                    optionsLanguages={optionsLanguages}
                   />
 
                   <div className="flex gap-4 pt-4">

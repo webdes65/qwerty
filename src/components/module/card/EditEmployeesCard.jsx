@@ -8,8 +8,6 @@ export default function EditEmployeesCard({
   isEditable,
   setFieldValue,
   timezonesOptions,
-  optionsCalendar,
-  optionsLanguages,
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -154,7 +152,11 @@ export default function EditEmployeesCard({
           <Select
             id="calendar"
             className="w-full editEmployee"
-            options={optionsCalendar}
+            options={[
+              { value: "Hijri", label: "Hijri" },
+              { value: "Jalali", label: "Jalali" },
+              { value: "Gregorian", label: "Gregorian" },
+            ]}
             placeholder="Select Calendar"
             onChange={(value) => setFieldValue("calendar", value)}
           />
@@ -175,7 +177,12 @@ export default function EditEmployeesCard({
           <Select
             id="language"
             className="w-full editEmployee"
-            options={optionsLanguages}
+            options={[
+              { value: "en", label: "English" },
+              { value: "ar", label: "Arabic" },
+              { value: "tr", label: "Turkish" },
+              { value: "fa", label: "Persian" },
+            ]}
             placeholder="Select Language"
             onChange={(value) => setFieldValue("language", value)}
           />
