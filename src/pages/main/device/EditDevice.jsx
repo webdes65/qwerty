@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { MdOutlineDevices } from "react-icons/md";
 import { Button } from "antd";
 import { Formik, Form, Field } from "formik";
 import EditDeviceHandlers from "@module/container/main/device/EditDeviceHandlers.js";
@@ -29,67 +30,136 @@ const EditDevice = () => {
   });
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins">
-      <div className="w-full h-full  text-dark-100 dark:bg-gray-100 dark:text-white">
-        <div className="w-full grid grid-cols-2 gap-4 p-4 rounded shadow">
-          <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({ handleSubmit }) => (
-              <Form className="w-full flex flex-col justify-center items-start gap-2">
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="name"
-                    name="name"
-                    disabled={!isEditable}
-                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="brand"
-                    name="brand"
-                    disabled={!isEditable}
-                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="model"
-                    name="model"
-                    disabled={!isEditable}
-                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="description"
-                    name="description"
-                    disabled={!isEditable}
-                    className={`w-full bg-white inputStyle ${!isEditable ? "cursor-not-allowed" : "cursor-text"}`}
-                  />
-                </div>
-                <div className="w-full flex gap-4">
-                  <Button
-                    type="primary"
-                    onClick={() => setIsEditable(!isEditable)}
-                    className="w-1/2 font-Poppins font-bold !p-4"
-                    disabled={updateDeviceMutation.isLoading}
-                  >
-                    {isEditable ? "Cancel" : "Edit"}
-                  </Button>
-                  {isEditable && (
-                    <Button
-                      type="primary"
-                      onClick={handleSubmit}
-                      className="w-1/2 !p-4 buttonTertiaryStyle"
-                      loading={updateDeviceMutation.isLoading}
+    <div className="w-full min-h-screen bg-white dark:bg-gray-100 p-6 cursor-default">
+      <div className="mx-auto">
+        <div className="mb-8 p-3 bg-gray-200 dark:bg-dark-100 rounded-lg">
+          <div className="flex items-center gap-3 mb-2">
+            <MdOutlineDevices className="min-w-6 md:min-w-8 min-h-6 md:min-h-8 text-dark-100 dark:text-white" />
+            <div>
+              <h1 className="text-lg md:text-3xl font-medium md:font-bold text-dark-100 dark:text-white">
+                Device Details
+              </h1>
+              <p className="text-sm md:text-lg text-dark-100 dark:text-white mt-1">
+                View and edit device information
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="my-6 text-center">
+          <p className="text-sm md:text-lg text-dark-100 dark:text-white">
+            Device ID:{" "}
+            <span className="font-mono font-medium md:font-bold">{id}</span>
+          </p>
+        </div>
+
+        <div className="bg-gray-200 dark:bg-dark-100 rounded-2xl shadow-xl overflow-hidden transition-all duration-300">
+          <div className="p-8">
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+              {({ handleSubmit }) => (
+                <Form className="space-y-6">
+                  <div className="group">
+                    <label
+                      htmlFor="name"
+                      className="deviceLabelStyle transition-colors"
                     >
-                      Save
+                      Device Name
+                    </label>
+                    <Field
+                      id="name"
+                      name="name"
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 deviceInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="group">
+                    <label htmlFor="brand" className="deviceLabelStyle">
+                      Brand
+                    </label>
+                    <Field
+                      id="brand"
+                      name="brand"
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 deviceInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="group">
+                    <label htmlFor="model" className="deviceLabelStyle">
+                      Model
+                    </label>
+                    <Field
+                      id="model"
+                      name="model"
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 deviceInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="group">
+                    <label htmlFor="description" className="deviceLabelStyle">
+                      Description
+                    </label>
+                    <Field
+                      id="description"
+                      name="description"
+                      as="textarea"
+                      rows={4}
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 resize-none deviceInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      type={isEditable ? "default" : "primary"}
+                      onClick={() => setIsEditable(!isEditable)}
+                      className={`flex-1 h-12 rounded-xl font-semibold transition-all duration-200
+                        ${
+                          isEditable
+                            ? "buttonSecondaryStyle"
+                            : "buttonPrimaryStyle"
+                        }`}
+                    >
+                      {isEditable ? "Cancel" : "Edit Device"}
                     </Button>
-                  )}
-                </div>
-              </Form>
-            )}
-          </Formik>
+
+                    {isEditable && (
+                      <Button
+                        type="primary"
+                        onClick={handleSubmit}
+                        loading={updateDeviceMutation.isLoading}
+                        className="flex-1 h-12 rounded-xl transition-all duration-200 buttonTertiaryStyle"
+                      >
+                        Save
+                      </Button>
+                    )}
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       </div>
     </div>
