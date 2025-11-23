@@ -49,3 +49,11 @@
 .formResponseStyle {
   @apply flex flex-col justify-center gap-10 p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white;
 }
+
+.editInputStyle {
+  @apply w-full px-4 py-3 bg-gray-50 dark:bg-gray-100 border border-gray-50 dark:border-gray-100 rounded-xl text-gray-900 dark:text-white transition-all duration-200 !outline-none;
+}
+
+.editLabelStyle {
+  @apply block text-sm font-semibold text-dark-100 dark:text-white mb-2;
+}

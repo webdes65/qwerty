@@ -1,5 +1,5 @@
 .employeeLabelStyle {
-  @apply text-dark-100 dark:text-white text-[0.80rem] font-bold uppercase;
+  @apply text-dark-100 dark:text-white text-[0.80rem] font-bold;
 }
 
 .employeeMainTagStyle {
@@ -16,4 +16,32 @@
 
 .mainTagStyle {
   @apply w-full h-[3rem] font-Quicksand font-medium;
+}
+
+.editEmployee .ant-select-selector {
+  @apply w-full !px-4 !py-[26px] bg-gray-50 dark:bg-gray-100 rounded-xl text-gray-900 dark:text-white transition-all duration-200 shadow-none !important;
+}
+
+.editEmployee .ant-select-selection-placeholder {
+  @apply text-gray-400 !important;
+}
+
+.editEmployee .ant-select-dropdown {
+  @apply bg-white dark:bg-gray-700 rounded-xl !important;
+}
+
+.editEmployee .ant-select-item {
+  @apply text-gray-900 dark:text-white !important;
+}
+
+.editEmployee .ant-select-item-option-selected {
+  @apply bg-blue-50 dark:bg-gray-600 !important;
+}
+
+.editEmployee .ant-select-item-option-active {
+  @apply bg-blue-100 dark:bg-gray-500 !important;
+}
+
+.editEmployee .ant-select-arrow {
+  @apply hidden !important;
 }
