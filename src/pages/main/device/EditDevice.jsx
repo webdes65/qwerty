@@ -61,7 +61,7 @@ const EditDevice = () => {
                   <div className="group">
                     <label
                       htmlFor="name"
-                      className="deviceLabelStyle transition-colors"
+                      className="editLabelStyle transition-colors"
                     >
                       Device Name
                     </label>
@@ -69,51 +69,51 @@ const EditDevice = () => {
                       id="name"
                       name="name"
                       disabled={!isEditable}
-                      className={`placeholder-gray-400 deviceInputStyle
+                      className={`placeholder-gray-400 editInputStyle
                         ${
                           !isEditable
                             ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
-                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                            : "focus:border-[#2997ff]"
                         }`}
                     />
                   </div>
 
                   <div className="group">
-                    <label htmlFor="brand" className="deviceLabelStyle">
+                    <label htmlFor="brand" className="editLabelStyle">
                       Brand
                     </label>
                     <Field
                       id="brand"
                       name="brand"
                       disabled={!isEditable}
-                      className={`placeholder-gray-400 deviceInputStyle
+                      className={`placeholder-gray-400 editInputStyle
                         ${
                           !isEditable
                             ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
-                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                            : "focus:border-[#2997ff]"
                         }`}
                     />
                   </div>
 
                   <div className="group">
-                    <label htmlFor="model" className="deviceLabelStyle">
+                    <label htmlFor="model" className="editLabelStyle">
                       Model
                     </label>
                     <Field
                       id="model"
                       name="model"
                       disabled={!isEditable}
-                      className={`placeholder-gray-400 deviceInputStyle
+                      className={`placeholder-gray-400 editInputStyle
                         ${
                           !isEditable
                             ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
-                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                            : "focus:border-[#2997ff]"
                         }`}
                     />
                   </div>
 
                   <div className="group">
-                    <label htmlFor="description" className="deviceLabelStyle">
+                    <label htmlFor="description" className="editLabelStyle">
                       Description
                     </label>
                     <Field
@@ -122,11 +122,11 @@ const EditDevice = () => {
                       as="textarea"
                       rows={4}
                       disabled={!isEditable}
-                      className={`placeholder-gray-400 resize-none deviceInputStyle
+                      className={`placeholder-gray-400 resize-none editInputStyle
                         ${
                           !isEditable
                             ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
-                            : "focus:border-darkBlue focus:dark:border-tealBlue"
+                            : "focus:border-[#2997ff]"
                         }`}
                     />
                   </div>
@@ -139,10 +139,10 @@ const EditDevice = () => {
                         ${
                           isEditable
                             ? "buttonSecondaryStyle"
-                            : "buttonPrimaryStyle"
+                            : "dark:bg-blue-300 dark:text-blue-600 dark:border-blue-600 buttonPrimaryStyle"
                         }`}
                     >
-                      {isEditable ? "Cancel" : "Edit Device"}
+                      {isEditable ? "Cancel" : "Edit"}
                     </Button>
 
                     {isEditable && (
@@ -150,7 +150,7 @@ const EditDevice = () => {
                         type="primary"
                         onClick={handleSubmit}
                         loading={updateDeviceMutation.isLoading}
-                        className="flex-1 h-12 rounded-xl transition-all duration-200 buttonTertiaryStyle"
+                        className="flex-1 h-12 rounded-xl transition-all duration-200 dark:!bg-green-300 dark:!text-green-600 dark:!border-green-600 buttonTertiaryStyle"
                       >
                         Save
                       </Button>
