@@ -3,29 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  /* @font-face {
-    font-family: "Quicksand";
-    font-weight: 400;
-    src: url("public/assets/font/Quicksand-Regular.ttf") format("ttf"),
-      url("public/assets/font/Quicksand-Regular.woff") format("woff");
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Quicksand";
-    font-weight: 500;
-    src: url("public/assets/font/Quicksand-Medium.ttf") format("ttf"),
-      url("public/assets/font/Quicksand-Medium.woff") format("woff");
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Quicksand";
-    font-weight: 700;
-    src: url("public/assets/font/Quicksand-Bold.ttf") format("ttf"),
-      url("public/assets/font/Quicksand-Bold.woff") format("woff");
-    font-display: swap;
-  } */
 
   @font-face {
     font-family: "Quicksand";
@@ -50,7 +27,6 @@
   padding: 0;
   margin: 0;
   font-family: "Quicksand", serif;
-  /* overflow: hidden; */
 }
 
 .hamburger-react > div:nth-child(odd) {
@@ -60,8 +36,6 @@
 .hamburger-react > div:nth-child(even) {
   background-color: #6d6caa !important;
 }
-
-/* Scrollbar */
 
 ::-webkit-scrollbar {
   display: none;
@@ -82,22 +56,3 @@
 .ant-picker input::placeholder {
   color: #9ca3af !important;
 }
-
-/* 
-::-webkit-scrollbar {
-  width: 5px;
-  display: none;
-}
-
-::-webkit-scrollbar-track {
-  background: #bebebe;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-} */
