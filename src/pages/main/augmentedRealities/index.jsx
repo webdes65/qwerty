@@ -9,6 +9,7 @@ import ProjectCard from "@components/module/card/ProjectCard";
 import ARIndexHandlers from "@module/container/main/argument-realities/ARIndexHandlers.js";
 import SkeletonList from "@module/SkeletonList.jsx";
 import logger from "@utils/logger.js";
+import "@styles/allRepeatStyles.css";
 
 const AugmentedRealities = () => {
   const [isModalOpenAR, setIsModalOpenAR] = useState(false);
@@ -39,7 +40,7 @@ const AugmentedRealities = () => {
         <div className="w-full flex flex-row justify-end items-center">
           <Button
             type="primary"
-            className="font-Quicksand font-bold !bg-blue-200 dark:!bg-blue-300 !py-5 !px-6 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
+            className="dark:!bg-blue-300 !py-5 !px-6 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
             onClick={() => setIsModalOpenAR(true)}
           >
             <PlusCircleOutlined
@@ -78,7 +79,7 @@ const AugmentedRealities = () => {
         <div className="w-full flex flex-row justify-end items-center">
           <Button
             type="primary"
-            className="font-Quicksand font-bold !bg-blue-200 dark:!bg-blue-300 !py-5 !px-6 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
+            className="dark:!bg-blue-300 !py-5 !px-6 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
             onClick={() => setIsModalOpenOpenAddProject(true)}
           >
             <PlusCircleOutlined
