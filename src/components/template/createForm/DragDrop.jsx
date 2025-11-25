@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import EditItemModal from "@module/modal/EditItemModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "@redux_toolkit/features/itemsSlice.js";
+import EditItemModal from "@module/modal/EditItemModal";
 import EditLineModal from "@module/modal/EditLineModal.jsx";
 import DraggablePoint from "@module/draggableBox/createComponent/DraggablePoint";
 import DraggableBoxItem from "@module/draggableBox/createForm/DraggableBoxItem";
