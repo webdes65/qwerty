@@ -18,7 +18,7 @@ const ProjectDetails = () => {
       <div className="mb-6 w-full">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 lg:mb-6 flex items-center gap-2">
           <FaUserCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-          Poject Information
+          Project Information
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InfoCard
@@ -34,7 +34,7 @@ const ProjectDetails = () => {
           <InfoCard
             icon={MdOutlineLocationCity}
             label="City:"
-            value={data.city.name || "empty"}
+            value={data?.city?.name || "empty"}
           />
           <InfoCard
             icon={MdOutlineDescription}
@@ -45,7 +45,7 @@ const ProjectDetails = () => {
             icon={MdOutlineDevices}
             label="Devices:"
             value={
-              data.devices.map((item) => {
+              data?.devices?.map((item) => {
                 item.name;
               }) || "empty"
             }
