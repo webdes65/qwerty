@@ -1,8 +1,3 @@
-/* .react-joyride__beacon {
-  left: 6.5rem;
-  top: -1.25rem;
-} */
-
 .react-joyride__beacon > span[style*="joyride-beacon-inner"] {
   background-color: #ff0000 !important;
 }
