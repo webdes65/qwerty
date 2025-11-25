@@ -66,8 +66,8 @@ const ComponentsSection = ({
               return (
                 <div key={item.uuid} className="w-full p-1">
                   <div className="w-full h-auto rounded-lg p-2 shadow-lg bg-gray-200">
-                    <h3 className="font-semibold text-[1rem] px-2">
-                      <span className="text-gray-500 text-sm">Name : </span>
+                    <h3 className="font-semibold text-[1rem] px-2 text-dark-100">
+                      <span className="text-sm">Name : </span>
                       {item.name}
                     </h3>
 
