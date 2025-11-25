@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
+import { getEmptyImage } from "react-dnd-html5-backend";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { BsArrowsMove } from "react-icons/bs";
@@ -12,8 +13,8 @@ import UseEchoRegister from "@hooks/UseEchoRegister.js";
 import FormDisplay from "@module/modal/FormDisplay";
 import DraggableHelperHandlersOfForm from "@module/container/main/create-form/DraggableHelperHandlersOfForm.js";
 import DraggableHandlersOfForm from "@module/container/main/create-form/DraggableHandlersOfForm.js";
-import logger from "@utils/logger.js";
 import DraggableBoxItemCard from "@module/card/DraggableBoxItemCard.jsx";
+import logger from "@utils/logger.js";
 
 const ItemType = {
   BOX: "box",
@@ -121,21 +122,45 @@ const DraggableBoxItem = ({
     setSendRequest,
   });
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, preview] = useDrag(
     () => ({
       type: ItemType.BOX,
       item: () => {
         setActiveItemId(item.id);
         setTopZIndex((prev) => prev + 1);
-        return { index, type: ItemType.BOX, itemId: item.id };
+        return {
+          index,
+          type: ItemType.BOX,
+          itemId: item.id,
+          position: item.position,
+          width: item.width,
+          height: item.height,
+        };
+      },
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult();
+        if (!dropResult) {
+          logger.log("Drop cancelled");
+        }
       },
       canDrag: !itemAbility.dragDisabled,
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
     }),
-    [itemAbility.dragDisabled, item.id],
+    [
+      itemAbility.dragDisabled,
+      item.id,
+      item.position,
+      item.width,
+      item.height,
+      index,
+    ],
   );
+
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, [preview]);
 
   const isNew = item.position?.x === 0 && item.position?.y === 0;
   const offset = isNew ? index * 20 : 0;
@@ -164,12 +189,13 @@ const DraggableBoxItem = ({
         transform: `rotate(${item.rotation}deg) ${
           isNew ? `translate(${offset}px, ${offset}px)` : ""
         }`,
-        transition: "transform 0.3s ease",
+        transition: isDragging ? "none" : "transform 0.3s ease",
         backgroundColor: bgColor,
         backgroundImage: bgImg ? `url(${bgImg})` : "none",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         zIndex: activeItemId === item.id ? topZIndex : 1,
+        opacity: isDragging ? 0.5 : 1,
       }}
       id={item.id}
       {...(item.idRegister ? { "data-idregister": item.idRegister } : {})}
