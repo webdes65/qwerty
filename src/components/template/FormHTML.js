@@ -33,6 +33,8 @@ const FormHTML = (container) => {
             onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/noto-serif-toto'">
       <link rel="stylesheet" href="${BASE_URL}/assets/fonts/edu-sa-beginner.css" 
             onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/edu-sa-beginner'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/fonts/iransans.css" 
+            onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/iransans'">
       <link rel="stylesheet" href="${BASE_URL}/assets/css/tailwind.min.css" 
             onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css'">
       <link rel="stylesheet" href="${BASE_URL}/assets/css/toastify.min.css" 
