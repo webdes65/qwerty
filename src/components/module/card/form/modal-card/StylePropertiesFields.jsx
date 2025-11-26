@@ -12,6 +12,7 @@ export default function StylePropertiesField({
     { label: "Noto Serif Toto", value: "Noto Serif Toto" },
     { label: "Edu SA Beginner", value: "Edu SA Beginner" },
     { label: "Digital", value: "DS-Digital" },
+    { label: "IranSans", value: "IranSans" },
   ];
 
   return (

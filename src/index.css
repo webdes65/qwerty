@@ -20,6 +20,15 @@
       url("public/assets/font/Outfit-SemiBold.woff") format("woff");
     font-display: swap;
   }
+
+  @font-face {
+    font-family: "IRANSans";
+    font-weight: 400;
+    src:
+      url("public/assets/font/IRANSansXFaNum-Regular.woff") format("woff"),
+      url("public/assets/font/IRANSansXFaNum-Regular.woff2") format("woff2");
+    font-display: swap;
+  }
 }
 
 * {
