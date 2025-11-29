@@ -83,6 +83,7 @@ const FormDetail = () => {
             minHeight: `${containerDimensions.height}px`,
           }}
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          csp="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
         />
       </div>
     </div>
