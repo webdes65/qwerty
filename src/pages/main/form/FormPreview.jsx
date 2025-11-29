@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo } from "react";
 import Cookies from "universal-cookie";
-import { useFormIframe } from "@hooks/useFormIframe";
+import { useFormIframe } from "@hooks/UseFormIframe.js";
 import FormPreviewHandler from "@module/container/main/form/FormPreviewHandler.js";
 import logger from "@utils/logger.js";
 import "@styles/allRepeatStyles.css";
