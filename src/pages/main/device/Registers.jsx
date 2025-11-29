@@ -1,20 +1,14 @@
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
 import RegisterCard from "@components/module/card/RegisterCard";
-import { request } from "@services/apiService.js";
+import DeviceRegistersHandler from "@module/container/main/device/DeviceRegistersHandler.js";
 
 const Registers = () => {
   const { deviceId } = useParams();
 
-  const { data: dataRegisters, isLoading: loadingRegisters } = useQuery(
-    ["registersList", deviceId],
-    () =>
-      request({
-        method: "GET",
-        url: `/api/devices/${deviceId}/registers`,
-      }),
-  );
+  const { dataRegisters, loadingRegisters } = DeviceRegistersHandler({
+    deviceId,
+  });
 
   if (loadingRegisters) {
     return (

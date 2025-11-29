@@ -1,5 +1,6 @@
-import { CURRENT_VERSION } from "@version";
 import logger from "@utils/logger.js";
+
+const CURRENT_VERSION = import.meta.env.VITE_VERSION;
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||

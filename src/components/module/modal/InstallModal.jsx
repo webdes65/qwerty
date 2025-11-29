@@ -1,5 +1,7 @@
-import { CURRENT_VERSION } from "@version";
-import "@styles/installModal.css";
+import "@styles/installModalStyles.css";
+import "@styles/allRepeatStyles.css";
+
+const CURRENT_VERSION = import.meta.env.VITE_VERSION;
 
 const InstallModal = () => {
   return (
@@ -15,13 +17,13 @@ const InstallModal = () => {
         <div className="w-full h-auto flex flex-row justify-start items-center gap-1 pt-2 font-light text-white">
           <button
             id="installBtn"
-            className="btn w-auto  bg-blue-500 dark:bg-blue-400 rounded-md px-4 py-2 text-base shadow-lg"
+            className="btn w-auto !px-4 !py-2 buttonPrimaryStyle"
           >
             Install
           </button>
           <button
             id="closeModal"
-            className="btn w-auto  bg-red-500 dark:bg-red-400 rounded-md px-4 py-2 text-base shadow-lg"
+            className="btn w-auto !px-4 !py-2 buttonSecondaryStyle"
           >
             Close
           </button>

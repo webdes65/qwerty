@@ -1,0 +1,136 @@
+import { TbAugmentedReality, TbChartDots } from "react-icons/tb";
+import { FaListOl } from "react-icons/fa6";
+import {
+  IoCreateOutline,
+  IoHome,
+  IoSettingsSharp,
+  IoSettingsOutline,
+} from "react-icons/io5";
+import { BiBuildings } from "react-icons/bi";
+import { MdOutlineImportantDevices, MdOutlinePreview } from "react-icons/md";
+import { LuUsers } from "react-icons/lu";
+import { PiMapPinArea } from "react-icons/pi";
+
+export const menuItems = [
+  {
+    id: "home",
+    label: "Home",
+    icon: IoHome,
+    route: "/",
+    sidebarClassName: "",
+    mobileClassName: "",
+  },
+  {
+    id: "create-component",
+    label: "Create Components",
+    sidebarLabel: "Create Component",
+    icon: IoCreateOutline,
+    route: "/createcomponent",
+    sidebarClassName: "create-component",
+    mobileClassName: "create-component-step",
+  },
+  {
+    id: "create-form",
+    label: "Create Form",
+    icon: IoCreateOutline,
+    route: "/createform",
+    sidebarClassName: "create-form",
+    mobileClassName: "create-form-step",
+  },
+  {
+    id: "forms",
+    label: "Forms",
+    icon: FaListOl,
+    route: "/forms",
+    sidebarClassName: "forms",
+    mobileClassName: "forms-step",
+    matchRoutes: ["/forms", "/forms/formDetail"],
+  },
+  {
+    id: "preview",
+    label: "Preview",
+    icon: MdOutlinePreview,
+    route: "/preview",
+    sidebarClassName: "",
+    mobileClassName: "forms-step",
+  },
+  {
+    id: "ar",
+    label: "AR",
+    icon: TbAugmentedReality,
+    route: "/augmentedRealities",
+    sidebarClassName: "ar",
+    mobileClassName: "ar-step",
+    matchRoutes: [
+      "/augmentedRealities",
+      "/ProjectDetails",
+      "/ARDetails",
+      "/SubProject/:id",
+    ],
+    checkStartsWith: "/SubProject/",
+  },
+  {
+    id: "graphs",
+    label: "Graphs",
+    icon: TbChartDots,
+    route: "/graphs",
+    sidebarClassName: "graphs",
+    mobileClassName: "graph-step",
+    matchRoutes: ["/graphs", "/graphs/:id"],
+    checkStartsWith: "/graphs/",
+  },
+  {
+    id: "devices",
+    label: "Devices",
+    icon: MdOutlineImportantDevices,
+    route: "/devices",
+    sidebarClassName: "device",
+    mobileClassName: "devices-step",
+    matchRoutes: [
+      "/devices",
+      "/devices/deviceDetail",
+      "/devices/editdevice",
+      "/devices/*/registers",
+    ],
+    checkRegex: /^\/devices\/\d+\/registers$/,
+  },
+  {
+    id: "cities",
+    label: "Cities",
+    icon: BiBuildings,
+    route: "/cities",
+    sidebarClassName: "citys-btn",
+    mobileClassName: "",
+  },
+  {
+    id: "employees",
+    label: "Employees",
+    icon: LuUsers,
+    route: "/employees",
+    sidebarClassName: "",
+    mobileClassName: "",
+    matchRoutes: [
+      "/employees",
+      "/employees/employeesDetail",
+      "/employees/editEmployess",
+    ],
+  },
+  {
+    id: "map",
+    label: "Map",
+    icon: PiMapPinArea,
+    route: "/map",
+    sidebarClassName: "citys-btn",
+    mobileClassName: "",
+    showCondition: () => import.meta.env.VITE_SHOW_MAP === "true",
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    icon: IoSettingsSharp,
+    sidebarIcon: IoSettingsOutline,
+    route: "/settings",
+    sidebarClassName: "",
+    mobileClassName: "",
+  },
+];

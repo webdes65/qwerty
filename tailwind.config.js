@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         Quicksand: ["Quicksand", "sans"],
+        IRANSans: ["IRANSans", "sans-serif"],
       },
       colors: {
         lightGray: "#F0F0F0",

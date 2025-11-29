@@ -1,0 +1,7 @@
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #0025b1 !important;
+}
+
+.dark .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #2ac3de !important;
+}

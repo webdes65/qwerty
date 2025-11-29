@@ -1,35 +1,22 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
-import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
+import DeleteHandler from "@module/container/main/delete/DeleteHandler.js";
+import "@styles/allRepeatStyles.css";
 
 const UserCard = (data) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-  const deleteMutation = useMutation(
-    (id) => request({ method: "DELETE", url: `/api/users/${id}` }),
-    {
-      onSuccess: (res) => {
-        toast.success(res.message);
-        queryClient.invalidateQueries(["fetchUsers"]);
-      },
-      onError: (error) => {
-        logger.error("Error deleting device:", error);
-      },
-    },
-  );
-
-  const handleRemove = (id) => {
-    deleteMutation.mutate(id);
-  };
+  const { deleteMutation, handleRemove } = DeleteHandler({
+    url: "/api/users/",
+    queryKey: "fetchUsers",
+    setSubmitLoading,
+  });
 
   const handleEdit = () => {
     navigate("/employees/editEmployess", { state: { data } });
@@ -79,7 +66,7 @@ const UserCard = (data) => {
           <div className="w-full h-auto flex flex-row gap-2 pt-2">
             <Button
               type="primary"
-              className="w-full font-Quicksand font-medium !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600 max-sm:!px-3"
+              className="w-full max-sm:!px-3 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
               onClick={(e) => {
                 e.stopPropagation();
                 handleEdit();
@@ -90,9 +77,10 @@ const UserCard = (data) => {
             </Button>
             {data.data.self === false ? (
               <Button
-                className="w-full font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600 max-sm:!px-3"
+                className="w-full max-sm:!px-3 dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 buttonSecondaryStyle"
                 color="danger"
                 variant="solid"
+                loading={submitLoading}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsDeleteModalOpen(true);
