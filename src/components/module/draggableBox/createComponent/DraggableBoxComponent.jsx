@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { TiDelete } from "react-icons/ti";
-import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
-import EditComponentModal from "@module/modal/EditComponentModal";
 import {
   IoMdSettings,
   IoIosArrowBack,
@@ -11,6 +9,10 @@ import {
   IoIosArrowDown,
   IoIosArrowUp,
 } from "react-icons/io";
+import { setComponents } from "@redux_toolkit/features/componentsSlice.js";
+import EditComponentModal from "@module/modal/EditComponentModal";
+import DraggableHelperHandlersOfComponents from "@module/container/main/create-component/DraggableHelperHandlersOfComponents.js";
+import "@styles/allRepeatStyles.css";
 
 const ItemType = {
   BOX: "box",
@@ -49,58 +51,13 @@ const DraggableBoxComponent = ({
       ? { backgroundImage: `url(${item.bgImg})`, backgroundSize: "cover" }
       : { backgroundColor: item.bg };
 
-  const moveUp = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, y: item.position.y - 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-      // localStorage.setItem("registers", JSON.stringify(updatedPositions));
+  const { moveUp, moveDown, moveLeft, moveRight } =
+    DraggableHelperHandlersOfComponents({
+      dispatch,
+      components,
+      index,
+      setComponents,
     });
-  };
-
-  const moveDown = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, y: item.position.y + 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-    });
-  };
-
-  const moveLeft = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, x: item.position.x - 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-    });
-  };
-
-  const moveRight = (e) => {
-    e.stopPropagation();
-    dispatch((dispatch) => {
-      const updatedPositions = components.map((item, i) =>
-        i === index
-          ? { ...item, position: { ...item.position, x: item.position.x + 1 } }
-          : item,
-      );
-
-      dispatch(setComponents(updatedPositions));
-    });
-  };
 
   const isNew = item.position?.x === 0 && item.position?.y === 0;
   const offset = isNew ? index * 20 : 0;
@@ -138,7 +95,7 @@ const DraggableBoxComponent = ({
     >
       {showBtnDeleteComponent && (
         <TiDelete
-          className="absolute -bottom-3 -right-3 cursor-pointer text-red-500 bg-gray-200 rounded-full shadow p-1"
+          className="deleteButtonsStyle"
           size={28}
           onClick={(e) => {
             e.stopPropagation();
@@ -151,7 +108,7 @@ const DraggableBoxComponent = ({
       )}
       {editEnabledComponent && (
         <IoMdSettings
-          className="absolute -bottom-2 -left-2 cursor-pointer text-black bg-gray-200 rounded-full shadow p-1"
+          className="settingButtonsStyle"
           size={24}
           onClick={(e) => {
             e.stopPropagation();
@@ -163,25 +120,25 @@ const DraggableBoxComponent = ({
         <div className="controls">
           <button
             onClick={moveUp}
-            className="absolute -top-[2.5rem] left-[1.25rem] bg-white shadow uppercase text-black p-2 rounded-md"
+            className="-top-[2.5rem] left-[1.25rem] controlButtonsStyle"
           >
             <IoIosArrowUp />
           </button>
           <button
             onClick={moveDown}
-            className="absolute -bottom-[2.5rem] left-[1.25rem] bg-white shadow uppercase text-black p-2 rounded-md"
+            className="-bottom-[2.5rem] left-[1.25rem] controlButtonsStyle"
           >
             <IoIosArrowDown />
           </button>
           <button
             onClick={moveLeft}
-            className="absolute top-[1rem] -left-[2.5rem] bg-white  shadow uppercase text-black p-2 rounded-md"
+            className="top-[1rem] -left-[2.5rem] controlButtonsStyle"
           >
             <IoIosArrowBack />
           </button>
           <button
             onClick={moveRight}
-            className="absolute  top-[1rem] -right-[2.5rem] bg-white shadow uppercase text-black p-2 rounded-md"
+            className="top-[1rem] -right-[2.5rem] controlButtonsStyle"
           >
             <IoIosArrowForward />
           </button>

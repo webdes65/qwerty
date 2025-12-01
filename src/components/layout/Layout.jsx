@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "react-query";
-import { setRealtimeService } from "@redux_toolkit/features/realtimeServiceSlice.js";
+import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
@@ -16,48 +14,27 @@ import InstallModal from "@module/modal/InstallModal";
 import UseEchoNotif from "@hooks/UseEchoNotif.js";
 import UseAuthCheck from "@hooks/UseAuthCheck.js";
 import UseMqttSubscription from "@hooks/UseMqttSubscription.js";
-import { setupInstallPrompt } from "@services/setupInstallPrompt.js";
-import { request } from "@services/apiService.js";
 import logger from "@utils/logger.js";
-import useDarkMode from "../../store/UseDarkMode.js";
+import useDarkMode from "@store/UseDarkMode.js";
+import LayoutHandler from "@module/container/main/layout/LayoutHandler.js";
 
 const Layout = ({ children }) => {
-  const dispatch = useDispatch();
   const location = useLocation();
   const userId = localStorage.getItem("user_id");
   const realtimeService = useSelector((state) => state.realtimeService);
-  const { darkMode, initializeDarkMode } = useDarkMode();
+  const { darkMode } = useDarkMode();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   UseAuthCheck();
 
-  useEffect(() => {
-    setupInstallPrompt();
-  }, []);
-
-  const { data, isLoading, isError } = useQuery(
-    ["user-service", userId],
-    () => request({ method: "GET", url: `/api/users/${userId}/service` }),
-    { enabled: !!userId },
-  );
-
-  useEffect(() => {
-    if (data?.data) {
-      dispatch(setRealtimeService(data.data));
-    }
-  }, [data, dispatch]);
-
-  useEffect(() => {
-    initializeDarkMode();
-  }, [initializeDarkMode]);
+  const { isLoading, isError } = LayoutHandler({ userId });
 
   const hideLayout =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
     location.pathname === "/forgetPassword";
 
-  // Echo notification channel listening
   UseEchoNotif(userId, realtimeService);
 
   const notificationTopics = [`notifications/${userId}`];

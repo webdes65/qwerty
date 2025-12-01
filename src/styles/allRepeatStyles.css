@@ -1,0 +1,59 @@
+.dragInputStyle {
+  @apply w-1/2 border-2  border-gray-200 dark:border-gray-600 p-2 rounded mr-2 !outline-none text-dark-100 bg-white dark:bg-gray-100 dark:text-white;
+}
+
+.labelStyle {
+  @apply text-dark-100 dark:text-white font-bold;
+}
+
+.dragParentInputStyle {
+  @apply w-full flex flex-row justify-center items-center;
+}
+
+.buttonPrimaryStyle {
+  @apply font-Quicksand font-bold !bg-blue-200 !p-5 !shadow !text-blue-500 !text-[0.90rem] !border-[2.5px] !border-blue-500;
+}
+
+.buttonSecondaryStyle {
+  @apply font-Quicksand font-bold !bg-red-200 !p-5 !shadow !text-red-500 !text-[0.90rem] !border-[2.5px] !border-red-500;
+}
+
+.buttonTertiaryStyle {
+  @apply font-Quicksand font-bold !bg-green-200 !p-5 !shadow !text-green-500 !text-[0.90rem] !border-[2.5px] !border-green-500;
+}
+
+.dragParentSwitchStyle {
+  @apply w-full flex flex-row justify-start items-center gap-2;
+}
+
+.inputStyle {
+  @apply border-2 border-gray-200 dark:border-gray-600 !outline-none p-3 rounded-md text-dark-100  dark:bg-dark-100 dark:text-white;
+}
+
+.controlButtonsStyle {
+  @apply absolute shadow uppercase text-dark-100 bg-white dark:bg-gray-100 dark:text-white p-2 rounded-md;
+}
+
+.deleteButtonsStyle {
+  @apply absolute -bottom-3 -right-3 cursor-pointer text-red-500 bg-gray-200 rounded-full shadow p-1;
+}
+
+.settingButtonsStyle {
+  @apply absolute -bottom-2 -left-2 cursor-pointer text-dark-100 bg-gray-200 rounded-full shadow p-1;
+}
+
+.formNotResponseStyle {
+  @apply flex h-screen w-full items-center justify-center bg-white text-dark-100 dark:bg-dark-100 dark:text-white;
+}
+
+.formResponseStyle {
+  @apply flex flex-col justify-center gap-10 p-2 bg-white text-dark-100 dark:bg-dark-100 dark:text-white;
+}
+
+.editInputStyle {
+  @apply w-full px-4 py-3 bg-gray-50 dark:bg-gray-100 border border-gray-50 dark:border-gray-100 rounded-xl text-gray-900 dark:text-white transition-all duration-200 !outline-none;
+}
+
+.editLabelStyle {
+  @apply block text-sm font-semibold text-dark-100 dark:text-white mb-2;
+}

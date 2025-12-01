@@ -1,61 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { useMutation } from "react-query";
-import { toast } from "react-toastify";
 import { Button } from "antd";
-import Cookies from "universal-cookie";
 import { Formik, Form } from "formik";
 import CustomField from "@components/module/CustomField";
-import { request } from "@services/apiService.js";
 import logo from "/assets/images/logo.webp";
 import UseDarkModeStore from "@store/UseDarkMode.js";
+import RegisterHandlers from "@module/container/aurh/RegisterHandlers.js";
 
 const Register = () => {
   const navigate = useNavigate();
-  const cookies = new Cookies();
   const { darkMode } = UseDarkModeStore();
   const [submitPending, setSubmitPending] = useState(false);
 
-  const mutation = useMutation(
-    (data) => request({ method: "POST", url: "/api/register", data }),
-    {
-      onSuccess: (data) => {
-        toast.success(data.message);
-
-        localStorage.setItem("user_id", data.data.profile.user_uuid);
-        localStorage.setItem("user_name", data.data.user.name);
-        const token = data.access_token;
-
-        let expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + 6);
-
-        cookies.set("bms_access_token", token, {
-          expires: expirationDate,
-        });
-
-        setTimeout(() => {
-          navigate("/");
-        }, 5000);
-      },
-      onError: (error) => {
-        const errors = error.response?.data?.errors;
-
-        if (errors) {
-          for (const key in errors) {
-            if (Object.prototype.hasOwnProperty.call(errors, key)) {
-              errors[key].forEach((message) => {
-                toast.error(message);
-              });
-            }
-          }
-        }
-      },
-      onSettled: () => {
-        setSubmitPending(false);
-      },
-    },
-  );
+  const { onSubmit } = RegisterHandlers({ setSubmitPending });
 
   const initialValues = {
     name: "",
@@ -103,11 +61,6 @@ const Register = () => {
     }
 
     return errors;
-  };
-
-  const onSubmit = async (values) => {
-    setSubmitPending(true);
-    mutation.mutate(values);
   };
 
   return (

@@ -25,6 +25,13 @@ export default function DeviceOfInputCard({
           className="customSelect ant-select-selector font-medium w-full placeholder:!font-bold"
           options={optionsDevices}
           placeholder="Select device"
+          showSearch={true}
+          optionFilterProp="label"
+          filterSort={(optionA, optionB) =>
+            (optionA?.label ?? "")
+              .toLowerCase()
+              .localeCompare((optionB?.label ?? "").toLowerCase())
+          }
           onChange={(value) => setSelectedDeviceId(value)}
         />
       )}
@@ -44,6 +51,13 @@ export default function DeviceOfInputCard({
               className="customSelect ant-select-selector w-full"
               placeholder="Select registers"
               options={optionsRegisters}
+              showSearch={true}
+              optionFilterProp="label"
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
               onChange={(value) =>
                 setInfoReqBtn({
                   ...infoReqBtn,

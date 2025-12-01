@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { Button, message } from "antd";
+import { MdOutlineDevices } from "react-icons/md";
+import { Button } from "antd";
 import { Formik, Form, Field } from "formik";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import EditDeviceHandlers from "@module/container/main/device/EditDeviceHandlers.js";
+import "@styles/allRepeatStyles.css";
 
 const EditDevice = () => {
   const location = useLocation();
   const { device } = location.state || {};
-  const [id, setId] = useState(device.uuid);
 
-  const queryClient = useQueryClient();
+  const [id, setId] = useState(device.uuid);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     setId(device.uuid);
@@ -24,95 +24,142 @@ const EditDevice = () => {
     description: device?.description ?? "Empty",
   };
 
-  const [isEditable, setIsEditable] = useState(false);
-
-  const updateDeviceMutation = useMutation(
-    (values) =>
-      request({
-        method: "PATCH",
-        url: `/api/devices/${id}`,
-        data: values,
-      }),
-    {
-      onSuccess: () => {
-        message.success("Device updated successfully!");
-        setIsEditable(false);
-        queryClient.invalidateQueries(["device", id]);
-      },
-      onError: (error) => {
-        message.error("Failed to update device!");
-        logger.error("Update error:", error);
-      },
-    },
-  );
-
-  const onSubmit = (values) => {
-    logger.error("Submitting values:", values);
-    updateDeviceMutation.mutate(values);
-  };
+  const { updateDeviceMutation, onSubmit } = EditDeviceHandlers({
+    id,
+    setIsEditable,
+  });
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-2 overflow-auto font-Poppins pt-2">
-      <div className="w-full h-full  text-dark-100 dark:bg-gray-100 dark:text-white">
-        <div className="w-full grid grid-cols-2 gap-4 p-4 rounded shadow">
-          <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({ handleSubmit }) => (
-              <Form className="w-full flex flex-col justify-center items-start gap-2">
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="name"
-                    name="name"
-                    disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="brand"
-                    name="brand"
-                    disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="model"
-                    name="model"
-                    disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
-                  />
-                </div>
-                <div className="flex flex-col w-full">
-                  <Field
-                    id="description"
-                    name="description"
-                    disabled={!isEditable}
-                    className="w-full p-2 border-2 border-gray-200 dark:border-gray-600 rounded bg-white text-dark-100  dark:bg-dark-100 dark:text-white"
-                  />
-                </div>
-                <div className="w-full flex gap-4">
-                  <Button
-                    type="primary"
-                    onClick={() => setIsEditable(!isEditable)}
-                    className="w-1/2 font-Poppins font-bold !p-4"
-                    disabled={updateDeviceMutation.isLoading}
-                  >
-                    {isEditable ? "Cancel" : "Edit"}
-                  </Button>
-                  {isEditable && (
-                    <Button
-                      type="primary"
-                      onClick={handleSubmit}
-                      className="w-1/2 font-Poppins border-2 border-green-200 dark:border-green-300 font-bold !p-4 text-dark-100  bg-green-200 dark:bg-green-300"
-                      loading={updateDeviceMutation.isLoading}
+    <div className="w-full min-h-screen bg-white dark:bg-gray-100 p-6 cursor-default">
+      <div className="mx-auto">
+        <div className="mb-8 p-3 bg-gray-200 dark:bg-dark-100 rounded-lg">
+          <div className="flex items-center gap-3 mb-2">
+            <MdOutlineDevices className="min-w-6 md:min-w-8 min-h-6 md:min-h-8 text-dark-100 dark:text-white" />
+            <div>
+              <h1 className="text-lg md:text-3xl font-medium md:font-bold text-dark-100 dark:text-white">
+                Device Details
+              </h1>
+              <p className="text-sm md:text-lg text-dark-100 dark:text-white mt-1">
+                View and edit device information
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="my-6 text-center">
+          <p className="text-sm md:text-lg text-dark-100 dark:text-white">
+            Device ID:{" "}
+            <span className="font-mono font-medium md:font-bold">{id}</span>
+          </p>
+        </div>
+
+        <div className="bg-gray-200 dark:bg-dark-100 rounded-2xl shadow-xl overflow-hidden transition-all duration-300">
+          <div className="p-8">
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+              {({ handleSubmit }) => (
+                <Form className="space-y-6">
+                  <div className="group">
+                    <label
+                      htmlFor="name"
+                      className="editLabelStyle transition-colors"
                     >
-                      Save
+                      Device Name
+                    </label>
+                    <Field
+                      id="name"
+                      name="name"
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 editInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-[#2997ff]"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="group">
+                    <label htmlFor="brand" className="editLabelStyle">
+                      Brand
+                    </label>
+                    <Field
+                      id="brand"
+                      name="brand"
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 editInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-[#2997ff]"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="group">
+                    <label htmlFor="model" className="editLabelStyle">
+                      Model
+                    </label>
+                    <Field
+                      id="model"
+                      name="model"
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 editInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-[#2997ff]"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="group">
+                    <label htmlFor="description" className="editLabelStyle">
+                      Description
+                    </label>
+                    <Field
+                      id="description"
+                      name="description"
+                      as="textarea"
+                      rows={4}
+                      disabled={!isEditable}
+                      className={`placeholder-gray-400 resize-none editInputStyle
+                        ${
+                          !isEditable
+                            ? "border-gray-200 dark:border-gray-600 cursor-not-allowed opacity-75"
+                            : "focus:border-[#2997ff]"
+                        }`}
+                    />
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      type={isEditable ? "default" : "primary"}
+                      onClick={() => setIsEditable(!isEditable)}
+                      className={`flex-1 h-12 rounded-xl font-semibold transition-all duration-200
+                        ${
+                          isEditable
+                            ? "buttonSecondaryStyle"
+                            : "dark:bg-blue-300 dark:text-blue-600 dark:border-blue-600 buttonPrimaryStyle"
+                        }`}
+                    >
+                      {isEditable ? "Cancel" : "Edit"}
                     </Button>
-                  )}
-                </div>
-              </Form>
-            )}
-          </Formik>
+
+                    {isEditable && (
+                      <Button
+                        type="primary"
+                        onClick={handleSubmit}
+                        loading={updateDeviceMutation.isLoading}
+                        className="flex-1 h-12 rounded-xl transition-all duration-200 dark:!bg-green-300 dark:!text-green-600 dark:!border-green-600 buttonTertiaryStyle"
+                      >
+                        Save
+                      </Button>
+                    )}
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
+import { useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import { useSelector } from "react-redux";
 import Cookies from "universal-cookie";
-import { useEffect, useRef, useState } from "react";
 
 const ItemType = {
   BOX: "box",
@@ -20,6 +20,12 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
     width: boxInfo.width,
     height: boxInfo.height,
   });
+
+  useEffect(() => {
+    if (dropBoxRef.current) {
+      dropBoxRef.current.style.transform = "none";
+    }
+  }, [boxInfo]);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -62,53 +68,44 @@ const DropBox = ({ boxInfo, onDrop, onDropCom, children, onDropPoint }) => {
     };
   }, [boxInfo.width, boxInfo.height]);
 
-  const [, drop] = useDrop(() => ({
-    accept: [ItemType.BOX, ItemType.BOX_COM, ItemType.POINT],
-    drop: (item, monitor) => {
-      const initialClientOffset = monitor.getInitialClientOffset();
-      const initialSourceClientOffset = monitor.getInitialSourceClientOffset();
-      const clientOffset = monitor.getClientOffset();
+  const [, drop] = useDrop(
+    () => ({
+      accept: [ItemType.BOX, ItemType.BOX_COM, ItemType.POINT],
+      drop: (item, monitor) => {
+        const clientOffset = monitor.getClientOffset();
+        const dropBoxBounds = dropBoxRef.current?.getBoundingClientRect();
 
-      const dropBoxBounds = dropBoxRef.current
-        ? dropBoxRef.current.getBoundingClientRect()
-        : { left: 0, top: 0 };
+        if (!clientOffset || !dropBoxBounds) return;
 
-      const offsetX = initialClientOffset.x - initialSourceClientOffset.x;
-      const offsetY = initialClientOffset.y - initialSourceClientOffset.y;
+        let newLeft = Math.round(clientOffset.x - dropBoxBounds.left);
+        let newTop = Math.round(clientOffset.y - dropBoxBounds.top);
 
-      let newLeft = Math.round(clientOffset.x - dropBoxBounds.left - offsetX);
-      let newTop = Math.round(clientOffset.y - dropBoxBounds.top - offsetY);
+        const elementWidth = item.width || 50;
+        const elementHeight = item.height || 50;
 
-      const elementWidth = 50;
-      const elementHeight = 50;
+        newLeft = newLeft - elementWidth / 2;
+        newTop = newTop - elementHeight / 2;
 
-      const maxLeft =
-        (isMobile ? containerDimensions.width : boxInfo.width) - elementWidth;
-      const maxTop =
-        (isMobile ? containerDimensions.height : boxInfo.height) -
-        elementHeight;
+        const maxLeft =
+          (isMobile ? containerDimensions.width : boxInfo.width) - elementWidth;
+        const maxTop =
+          (isMobile ? containerDimensions.height : boxInfo.height) -
+          elementHeight;
 
-      newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-      newTop = Math.max(0, Math.min(newTop, maxTop));
+        newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+        newTop = Math.max(0, Math.min(newTop, maxTop));
 
-      if (
-        newLeft < 0 ||
-        newLeft > (isMobile ? containerDimensions.width : boxInfo.width) ||
-        newTop < 0 ||
-        newTop > (isMobile ? containerDimensions.height : boxInfo.height)
-      ) {
-        return;
-      }
-
-      if (item.type === ItemType.BOX) {
-        onDrop(item.index, { x: newLeft, y: newTop });
-      } else if (item.type === ItemType.BOX_COM) {
-        onDropCom(item.index, { x: newLeft, y: newTop });
-      } else if (item.type === ItemType.POINT) {
-        onDropPoint(item.index, { x: newLeft, y: newTop });
-      }
-    },
-  }));
+        if (item.type === ItemType.BOX) {
+          onDrop(item.index, { x: newLeft, y: newTop });
+        } else if (item.type === ItemType.BOX_COM) {
+          onDropCom(item.index, { x: newLeft, y: newTop });
+        } else if (item.type === ItemType.POINT) {
+          onDropPoint(item.index, { x: newLeft, y: newTop });
+        }
+      },
+    }),
+    [isMobile, containerDimensions, boxInfo.width, boxInfo.height],
+  );
 
   const combinedRef = (el) => {
     drop(el);

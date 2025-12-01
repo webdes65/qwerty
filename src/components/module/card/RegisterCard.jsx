@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "antd";
 import RegisterReportsModal from "@module/modal/RegisterReportsModal";
 import { formatTimestamps } from "@utils/formatDate.js";
+import "@styles/allRepeatStyles.css";
 
 const RegisterCard = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,7 +65,7 @@ const RegisterCard = ({ data }) => {
         </div>
         <div className="w-full h-auto flex flex-row gap-2 pt-2">
           <Button
-            className="w-full font-Quicksand font-medium !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-blue-500 dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
+            className="w-full dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
             variant="solid"
             onClick={() => {
               setIsModalOpen(true);
