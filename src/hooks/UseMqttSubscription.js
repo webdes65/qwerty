@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import logger from "@utils/logger.js";
 import { UseMqttContext } from "../context/MqttProvider.jsx";
 
 const UseMqttSubscription = (
@@ -33,7 +34,7 @@ const UseMqttSubscription = (
       const cleanup = subscribe(
         topic,
         (message) => {
-          // logger.log(`Received message on topic: ${topic}`, message);
+          logger.log(`Received message on topic: ${topic}`, message);
 
           setMessages((prev) => [...prev, message]);
 
