@@ -1,4 +1,4 @@
-import { CURRENT_VERSION } from "@version";
+const CURRENT_VERSION = import.meta.env.VITE_VERSION;
 
 export function setupInstallPrompt() {
   let deferredPrompt;

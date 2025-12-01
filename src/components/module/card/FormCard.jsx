@@ -1,44 +1,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { request } from "@services/apiService.js";
 import { formatTimestamps } from "@utils/formatDate.js";
-import logger from "@utils/logger.js";
 import DeleteModal from "@module/modal/DeleteModal.jsx";
+import DeleteHandler from "@module/container/main/delete/DeleteHandler.js";
+import "@styles/allRepeatStyles.css";
 
 const FormCard = ({ form }) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [submitLoading, setSubmitLoading] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const deleteMutation = useMutation(
-    (id) => request({ method: "DELETE", url: `/api/forms/${id}` }),
-    {
-      onSuccess: (data) => {
-        toast.success(data.message);
-        queryClient.invalidateQueries(["GetForms"]);
-        queryClient.invalidateQueries(["searchForms"]);
-      },
-      onError: (error) => {
-        logger.error(error);
-      },
-      onSettled: () => {
-        setSubmitLoading(false);
-      },
-    },
-  );
-
-  const handleRemove = (id) => {
-    setSubmitLoading(true);
-    deleteMutation.mutate(id);
-  };
+  const { deleteMutation, handleRemove } = DeleteHandler({
+    url: "/api/forms/",
+    queryKey: ["GetForms", "searchForms"],
+    setSubmitLoading,
+  });
 
   const name = form.name;
   const id = form.uuid;
+  const category = form.category;
 
   const { formattedCreatedAt, formattedUpdatedAt } = formatTimestamps(form);
 
@@ -70,17 +52,17 @@ const FormCard = ({ form }) => {
           <div className="w-full h-auto flex flex-row gap-2 pt-2">
             <Button
               type="primary"
-              className="w-1/2 font-Quicksand font-medium !bg-blue-200 dark:!bg-blue-300 !p-5 !shadow !text-[#3b82f6] dark:!text-blue-600 !text-[0.90rem] !border-[2.5px] !border-blue-500 dark:!border-blue-600"
+              className="w-1/2 dark:!bg-blue-300 dark:!text-blue-600 dark:!border-blue-600 buttonPrimaryStyle"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/createform", { state: { id, name } });
+                navigate("/createform", { state: { id, name, category } });
               }}
             >
               <EditOutlined style={{ fontSize: "18px" }} />
               Edit
             </Button>
             <Button
-              className="w-1/2 font-Quicksand font-medium !bg-red-200 dark:!bg-red-300 !p-5 !shadow !text-[#ef4444] dark:!text-red-600 !text-[0.90rem] !border-[2.5px] !border-red-500 dark:!border-red-600"
+              className="w-1/2 dark:!bg-red-300 dark:!text-red-600 dark:!border-red-600 buttonSecondaryStyle"
               color="danger"
               variant="solid"
               loading={submitLoading}
@@ -100,6 +82,7 @@ const FormCard = ({ form }) => {
         isOpenModal={isDeleteModalOpen}
         setIsOpenModal={setIsDeleteModalOpen}
         onDelete={() => handleRemove(form.uuid)}
+        loading={deleteMutation.isLoading}
       />
     </>
   );

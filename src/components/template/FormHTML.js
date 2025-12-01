@@ -1,43 +1,96 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
-const ECHO_URL = import.meta.env.VITE_ECHO_AUTH_ENDPOINT;
-const BROKER_URL = import.meta.env.VITE_BROKER_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL_API = BASE_URL + "/api";
+const BROKER_MQTT_URL = import.meta.env.VITE_MQTT_URL;
+const BROKER_MQTT_USERNAME = import.meta.env.VITE_MQTT_USERNAME;
+const BROKER_MQTT_PASSWORD = import.meta.env.VITE_MQTT_PASSWORD;
+
+const VITE_BROADCASTER = import.meta.env.VITE_BROADCASTER;
+const VITE_ECHO_HOST = import.meta.env.VITE_ECHO_HOST;
+const VITE_PUSHER_CLUSTER = import.meta.env.VITE_PUSHER_CLUSTER;
+const VITE_PUSHER_KEY = import.meta.env.VITE_PUSHER_KEY;
+const VITE_ECHO_PORT_WSS = import.meta.env.VITE_ECHO_PORT_WSS;
+const VITE_ECHO_PORT_WS = import.meta.env.VITE_ECHO_PORT_WS;
+const VITE_ECHO_AUTH_ENDPOINT_WS = import.meta.env.VITE_ECHO_AUTH_ENDPOINT_WS;
+const VITE_ECHO_AUTH_ENDPOINT_WSS = import.meta.env.VITE_ECHO_AUTH_ENDPOINT_WSS;
+const VITE_ECHO_FORCE_TLS = import.meta.env.VITE_ECHO_FORCE_TLS;
+const intervalValue = Number(import.meta.env.VITE_INTERVAL_VALUE);
+
 const FormHTML = (container) => {
-  return `
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>DragDrop Content</title>
-        <link href="https://fonts.cdnfonts.com/css/ds-digital" rel="stylesheet" />
-        <link href="https://fonts.cdnfonts.com/css/azeret-mono" rel="stylesheet" />
-        <link
-          href="https://fonts.cdnfonts.com/css/noto-serif-toto"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.cdnfonts.com/css/edu-sa-beginner"
-          rel="stylesheet"
-        />
-        <link
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
-        <link
-        href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-        rel="stylesheet"
-        />
-        <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/7.2.0/pusher.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
-        <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"
-          integrity="sha512-v8+bPcpk4Sj7CKB11+gK/FnsbgQ15jTwZamnBf/xDmiQDcgOIYufBo6Acu1y30vrk8gg5su4x0CG3zfPaq5Fcg=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
-        ></script>
-        <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-        <style>
+  let HTML_OUTPUT = `<!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>DragDrop Content</title>`;
+
+  HTML_OUTPUT += `
+      <!-- Simple CSS Fallback -->
+      <link rel="stylesheet" href="${BASE_URL}/assets/fonts/ds-digital.css" 
+            onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/ds-digital'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/fonts/azeret-mono.css" 
+            onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/azeret-mono'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/fonts/noto-serif-toto.css" 
+            onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/noto-serif-toto'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/fonts/edu-sa-beginner.css" 
+            onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/edu-sa-beginner'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/fonts/iransans.css" 
+            onerror="this.onerror=null;this.href='https://fonts.cdnfonts.com/css/iranian-sans'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/css/tailwind.min.css" 
+            onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css'">
+      <link rel="stylesheet" href="${BASE_URL}/assets/css/toastify.min.css" 
+            onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css'">
+      
+      <!-- Enhanced JS Loading -->
+      <script defer>
+        window.addEventListener('load', function() {
+          function loadScript(localSrc, cdnSrc) {
+            return new Promise((resolve) => {
+              const s = document.createElement('script');
+              s.src = localSrc;
+              
+              const timeout = setTimeout(() => {
+                console.warn('Timeout, trying CDN:', cdnSrc);
+                loadFromCDN(cdnSrc).then(resolve);
+              }, 5000);
+              
+              s.onload = () => {
+                clearTimeout(timeout);
+                console.log('✅ Loaded:', localSrc);
+                resolve();
+              };
+              
+              s.onerror = () => {
+                clearTimeout(timeout);
+                loadFromCDN(cdnSrc).then(resolve);
+              };
+              
+              document.body.appendChild(s);
+            });
+          }
+          
+          function loadFromCDN(src) {
+            return new Promise((resolve) => {
+              const s = document.createElement('script');
+              s.src = src;
+              s.onload = () => { console.log('✅ CDN loaded:', src); resolve(); };
+              s.onerror = () => { console.error('❌ Failed:', src); resolve(); };
+              document.body.appendChild(s);
+            });
+          }
+          
+          Promise.all([
+            loadScript('${BASE_URL}/assets/js/toastify.min.js', 'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js'),
+            loadScript('${BASE_URL}/assets/js/pusher.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/pusher/7.2.0/pusher.min.js'),
+            loadScript('${BASE_URL}/assets/js/echo.iife.js', 'https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js'),
+            loadScript('${BASE_URL}/assets/js/axios.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js'),
+            loadScript('${BASE_URL}/assets/js/mqtt.min.js', 'https://unpkg.com/mqtt/dist/mqtt.min.js'),
+            loadScript('${BASE_URL}/assets/js/crypto-js.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js')
+          ]).then(() => console.log('✅ All loaded'));
+        });
+      </script>
+    `;
+
+  HTML_OUTPUT += `<style>
         body {
         padding: 0;
         margin: 0;
@@ -130,14 +183,7 @@ const FormHTML = (container) => {
         </div>
         <script type="module">
 
-      const BASE_URL = "${BASE_URL}";
-      const ECHO_URL = "${ECHO_URL}";
-      const BROKER_URL = "${BROKER_URL}";
-      const API_ENDPOINTS = {
-        MQTT_URL: "ws://192.168.100.135:1882",
-        USER_NAME: "BehinStart",
-        PASSWORD: "Aa@123456",
-      };
+      
 
         const _0xabff89=_0xef07;function _0xef07(_0x31e12d,_0x4c1d52){const _0x2a938e=_0x2a93();return _0xef07=function(_0xef07ef,_0x3ea2f2){_0xef07ef=_0xef07ef-0x145;let _0xd86173=_0x2a938e[_0xef07ef];return _0xd86173;},_0xef07(_0x31e12d,_0x4c1d52);}(function(_0x123cd8,_0x5349c2){const _0x56f40d=_0xef07,_0x1b538e=_0x123cd8();while(!![]){try{const _0x961814=-parseInt(_0x56f40d(0x148))/0x1+-parseInt(_0x56f40d(0x146))/0x2+parseInt(_0x56f40d(0x14c))/0x3*(parseInt(_0x56f40d(0x147))/0x4)+-parseInt(_0x56f40d(0x14a))/0x5*(parseInt(_0x56f40d(0x149))/0x6)+-parseInt(_0x56f40d(0x14f))/0x7*(-parseInt(_0x56f40d(0x14d))/0x8)+-parseInt(_0x56f40d(0x145))/0x9+parseInt(_0x56f40d(0x14e))/0xa;if(_0x961814===_0x5349c2)break;else _0x1b538e['push'](_0x1b538e['shift']());}catch(_0x265d07){_0x1b538e['push'](_0x1b538e['shift']());}}}(_0x2a93,0x300f8));const REACT_APP_SALT=_0xabff89(0x14b);function _0x2a93(){const _0x405fc6=['rDv(Y5\x22H','71403RuCdUw','2872GhZfNO','10859980ukcjdt','497wMFlNk','2919033cDyKKb','534144XNqkAe','12uPOmvZ','49987jeNVFx','295404DgjfiP','35hZLpRX'];_0x2a93=function(){return _0x405fc6;};return _0x2a93();}
 
@@ -147,6 +193,15 @@ const FormHTML = (container) => {
 
         const REACT_APP_ALLOWED_CHARS ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         
+        const BASE_URL_API = "${BASE_URL_API}";
+        
+        const API_ENDPOINTS = {
+            MQTT_URL: "${BROKER_MQTT_URL}",
+            USER_NAME: "${BROKER_MQTT_USERNAME}",
+            PASSWORD: "${BROKER_MQTT_PASSWORD}",
+            INTERVAL_VALUE: ${intervalValue},
+        };
+      
       class TopLoadingBar {
         constructor(options = {}) {
           this.color = options.color || '#3b82f6';
@@ -240,80 +295,14 @@ const FormHTML = (container) => {
         color: '#3b82f6',
         height: '3px'
       });
-
-      async function getToken() {
-        function generateTimestamp() {
-          const now = new Date();
-          now.setSeconds(0);
-          now.setMilliseconds(0);
-          const timestamp = Math.floor(now.getTime() / 1000);
-          return timestamp;
-        }
-
-        async function consistentShuffle(str) {
-          if (!str || str.length === 0) {
-            return str;
-          }
-          return str.split("").reverse().join("");
-        }
-
-        async function stringResult(salt, timestamp) {
-          const shuffle = await consistentShuffle(salt);
-          return \`\${REACT_APP_PREFIX}\${shuffle}\${REACT_APP_SUFFIX}\${timestamp}\`;
-        }
-
-        async function sha256(value) {
-          const encoder = new TextEncoder();
-          const data = encoder.encode(value);
-          const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-          return Array.from(new Uint8Array(hashBuffer))
-            .map((b) => b.toString(16).padStart(2, "0"))
-            .join("");
-        }
-
-        async function multiHash(value, hashRounds, salt) {
-          const shuffle = await consistentShuffle(salt);
-          for (let i = 0; i < hashRounds; i++) {
-            const dataToHash = value + shuffle.split("").reverse().join("") + i;
-            value = await sha256(dataToHash);
-            value = value.slice(0, 32);
-          }
-          return value;
-        }
-
-        async function transformString(input, salt) {
-          const allowedChars = REACT_APP_ALLOWED_CHARS;
-          let hash = await multiHash(input, 5, salt);
-          let transformed = "";
-          const desiredLength = 36;
-          const rounds = 3;
-
-          for (let round = 0; round < rounds; round++) {
-            let roundHash = await multiHash(hash + round, 3, salt);
-            for (let i = 0; transformed.length < desiredLength; i++) {
-              const segment = roundHash.slice(i * 3, i * 3 + 3);
-              const numericValue = parseInt(segment, 16) || 0;
-              const index = (numericValue + i + round) % allowedChars.length;
-              transformed += allowedChars[index];
-
-              if (i * 3 + 3 >= roundHash.length) {
-                roundHash = await multiHash(roundHash, 2, salt);
-                i = -1;
-              }
-            }
-            if (transformed.length >= desiredLength) {
-              break;
+          function waitForToastify(callback) {
+            if (typeof Toastify !== 'undefined') {
+              callback();
+            } else {
+              setTimeout(() => waitForToastify(callback), 100);
             }
           }
-          return transformed.substring(0, desiredLength);
-        }
 
-        const timestamp = generateTimestamp();
-        const input = await stringResult(REACT_APP_SALT, timestamp);
-        const token = await transformString(input, REACT_APP_SALT);
-
-        return token;
-      }
           function openModal(contentElement) {
           const modal = document.getElementById("myModal");
           const modalBody = document.getElementById("modalBody");
@@ -346,17 +335,16 @@ const FormHTML = (container) => {
               const typeservice = dropBox.getAttribute("data-typeservice");
 
               window.registersData = null;
-              const cypherKey = await getToken();
 
               const currentPath = window.location.pathname;
               const isPreview = currentPath.includes('/preview') || !idForm;
               
               let apiUrl;
               if (!idForm || idForm === 'default' || idForm === '') {
-                  apiUrl = \`${BASE_URL}/forms/default -building\`;
+                  apiUrl = \`${BASE_URL_API}/forms/default -building\`;
                   // console.log('📍 Loading DEFAULT form');
                 } else {
-                  apiUrl = \`${BASE_URL}/forms/\${idForm}\`;
+                  apiUrl = \`${BASE_URL_API}/forms/\${idForm}\`;
                   // console.log('📍 Loading SPECIFIC form:', idForm);
                 }
                 
@@ -366,7 +354,7 @@ const FormHTML = (container) => {
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: \`Bearer \${token}\`,
-                  cypherKey: cypherKey,
+                  cypherKey: null,
                 },
               })
                 .then((response) => response.json())
@@ -402,14 +390,13 @@ const FormHTML = (container) => {
 
                           if (buttonData.idForm) {
                             loadingBar.start();
-                            const cypherKey = await getToken();
                             
-                            fetch(\`\${BASE_URL}/forms/\${buttonData.idForm}\`, {
+                            fetch(\`\${BASE_URL_API}/forms/\${buttonData.idForm}\`, {
                               method: "GET",
                               headers: {
                                 "Content-Type": "application/json",
                                 Authorization: \`Bearer \${token}\`,
-                                cypherKey: cypherKey,
+                                cypherKey: null,
                               },
                             })
                               .then((response) => {
@@ -439,7 +426,9 @@ const FormHTML = (container) => {
                                   if (buttonData.typeDisplay === "form") {
                                     if (dragDropDiv && formContainer) {
                                       formContainer.innerHTML = "";
-                                      formContainer.appendChild(dragDropDiv.cloneNode(true));
+                                      const clonedDiv = dragDropDiv.cloneNode(true);
+                                      clonedDiv.removeAttribute('id');
+                                      formContainer.appendChild(clonedDiv);
                                       
                                       setTimeout(() => {
                                         initializeFormHandler();
@@ -494,31 +483,32 @@ const FormHTML = (container) => {
                         title: buttonData.infoReqBtn.title,
                         value: currentValue,
                       };
-                      const cypherKey = await getToken();
                       fetch(
-                        \`${BASE_URL}/registers/\${buttonData.infoReqBtn.register_id} \`,
+                        \`${BASE_URL_API}/registers/\${buttonData.infoReqBtn.register_id} \`,
                         {
                           method: "PATCH",
                           headers: {
                             Authorization: \`Bearer \${token}\`,
                             "Content-Type": "application/json",
-                            cypherKey: cypherKey,
+                            cypherKey: null,
                           },
                           body: JSON.stringify(requestData),
                         }
                       )
                         .then((response) => response.json())
                         .then((data) => {
-                          Toastify({
-                            text: data.message,
-                            duration: 3000,
-                            close: false,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                            background: "#3b82f6",
-                            },
-                          }).showToast();
+                          waitForToastify(() => {
+                            Toastify({
+                              text: data.message,
+                              duration: 3000,
+                              close: false,
+                              gravity: "top",
+                              position: "right",
+                              style: {
+                              background: "#3b82f6",
+                              },
+                            }).showToast();
+                          });
                           
                           loadingBar.complete();
 
@@ -548,15 +538,14 @@ const FormHTML = (container) => {
                 
                 if (textInputData && textInputData.infoReqBtn?.register_id) {
                   try {
-                    const cypherKey = await getToken();
                     const response = await fetch(
-                      \`${BASE_URL}/registers/\${textInputData.infoReqBtn.register_id}\`,
+                      \`${BASE_URL_API}/registers/\${textInputData.infoReqBtn.register_id}\`,
                       {
                         method: "GET",
                         headers: {
                           Authorization: \`Bearer \${token}\`,
                           "Content-Type": "application/json",
-                          cypherKey: cypherKey,
+                          cypherKey: null,
                         },
                       }
                     );
@@ -618,30 +607,34 @@ const FormHTML = (container) => {
                           const end = parseFloat(textInputData.infoReqBtn.endRange);
             
                           if (isNaN(numericValue)) {
-                            Toastify({
-                              text: "The entered value is not a number!",
-                              duration: 3000,
-                              close: false,
-                              gravity: "top",
-                              position: "right",
-                              style: {
-                                background: "#3b82f6",
-                              },
-                            }).showToast();
+                            waitForToastify(() => {
+                              Toastify({
+                                text: "The entered value is not a number!",
+                                duration: 3000,
+                                close: false,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                  background: "#3b82f6",
+                                },
+                              }).showToast();
+                            });
                             return;
                           }
             
                           if (numericValue < start || numericValue > end) {
-                            Toastify({
-                              text: \`The value must be between \${start} and \${end}.\`,
-                              duration: 3000,
-                              close: false,
-                              gravity: "top",
-                              position: "right",
-                              style: {
-                                background: "#3b82f6",
-                              },
-                            }).showToast();
+                            waitForToastify(() => {
+                              Toastify({
+                                text: \`The value must be between \${start} and \${end}.\`,
+                                duration: 3000,
+                                close: false,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                  background: "#3b82f6",
+                                },
+                              }).showToast();
+                            });
                             return;
                           }
                           
@@ -652,16 +645,15 @@ const FormHTML = (container) => {
                             title: textInputData.infoReqBtn.title,
                             value: inputValue,
                           };
-                          const cypherKey = await getToken();
                           try {
                             const response = await fetch(
-                              \`${BASE_URL}/registers/\${textInputData.infoReqBtn.register_id}\`,
+                              \`${BASE_URL_API}/registers/\${textInputData.infoReqBtn.register_id}\`,
                               {
                                 method: "PATCH",
                                 headers: {
                                   Authorization: \`Bearer \${token}\`,
                                   "Content-Type": "application/json",
-                                  cypherKey: cypherKey,
+                                  cypherKey: null,
                                 },
                                 body: JSON.stringify(data),
                               }
@@ -672,16 +664,18 @@ const FormHTML = (container) => {
                             }
             
                             const result = await response.json();
-                            Toastify({
-                              text: result.message,
-                              duration: 3000,
-                              close: false,
-                              gravity: "top",
-                              position: "right",
-                              style: {
-                                background: "#3b82f6",
-                              },
-                            }).showToast();
+                            waitForToastify(() => {
+                              Toastify({
+                                text: result.message,
+                                duration: 3000,
+                                close: false,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                  background: "#3b82f6",
+                                },
+                              }).showToast();
+                            });
                             loadingBar.complete();
                           } catch (error) {
                             loadingBar.complete();
@@ -935,21 +929,35 @@ const FormHTML = (container) => {
                       window.updatedRegistersData.push(data);
                     }
                   };
+                  
+              let mqttClient = null;
+              let publishIntervalId = null;
 
               if (typeservice === "echo") {
                   const LaravelEcho = window.Echo;
                   const echo = new LaravelEcho({
-                    broadcaster: "pusher",
-                    key: "sv6gaswl6mrw8o0xw5vf",
-                    cluster: "mt1",
-                    wsHost: "bms.behinstart.ir",
-                    wsPort: 443,
-                    wssPort: 443,
-                    forceTLS: true,
-                    enabledTransports: ["ws", "wss"],
-                    authEndpoint: ECHO_URL,
-                    auth: {
-                      headers: {
+                    broadcaster: "${VITE_BROADCASTER}",
+                    key: "${VITE_PUSHER_KEY}",
+                    cluster: "${VITE_PUSHER_CLUSTER}",
+                    wsHost: "${VITE_ECHO_HOST}",
+                    forceTLS: ${VITE_ECHO_FORCE_TLS},
+                    wsPort: ${VITE_ECHO_PORT_WS},`;
+  if (VITE_ECHO_PORT_WSS.length)
+    HTML_OUTPUT += `wssPort: ${VITE_ECHO_PORT_WSS},
+        enabledTransports: ["ws", "wss"],`;
+  else
+    HTML_OUTPUT += `
+        enabledTransports: ["ws"],`;
+
+  if (VITE_ECHO_AUTH_ENDPOINT_WSS)
+    HTML_OUTPUT += `
+                        authEndpoint: "${VITE_ECHO_AUTH_ENDPOINT_WSS}",`;
+  else
+    HTML_OUTPUT += `
+                    authEndpoint: "${VITE_ECHO_AUTH_ENDPOINT_WS}",`;
+  HTML_OUTPUT += `
+                        auth: {
+                          headers: {
                         Authorization: \`Bearer \${token}\`,
                       },
                     },
@@ -970,52 +978,143 @@ const FormHTML = (container) => {
                     });
                 });
               } else if (typeservice === "mqtt") {
-
-                const client = mqtt.connect(BROKER_URL, {
-                  username: "BehinStart",
-                  password: "Aa@123456",
-                });
-
-                // const client = mqtt.connect(API_ENDPOINTS.MQTT_URL, {
-                //   username: API_ENDPOINTS.USER_NAME,
-                //   password: API_ENDPOINTS.PASSWORD,
-                // });
+                  if (typeof mqtt === 'undefined') {
+                    console.error('MQTT library is not loaded!');
+                    
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/mqtt/dist/mqtt.min.js';
+                    script.onload = () => {
+                      console.log('MQTT library loaded, retrying connection...');
+                      connectMQTT();
+                    };
+                    script.onerror = () => {
+                      console.error('Failed to load MQTT library');
+                      loadingOverlay.style.display = "none";
+                      dropBox.style.display = "flex";
+                    };
+                    document.head.appendChild(script);
+                    return;
+                  }
+                  
+                  connectMQTT();
+                }
                 
-                 if (idForm) {
-                  client.publish('forms/watchers', idForm);
-                  console.log("Published formId to forms/watchers:", idForm);
-                 }
-
-                client.on("connect", () => {
-                  // console.log("MQTT connected");
-                  loadingOverlay.style.display = "none";
-                  dropBox.style.display = "flex";
-
-                  registersId.forEach((id) => {
-                    const topic = \`registers/\${id}\`;
-                    // console.log("Subscribing to:", topic);
-                    client.subscribe(topic);
-                  });
-                });
-
-                client.on("message", (topic, message) => {
-                  // console.log("MQTT message received:");
-                  // console.log("Topic:", topic);
-                  // console.log("Raw Message:", message.toString());
-
+                function connectMQTT() {
+                  if (mqttClient) {
+                    console.log("Disconnecting previous MQTT client...");
+                    
+                    if (publishIntervalId) {
+                      clearInterval(publishIntervalId);
+                      publishIntervalId = null;
+                    }
+                    
+                    mqttClient.removeAllListeners();
+                    
+                    mqttClient.end(true); // true = force close
+                    mqttClient = null;
+                  }
+                
                   try {
-                    const data = JSON.parse(message.toString());
-                    const id = topic.split("/")[1];
-
-                    // console.log("Parsed Data:", data);
-                    // console.log("Extracted ID:", id);
-                    updateElementData(data, id);
-                    updateRegisterData({ id, value: data.value });
-                  } catch (err) {
-                    console.error("MQTT message parse error", err);
+                    console.log("Creating new MQTT connection...");
+                    
+                    mqttClient = mqtt.connect("${BROKER_MQTT_URL}", {
+                      username: "${BROKER_MQTT_USERNAME}",
+                      password: "${BROKER_MQTT_PASSWORD}",
+                      clientId: 'form_' + idForm + '_' + Math.random().toString(16).substr(2, 8),
+                      clean: true,
+                      reconnectPeriod: 5000,
+                      connectTimeout: 30000
+                    });
+                
+                    mqttClient.on("connect", () => {
+                      console.log("✅ MQTT connected successfully");
+                      loadingOverlay.style.display = "none";
+                      dropBox.style.display = "flex";
+                      
+                      if (idForm) {
+                        const payload = JSON.stringify({uuid: idForm});
+                        
+                        mqttClient.publish('watchers/form', payload, (err) => {
+                          if (err) {
+                            console.error("Failed to publish:", err);
+                          } else {
+                            console.log("Published formId to watchers/form:", payload);
+                          }
+                        });
+                        
+                        publishIntervalId = setInterval(() => {
+                          if (mqttClient && mqttClient.connected) {
+                            mqttClient.publish('watchers/form', payload, (err) => {
+                              if (err) {
+                                console.error("Failed to publish repeated:", err);
+                              } else {
+                                console.log("Published repeated formId");
+                              }
+                            });
+                          }
+                        }, API_ENDPOINTS.INTERVAL_VALUE);
+                      }
+                      
+                      registersId.forEach((id) => {
+                        const topic = \`registers/\${id}\`;
+                        mqttClient.subscribe(topic, (err) => {
+                          if (err) {
+                            console.error(\`Failed to subscribe to \${topic}:\`, err);
+                          } else {
+                            console.log("✅ Subscribed to:", topic);
+                          }
+                        });
+                      });
+                    });
+                
+                    mqttClient.on("message", (topic, message) => {
+                      try {
+                        const data = JSON.parse(message.toString());
+                        const id = topic.split("/")[1];
+                        updateElementData(data, id);
+                        updateRegisterData({ id, value: data.value });
+                      } catch (err) {
+                        console.error("MQTT message parse error:", err);
+                      }
+                    });
+                    
+                    mqttClient.on("error", (err) => {
+                      console.error("❌ MQTT connection error:", err);
+                      loadingOverlay.style.display = "none";
+                      dropBox.style.display = "flex";
+                    });
+                    
+                    mqttClient.on("disconnect", () => {
+                      console.warn("⚠️ MQTT disconnected");
+                    });
+                    
+                    mqttClient.on("offline", () => {
+                      console.warn("⚠️ MQTT offline");
+                    });
+                    
+                    mqttClient.on("close", () => {
+                      console.log("🔌 MQTT connection closed");
+                    });
+                
+                  } catch (error) {
+                    console.error("❌ Failed to create MQTT client:", error);
+                    console.error("Error details:", {
+                      message: error.message,
+                      stack: error.stack
+                    });
+                    loadingOverlay.style.display = "none";
+                    dropBox.style.display = "flex";
+                  }
+                }
+                
+                window.addEventListener('beforeunload', () => {
+                  if (mqttClient) {
+                    if (publishIntervalId) {
+                      clearInterval(publishIntervalId);
+                    }
+                    mqttClient.end(true);
                   }
                 });
-              }
                 } else {
                   console.info("No registers found.");
                   loadingOverlay.style.display = "none";
@@ -1035,6 +1134,8 @@ const FormHTML = (container) => {
       </body>
     </html>
   `;
+
+  return HTML_OUTPUT;
 };
 
 export default FormHTML;

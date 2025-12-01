@@ -1,45 +1,18 @@
 import { useState } from "react";
-import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Button } from "antd";
 import { Form, Formik } from "formik";
 import CustomField from "@components/module/CustomField";
 import logo from "/assets/images/logo.webp";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
 import UseDarkModeStore from "@store/UseDarkMode.js";
+import ForgetPassHandlers from "@module/container/aurh/ForgetPassHandlers.js";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
   const { darkMode } = UseDarkModeStore();
   const [submitPending, setSubmitPending] = useState(false);
 
-  const mutation = useMutation(
-    (data) => request({ method: "POST", url: "/api/forget", data }),
-    {
-      onSuccess: () => {
-        toast.success("Sent link to your email successfully!");
-
-        /*let expirationDate = new Date();
-                expirationDate.setDate(expirationDate.getDate() + 6);
-                cookies.set("bms_access_token", token, {
-                    expires: expirationDate,
-                });*/
-
-        /* setTimeout(() => {
-                    navigate("/");
-                }, 5000);*/
-      },
-      onError: (error) => {
-        logger.error(error);
-        toast.error(error.response.data.message);
-      },
-      onSettled: () => {
-        setSubmitPending(false);
-      },
-    },
-  );
+  const { onSubmit } = ForgetPassHandlers({ setSubmitPending });
 
   const initialValues = {
     email: "",
@@ -55,11 +28,6 @@ const ForgetPassword = () => {
     }
 
     return errors;
-  };
-
-  const onSubmit = async (values) => {
-    setSubmitPending(true);
-    mutation.mutate(values);
   };
 
   return (

@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, InputNumber, Tooltip, Space } from "antd";
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import MapCardHandlers from "@module/container/main/map/MapCardHandlers.js";
 
 export default function CoordinateEditorModal({
   isOpenModal,
   setIsOpenModal,
   shapeData,
-  onSave,
 }) {
+  const { handleSaveCoordinates } = MapCardHandlers();
   const [coordinates, setCoordinates] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const onSave = handleSaveCoordinates;
 
   useEffect(() => {
     if (shapeData?.coordinates) {
@@ -67,7 +66,7 @@ export default function CoordinateEditorModal({
     <Modal
       className="font-Quicksand cursor-default"
       title={
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-6">
           <span>Edit Coordinates - {shapeData?.name || "Shape"}</span>
         </div>
       }
@@ -94,29 +93,14 @@ export default function CoordinateEditorModal({
       ]}
       destroyOnHidden
     >
-      <div className="mb-4 p-3 bg-white dark:bg-dark-100 border border-blue-800 dark:border-lightBlue rounded-lg">
-        <div className="flex items-start gap-2">
-          <InfoCircleOutlined className="text-lightBlue text-lg mt-0.5" />
-          <div className="text-sm text-dark-100 dark:text-white">
-            <p className="font-semibold mb-1">How to use:</p>
-            <ul className="space-y-1 list-disc list-inside">
-              <li>Hover over a point number to highlight it on the map</li>
-              <li>Edit latitude and longitude values directly</li>
-              <li>Add new points or remove existing ones</li>
-              <li>Points are numbered starting from 0</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-h-[500px] overflow-y-auto pr-2 space-y-3">
+      <div className="max-h-[500px] overflow-y-auto space-y-3">
         {coordinates.map((coord, index) => (
           <div
             key={index}
-            className={`p-4 border rounded-lg transition-all ${
+            className={`p-4 rounded-lg transition-all ${
               hoveredIndex === index
-                ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md"
-                : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50"
+                ? "bg-blue-50 dark:bg-blue-900/30 shadow-md"
+                : "bg-gray-50 dark:bg-gray-700/50"
             }`}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}

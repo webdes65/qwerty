@@ -1,48 +1,12 @@
-import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
 import { Button, Modal, Select } from "antd";
 import { Formik, Form } from "formik";
 import CustomField from "@components/module/CustomField";
-import { request } from "@services/apiService.js";
-import logger from "@utils/logger.js";
+import AddCityHandlers from "@module/container/main/city/AddCityHandlers.js";
 
 const AddCityModal = ({ isModalOpen, setIsModalOpen }) => {
-  const [submitPending, setSubmitPending] = useState(false);
-
-  const { data } = useQuery(["fetchCountries"], () =>
-    request({ method: "GET", url: "/api/GetCountries" }),
-  );
-
-  const countryOptions =
-    data?.data?.map((country) => ({
-      value: country.uuid,
-      label: country.en_name,
-    })) || [];
-
-  const onSubmit = async (values) => {
-    setSubmitPending(true);
-    mutation.mutate(values);
-  };
-
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation(
-    (data) => request({ method: "POST", url: "/api/cities", data }),
-    {
-      onSuccess: (data) => {
-        toast.success(data.data.message);
-        setIsModalOpen(false);
-        queryClient.invalidateQueries("fetchCities");
-      },
-      onError: (error) => {
-        logger.error(error);
-      },
-      onSettled: () => {
-        setSubmitPending(false);
-      },
-    },
-  );
+  const { submitPending, countryOptions, onSubmit } = AddCityHandlers({
+    setIsModalOpen,
+  });
 
   const initialValues = {
     name: "",

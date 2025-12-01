@@ -3,45 +3,30 @@
 @tailwind utilities;
 
 @layer base {
-  /* @font-face {
+  @font-face {
     font-family: "Quicksand";
     font-weight: 400;
-    src: url("../src/assets/font/Quicksand-Regular.ttf") format("ttf"),
-      url("../src/assets/font/Quicksand-Regular.woff") format("woff");
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Quicksand";
-    font-weight: 500;
-    src: url("../src/assets/font/Quicksand-Medium.ttf") format("ttf"),
-      url("../src/assets/font/Quicksand-Medium.woff") format("woff");
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Quicksand";
-    font-weight: 700;
-    src: url("../src/assets/font/Quicksand-Bold.ttf") format("ttf"),
-      url("../src/assets/font/Quicksand-Bold.woff") format("woff");
-    font-display: swap;
-  } */
-
-  @font-face {
-    font-family: "Quicksand";
-    font-weight: 400; /* font-normal */
     src:
-      url("/font/Outfit-Regular.ttf") format("ttf"),
-      url("/font/Outfit-Regular.woff") format("woff");
+      url("/assets/font/Outfit-Regular.ttf") format("truetype"),
+      url("/assets/font/Outfit-Regular.woff") format("woff");
     font-display: swap;
   }
 
   @font-face {
     font-family: "Quicksand";
-    font-weight: 600; /* font-semibold */
+    font-weight: 600;
     src:
-      url("/font/Outfit-SemiBold.ttf") format("ttf"),
-      url("/font/Outfit-SemiBold.woff") format("woff");
+      url("/assets/font/Outfit-SemiBold.ttf") format("truetype"),
+      url("/assets/font/Outfit-SemiBold.woff") format("woff");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "IRANSans";
+    font-weight: 400;
+    src:
+      url("/public/assets/font/IRANSansXFaNum-Regular.woff") format("woff"),
+      url("/public/assets/font/IRANSansXFaNum-Regular.woff2") format("woff2");
     font-display: swap;
   }
 }
@@ -49,8 +34,7 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: "Quicksand";
-  /* overflow: hidden; */
+  font-family: "Quicksand", serif;
 }
 
 .hamburger-react > div:nth-child(odd) {
@@ -61,15 +45,13 @@
   background-color: #6d6caa !important;
 }
 
-/* Scrollbar */
-
 ::-webkit-scrollbar {
   display: none;
 }
 
 /* for DatePicker in addUserModal */
 :where(.css-dev-only-do-not-override-161f05s).ant-picker-outlined:hover {
-  border-color: #e5e7eb !important; /* همان border-gray-200 */
+  border-color: #e5e7eb !important;
   box-shadow: none !important;
 }
 
@@ -82,22 +64,3 @@
 .ant-picker input::placeholder {
   color: #9ca3af !important;
 }
-
-/* 
-::-webkit-scrollbar {
-  width: 5px;
-  display: none;
-}
-
-::-webkit-scrollbar-track {
-  background: #bebebe;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-} */
