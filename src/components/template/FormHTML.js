@@ -930,8 +930,58 @@ const FormHTML = (container) => {
                     }
                   };
                   
-              let mqttClient = null;
-              let publishIntervalId = null;
+                   let mqttClient = null;
+                   let publishIntervalId = null;
+                   let isCleaningUp = false;
+
+              async function cleanupMQTT() {
+                if (isCleaningUp) {
+                  console.log("⏳ Cleanup already in progress...");
+                  return;
+                }
+                
+                isCleaningUp = true;
+                console.log("🧹 Starting MQTT cleanup...");
+                
+                if (publishIntervalId) {
+                  clearInterval(publishIntervalId);
+                  publishIntervalId = null;
+                  console.log("✅ Interval cleared");
+                }
+                
+                if (mqttClient) {
+                  return new Promise((resolve) => {
+                    try {
+                      mqttClient.removeAllListeners();
+                      console.log("✅ All listeners removed");
+                      
+                      mqttClient.end(true, {}, () => {
+                        console.log("✅ MQTT connection closed");
+                        mqttClient = null;
+                        isCleaningUp = false;
+                        resolve();
+                      });
+                      
+                      setTimeout(() => {
+                        if (mqttClient) {
+                          mqttClient = null;
+                        }
+                        isCleaningUp = false;
+                        resolve();
+                      }, 2000);
+                      
+                    } catch (error) {
+                      console.error("❌ Cleanup error:", error);
+                      mqttClient = null;
+                      isCleaningUp = false;
+                      resolve();
+                    }
+                  });
+                } else {
+                  isCleaningUp = false;
+                  return Promise.resolve();
+                }
+              }
 
               if (typeservice === "echo") {
                   const LaravelEcho = window.Echo;
@@ -964,7 +1014,6 @@ const FormHTML = (container) => {
                   });
 
                 echo.connector.pusher.connection.bind("connected", function () {
-                  // console.log("Echo connected");
                   loadingOverlay.style.display = "none";
                   dropBox.style.display = "flex";
                 });
@@ -999,31 +1048,28 @@ const FormHTML = (container) => {
                   connectMQTT();
                 }
                 
-                function connectMQTT() {
-                  if (mqttClient) {
-                    console.log("Disconnecting previous MQTT client...");
-                    
-                    if (publishIntervalId) {
-                      clearInterval(publishIntervalId);
-                      publishIntervalId = null;
-                    }
-                    
-                    mqttClient.removeAllListeners();
-                    
-                    mqttClient.end(true); // true = force close
-                    mqttClient = null;
-                  }
-                
+                async function connectMQTT() {
+                  await cleanupMQTT();
+                  
                   try {
-                    console.log("Creating new MQTT connection...");
+                    console.log("🔌 Creating new MQTT connection...");
                     
-                    mqttClient = mqtt.connect("${BROKER_MQTT_URL}", {
-                      username: "${BROKER_MQTT_USERNAME}",
-                      password: "${BROKER_MQTT_PASSWORD}",
-                      clientId: 'form_' + idForm + '_' + Math.random().toString(16).substr(2, 8),
+                    const clientId = \`form_\${idForm}_${Date.now()}_${Math.random().toString(16).substr(2, 8)}\`;
+                    
+                    mqttClient = mqtt.connect(API_ENDPOINTS.MQTT_URL, {
+                      username: API_ENDPOINTS.USER_NAME,
+                      password: API_ENDPOINTS.PASSWORD,
+                      clientId: clientId,
                       clean: true,
                       reconnectPeriod: 5000,
-                      connectTimeout: 30000
+                      connectTimeout: 30000,
+                      keepalive: 60,
+                      will: {
+                        topic: 'watchers/disconnect',
+                        payload: JSON.stringify({uuid: idForm, clientId}),
+                        qos: 1,
+                        retain: false
+                      }
                     });
                 
                     mqttClient.on("connect", () => {
@@ -1032,34 +1078,42 @@ const FormHTML = (container) => {
                       dropBox.style.display = "flex";
                       
                       if (idForm) {
-                        const payload = JSON.stringify({uuid: idForm});
+                        const payload = JSON.stringify({
+                          uuid: idForm,
+                          clientId: clientId,
+                          timestamp: Date.now()
+                        });
                         
-                        mqttClient.publish('watchers/form', payload, (err) => {
+                        mqttClient.publish('watchers/form', payload, {qos: 1}, (err) => {
                           if (err) {
-                            console.error("Failed to publish:", err);
+                            console.error("❌ Failed to publish:", err);
                           } else {
-                            console.log("Published formId to watchers/form:", payload);
+                            console.log("✅ Published formId to watchers/form");
                           }
                         });
                         
                         publishIntervalId = setInterval(() => {
                           if (mqttClient && mqttClient.connected) {
-                            mqttClient.publish('watchers/form', payload, (err) => {
-                              if (err) {
-                                console.error("Failed to publish repeated:", err);
-                              } else {
-                                console.log("Published repeated formId");
+                            mqttClient.publish('watchers/form', payload, {qos: 1}, (err) => {
+                              if (!err) {
+                                console.log("🔄 Heartbeat sent");
                               }
                             });
+                          } else {
+                            console.warn("⚠️ Skipped publish - not connected");
+                            if (publishIntervalId) {
+                              clearInterval(publishIntervalId);
+                              publishIntervalId = null;
+                            }
                           }
                         }, API_ENDPOINTS.INTERVAL_VALUE);
                       }
                       
                       registersId.forEach((id) => {
                         const topic = \`registers/\${id}\`;
-                        mqttClient.subscribe(topic, (err) => {
+                        mqttClient.subscribe(topic, {qos: 1}, (err) => {
                           if (err) {
-                            console.error(\`Failed to subscribe to \${topic}:\`, err);
+                            console.error(\`❌ Failed to subscribe to \${topic}:\`, err);
                           } else {
                             console.log("✅ Subscribed to:", topic);
                           }
@@ -1074,7 +1128,7 @@ const FormHTML = (container) => {
                         updateElementData(data, id);
                         updateRegisterData({ id, value: data.value });
                       } catch (err) {
-                        console.error("MQTT message parse error:", err);
+                        console.error("❌ MQTT message parse error:", err);
                       }
                     });
                     
@@ -1084,8 +1138,16 @@ const FormHTML = (container) => {
                       dropBox.style.display = "flex";
                     });
                     
+                    mqttClient.on("reconnect", () => {
+                      console.log("🔄 MQTT attempting to reconnect...");
+                    });
+                    
                     mqttClient.on("disconnect", () => {
                       console.warn("⚠️ MQTT disconnected");
+                      if (publishIntervalId) {
+                        clearInterval(publishIntervalId);
+                        publishIntervalId = null;
+                      }
                     });
                     
                     mqttClient.on("offline", () => {
@@ -1094,25 +1156,32 @@ const FormHTML = (container) => {
                     
                     mqttClient.on("close", () => {
                       console.log("🔌 MQTT connection closed");
+                      if (publishIntervalId) {
+                        clearInterval(publishIntervalId);
+                        publishIntervalId = null;
+                      }
                     });
                 
                   } catch (error) {
                     console.error("❌ Failed to create MQTT client:", error);
-                    console.error("Error details:", {
-                      message: error.message,
-                      stack: error.stack
-                    });
                     loadingOverlay.style.display = "none";
                     dropBox.style.display = "flex";
                   }
                 }
                 
                 window.addEventListener('beforeunload', () => {
-                  if (mqttClient) {
-                    if (publishIntervalId) {
-                      clearInterval(publishIntervalId);
+                  cleanupMQTT();
+                });
+                
+                document.addEventListener('visibilitychange', () => {
+                  if (document.hidden) {
+                    console.log("📴 Page hidden - keeping connection");
+                  } else {
+                    console.log("📱 Page visible");
+                    if (mqttClient && !mqttClient.connected) {
+                      console.log("🔄 Reconnecting...");
+                      connectMQTT();
                     }
-                    mqttClient.end(true);
                   }
                 });
                 } else {
