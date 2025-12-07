@@ -204,6 +204,7 @@ const DraggableBoxItem = ({
       }}
       id={item.id}
       data-idregister={registerId}
+      data-idform={item.idForm}
     >
       <div
         style={{
