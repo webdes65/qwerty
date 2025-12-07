@@ -1166,6 +1166,7 @@ const FormHTML = (container) => {
             return;
           }
           
+          
           // Get registerId - handle both formats: "registers/id" and "registers/id/anything"
           const registerId = parts[1];
           console.log("🎯 Extracted registerId from topic:", registerId);
