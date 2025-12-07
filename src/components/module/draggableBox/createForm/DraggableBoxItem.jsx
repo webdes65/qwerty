@@ -165,6 +165,11 @@ const DraggableBoxItem = ({
   const isNew = item.position?.x === 0 && item.position?.y === 0;
   const offset = isNew ? index * 20 : 0;
 
+  const registerId =
+      (item.infoReqBtn && item.infoReqBtn.register_id && item.infoReqBtn.register_id.trim() !== "")
+          ? item.infoReqBtn.register_id.trim()
+          : (item.temp && item.temp.trim() !== "" ? item.temp.trim() : null);
+
   return (
     <div
       ref={drag}
@@ -198,7 +203,7 @@ const DraggableBoxItem = ({
         opacity: isDragging ? 0.5 : 1,
       }}
       id={item.id}
-      {...(item.idRegister ? { "data-idregister": item.idRegister } : {})}
+      {...(registerId ? { "data-idregister": registerId } : {})}
     >
       <div
         style={{

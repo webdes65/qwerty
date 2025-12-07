@@ -709,6 +709,7 @@ const FormHTML = (container) => {
 
                 if (registersId.length > 0) {
                   const updateElementData = (data, registerId) => {
+                     console.warn("updateElementData:", data, registerId);
                     if (data.type === "float") {
                       const elements = document.querySelectorAll('[data-idregister="' + registerId + '"]');
                       elements.forEach((element) => {
@@ -726,13 +727,17 @@ const FormHTML = (container) => {
                             decimalPlaces
                           );
 
-                          const span = element.querySelector("span");
+                          const span = element.querySelector("span") || element.querySelector("p");
+                          
                           if (span) {
                             span.innerText = formattedValue;
+                          }else{
+                           element.innerText = formattedValue;
                           }
                         }
                       });
                     } else if (data.type === "bool") {
+                        
                       const elements =
                         document.querySelectorAll('[data-idregister="' + registerId + '"]');
                       // console.log(elements);
@@ -800,7 +805,9 @@ const FormHTML = (container) => {
 
                           element.classList.toggle("hidden", !shouldDisplay);
 
-                          const span = element.querySelector("span");
+                         const span = element.querySelector("span") || element.querySelector("p");
+                          
+                          
                           if (span) {
                             span.innerText = bit;
 
@@ -839,10 +846,14 @@ const FormHTML = (container) => {
                         );
     
                         if (result) {
-                          const span = element.querySelector("span");
-                          if (span) {
-                            span.innerText = data.value;
+                          const span = element.querySelector("span") || element.querySelector("p");
+                          
+                          if (!span) {
+                            console.warn("No span or p found inside element:", element);
+                          } else {
+                            span.innerText = data.value ?? "";
                           }
+                          
     
                           if (result.FieldComparison) {
                             const fieldComparisonArray = Object.values(
@@ -850,7 +861,13 @@ const FormHTML = (container) => {
                             );
                             let shouldHideItem = false;
                             const value = parseFloat(data.value);
-    
+                            
+                            if (
+                              value === undefined ||
+                              value === null ||
+                              value === "" ||
+                              isNaN(parseFloat(value))
+                            ){
                             for (let condition of fieldComparisonArray) {
                               const conditionValue = parseFloat(condition.value);
                               let conditionMet = false;
@@ -881,8 +898,12 @@ const FormHTML = (container) => {
                                 element.style.backgroundImage = \`url(\${condition.bgImg})\`;
                                 if (condition.visibility === true) {
                                   shouldHideItem = true;
-                                }
-                                break;
+                                  }
+                                  break;
+                                
+                              }else{
+                                console.warn("value was null or undefined on " + registerId );
+                              
                               }
                             }
     
@@ -892,6 +913,7 @@ const FormHTML = (container) => {
                             } else {
                               element.classList.remove("hidden");
     
+                            }
                             }
                           }
                         }
@@ -907,13 +929,16 @@ const FormHTML = (container) => {
                         );
 
                         if (result) {
-                          const span = element.querySelector("span");
+                          const span = element.querySelector("span") || element.querySelector("p");
+                          
                           if (span) {
                             span.innerText = data.value;
                           }
                         }
                       });
                     }
+                    
+                    
                   };
 
                   window.updatedRegistersData = [];
@@ -1048,126 +1073,161 @@ const FormHTML = (container) => {
                   connectMQTT();
                 }
                 
+                let client = null;
                 async function connectMQTT() {
-                  await cleanupMQTT();
-                  
-                  try {
-                    console.log("🔌 Creating new MQTT connection...");
-                    
-                    const clientId = \`form_\${idForm}_${Date.now()}_${Math.random().toString(16).substr(2, 8)}\`;
-                    
-                    mqttClient = mqtt.connect(API_ENDPOINTS.MQTT_URL, {
-                      username: API_ENDPOINTS.USER_NAME,
-                      password: API_ENDPOINTS.PASSWORD,
-                      clientId: clientId,
-                      clean: true,
-                      reconnectPeriod: 5000,
-                      connectTimeout: 30000,
-                      keepalive: 60,
-                      will: {
-                        topic: 'watchers/disconnect',
-                        payload: JSON.stringify({uuid: idForm, clientId}),
-                        qos: 1,
-                        retain: false
-                      }
-                    });
-                
-                    mqttClient.on("connect", () => {
-                      console.log("✅ MQTT connected successfully");
-                      loadingOverlay.style.display = "none";
-                      dropBox.style.display = "flex";
-                      
-                      if (idForm) {
-                        const payload = JSON.stringify({
-                          uuid: idForm,
-                          clientId: clientId,
-                          timestamp: Date.now()
-                        });
-                        
-                        mqttClient.publish('watchers/form', payload, {qos: 1}, (err) => {
-                          if (err) {
-                            console.error("❌ Failed to publish:", err);
-                          } else {
-                            console.log("✅ Published formId to watchers/form");
-                          }
-                        });
-                        
-                        publishIntervalId = setInterval(() => {
-                          if (mqttClient && mqttClient.connected) {
-                            mqttClient.publish('watchers/form', payload, {qos: 1}, (err) => {
-                              if (!err) {
-                                console.log("🔄 Heartbeat sent");
-                              }
-                            });
-                          } else {
-                            console.warn("⚠️ Skipped publish - not connected");
-                            if (publishIntervalId) {
-                              clearInterval(publishIntervalId);
-                              publishIntervalId = null;
-                            }
-                          }
-                        }, API_ENDPOINTS.INTERVAL_VALUE);
-                      }
-                      
-                      registersId.forEach((id) => {
-                        const topic = \`registers/\${id}\`;
-                        mqttClient.subscribe(topic, {qos: 1}, (err) => {
-                          if (err) {
-                            console.error(\`❌ Failed to subscribe to \${topic}:\`, err);
-                          } else {
-                            console.log("✅ Subscribed to:", topic);
-                          }
-                        });
-                      });
-                    });
-                
-                    mqttClient.on("message", (topic, message) => {
-                      try {
-                        const data = JSON.parse(message.toString());
-                        const id = topic.split("/")[1];
-                        updateElementData(data, id);
-                        updateRegisterData({ id, value: data.value });
-                      } catch (err) {
-                        console.error("❌ MQTT message parse error:", err);
-                      }
-                    });
-                    
-                    mqttClient.on("error", (err) => {
-                      console.error("❌ MQTT connection error:", err);
-                      loadingOverlay.style.display = "none";
-                      dropBox.style.display = "flex";
-                    });
-                    
-                    mqttClient.on("reconnect", () => {
-                      console.log("🔄 MQTT attempting to reconnect...");
-                    });
-                    
-                    mqttClient.on("disconnect", () => {
-                      console.warn("⚠️ MQTT disconnected");
-                      if (publishIntervalId) {
-                        clearInterval(publishIntervalId);
-                        publishIntervalId = null;
-                      }
-                    });
-                    
-                    mqttClient.on("offline", () => {
-                      console.warn("⚠️ MQTT offline");
-                    });
-                    
-                    mqttClient.on("close", () => {
-                      console.log("🔌 MQTT connection closed");
-                      if (publishIntervalId) {
-                        clearInterval(publishIntervalId);
-                        publishIntervalId = null;
-                      }
-                    });
-                
-                  } catch (error) {
-                    console.error("❌ Failed to create MQTT client:", error);
-                    loadingOverlay.style.display = "none";
-                    dropBox.style.display = "flex";
-                  }
-                }
+  await cleanupMQTT();
+
+  try {
+    console.log("🔌 Creating new MQTT connection...");
+
+               const clientId = \`form_\${idForm}_${Date.now()}_${Math.random().toString(16).substr(2, 8)}\`;
+
+    mqttClient = mqtt.connect(API_ENDPOINTS.MQTT_URL, {
+      username: API_ENDPOINTS.USER_NAME,
+      password: API_ENDPOINTS.PASSWORD,
+      clientId: clientId,
+      clean: true,
+      reconnectPeriod: 5000,
+      connectTimeout: 30000,
+      keepalive: 20,
+      will: {
+        topic: 'watchers/disconnect',
+        payload: JSON.stringify({ uuid: idForm, clientId }),
+        qos: 1,
+        retain: false
+      }
+    });
+
+    mqttClient.on("connect", () => {
+      console.log("✅ MQTT connected successfully");
+      loadingOverlay.style.display = "none";
+      dropBox.style.display = "flex";
+
+      if (idForm) {
+        const payload = JSON.stringify({
+          uuid: idForm,
+          clientId: clientId,
+          timestamp: Date.now()
+        });
+
+        mqttClient.publish('watchers/form', payload, { qos: 1 }, (err) => {
+          if (err) console.error("❌ Failed to publish:", err);
+          else console.log("✅ Published formId to watchers/form");
+        });
+
+        publishIntervalId = setInterval(() => {
+          if (mqttClient && mqttClient.connected) {
+            mqttClient.publish('watchers/form', payload, { qos: 1 }, (err) => {
+              if (!err) console.log("🔄 Heartbeat sent");
+            });
+          }
+        }, API_ENDPOINTS.INTERVAL_VALUE);
+      }
+
+      // ✅ Subscribe once to wildcard
+      mqttClient.subscribe("registers/#", { qos: 1 }, (err) => {
+        if (err) console.error("❌ Failed to subscribe to registers/#:", err);
+        else console.log("✅ Subscribed to wildcard registers/#");
+      });
+    });
+
+    mqttClient.on("message", (topic, message) => {
+        console.log("🔔 MQTT message received - Topic:", topic);
+        
+        try {
+          // Decode message
+          const rawData = new TextDecoder().decode(message).trim();
+          console.log("📦 Raw data:", rawData);
+          
+          // Check if rawData is valid
+          if (!rawData || rawData === "null" || rawData === "undefined" || rawData === "") {
+            console.warn("⚠️ Empty or invalid rawData, skipping");
+            return;
+          }
+          
+          // Parse JSON once
+          let data;
+          try {
+            data = JSON.parse(rawData);
+            console.log("📥 Parsed data:", data);
+          } catch (error) {
+            console.error("❌ Failed to parse JSON:", error.message);
+            console.error("Raw data that failed:", rawData);
+            return;
+          }
+          
+          // Validate topic format
+          console.log("🔗 Topic split:", topic.split("/"));
+          const parts = topic.split("/");
+          
+          if (parts.length < 2) {
+            console.warn("⚠️ Invalid topic format, expected at least 'registers/registerId'");
+            console.warn("Actual topic:", topic);
+            return;
+          }
+          
+          // Get registerId - handle both formats: "registers/id" and "registers/id/anything"
+          const registerId = parts[1];
+          console.log("🎯 Extracted registerId from topic:", registerId);
+          
+          // Check if registerId is in our list
+          console.log("📋 Checking if registerId exists in registersId list...");
+          console.log("📋 Total registers in list:", registersId.length);
+          
+          
+          
+          
+          console.log("✅ registerId found in list");
+          
+          // Validate data structure
+          if (typeof data !== "object" || data === null) {
+            console.warn("⚠️ Invalid data: not an object");
+            return;
+          }
+          
+          if (data.value === undefined) {
+            console.warn("⚠️ Missing 'value' field in data");
+            return;
+          }
+          
+          // Also check if data.id matches registerId (optional)
+          if (data.id && data.id !== registerId) {
+            console.warn("⚠️ Warning: data.id doesn't match topic registerId");
+            console.warn("data.id:", data.id, "topic registerId:", registerId);
+          }
+          
+          console.log("🚀 Calling updateElementData for:", registerId, "value:", data.value);
+          
+          // Update the element
+          updateElementData(data, registerId);
+          updateRegisterData({ id: registerId, value: data.value });
+          
+        } catch (err) {
+          console.error("❌ Unhandled error in MQTT message handler:", err);
+          console.error("Stack trace:", err.stack);
+        }
+      });
+
+
+    mqttClient.on("error", (err) => console.error("❌ MQTT connection error:", err));
+    mqttClient.on("reconnect", () => console.log("🔄 MQTT attempting to reconnect..."));
+    mqttClient.on("disconnect", () => {
+      console.warn("⚠️ MQTT disconnected");
+      if (publishIntervalId) clearInterval(publishIntervalId);
+    });
+    mqttClient.on("offline", () => console.warn("⚠️ MQTT offline"));
+    mqttClient.on("close", () => {
+      console.log("🔌 MQTT connection closed");
+      if (publishIntervalId) clearInterval(publishIntervalId);
+    });
+
+  } catch (error) {
+    console.error("❌ Failed to create MQTT client:", error);
+    loadingOverlay.style.display = "none";
+    dropBox.style.display = "flex";
+  }
+}
+
                 
                 window.addEventListener('beforeunload', () => {
                   cleanupMQTT();
