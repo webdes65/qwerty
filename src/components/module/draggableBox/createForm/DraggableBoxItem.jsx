@@ -203,7 +203,7 @@ const DraggableBoxItem = ({
         opacity: isDragging ? 0.5 : 1,
       }}
       id={item.id}
-      {...(registerId ? { "data-idregister": registerId } : {})}
+      data-idregister={registerId}
     >
       <div
         style={{
